@@ -12,6 +12,11 @@
 | datatype | double |
 | machine | [BroadwellEP_E5-2697](../machine_files/BroadwellEP_E5-2697) |
 
+## Plots
+![ECM Plot](./graphs/ecm.svg)
+![roofline Plot](./graphs/roofline.svg)
+![memory Plot](./graphs/memory.svg)
+
 ## Remarks
 
 Compiler flags:
