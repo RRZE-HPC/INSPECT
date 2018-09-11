@@ -26,5 +26,5 @@ icc -O3 -xCORE-AVX2 -fno-alias -qopenmp -DLIKWID_PERFMON -I/mnt/opt/likwid-4.3.2
 ## source code
 
 ```C
-{% include /stencil/{{page.dimension}}/{{page.radius}}/{{page.weighting}}/{{page.kind}}/{{page.coefficients}}/stencil.c %}
+test code
 ```
