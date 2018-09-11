@@ -16,7 +16,7 @@
 {% assign image_files = site.static_files | where: "image", true %}
 {% for myimage in image_files %}
 {% if myimage.path contains basename %}
-![Plot]({{myimage.path}})
+![Plot]({{site.baseurl}}{{myimage.path}})
 {% endif %}
 {% endfor %}
 
