@@ -22,6 +22,11 @@ base_github_url: https://github.com/vivaeltopo/stempel_data/blob/master/
 ![roofline Plot](/graphs/{{basename}}-roofline.svg)
 ![memory Plot](/graphs/{{basename}}-memory.svg)
 
+Testing
+{% for file in site.static_files %}
+  {{ file.path }}
+{% endfor %}
+
 ## Remarks
 
 Compiler flags:
