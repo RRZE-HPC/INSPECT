@@ -1,5 +1,5 @@
 
-## stencil type
+## Stencil Type
 
 | property     | value            |
 |--------------|-----------------:|
