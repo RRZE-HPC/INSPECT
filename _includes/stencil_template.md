@@ -15,17 +15,18 @@ base_github_url: https://github.com/vivaeltopo/stempel_data/blob/master/
 | machine      | [{{page.machine}}](/machine_files/{{page.machine}}) |
 
 ## Plots
+{% capture filebase %}
+/graphs/{{basename}}
+{% endcapture %}
 {% for image in site.static_files %}
+    {% if image.path contains filebase %}
         <img src="{{ page.base_github_url }}{{ image.path }}" alt="image" />
+    {% endif %}
 {% endfor %}
 
+Rest:
 ![roofline Plot](/graphs/{{basename}}-roofline.svg)
 ![memory Plot](/graphs/{{basename}}-memory.svg)
-
-Testing
-{% for file in site.static_files %}
-  {{ file.path }}
-{% endfor %}
 
 ## Remarks
 
