@@ -12,9 +12,9 @@
 | machine      | [{{page.machine}}](/machine_files/{{page.machine}}) |
 
 ## Plots
-![ECM Plot](/graphs/ecm.svg)
-![roofline Plot](/graphs/roofline.svg)
-![memory Plot](/graphs/memory.svg)
+![ECM Plot](/graphs/{{page.dimension}}-{{page.radius}}-{{page.weighting}}-{{page.kind}}-{{page.coefficients}}-{{page.machine}}-ecm.svg)
+![roofline Plot](/graphs/{{page.dimension}}-{{page.radius}}-{{page.weighting}}-{{page.kind}}-{{page.coefficients}}-{{page.machine}}-roofline.svg)
+![memory Plot](/graphs/{{page.dimension}}-{{page.radius}}-{{page.weighting}}-{{page.kind}}-{{page.coefficients}}-{{page.machine}}-memory.svg)
 
 ## Remarks
 
@@ -26,5 +26,20 @@ icc -O3 -xCORE-AVX2 -fno-alias -qopenmp -DLIKWID_PERFMON -I/mnt/opt/likwid-4.3.2
 ## source code
 
 ```C
-test code
+double a[M][N][P];
+double b[M][N][P];
+double c0;
+
+for(int k=1; k < M-1; k++){
+for(int j=1; j < N-1; j++){
+for(int i=1; i < P-1; i++){
+b[k][j][i] = c0 * (a[k][j][i]
++ a[k][j][i-1] + a[k][j][i+1]
++ a[k-1][j][i] + a[k+1][j][i]
++ a[k][j-1][i] + a[k][j+1][i]
+);
+}
+}
+}
+
 ```
