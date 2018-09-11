@@ -12,7 +12,12 @@
 | machine      | [{{page.machine}}](/machine_files/{{page.machine}}) |
 
 ## Plots
-![ECM Plot](/graphs/{{basename}}-ecm.svg)
+{% for image in site.static_files %}
+  {% if image.basename contains {{basename}} %}
+     ![Plot]({{ image.basename | append: image.extname }})
+  {% endif %}
+{% endfor %}
+
 ![roofline Plot](/graphs/{{basename}}-roofline.svg)
 ![memory Plot](/graphs/{{basename}}-memory.svg)
 
