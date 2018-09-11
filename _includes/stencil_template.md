@@ -1,6 +1,3 @@
----
-base_github_url: https://github.com/vivaeltopo/stempel_data/blob/master/
----
 
 ## stencil type
 
@@ -22,7 +19,7 @@ base_github_url: https://github.com/vivaeltopo/stempel_data/blob/master/
     {% if image.path contains filebase %}
         <img src="{{ page.base_github_url }}{{ image.path }}" alt="image" />
     {% else %}
-    	image.path
+    	{{image.path}}
     {% endif %}
 {% endfor %}
 

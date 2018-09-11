@@ -2,6 +2,8 @@
 
 title:  "Stencil detail"
 
+base_github_url: https://github.com/vivaeltopo/stempel_data/blob/master/
+
 dimension    : "3D"
 radius       : "1r"
 weighting    : "isotropic"
