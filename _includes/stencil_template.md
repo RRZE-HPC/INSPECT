@@ -13,9 +13,9 @@
 
 ## Plots
 {% for image in site.static_files %}
-  {% if image.basename contains {{basename}} %}
-     ![Plot]({{ image.basename | append: image.extname }})
-  {% endif %}
+  <!-- {% if image.basename contains {{basename}} %} -->
+     ![Plot]({{ image.path }})
+  <!-- {% endif %} -->
 {% endfor %}
 
 ![roofline Plot](/graphs/{{basename}}-roofline.svg)
