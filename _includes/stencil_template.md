@@ -21,6 +21,8 @@ base_github_url: https://github.com/vivaeltopo/stempel_data/blob/master/
 {% for image in site.static_files %}
     {% if image.path contains filebase %}
         <img src="{{ page.base_github_url }}{{ image.path }}" alt="image" />
+    {% else %}
+    	image.path
     {% endif %}
 {% endfor %}
 
