@@ -9,11 +9,8 @@ kind         : "star"
 coefficients : "constant"
 datatype     : "double"
 machine      : "BroadwellEP_E5-2697"
+compile_flags: "icc -O3 -xCORE-AVX2 -fno-alias -qopenmp -DLIKWID_PERFMON -I/mnt/opt/likwid-4.3.2/include -L/mnt/opt/likwid-4.3.2/lib -I./stempel/stempel/headers/ ./stempel/headers/timing.c ./stempel/headers/dummy.c solar_compilable.c -o stencil -llikwid"
 ---
-
-{% capture basename %}{{page.dimension}}-{{page.radius}}-{{page.weighting}}-{{page.kind}}-{{page.coefficients}}-{{page.datatype}}-{{page.machine}}{% endcapture %}
-
-{% capture compile_flags %}icc -O3 -xCORE-AVX2 -fno-alias -qopenmp -DLIKWID_PERFMON -I/mnt/opt/likwid-4.3.2/include -L/mnt/opt/likwid-4.3.2/lib -I./stempel/stempel/headers/ ./stempel/headers/timing.c ./stempel/headers/dummy.c solar_compilable.c -o stencil -llikwid{% endcapture %}
 
 {% capture source_code %}double a[M][N][P];
 double b[M][N][P];
@@ -31,5 +28,6 @@ b[k][j][i] = c0 * (a[k][j][i]
 }
 }{% endcapture %}
 
+{% capture basename %}{{page.dimension}}-{{page.radius}}-{{page.weighting}}-{{page.kind}}-{{page.coefficients}}-{{page.datatype}}-{{page.machine}}{% endcapture %}
 
 {% include stencil_template.md %}

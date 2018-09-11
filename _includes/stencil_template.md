@@ -24,7 +24,7 @@
 
 Compiler flags:
 ```bash
-{{compile_flags}}
+{{page.compile_flags}}
 ```
 
 ## source code
