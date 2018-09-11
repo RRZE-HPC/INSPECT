@@ -1,21 +1,20 @@
-# Example stencil site
 
 ## stencil type
 
-| property | value |
-|---|---:|
-| dimension| 3D |
-| radius | 1r |
-| weighting | isotropic |
-| kind | star |
-| coefficients | constant |
-| datatype | double |
-| machine | [BroadwellEP_E5-2697](../machine_files/BroadwellEP_E5-2697) |
+| property     | value            |
+|--------------|-----------------:|
+| dimension    | {{page.dimension}}    |
+| radius       | {{page.radius}}       |
+| weighting    | {{page.weighting}}    |
+| kind         | {{page.kind}}         |
+| coefficients | {{page.coefficients}} |
+| datatype     | {{page.datatype}}     |
+| machine      | [{{page.machine}}](../machine_files/{{page.machine}}) |
 
 ## Plots
-![ECM Plot](./graphs/ecm.svg)
-![roofline Plot](./graphs/roofline.svg)
-![memory Plot](./graphs/memory.svg)
+![ECM Plot](/graphs/ecm.svg)
+![roofline Plot](/graphs/roofline.svg)
+![memory Plot](/graphs/memory.svg)
 
 ## Remarks
 
