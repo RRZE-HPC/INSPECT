@@ -12,9 +12,9 @@
 | machine      | [{{page.machine}}](/machine_files/{{page.machine}}) |
 
 ## Plots
-![ECM Plot](/graphs/{{page.dimension}}-{{page.radius}}-{{page.weighting}}-{{page.kind}}-{{page.coefficients}}-{{page.machine}}-ecm.svg)
-![roofline Plot](/graphs/{{page.dimension}}-{{page.radius}}-{{page.weighting}}-{{page.kind}}-{{page.coefficients}}-{{page.machine}}-roofline.svg)
-![memory Plot](/graphs/{{page.dimension}}-{{page.radius}}-{{page.weighting}}-{{page.kind}}-{{page.coefficients}}-{{page.machine}}-memory.svg)
+![ECM Plot](/graphs/{{page.dimension}}-{{page.radius}}-{{page.weighting}}-{{page.kind}}-{{page.coefficients}}-{{page.datatype}}-{{page.machine}}-ecm.svg)
+![roofline Plot](/graphs/{{page.dimension}}-{{page.radius}}-{{page.weighting}}-{{page.kind}}-{{page.coefficients}}-{{page.datatype}}-{{page.machine}}-roofline.svg)
+![memory Plot](/graphs/{{page.dimension}}-{{page.radius}}-{{page.weighting}}-{{page.kind}}-{{page.coefficients}}-{{page.datatype}}-{{page.machine}}-memory.svg)
 
 ## Remarks
 
