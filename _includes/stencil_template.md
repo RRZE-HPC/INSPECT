@@ -15,6 +15,7 @@
 {% for image in site.static_files %}
   <!-- {% if image.basename contains {{basename}} %} -->
      ![Plot]({{ image.path }})
+     {{ image.path }}
   <!-- {% endif %} -->
 {% endfor %}
 
