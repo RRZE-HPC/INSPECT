@@ -12,20 +12,13 @@
 | machine      | [{{page.machine}}](/machine_files/{{page.machine}}) |
 
 ## Plots
-{% capture filebase %}
-/graphs/{{basename}}
-{% endcapture %}
-{% for image in site.static_files %}
-    {% if image.path contains filebase %}
-        <img src="{{ page.base_github_url }}{{ image.path }}" alt="image" />
-    {% else %}
-    	{{image.path}}
-    {% endif %}
-{% endfor %}
 
-Rest:
-![roofline Plot](/graphs/{{basename}}-roofline.svg)
-![memory Plot](/graphs/{{basename}}-memory.svg)
+{% assign image_files = site.static_files | where: "image", true %}
+{% for myimage in image_files %}
+{% if myimage.path contains basename %}
+![Plot]({{myimage.path}})
+{% endif %}
+{% endfor %}
 
 ## Remarks
 
