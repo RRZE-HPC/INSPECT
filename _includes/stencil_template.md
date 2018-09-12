@@ -9,26 +9,39 @@
 | kind         | {{page.kind}}         |
 | coefficients | {{page.coefficients}} |
 | datatype     | {{page.datatype}}     |
-| machine      | [{{page.machine}}](/machine_files/{{page.machine}}) |
+| machine      | [{{page.machine}}](/machine_files/{{page.machine}}.yml) |
 {% assign flavor_size = {{page.flavor | size}} %}{% if flavor_size != 0 %}| flavor       | {{page.flavor}}       |{% endif %}
 
 ## Plots
 
-{% assign image_files = site.static_files | where: "image", true %}
-{% for myimage in image_files %}
-{% if myimage.path contains basename %}
-![Plot]({{site.baseurl}}{{myimage.path}})
-{% endif %}
-{% endfor %}
+![ECM](./ecm.svg)
+![Roofline](./roofline.svg)
+![Memory](./memory.svg)
 
-## Remarks
+Benchmark raw data can be found [here](./results.csv).
 
-Compiler flags:
+### Remarks
+
+..
+
+### Stempel calls
+
+Stencil generation:
+```bash
+stempel gen ...
+```
+
+Benchmark generation:
+```bash
+stempel bench ...
+```
+
+### Compiler flags:
 ```bash
 {{page.compile_flags}}
 ```
 
-## source code
+### Source Code
 
 ```C
 {{source_code}}

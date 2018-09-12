@@ -32,3 +32,4 @@ b[k][j][i] = c0 * (a[k][j][i]
 }{% endcapture %}
 
 {% include stencil_template.md %}
+

@@ -8,7 +8,7 @@ weighting    : "isotropic"
 kind         : "star"
 coefficients : "constant"
 datatype     : "double"
-machine      : "IvyBridgeEP_E5-2660v2"
+machine      : "BroadwellEP_E5-2697"
 flavor       : ""
 compile_flags: "icc -O3 -xCORE-AVX2 -fno-alias -qopenmp -DLIKWID_PERFMON -I/mnt/opt/likwid-4.3.2/include -L/mnt/opt/likwid-4.3.2/lib -I./stempel/stempel/headers/ ./stempel/headers/timing.c ./stempel/headers/dummy.c solar_compilable.c -o stencil -llikwid"
 ---
@@ -32,3 +32,4 @@ b[k][j][i] = c0 * (a[k][j][i]
 }{% endcapture %}
 
 {% include stencil_template.md %}
+
