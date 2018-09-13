@@ -10,6 +10,7 @@ coefficients : "constant"
 datatype     : "double"
 machine      : "BroadwellEP_E5-2697"
 flavor       : ""
+comment      : "This is a comment"
 compile_flags: "icc -O3 -xCORE-AVX2 -fno-alias -qopenmp -DLIKWID_PERFMON -I/mnt/opt/likwid-4.3.2/include -L/mnt/opt/likwid-4.3.2/lib -I./stempel/stempel/headers/ ./stempel/headers/timing.c ./stempel/headers/dummy.c solar_compilable.c -o stencil -llikwid"
 ---
 

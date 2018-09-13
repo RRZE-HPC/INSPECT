@@ -1,3 +1,4 @@
+{% include header.html %}
 
 ## Stencil Type
 
@@ -14,24 +15,31 @@
 
 ## Plots
 
-![ECM](./ecm.svg)
+##### ECM Plot
+![ECM](./ecm.svg)<!-- {:width="50%"} -->
+
+##### Roofline Plot
 ![Roofline](./roofline.svg)
+
+##### Memory Transfer Plot
 ![Memory](./memory.svg)
 
 Benchmark raw data can be found [here](./results.csv).
 
-### Remarks
+{% if page.comment %}
+### Comments
 
-..
+{{page.comment}}
+{% endif %}
 
-### Stempel calls
+### How to test this stencil
 
-Stencil generation:
+Generate this stencil with:
 ```bash
 stempel gen ...
 ```
 
-Benchmark generation:
+and generate the compilable benchmark code with:
 ```bash
 stempel bench ...
 ```
