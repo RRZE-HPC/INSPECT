@@ -90,15 +90,17 @@ set output "ecm.svg"
 set multiplot
 
 set origin 0,0
+set size 1,1
 set yrange [0:70]
 set style data histogram
 set style histogram rowstacked
 set xlabel "Grid Size (N^3)" textcolor "#ffffff"
 set ylabel "cy/CL" textcolor "#ffffff"
-set xtics 100 textcolor "#ffffff"
+set xtics textcolor "#ffffff"
 set ytics textcolor "#ffffff"
 set style fill solid border
 set key reverse outside top horizontal Left samplen 1
+set tics scale 0
 
 plot  "< awk '(NR>2){print;}' results.csv" u 17:xticlabels(1) title 'T_{nOL}' ls 4, \
       "< awk '(NR>2){print;}' results.csv" u 18:xticlabels(1) title 'T_{L1L2}' ls 7, \
@@ -106,14 +108,20 @@ plot  "< awk '(NR>2){print;}' results.csv" u 17:xticlabels(1) title 'T_{nOL}' ls
       "< awk '(NR>2){print;}' results.csv" u 20:xticlabels(1) title 'T_{L3MEM}' ls 3
 
 set origin 0,0
+set size 1,1
 set yrange [0:70]
 set xlabel "Grid Size (N^3)" textcolor "#000000"
 set ylabel "cy/CL" textcolor "#000000"
 set xtics 100 textcolor "#000000"
 set ytics textcolor "#000000"
 set key outside left top horizontal reverse width 1 samplen 1
+set tics scale 1
 plot "< awk '(NR>2){print;}' results.csv" u 1:22 w points title 'Measurement' ls 1, \
      "< awk '(NR>2){print;}' results.csv" u 1:16 w lines title 'T_{OL}' ls 10
+
+# plot "< awk '(NR>2){print;}' results.csv" u 1:21 w steps notitle ls 10, \
+#      "< awk '(NR>2){print;}' results.csv" u 1:22 w points title 'Measurement' ls 1, \
+#      "< awk '(NR>2){print;}' results.csv" u 1:16 w lines title 'T_{OL}' ls 10
 
 # end of multiplot
 unset multiplot
