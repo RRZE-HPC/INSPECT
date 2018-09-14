@@ -8,16 +8,3 @@ title:  "Stempel Data Collection"
 [{{basename}}]({{site.baseurl}}{{page.url}})
 {% endif %}
 {% endfor %}
-
-{% loop_directory directory:stencil iterator:folder sort:ascending %}
-{{ folder }}
-{% endloop_directory %}
-
- {% directory path: stencil %}
-  {{ file.date }}
-  {{ file.name }}
-  {{ file.slug }}
-  {{ file.url }}
-
-  {{ forloop }}
-{% enddirectory %}
