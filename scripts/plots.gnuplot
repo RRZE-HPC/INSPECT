@@ -91,7 +91,7 @@ set multiplot
 
 set origin 0,0
 set size 1,1
-set yrange [0:70]
+set yrange [0:100]
 set style data histogram
 set style histogram rowstacked
 set xlabel "Grid Size (N^3)" textcolor "#ffffff"
@@ -109,7 +109,7 @@ plot  "< awk '(NR>2){print;}' results.csv" u 17:xticlabels(1) title 'T_{nOL}' ls
 
 set origin 0,0
 set size 1,1
-set yrange [0:70]
+set yrange [0:100]
 set xlabel "Grid Size (N^3)" textcolor "#000000"
 set ylabel "cy/CL" textcolor "#000000"
 set xtics 100 textcolor "#000000"
