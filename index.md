@@ -2,25 +2,25 @@
 title:  "Stempel Data Collection"
 ---
 
-<!-- dimensions -->
+[comment]: <> dimensions
 {% capture tmpdim %}{% for page in site.pages %}{{page.dimension}}|{% endfor %}{% endcapture %}
 {% assign dims=tmpdim | split: "|" | uniq | sort %}
-<!-- radii -->
+[comment]: <> radii
 {% capture tmprad %}{% for page in site.pages %}{{page.radius}}|{% endfor %}{% endcapture %}
 {% assign rads=tmprad | split: "|" | uniq | sort %}
-<!-- weigths -->
+[comment]: <> weigths
 {% capture tmpweight %}{% for page in site.pages %}{{page.weighting}}|{% endfor %}{% endcapture %}
 {% assign weights=tmpweight | split: "|" | uniq | sort %}
-<!-- kinds -->
+[comment]: <> kinds
 {% capture tmpkind %}{% for page in site.pages %}{{page.kind}}|{% endfor %}{% endcapture %}
 {% assign kinds=tmpkind | split: "|" | uniq | sort %}
-<!-- coefficients -->
+[comment]: <> coefficients
 {% capture tmpcoeff %}{% for page in site.pages %}{{page.coefficients}}|{% endfor %}{% endcapture %}
 {% assign coeffs=tmpcoeff | split: "|" | uniq | sort %}
-<!-- datatypes -->
+[comment]: <> datatypes
 {% capture tmpdt %}{% for page in site.pages %}{{page.datatype}}|{% endfor %}{% endcapture %}
 {% assign dts=tmpdt | split: "|" | uniq | sort %}
-<!-- machines -->
+[comment]: <> machines
 {% capture tmpmachine %}{% for page in site.pages %}{{page.machine}}|{% endfor %}{% endcapture %}
 {% assign machines=tmpmachine | split: "|" | uniq | sort %}
 
