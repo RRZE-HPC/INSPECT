@@ -3,7 +3,7 @@
 title:  "Stencil detail"
 
 dimension    : "3D"
-radius       : "2r"
+radius       : "1r"
 weighting    : "isotropic"
 kind         : "star"
 coefficients : "constant"
