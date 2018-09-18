@@ -24,19 +24,33 @@ title:  "Stempel Data Collection"
 {% capture tmpmachine %}{% for page in site.pages %}{{page.machine}}|{% endfor %}{% endcapture %}
 {% assign machines=tmpmachine | split: "|" | uniq | sort %}
 
-{% for dim in dims %}
-- {{dim}}{% for rad in rads %}
-  - {{rad}}{% for weight in weights %}
-    - {{weight}}{% for kind in kinds %}
-      - {{kind}}{% for coeff in coeffs %}
-        - {{coeff}}{% for dt in dts %}
-          - {{dt}}{% for machine in machines %}{% for page in site.pages %}{% capture basename %}stencils/{{dim}}/{{rad}}/{{weight}}/{{kind}}/{{coeff}}/{{dt}}/{{machine}}{% endcapture %}{% if page.url contains basename %}
-            - [{{machine}}]({{site.baseurl}}{{page.url}}){% endif %}{% endfor %}{% endfor %}{% endfor %}{% endfor %}{% endfor %}{% endfor %}{% endfor %}{% endfor %}
+{%- for dim in dims %}
+- {{dim}}
+{%- for rad in rads %}
+  - {{rad}}
+{%- for weight in weights %}
+    - {{weight}}
+{%- for kind in kinds %}
+      - {{kind}}
+{%- for coeff in coeffs %}
+        - {{coeff}}
+{%- for dt in dts %}
+          - {{dt}}
+{%- for machine in machines %}
+{%- for page in site.pages %}
 
+{%- capture basename -%}
+stencils/{{dim}}/{{rad}}/{{weight}}/{{kind}}/{{coeff}}/{{dt}}/{{machine}}
+{%- endcapture -%}
 
-<!-- {% for page in site.pages %}
-{% if page.url contains 'stencil' %}
-{% capture basename %}{{page.dimension}} -- {{page.radius}} -- {{page.weighting}} -- {{page.kind}} -- {{page.coefficients}} -- {{page.datatype}} -- {{page.machine}}{% if page.flavor and page.flavor != "" and page.flavor != nil %} -- Variant: {{page.flavor}}{% endif %}{% endcapture %}
-[{{basename}}]({{site.baseurl}}{{page.url}})
-{% endif %}
-{% endfor %} -->
+{%- if page.url contains basename %}
+            - [{{machine}}{%if page.flavor != "" and page.flavor != nil %} - {{page.flavor}}{% endif %}]({{site.baseurl}}{{page.url}})
+{%- endif %}
+{%- endfor -%}
+{%- endfor -%}
+{%- endfor -%}
+{%- endfor -%}
+{%- endfor -%}
+{%- endfor -%}
+{%- endfor -%}
+{%- endfor -%}
