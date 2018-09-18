@@ -73,6 +73,6 @@ stempel bench stencil.c -m {{ page.machine }}.yml --store
 
 ### Kernel Source Code
 
-```C
+```c
 {{source_code}}
 ```
