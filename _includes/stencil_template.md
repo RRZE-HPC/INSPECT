@@ -5,8 +5,8 @@
 <div markdown="1" class="section-block-half">
 ## Stencil Properties
 
-| property     | value            |
-|--------------|-----------------:|
+|              |                       |
+|--------------|----------------------:|
 | dimension    | {{page.dimension}}    |
 | radius       | {{page.radius}}       |
 | weighting    | {{page.weighting}}    |
