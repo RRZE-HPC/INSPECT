@@ -123,7 +123,7 @@ stencils/{{dim}}/{{rad}}/{{weight}}/{{kind}}/{{coeff}}/{{dt}}/{{machine}}
 {%- endcapture -%}
 
 {%- if page.url contains basename -%}
-  - [{{machine}}{%if page.flavor != "" and page.flavor != nil %} - {{page.flavor}}{% endif %}]({{site.baseurl}}{{page.url}})
+  - [{{machine}}{%if page.flavor != "" and page.flavor != nil %} - {{page.flavor}}{% endif %}]({{site.baseurl}}{{page.url}}){: .machine{{machine}}}
 {% endif %}
 {%- endfor -%}
 {%- endfor -%}
@@ -139,5 +139,18 @@ stencils/{{dim}}/{{rad}}/{{weight}}/{{kind}}/{{coeff}}/{{dt}}/{{machine}}
 {%- endfor -%}
 </details>
 {%- endfor -%}
+
+
+<script>
+function cleanup() {
+	var nav = $("#navigation details");
+	for ( var i = 0; i < nav.length; i = i+1 ) {
+		for ( children in nav[i].childNodes ){
+				console.log(String(nav[i].className)+" has child "+String(children.nodeName))
+		}
+	}
+}
+cleanup()
+</script>
 
 </div>
