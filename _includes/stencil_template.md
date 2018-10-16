@@ -42,24 +42,24 @@ Have a look at the kernel source code below for dimension naming.
 </div>
 
 <div markdown="1" class="section-block-full">
-## Performance Plots
+## Benchmark Plots
 
 <div markdown="1" class="section-block-half">
 ### ECM Plot
 ![ECM](./ecm.svg){:width="100%"}
-*ECM plot of the measured benchmark results and the (stacked) ECM contributions predicted by [kerncraft](https://github.com/RRZE-HPC/kerncraft)*
+*ECM plot of the measured benchmark results and the (stacked) ECM contributions predicted by [kerncraft](https://github.com/RRZE-HPC/kerncraft). The calculated [layer conditions](#layer-conditions) correspond to the jumps in the ECM prediction.*
 </div>
 
 <div markdown="1" class="section-block-half">
-### Roofline Plot
-![Roofline](./roofline.svg){:width="100%"}
-*Roofline prediction in comparison with the measured benchmark data. For comparison the according ECM prediction is also included.*
+### Performance Plot
+![Performance](./roofline.svg){:width="100%"}
+*Performance plot with roofline prediction in comparison with the measured benchmark data. For comparison the according ECM prediction is also included.*
 </div>
 
 <div markdown="1" class="section-block-half">
 ### Memory Transfer Plot
 ![Memory](./memory.svg){:width="100%"}
-*Data transfers between the different cache levels and main memory. The shown data for each level contains _evicted and loaded_ data.*
+*Data transfers between the different cache levels and main memory. The shown data for each level contains evicted and loaded data.*
 </div>
 
 <div markdown="1" class="section-block-half">
