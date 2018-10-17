@@ -16,6 +16,22 @@
 | machine      | [{{page.machine}}](https://github.com/RRZE-HPC/stempel_data_collection/blob/master/machine_files/{{page.machine}}.yml) |
 {% assign flavor_size = {{page.flavor | size}} %}{% if flavor_size != 0 %}| flavor       | {{page.flavor}}       |{% endif %}
 
+{% if page.comment and page.comment != "" and page.comment != nil %}
+<!-- <div markdown="1" class="section-block-half"> -->
+## Comments
+
+{{page.comment}}
+<!-- </div> -->
+{% endif %}
+
+</div>
+
+<div markdown="1" class="section-block-half">
+## Kernel Source Code
+
+```c
+{{source_code}}
+```
 </div>
 
 <div markdown="1" class="section-block-half">
@@ -37,6 +53,26 @@
 
 Have a look at the kernel source code below for dimension naming.
 {% endif %}
+</div>
+
+
+<div markdown="1" class="section-block-half">
+## How to test this stencil
+
+Generate this stencil with:
+```bash
+stempel gen -D {{ page.dimension | remove: 'D'}} -r {{ page.radius | remove: 'r'}} -t {{ page.datatype }} -C {{ page.coefficients }} -k {{ page.kind }} {% if page.weighting == 'isotropic' %}-i{% elsif page.weighting == 'heterogeneous' %}-e{% elsif page.weighting == 'homogeneous' %}-o{% elsif page.weighting == 'point-symmetric' %}-p{% endif %} --store stencil.c
+```
+
+and generate the compilable benchmark code with:
+```bash
+stempel bench stencil.c -m {{ page.machine }}.yml --store
+```
+
+## Compiler flags
+```bash
+{{page.compile_flags}}
+```
 </div>
 
 </div>
@@ -65,44 +101,5 @@ Have a look at the kernel source code below for dimension naming.
 <div markdown="1" class="section-block-half">
 Benchmark raw data can be found [in the repository](https://github.com/RRZE-HPC/stempel_data_collection/blob/master/stencils/{{page.dimension}}/{{page.radius}}/{{page.weighting}}/{{page.kind}}/{{page.coefficients}}/{{page.datatype}}/{{page.machine}}/results.csv).
 </div>
-
-</div>
-
-<div markdown="1" class="section-block-full">
-
-<div markdown="1" class="section-block-half">
-## How to test this stencil
-
-Generate this stencil with:
-```bash
-stempel gen -D {{ page.dimension | remove: 'D'}} -r {{ page.radius | remove: 'r'}} -t {{ page.datatype }} -C {{ page.coefficients }} -k {{ page.kind }} {% if page.weighting == 'isotropic' %}-i{% elsif page.weighting == 'heterogeneous' %}-e{% elsif page.weighting == 'homogeneous' %}-o{% elsif page.weighting == 'point-symmetric' %}-p{% endif %} --store stencil.c
-```
-
-and generate the compilable benchmark code with:
-```bash
-stempel bench stencil.c -m {{ page.machine }}.yml --store
-```
-
-## Compiler flags
-```bash
-{{page.compile_flags}}
-```
-</div>
-
-<div markdown="1" class="section-block-half">
-## Kernel Source Code
-
-```c
-{{source_code}}
-```
-</div>
-
-{% if page.comment and page.comment != "" and page.comment != nil %}
-<div markdown="1" class="section-block-half">
-## Comments
-
-{{page.comment}}
-</div>
-{% endif %}
 
 </div>
