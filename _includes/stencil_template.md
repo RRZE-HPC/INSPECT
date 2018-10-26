@@ -81,9 +81,31 @@ stempel bench stencil.c -m {{ page.machine }}.yml --store
 ## Benchmark Plots
 
 <div markdown="1" class="section-block-half">
+<script>
+var index = 0;
+function changeImage() {
+   var ecmLC = document.getElementById('ecm_LC');
+   var ecmCS = document.getElementById('ecm_CS');
+  if (index == 0) {
+     index = 1;
+     ecmLC.style.display = 'none';
+     ecmCS.style.display = 'block';
+  } else if (index == 1) {
+     index = 0;
+     ecmLC.style.display = 'block';
+     ecmCS.style.display = 'none';
+  }
+}
+</script>
 ### ECM Plot
+<span id="ecm_LC">
 ![ECM](./ecm.svg){:width="100%"}
+</span>
+<span id="ecm_CS" style="display:none;">
+![ECM](./ecm_CS.svg){:width="100%"}
+</span>
 *ECM plot of the measured benchmark results and the (stacked) ECM contributions predicted by [kerncraft](https://github.com/RRZE-HPC/kerncraft). The calculated [layer conditions](#layer-conditions) correspond to the jumps in the ECM prediction.*
+<button style="float:right;" onclick="changeImage()">Switch LC/CS ECM Plot</button>
 </div>
 
 <div markdown="1" class="section-block-half">
@@ -95,7 +117,7 @@ stempel bench stencil.c -m {{ page.machine }}.yml --store
 <div markdown="1" class="section-block-half">
 ### Memory Transfer Plot
 ![Memory](./memory.svg){:width="100%"}
-*Data transfers between the different cache levels and main memory. The shown data for each level contains evicted and loaded data.*
+*Data transfers between the different cache levels and main memory. The shown data for each level contains evicted and loaded data. Dashed lines represent the predicted transfer rates by [kerncraft](https://github.com/RRZE-HPC/kerncraft).*
 </div>
 
 <div markdown="1" class="section-block-half">
