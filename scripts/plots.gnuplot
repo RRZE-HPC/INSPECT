@@ -66,7 +66,7 @@ plot "< awk '(NR>2){print;}' results.csv" u 1:9 w points title "Measurement" ls 
 
 
 ################################################################################
-# Memory Transfer Plot
+# Memory Transfer Plot CS
 ################################################################################
 
 reset
@@ -86,7 +86,7 @@ set style line 5 lt 4 lc rgb '#77d95319' lw 1 pt 2
 set style line 6 lt 4 lc rgb '#77edb120' lw 1 pt 3
 
 set term svg fname 'Open Sans'
-set output "memory.svg"
+set output "memory_CS.svg"
 
 plot "< awk '(NR>2){print;}' results.csv" u 1:34 notitle w lines ls 4, \
      "< awk '(NR>2){print;}' results.csv" u 1:25 every 10:10 notitle w points ls 1, \
@@ -95,6 +95,40 @@ plot "< awk '(NR>2){print;}' results.csv" u 1:34 notitle w lines ls 4, \
      "< awk '(NR>2){print;}' results.csv" u 1:28 every 10:10 notitle w points ls 2, \
           "" u 1:28 notitle w lines ls 2, 1 / 0 title "L2 - L3 transfer" w linespoints ls 2, \
      "< awk '(NR>2){print;}' results.csv" u 1:40 notitle w lines ls 6, \
+     "< awk '(NR>2){print;}' results.csv" u 1:31 every 10:10 notitle w points ls 3, \
+          "" u 1:31 notitle w lines ls 3, 1 / 0 title "L3 - Mem transfer" w linespoints ls 3
+
+
+################################################################################
+# Memory Transfer Plot LC
+################################################################################
+
+reset
+set datafile separator ","
+set xlabel "Grid Size (N^3)"
+set ylabel "Data Transfers [B/LUP]"
+#set xrange [300:900]
+set yrange [0:*]
+set xtics 100
+set key bottom right width 1 samplen 1
+
+set style line 1 lt 1 lc rgb '#0072bd' lw 1 pt 1
+set style line 2 lt 1 lc rgb '#d95319' lw 1 pt 2
+set style line 3 lt 1 lc rgb '#edb120' lw 1 pt 3
+set style line 4 lt 4 lc rgb '#770072bd' lw 1 pt 1
+set style line 5 lt 4 lc rgb '#77d95319' lw 1 pt 2
+set style line 6 lt 4 lc rgb '#77edb120' lw 1 pt 3
+
+set term svg fname 'Open Sans'
+set output "memory_LC.svg"
+
+plot "< awk '(NR>2){print;}' results.csv" u 1:43 notitle w lines ls 4, \
+     "< awk '(NR>2){print;}' results.csv" u 1:25 every 10:10 notitle w points ls 1, \
+          "" u 1:25 notitle w lines ls 1, 1 / 0 title "L1 - L2 transfer" w linespoints ls 1, \
+     "< awk '(NR>2){print;}' results.csv" u 1:46 notitle w lines ls 5, \
+     "< awk '(NR>2){print;}' results.csv" u 1:28 every 10:10 notitle w points ls 2, \
+          "" u 1:28 notitle w lines ls 2, 1 / 0 title "L2 - L3 transfer" w linespoints ls 2, \
+     "< awk '(NR>2){print;}' results.csv" u 1:49 notitle w lines ls 6, \
      "< awk '(NR>2){print;}' results.csv" u 1:31 every 10:10 notitle w points ls 3, \
           "" u 1:31 notitle w lines ls 3, 1 / 0 title "L3 - Mem transfer" w linespoints ls 3
 

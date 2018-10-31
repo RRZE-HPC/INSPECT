@@ -87,19 +87,25 @@ function changeImage() {
   var ecmCS = document.getElementById('ecm_CS');
   var rflLC = document.getElementById('rfl_LC');
   var rflCS = document.getElementById('rfl_CS');
+  var memLC = document.getElementById('mem_LC');
+  var memCS = document.getElementById('mem_CS');
   if (index == 0) {
      index = 1;
      ecmLC.style.display = 'none';
      rflLC.style.display = 'none';
+     memLC.style.display = 'none';
      ecmCS.style.display = 'block';
      rflCS.style.display = 'block';
+     memCS.style.display = 'block';
      button.value = "Showing Cache Simulator Data. Click to switch to Layer Condition Data."
   } else if (index == 1) {
      index = 0;
      ecmLC.style.display = 'block';
      rflLC.style.display = 'block';
+     memLC.style.display = 'block';
      ecmCS.style.display = 'none';
      rflCS.style.display = 'none';
+     memCS.style.display = 'none';
      button.value = "Showing Layer Condition Data. Click to switch to Cache Simulator Data."
   }
 }
@@ -130,7 +136,12 @@ function changeImage() {
 
 <div markdown="1" class="section-block-half">
 ### Memory Transfer Plot
-![Memory](./memory.svg){:width="100%"}
+<span id="mem_LC">
+![Memory LC](./memory_LC.svg){:width="100%"}
+</span>
+<span id="mem_CS" style="display:none;">
+![Memory CS](./memory_CS.svg){:width="100%"}
+</span>
 *Data transfers between the different cache levels and main memory. The shown data for each level contains evicted and loaded data. Dashed lines represent the predicted transfer rates by [kerncraft](https://github.com/RRZE-HPC/kerncraft).*
 </div>
 
