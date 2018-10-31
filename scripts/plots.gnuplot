@@ -8,62 +8,36 @@ set datafile separator ","
 set xlabel "Grid Size (N^3)"
 set ylabel "Performance [MLUP/s]"
 #set xrange [300:900]
-set yrange [0:800]
+set yrange [0:*]
 set xtics 100
-set key top right width 1 samplen 1
+set key top right width 5 samplen 2 font ",18"
 
-set style line 1 lt 1 lc rgb '#0072bd' lw 1 pt 7 ps .5
-set style line 2 lt 1 lc rgb '#d95319' lw 1 pt 2
-set style line 3 lt 1 lc rgb '#edb120' lw 1 pt 3
-set style line 4 lt 1 lc rgb '#7e2f8e' lw 1 pt 4
-set style line 5 lt 1 lc rgb '#77ac30' lw 1 pt 6
-set style line 6 lt 1 lc rgb '#4dbeee' lw 1 pt 8
-set style line 7 lt 1 lc rgb '#a2142f' lw 1 pt 10
-set style line 8 lt 1 lc rgb '#AE81FF' lw 1 pt 12
-set style line 9 lt 1 lc rgb '#4C4745' lw 1 pt 14
+set style line 1 lt 1 lc rgb '#0072bd' lw 2 pt 7 ps .5
+set style line 2 lt 1 lc rgb '#edb120' lw 2 pt 5 ps 1
+set style line 3 lt 1 lc rgb '#7e2f8e' lw 2 pt 11 ps 1
+set style line 4 lt 1 lc rgb '#d95319' lw 2 pt 9 ps 1
 
 set term svg fname 'Open Sans'
 set output "roofline_LC.svg"
 
-plot "< awk '(NR>2){print;}' results.csv" u 1:9 w points title "Measurement" ls 1, \
+plot "< awk '(NR>2){print;}' results.csv" u 1:6 every 20:20 notitle w points ls 4, \
+         "" u 1:6 notitle w lines ls 4, 1 / 0 title "Roofline with Layer Condition" w linespoints ls 4 ps 1, \
      "< awk '(NR>2){print;}' results.csv" u 1:8 every 20:20 notitle w points ls 2, \
-         "" u 1:8 notitle w lines ls 2, 1 / 0 title "Roofline from ECM prediction" w linespoints ls 2, \
-     "< awk '(NR>2){print;}' results.csv" u 1:6 every 20:20 notitle w points ls 4, \
-         "" u 1:6 notitle w lines ls 4, 1 / 0 title "Roofline with Layer Condition" w linespoints ls 4
+         "" u 1:8 notitle w lines ls 2, 1 / 0 title "Roofline from ECM prediction" w linespoints ls 2 ps 1, \
+     "< awk '(NR>2){print;}' results.csv" u 1:9 w points notitle ls 1, 1 / 0 w points title "Measurement" ls 1 ps 1
 
 
 ################################################################################
 # Roofline CS Plot
 ################################################################################
 
-reset
-set datafile separator ","
-set xlabel "Grid Size (N^3)"
-set ylabel "Performance [MLUP/s]"
-#set xrange [300:900]
-set yrange [0:800]
-set xtics 100
-set key top right width 1 samplen 1
-
-set style line 1 lt 1 lc rgb '#0072bd' lw 1 pt 7 ps .5
-set style line 2 lt 1 lc rgb '#d95319' lw 1 pt 2
-set style line 3 lt 1 lc rgb '#edb120' lw 1 pt 3
-set style line 4 lt 1 lc rgb '#7e2f8e' lw 1 pt 4
-set style line 5 lt 1 lc rgb '#77ac30' lw 1 pt 6
-set style line 6 lt 1 lc rgb '#4dbeee' lw 1 pt 8
-set style line 7 lt 1 lc rgb '#a2142f' lw 1 pt 10
-set style line 8 lt 1 lc rgb '#AE81FF' lw 1 pt 12
-set style line 9 lt 1 lc rgb '#4C4745' lw 1 pt 14
-
-set term svg fname 'Open Sans'
 set output "roofline_CS.svg"
 
-plot "< awk '(NR>2){print;}' results.csv" u 1:9 w points title "Measurement" ls 1, \
+plot "< awk '(NR>2){print;}' results.csv" u 1:3 every 20:20 notitle w points ls 3, \
+         "" u 1:3 notitle w lines ls 3, 1 / 0 title "Roofline with Cache Simulation" w linespoints ls 3 ps 1, \
      "< awk '(NR>2){print;}' results.csv" u 1:8 every 20:20 notitle w points ls 2, \
-         "" u 1:8 notitle w lines ls 2, 1 / 0 title "Roofline from ECM prediction" w linespoints ls 2, \
-     "< awk '(NR>2){print;}' results.csv" u 1:3 every 20:20 notitle w points ls 3, \
-         "" u 1:3 notitle w lines ls 3, 1 / 0 title "Roofline with Cache Simulation" w linespoints ls 3
-
+         "" u 1:8 notitle w lines ls 2, 1 / 0 title "Roofline from ECM prediction" w linespoints ls 2 ps 1, \
+     "< awk '(NR>2){print;}' results.csv" u 1:9 w points notitle ls 1, 1 / 0 w points title "Measurement" ls 1 ps 1
 
 ################################################################################
 # Memory Transfer Plot CS
@@ -74,63 +48,39 @@ set datafile separator ","
 set xlabel "Grid Size (N^3)"
 set ylabel "Data Transfers [B/LUP]"
 #set xrange [300:900]
-set yrange [0:*]
+set yrange [0:140]
 set xtics 100
-set key bottom right width 1 samplen 1
+set key bottom right width 5 samplen 2 font ",18"
 
-set style line 1 lt 1 lc rgb '#0072bd' lw 1 pt 1
-set style line 2 lt 1 lc rgb '#d95319' lw 1 pt 2
-set style line 3 lt 1 lc rgb '#edb120' lw 1 pt 3
-set style line 4 lt 4 lc rgb '#770072bd' lw 1 pt 1
-set style line 5 lt 4 lc rgb '#77d95319' lw 1 pt 2
-set style line 6 lt 4 lc rgb '#77edb120' lw 1 pt 3
+set style line 1 lt 1 lc rgb '#0072bd' lw 2 pt 5 ps .5
+set style line 2 lt 1 lc rgb '#edb120' lw 2 pt 7 ps .5
+set style line 3 lt 1 lc rgb '#d95319' lw 2 pt 9 ps .5
+set style line 4 lt 4 lc rgb '#0072bd' lw 2 pt 4 ps 1
+set style line 5 lt 4 lc rgb '#edb120' lw 2 pt 6 ps 1
+set style line 6 lt 4 lc rgb '#d95319' lw 2 pt 8 ps 1
 
 set term svg fname 'Open Sans'
 set output "memory_CS.svg"
 
-plot "< awk '(NR>2){print;}' results.csv" u 1:34 notitle w lines ls 4, \
-     "< awk '(NR>2){print;}' results.csv" u 1:25 every 10:10 notitle w points ls 1, \
-          "" u 1:25 notitle w lines ls 1, 1 / 0 title "L1 - L2 transfer" w linespoints ls 1, \
-     "< awk '(NR>2){print;}' results.csv" u 1:37 notitle w lines ls 5, \
-     "< awk '(NR>2){print;}' results.csv" u 1:28 every 10:10 notitle w points ls 2, \
-          "" u 1:28 notitle w lines ls 2, 1 / 0 title "L2 - L3 transfer" w linespoints ls 2, \
-     "< awk '(NR>2){print;}' results.csv" u 1:40 notitle w lines ls 6, \
-     "< awk '(NR>2){print;}' results.csv" u 1:31 every 10:10 notitle w points ls 3, \
-          "" u 1:31 notitle w lines ls 3, 1 / 0 title "L3 - Mem transfer" w linespoints ls 3
-
+plot "< awk '(NR>2){print;}' results.csv" u 1:34 every 20:20 notitle w points ls 4, "" u 1:34 notitle w lines ls 4, \
+     "" u 1:25 notitle w points ls 1, 1 / 0 title "L1 - L2 transfer" w linespoints ls 1 ps 1, \
+     "" u 1:37 every 20:20 notitle w points ls 5, "" u 1:37 notitle w lines ls 5, \
+     "" u 1:28 notitle w points ls 2, 1 / 0 title "L2 - L3 transfer" w linespoints ls 2 ps 1, \
+     "" u 1:40 every 20:20 notitle w points ls 6, "" u 1:40 notitle w lines ls 6, \
+     "" u 1:31 notitle w points ls 3, 1 / 0 title "L3 - Mem transfer" w linespoints ls 3 ps 1
 
 ################################################################################
 # Memory Transfer Plot LC
 ################################################################################
 
-reset
-set datafile separator ","
-set xlabel "Grid Size (N^3)"
-set ylabel "Data Transfers [B/LUP]"
-#set xrange [300:900]
-set yrange [0:*]
-set xtics 100
-set key bottom right width 1 samplen 1
-
-set style line 1 lt 1 lc rgb '#0072bd' lw 1 pt 1
-set style line 2 lt 1 lc rgb '#d95319' lw 1 pt 2
-set style line 3 lt 1 lc rgb '#edb120' lw 1 pt 3
-set style line 4 lt 4 lc rgb '#770072bd' lw 1 pt 1
-set style line 5 lt 4 lc rgb '#77d95319' lw 1 pt 2
-set style line 6 lt 4 lc rgb '#77edb120' lw 1 pt 3
-
-set term svg fname 'Open Sans'
 set output "memory_LC.svg"
 
-plot "< awk '(NR>2){print;}' results.csv" u 1:43 notitle w lines ls 4, \
-     "< awk '(NR>2){print;}' results.csv" u 1:25 every 10:10 notitle w points ls 1, \
-          "" u 1:25 notitle w lines ls 1, 1 / 0 title "L1 - L2 transfer" w linespoints ls 1, \
-     "< awk '(NR>2){print;}' results.csv" u 1:46 notitle w lines ls 5, \
-     "< awk '(NR>2){print;}' results.csv" u 1:28 every 10:10 notitle w points ls 2, \
-          "" u 1:28 notitle w lines ls 2, 1 / 0 title "L2 - L3 transfer" w linespoints ls 2, \
-     "< awk '(NR>2){print;}' results.csv" u 1:49 notitle w lines ls 6, \
-     "< awk '(NR>2){print;}' results.csv" u 1:31 every 10:10 notitle w points ls 3, \
-          "" u 1:31 notitle w lines ls 3, 1 / 0 title "L3 - Mem transfer" w linespoints ls 3
+plot "< awk '(NR>2){print;}' results.csv" u 1:43 every 20:20 notitle w points ls 4, "" u 1:43 notitle w lines ls 4, \
+     "" u 1:25 notitle w points ls 1, 1 / 0 title "L1 - L2 transfer" w linespoints ls 1 ps 1, \
+     "" u 1:46 every 20:20 notitle w points ls 5, "" u 1:46 notitle w lines ls 5, \
+     "" u 1:28 notitle w points ls 2, 1 / 0 title "L2 - L3 transfer" w linespoints ls 2 ps 1, \
+     "" u 1:49 every 20:20 notitle w points ls 6, "" u 1:49 notitle w lines ls 6, \
+     "" u 1:31 notitle w points ls 3, 1 / 0 title "L3 - Mem transfer" w linespoints ls 3 ps 1
 
 ################################################################################
 # ECM LC Plot
@@ -157,7 +107,7 @@ set multiplot
 
 set origin 0,0
 set size 1,1
-set yrange [0:150]
+set yrange [0:140]
 set style data histogram
 set style histogram rowstacked
 set xlabel "Grid Size (N^3)" textcolor "#ffffff"
@@ -175,7 +125,7 @@ plot  "< awk '(NR>2){print;}' results.csv" u 17:xticlabels(1) title 'T_{nOL}' ls
 
 set origin 0,0
 set size 1,1
-set yrange [0:150]
+set yrange [0:140]
 set xlabel "Grid Size (N^3)" textcolor "#000000"
 set ylabel "cy/CL" textcolor "#000000"
 set xtics 100 textcolor "#000000"
@@ -214,7 +164,7 @@ set multiplot
 
 set origin 0,0
 set size 1,1
-set yrange [0:150]
+set yrange [0:140]
 set style data histogram
 set style histogram rowstacked
 set xlabel "Grid Size (N^3)" textcolor "#ffffff"
@@ -232,7 +182,7 @@ plot  "< awk '(NR>2){print;}' results.csv" u 11:xticlabels(1) title 'T_{nOL}' ls
 
 set origin 0,0
 set size 1,1
-set yrange [0:150]
+set yrange [0:140]
 set xlabel "Grid Size (N^3)" textcolor "#000000"
 set ylabel "cy/CL" textcolor "#000000"
 set xtics 100 textcolor "#000000"

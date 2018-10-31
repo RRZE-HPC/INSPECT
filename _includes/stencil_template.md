@@ -17,11 +17,9 @@
 {% assign flavor_size = {{page.flavor | size}} %}{% if flavor_size != 0 %}| flavor       | {{page.flavor}}       |{% endif %}
 
 {% if page.comment and page.comment != "" and page.comment != nil %}
-<!-- <div markdown="1" class="section-block-half"> -->
 ## Comments
 
 {{page.comment}}
-<!-- </div> -->
 {% endif %}
 
 </div>
@@ -33,6 +31,11 @@
 {{source_code}}
 ```
 </div>
+
+</div>
+
+<div markdown="1" class="section-block-full">
+
 
 <div markdown="1" class="section-block-half">
 {% if layercondition %}
@@ -110,7 +113,6 @@ function changeImage() {
   }
 }
 </script>
-<input id="plot-button" type="button" onclick="changeImage()" value="Showing Layer Condition Data. Click to switch to Cache Simulator Data." />
 
 <div markdown="1" class="section-block-half">
 ### ECM Plot
@@ -134,6 +136,10 @@ function changeImage() {
 *Performance plot with roofline prediction in comparison with the measured benchmark data. For comparison the according ECM prediction is also included.*
 </div>
 
+</div>
+
+<div markdown="1" class="section-block-full">
+
 <div markdown="1" class="section-block-half">
 ### Memory Transfer Plot
 <span id="mem_LC">
@@ -142,11 +148,14 @@ function changeImage() {
 <span id="mem_CS" style="display:none;">
 ![Memory CS](./memory_CS.svg){:width="100%"}
 </span>
-*Data transfers between the different cache levels and main memory. The shown data for each level contains evicted and loaded data. Dashed lines represent the predicted transfer rates by [kerncraft](https://github.com/RRZE-HPC/kerncraft).*
+*Data transfers between the different cache levels and main memory. The shown data for each level contains evicted and loaded data. The measured data is represented by points and the predicted transfer rates by [kerncraft](https://github.com/RRZE-HPC/kerncraft) by lines.*
 </div>
 
 <div markdown="1" class="section-block-half">
-Benchmark raw data can be found [in the repository](https://github.com/RRZE-HPC/stempel_data_collection/blob/master/stencils/{{page.dimension}}/{{page.radius}}/{{page.weighting}}/{{page.kind}}/{{page.coefficients}}/{{page.datatype}}/{{page.machine}}/results.csv).
+
+<input id="plot-button" type="button" onclick="changeImage()" value="Showing Layer Condition Data. Click to switch to Cache Simulator Data." />
+
+Benchmark raw data can be found [in the git repository](https://github.com/RRZE-HPC/stempel_data_collection/blob/master/stencils/{{page.dimension}}/{{page.radius}}/{{page.weighting}}/{{page.kind}}/{{page.coefficients}}/{{page.datatype}}/{{page.machine}}/results.csv).
 </div>
 
 </div>
