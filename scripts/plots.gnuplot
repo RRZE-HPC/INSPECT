@@ -8,7 +8,7 @@ set datafile separator ","
 set xlabel "Grid Size (N^3)"
 set ylabel "Performance [MLUP/s]"
 #set xrange [300:900]
-set yrange [0:1200]
+set yrange [0:800]
 set xtics 100
 set key top right width 1 samplen 1
 
@@ -41,7 +41,7 @@ set datafile separator ","
 set xlabel "Grid Size (N^3)"
 set ylabel "Performance [MLUP/s]"
 #set xrange [300:900]
-set yrange [0:1200]
+set yrange [0:800]
 set xtics 100
 set key top right width 1 samplen 1
 
@@ -157,7 +157,7 @@ set multiplot
 
 set origin 0,0
 set size 1,1
-set yrange [0:100]
+set yrange [0:150]
 set style data histogram
 set style histogram rowstacked
 set xlabel "Grid Size (N^3)" textcolor "#ffffff"
@@ -175,7 +175,7 @@ plot  "< awk '(NR>2){print;}' results.csv" u 17:xticlabels(1) title 'T_{nOL}' ls
 
 set origin 0,0
 set size 1,1
-set yrange [0:100]
+set yrange [0:150]
 set xlabel "Grid Size (N^3)" textcolor "#000000"
 set ylabel "cy/CL" textcolor "#000000"
 set xtics 100 textcolor "#000000"
@@ -214,7 +214,7 @@ set multiplot
 
 set origin 0,0
 set size 1,1
-set yrange [0:100]
+set yrange [0:150]
 set style data histogram
 set style histogram rowstacked
 set xlabel "Grid Size (N^3)" textcolor "#ffffff"
@@ -232,7 +232,7 @@ plot  "< awk '(NR>2){print;}' results.csv" u 11:xticlabels(1) title 'T_{nOL}' ls
 
 set origin 0,0
 set size 1,1
-set yrange [0:100]
+set yrange [0:150]
 set xlabel "Grid Size (N^3)" textcolor "#000000"
 set ylabel "cy/CL" textcolor "#000000"
 set xtics 100 textcolor "#000000"
