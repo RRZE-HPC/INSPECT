@@ -1,5 +1,4 @@
-<div markdown="1" id="navigation">
-## Navigation
+
 [comment]: <> dimensions
 {% capture tmpdim %}{% for page in site.pages %}{{page.dimension}}|{% endfor %}{% endcapture %}
 {% assign dims=tmpdim | split: "|" | uniq | sort %}
@@ -22,48 +21,67 @@
 {% capture tmpmachine %}{% for page in site.pages %}{{page.machine}}|{% endfor %}{% endcapture %}
 {% assign machines=tmpmachine | split: "|" | uniq | sort %}
 
+<div markdown="1" id="navigation">
+## Stencil Navigation
+
+Filter available stencil data by categories or by collapsing levels:
+
+<span class="nav-selection">Dimension:<br/>
 <select class="select_dims">
 <option value="all" selected="selected">All</option>
 {%- for dim in dims %}
 <option value="dim{{dim}}">{{dim}}</option>
 {%- endfor -%}
 </select>
+</span>
+<span class="nav-selection">Radius:<br/>
 <select class="select_rads" onchange="toggle_visibility(this.options[this.selectedIndex].value)">
 <option value="radall" selected="selected">All</option>
 {%- for rad in rads %}
 <option value="rad{{rad}}">{{rad}}</option>
 {%- endfor -%}
 </select>
+</span>
+<span class="nav-selection">Weight:<br/>
 <select class="select_weights" onchange="toggle_visibility(this.options[this.selectedIndex].value)">
 <option value="weightall" selected="selected">All</option>
 {%- for weight in weights %}
 <option value="weight{{weights}}">{{weight}}</option>
 {%- endfor -%}
 </select>
+</span>
+<span class="nav-selection">Kind:<br/>
 <select class="select_kinds" onchange="toggle_visibility(this.options[this.selectedIndex].value)">
 <option value="kindall" selected="selected">All</option>
 {%- for kind in kinds %}
 <option value="kind{{kind}}">{{kind}}</option>
 {%- endfor -%}
 </select>
+</span>
+<span class="nav-selection">Coefficients:<br/>
 <select class="select_coeffs" onchange="toggle_visibility(this.options[this.selectedIndex].value)">
 <option value="coeffall" selected="selected">All</option>
 {%- for coeff in coeffs %}
 <option value="coeff{{coeff}}">{{coeff}}</option>
 {%- endfor -%}
 </select>
+</span>
+<span class="nav-selection">Datatype:<br/>
 <select class="select_dts" onchange="toggle_visibility(this.options[this.selectedIndex].value)">
 <option value="dtall" selected="selected">All</option>
 {%- for dt in dts %}
 <option value="dt{{dt}}">{{dt}}</option>
 {%- endfor -%}
 </select>
-<select class="select_machines" onchange="toggle_visibility(this.options[this.selectedIndex].value)">
+</span>
+<!-- <select class="select_machines" onchange="toggle_visibility(this.options[this.selectedIndex].value)">
 <option value="machineall" selected="selected">All</option>
 {%- for machine in machines %}
 <option value="machine{{machine}}">{{machine}}</option>
 {%- endfor -%}
-</select>
+</select> -->
+
+<br /><br /><br />
 
 <script>
 function toggle_visibility(option) {
@@ -85,13 +103,10 @@ function toggle_visibility(option) {
 	}
 
 	if (String(option).endsWith("all")) {
-		$("[class^="+name+"]").css("visibility","visible");
-		$("[class^="+name+"]").css("height","auto");
+		$("[class^="+name+"]").css("display","block");
 	} else {
-		$("[class^="+name+"]").css("visibility","hidden");
-		$("[class^="+name+"]").css("height","0");
-		$("."+String(option)).css("visibility","visible");
-		$("."+String(option)).css("height","auto");
+		$("[class^="+name+"]").css("display","none");
+		$("."+String(option)).css("display","block");
 	}
 }
 </script>
@@ -139,18 +154,5 @@ stencils/{{dim}}/{{rad}}/{{weight}}/{{kind}}/{{coeff}}/{{dt}}/{{machine}}
 {%- endfor -%}
 </details>
 {%- endfor -%}
-
-
-<script>
-function cleanup() {
-	var nav = $("#navigation details");
-	for ( var i = 0; i < nav.length; i = i+1 ) {
-		for ( children in nav[i].childNodes ){
-				console.log(String(nav[i].className)+" has child "+String(children.nodeName))
-		}
-	}
-}
-cleanup()
-</script>
 
 </div>

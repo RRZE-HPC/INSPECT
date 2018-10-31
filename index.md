@@ -8,6 +8,8 @@ The [stempel](https://github.com/RRZE-HPC/stempel) tool allows automatic generat
 
 On this site a collection of benchmark data obtained from the [stempel](https://github.com/RRZE-HPC/stempel) tool can be found.
 
-{% include sitemap.md %}
+Information on how to perform reproducible performance benchmarks, can be found on [this page](reproducibility).
 
 {% include navigation.md %}
+
+You can also view the [complete stencil Sitemap here](sitemap).
