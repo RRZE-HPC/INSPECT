@@ -21,9 +21,9 @@ set term svg fname 'Open Sans'
 set output "roofline_LC.svg"
 
 plot "< awk '(NR>2){print;}' results.csv" u 1:6 every 20:20 notitle w points ls 4, \
-         "" u 1:6 notitle w lines ls 4, 1 / 0 title "Roofline with Layer Condition" w linespoints ls 4 ps 1, \
+         "" u 1:6 notitle w lines ls 4, 1 / 0 title "Roofline prediction from Layer Condition" w linespoints ls 4 ps 1, \
      "< awk '(NR>2){print;}' results.csv" u 1:8 every 20:20 notitle w points ls 2, \
-         "" u 1:8 notitle w lines ls 2, 1 / 0 title "Roofline from ECM prediction" w linespoints ls 2 ps 1, \
+         "" u 1:8 notitle w lines ls 2, 1 / 0 title "Performance prediction from ECM" w linespoints ls 2 ps 1, \
      "< awk '(NR>2){print;}' results.csv" u 1:9 w points notitle ls 1, 1 / 0 w points title "Measurement" ls 1 ps 1
 
 
@@ -34,9 +34,9 @@ plot "< awk '(NR>2){print;}' results.csv" u 1:6 every 20:20 notitle w points ls 
 set output "roofline_CS.svg"
 
 plot "< awk '(NR>2){print;}' results.csv" u 1:3 every 20:20 notitle w points ls 3, \
-         "" u 1:3 notitle w lines ls 3, 1 / 0 title "Roofline with Cache Simulation" w linespoints ls 3 ps 1, \
+         "" u 1:3 notitle w lines ls 3, 1 / 0 title "Roofline prediction from Cache Simulation" w linespoints ls 3 ps 1, \
      "< awk '(NR>2){print;}' results.csv" u 1:8 every 20:20 notitle w points ls 2, \
-         "" u 1:8 notitle w lines ls 2, 1 / 0 title "Roofline from ECM prediction" w linespoints ls 2 ps 1, \
+         "" u 1:8 notitle w lines ls 2, 1 / 0 title "Performance prediction from ECM" w linespoints ls 2 ps 1, \
      "< awk '(NR>2){print;}' results.csv" u 1:9 w points notitle ls 1, 1 / 0 w points title "Measurement" ls 1 ps 1
 
 ################################################################################
@@ -48,7 +48,7 @@ set datafile separator ","
 set xlabel "Grid Size (N^3)"
 set ylabel "Data Transfers [B/LUP]"
 #set xrange [300:900]
-set yrange [0:140]
+set yrange [0:160]
 set xtics 100
 set key bottom right width 5 samplen 2 font ",18"
 
@@ -107,7 +107,7 @@ set multiplot
 
 set origin 0,0
 set size 1,1
-set yrange [0:140]
+set yrange [0:160]
 set style data histogram
 set style histogram rowstacked
 set xlabel "Grid Size (N^3)" textcolor "#ffffff"
@@ -125,7 +125,7 @@ plot  "< awk '(NR>2){print;}' results.csv" u 17:xticlabels(1) title 'T_{nOL}' ls
 
 set origin 0,0
 set size 1,1
-set yrange [0:140]
+set yrange [0:160]
 set xlabel "Grid Size (N^3)" textcolor "#000000"
 set ylabel "cy/CL" textcolor "#000000"
 set xtics 100 textcolor "#000000"
@@ -164,7 +164,7 @@ set multiplot
 
 set origin 0,0
 set size 1,1
-set yrange [0:140]
+set yrange [0:160]
 set style data histogram
 set style histogram rowstacked
 set xlabel "Grid Size (N^3)" textcolor "#ffffff"
@@ -182,7 +182,7 @@ plot  "< awk '(NR>2){print;}' results.csv" u 11:xticlabels(1) title 'T_{nOL}' ls
 
 set origin 0,0
 set size 1,1
-set yrange [0:140]
+set yrange [0:160]
 set xlabel "Grid Size (N^3)" textcolor "#000000"
 set ylabel "cy/CL" textcolor "#000000"
 set xtics 100 textcolor "#000000"

@@ -3,8 +3,8 @@
 title:  "Stencil detail"
 
 dimension    : "3D"
-radius       : "3r"
-weighting    : "isotropic"
+radius       : "2r"
+weighting    : "homogeneous"
 kind         : "star"
 coefficients : "constant"
 datatype     : "double"
@@ -23,9 +23,9 @@ double a[M][N][P];
 double b[M][N][P];
 double c0;
 
-for( int k=3; k < M-3; k++ ) {
-  for( int j=3; j < N-3; j++ ) {
-    for( int i=3; i < P-3; i++ ) {
+for(int k=2; k < M-2; k++){
+  for(int j=2; j < N-2; j++){
+    for(int i=2; i < P-2; i++){
       b[k][j][i] = c0 * (a[k][j][i]
         + a[k][j][i-1] + a[k][j][i+1]
         + a[k-1][j][i] + a[k+1][j][i]
@@ -33,10 +33,7 @@ for( int k=3; k < M-3; k++ ) {
         + a[k][j][i-2] + a[k][j][i+2]
         + a[k-2][j][i] + a[k+2][j][i]
         + a[k][j-2][i] + a[k][j+2][i]
-        + a[k][j][i-3] + a[k][j][i+3]
-        + a[k-3][j][i] + a[k+3][j][i]
-        + a[k][j-3][i] + a[k][j+3][i]
-      );
+        );
     }
   }
 }
@@ -46,12 +43,12 @@ for( int k=3; k < M-3; k++ ) {
 L1: unconditionally fulfilled
 L2: unconditionally fulfilled
 L3: unconditionally fulfilled
-L1: P <= 2048/7;292
-L2: P <= 65536/7;9362
-L3: P <= 262144
-L1: 48*N*P + 16*P*(N - 3) + 48*P <= 32768;32²
-L2: 48*N*P + 16*P*(N - 3) + 48*P <= 1048576;128²
-L3: 48*N*P + 16*P*(N - 3) + 48*P <= 29360128;677²
+L1: P <= 2048/5;409
+L2: P <= 16384/5;3276
+L3: P <= 1441792/5;288385
+L1: 32*N*P + 16*P*(N - 2) + 32*P <= 32768;26²
+L2: 32*N*P + 16*P*(N - 2) + 32*P <= 1048576;147²
+L3: 32*N*P + 16*P*(N - 2) + 32*P <= 29360128;781²
 {%- endcapture -%}
 
 {% include stencil_template.md %}

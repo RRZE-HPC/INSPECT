@@ -3,8 +3,8 @@
 title:  "Stencil detail"
 
 dimension    : "3D"
-radius       : "3r"
-weighting    : "isotropic"
+radius       : "2r"
+weighting    : "heterogeneous"
 kind         : "star"
 coefficients : "constant"
 datatype     : "double"
@@ -22,21 +22,29 @@ compile_flags: "icc -O3 -xCORE-AVX512 -qopt-zmm-usage=high -fno-alias -qopenmp -
 double a[M][N][P];
 double b[M][N][P];
 double c0;
+double c1;
+double c2;
+double c3;
+double c4;
+double c5;
+double c6;
+double c7;
+double c8;
+double c9;
+double c10;
+double c11;
+double c12;
 
-for( int k=3; k < M-3; k++ ) {
-  for( int j=3; j < N-3; j++ ) {
-    for( int i=3; i < P-3; i++ ) {
-      b[k][j][i] = c0 * (a[k][j][i]
-        + a[k][j][i-1] + a[k][j][i+1]
-        + a[k-1][j][i] + a[k+1][j][i]
-        + a[k][j-1][i] + a[k][j+1][i]
-        + a[k][j][i-2] + a[k][j][i+2]
-        + a[k-2][j][i] + a[k+2][j][i]
-        + a[k][j-2][i] + a[k][j+2][i]
-        + a[k][j][i-3] + a[k][j][i+3]
-        + a[k-3][j][i] + a[k+3][j][i]
-        + a[k][j-3][i] + a[k][j+3][i]
-      );
+for ( int k = 2; k < M-2; k++ ) {
+  for ( int j = 2; j < N-2; j++ ) {
+    for ( int i = 2; i < P-2; i++ ) {
+      b[k][j][i] = c0 * a[k][j][i]
+        + c1 * a[k][j][i-1] + c2 * a[k][j][i+1]
+        + c3 * a[k-1][j][i] + c4 * a[k+1][j][i]
+        + c5 * a[k][j-1][i] + c6 * a[k][j+1][i]
+        + c7 * a[k][j][i-2] + c8 * a[k][j][i+2]
+        + c9 * a[k-2][j][i] + c10 * a[k+2][j][i]
+        + c11 * a[k][j-2][i] + c12 * a[k][j+2][i];
     }
   }
 }
@@ -46,12 +54,12 @@ for( int k=3; k < M-3; k++ ) {
 L1: unconditionally fulfilled
 L2: unconditionally fulfilled
 L3: unconditionally fulfilled
-L1: P <= 2048/7;292
-L2: P <= 65536/7;9362
-L3: P <= 262144
-L1: 48*N*P + 16*P*(N - 3) + 48*P <= 32768;32²
-L2: 48*N*P + 16*P*(N - 3) + 48*P <= 1048576;128²
-L3: 48*N*P + 16*P*(N - 3) + 48*P <= 29360128;677²
+L1: P <= 2048/5;409
+L2: P <= 16384/5;3276
+L3: P <= 1441792/5;288385
+L1: 32*N*P + 16*P*(N - 2) + 32*P <= 32768;26²
+L2: 32*N*P + 16*P*(N - 2) + 32*P <= 1048576;147²
+L3: 32*N*P + 16*P*(N - 2) + 32*P <= 29360128;781²
 {%- endcapture -%}
 
 {% include stencil_template.md %}
