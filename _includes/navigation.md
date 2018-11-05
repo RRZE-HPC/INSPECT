@@ -116,18 +116,83 @@ function toggle_visibility(option) {
 <details class="dim{{dim}}" open>
 <summary>{{dim}}</summary>
 {%- for rad in rads %}
+{%- capture basename_rad -%}
+stencils/{{dim}}
+{%- endcapture -%}
+{% assign has_rad = false %}
+{%- for page in site.pages %}
+{%- if page.url contains basename_rad -%}
+{% assign has_rad = true %}
+{% break %}
+{% endif %}
+{%- endfor -%}
+{% if has_rad == false %}
+{% continue %}
+{% endif %}
 <details class="rad{{rad}}" open>
 <summary>{{rad}}</summary>
 {%- for weight in weights %}
+{%- capture basename_weight -%}
+stencils/{{dim}}/{{rad}}/{{weight}}
+{%- endcapture -%}
+{% assign has_weight = false %}
+{%- for page in site.pages %}
+{%- if page.url contains basename_weight -%}
+{% assign has_weight = true %}
+{% break %}
+{% endif %}
+{%- endfor -%}
+{% if has_weight == false %}
+{% continue %}
+{% endif %}
 <details class="weight{{weight}}" open>
 <summary>{{weight}}</summary>
 {%- for kind in kinds %}
+{%- capture basename_kind -%}
+stencils/{{dim}}/{{rad}}/{{weight}}/{{kind}}
+{%- endcapture -%}
+{% assign has_kind = false %}
+{%- for page in site.pages %}
+{%- if page.url contains basename_kind -%}
+{% assign has_kind = true %}
+{% break %}
+{% endif %}
+{%- endfor -%}
+{% if has_kind == false %}
+{% continue %}
+{% endif %}
 <details class="kind{{kind}}" open>
 <summary>{{kind}}</summary>
 {%- for coeff in coeffs %}
+{%- capture basename_coeff -%}
+stencils/{{dim}}/{{rad}}/{{weight}}/{{kind}}/{{coeff}}
+{%- endcapture -%}
+{% assign has_coeff = false %}
+{%- for page in site.pages %}
+{%- if page.url contains basename_coeff -%}
+{% assign has_coeff = true %}
+{% break %}
+{% endif %}
+{%- endfor -%}
+{% if has_coeff == false %}
+{% continue %}
+{% endif %}
 <details class="coeff{{coeff}}" open>
 <summary>{{coeff}}</summary>
 {%- for dt in dts %}
+{%- capture basename_dt -%}
+stencils/{{dim}}/{{rad}}/{{weight}}/{{kind}}/{{coeff}}/{{dt}}
+{%- endcapture -%}
+{% assign has_dt = false %}
+{%- for page in site.pages %}
+{%- if page.url contains basename_dt -%}
+{% assign has_dt = true %}
+{% break %}
+{% endif %}
+{%- endfor -%}
+{% if has_dt == false %}
+{% continue %}
+{% endif %}
 <details class="dt{{dt}}" markdown="1" open>
 <summary>{{dt}}</summary>
 {%- for machine in machines %}
