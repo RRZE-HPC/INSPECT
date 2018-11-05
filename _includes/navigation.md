@@ -46,7 +46,7 @@ Filter available stencil data by categories or by collapsing levels:
 <select class="select_weights" onchange="toggle_visibility(this.options[this.selectedIndex].value)">
 <option value="weightall" selected="selected">All</option>
 {%- for weight in weights %}
-<option value="weight{{weights}}">{{weight}}</option>
+<option value="weight{{weight}}">{{weight}}</option>
 {%- endfor -%}
 </select>
 </span>
