@@ -76,7 +76,7 @@ set datafile separator ","
 set xlabel "Grid Size (N^3)"
 set ylabel "Data Transfers [B/LUP]"
 #set xrange [300:900]
-set yrange [0:80]
+set yrange [0:160]
 set xtics 100
 set key bottom right width 5 samplen 2 font ",18"
 
@@ -114,7 +114,7 @@ plot "< awk '(NR>2){print;}' results.csv" u 1:34 every 20:20 notitle w points ls
      "" u 1:28:(InfoL23(1,28)) with labels hypertext point ls 2 ps .5 notitle, \
      1 / 0 title "L2 - L3 transfer" w linespoints ls 2 ps 1, \
      "" u 1:40 every 20:20 notitle w points ls 6, "" u 1:40 notitle w lines ls 6, \
-     "" u 1:31:(InfoL12(1,31)) with labels hypertext point ls 3 ps .5 notitle, \
+     "" u 1:31:(InfoL3M(1,31)) with labels hypertext point ls 3 ps .5 notitle, \
      1 / 0 title "L3 - Mem transfer" w linespoints ls 3 ps 1
 
 ################################################################################
@@ -132,7 +132,7 @@ plot "< awk '(NR>2){print;}' results.csv" u 1:43 every 20:20 notitle w points ls
      "" u 1:28:(InfoL23(1,28)) with labels hypertext point ls 2 ps .5 notitle, \
      1 / 0 title "L2 - L3 transfer" w linespoints ls 2 ps 1, \
      "" u 1:49 every 20:20 notitle w points ls 6, "" u 1:49 notitle w lines ls 6, \
-     "" u 1:31:(InfoL12(1,31)) with labels hypertext point ls 3 ps .5 notitle, \
+     "" u 1:31:(InfoL3M(1,31)) with labels hypertext point ls 3 ps .5 notitle, \
      1 / 0 title "L3 - Mem transfer" w linespoints ls 3 ps 1
 
 ################################################################################
@@ -163,7 +163,7 @@ set multiplot
 
 set origin 0,0
 set size 1,1
-set yrange [0:80]
+set yrange [0:160]
 set style data histogram
 set style histogram rowstacked
 set xlabel "Grid Size (N^3)" textcolor "#ffffff"
@@ -181,7 +181,7 @@ plot  "< awk '(NR>2){print;}' results.csv" u 17:xticlabels(1) title 'T_{nOL}' ls
 
 set origin 0,0
 set size 1,1
-set yrange [0:80]
+set yrange [0:160]
 set xlabel "Grid Size (N^3)" textcolor "#000000"
 set ylabel "cy/CL" textcolor "#000000"
 set xtics 100 textcolor "#000000"
@@ -228,7 +228,7 @@ set multiplot
 
 set origin 0,0
 set size 1,1
-set yrange [0:80]
+set yrange [0:160]
 set style data histogram
 set style histogram rowstacked
 set xlabel "Grid Size (N^3)" textcolor "#ffffff"
@@ -246,7 +246,7 @@ plot  "< awk '(NR>2){print;}' results.csv" u 11:xticlabels(1) title 'T_{nOL}' ls
 
 set origin 0,0
 set size 1,1
-set yrange [0:80]
+set yrange [0:160]
 set xlabel "Grid Size (N^3)" textcolor "#000000"
 set ylabel "cy/CL" textcolor "#000000"
 set xtics 100 textcolor "#000000"
