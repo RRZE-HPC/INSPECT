@@ -116,23 +116,15 @@ function changeImage() {
 
 <div markdown="1" class="section-block-half">
 ### ECM Plot
-<span id="ecm_LC">
-![ECM](./ecm_LC.svg){:width="100%"}
-</span>
-<span id="ecm_CS" style="display:none;">
-![ECM](./ecm_CS.svg){:width="100%"}
-</span>
+<object data="./ecm_LC.svg" id="ecm_LC" type="image/svg+xml"></object>
+<object data="./ecm_CS.svg" type="image/svg+xml" id="ecm_CS" style="display:none;"></object>
 *ECM plot of the measured benchmark results and the (stacked) ECM contributions predicted by [kerncraft](https://github.com/RRZE-HPC/kerncraft). The calculated [layer conditions](#layer-conditions) correspond to the jumps in the ECM prediction.*
 </div>
 
 <div markdown="1" class="section-block-half">
 ### Performance Plot
-<span id="rfl_LC">
-![Performance](./roofline_LC.svg){:width="100%"}
-</span>
-<span id="rfl_CS" style="display:none;">
-![Performance](./roofline_CS.svg){:width="100%"}
-</span>
+<object data="./roofline_LC.svg" id="rfl_LC" type="image/svg+xml"></object>
+<object data="./roofline_CS.svg" type="image/svg+xml" id="rfl_CS" style="display:none;"></object>
 *Performance plot with roofline prediction in comparison with the measured benchmark data. For comparison the according ECM prediction is also included.*
 </div>
 
@@ -142,12 +134,8 @@ function changeImage() {
 
 <div markdown="1" class="section-block-half">
 ### Memory Transfer Plot
-<span id="mem_LC">
-![Memory LC](./memory_LC.svg){:width="100%"}
-</span>
-<span id="mem_CS" style="display:none;">
-![Memory CS](./memory_CS.svg){:width="100%"}
-</span>
+<object data="./memory_LC.svg" id="mem_LC" type="image/svg+xml"></object>
+<object data="./memory_CS.svg" type="image/svg+xml" id="mem_CS" style="display:none;"></object>
 *Data transfers between the different cache levels and main memory. The shown data for each level contains evicted and loaded data. The measured data is represented by points and the predicted transfer rates by [kerncraft](https://github.com/RRZE-HPC/kerncraft) by lines.*
 </div>
 
