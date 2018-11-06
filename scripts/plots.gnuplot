@@ -17,7 +17,7 @@ set style line 2 lt 1 lc rgb '#edb120' lw 2 pt 5 ps 1
 set style line 3 lt 1 lc rgb '#7e2f8e' lw 2 pt 11 ps 1
 set style line 4 lt 1 lc rgb '#d95319' lw 2 pt 9 ps 1
 
-set terminal svg enhanced mousing fname 'Open Sans' jsdir "http://gnuplot.sourceforge.net/demo_svg_5.2/"
+set terminal svg enhanced mousing fname 'Open Sans' jsdir "https://rrze-hpc.github.io/stempel_data_collection/assets/js/"
 # set term svg fname 'Open Sans'
 set output "roofline_LC.svg"
 
@@ -87,7 +87,7 @@ set style line 4 lt 4 lc rgb '#0072bd' lw 2 pt 4 ps 1
 set style line 5 lt 4 lc rgb '#edb120' lw 2 pt 6 ps 1
 set style line 6 lt 4 lc rgb '#d95319' lw 2 pt 8 ps 1
 
-set terminal svg enhanced mousing fname 'Open Sans' jsdir "http://gnuplot.sourceforge.net/demo_svg_5.2/"
+set terminal svg enhanced mousing fname 'Open Sans' jsdir "https://rrze-hpc.github.io/stempel_data_collection/assets/js/"
 # set term svg fname 'Open Sans'
 set output "memory_CS.svg"
 
@@ -153,7 +153,7 @@ set style line 9 lt 1 lc rgb '#4C4745' lw 1 pt 1
 set style line 10 lt 1 lc rgb '#000000' lw 1 pt 1
 
 set datafile separator ","
-set terminal svg enhanced mousing fname 'Open Sans' jsdir "http://gnuplot.sourceforge.net/demo_svg_5.2/"
+set terminal svg enhanced mousing fname 'Open Sans' jsdir "https://rrze-hpc.github.io/stempel_data_collection/assets/js/"
 set output "ecm_LC.svg"
 
 save_encoding = GPVAL_ENCODING
@@ -218,7 +218,7 @@ set style line 9 lt 1 lc rgb '#4C4745' lw 1 pt 1
 set style line 10 lt 1 lc rgb '#000000' lw 1 pt 1
 
 set datafile separator ","
-set terminal svg enhanced mousing fname 'Open Sans' jsdir "http://gnuplot.sourceforge.net/demo_svg_5.2/"
+set terminal svg enhanced mousing fname 'Open Sans' jsdir "https://rrze-hpc.github.io/stempel_data_collection/assets/js/"
 set output "ecm_CS.svg"
 
 save_encoding = GPVAL_ENCODING
