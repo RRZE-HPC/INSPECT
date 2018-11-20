@@ -17,6 +17,7 @@ echo "machine      : \"$(basename $(head size_10/Bench_stencil.txt | grep "\-m" 
 echo "flavor       : \"EDIT_ME\"" >> ${FILENAME}
 echo "comment      : \"EDIT_ME\"" >> ${FILENAME}
 echo "compile_flags: \"icc $(grep "Executing (compile)" size_10/ECM_LC_stencil.txt | sed -e 's/.*icc //' -e 's/\.c.*/\.c/') -o stencil -llikwid" >> ${FILENAME}
+echo "flop         : \"$(grep -A 8 FLOPs size_10/LC_stencil.txt | grep -A 1 == | tail -n 1 | sed 's/ //g')\""
 echo "---" >> ${FILENAME}
 echo "" >> ${FILENAME}
 echo "{%- capture basename -%}" >> ${FILENAME}
