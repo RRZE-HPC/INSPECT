@@ -193,7 +193,7 @@ InfoECM(String,Size) = sprintf("ECM\nN³ = %s³\cy/CL: %d", stringcolumn(String)
 
 set label at 0,0 "" hypertext point pt 1
 
-plot "< awk '(NR>2){print;}' results.csv" u 1:22:(InfoMS(1,22)) with labels hypertext point ls 1 title 'Measurement', \
+plot "< awk '(NR>2){print;}' results.csv" u 1:22:(InfoECM(1,22)) with labels hypertext point ls 1 title 'Measurement', \
      "< awk '(NR>2){print;}' results.csv" u 1:16 w lines title 'T_{OL}' ls 10
 
 # end of multiplot
@@ -257,7 +257,7 @@ set tics scale 1
 InfoECM(String,Size) = sprintf("ECM\nN³ = %s³\cy/CL: %d", stringcolumn(String), column(Size))
 set label at 0,0 "" hypertext point pt 1
 
-plot "< awk '(NR>2){print;}' results.csv" u 1:22:(InfoMS(1,22)) with labels hypertext point ls 1 title 'Measurement', \
+plot "< awk '(NR>2){print;}' results.csv" u 1:22:(InfoECM(1,22)) with labels hypertext point ls 1 title 'Measurement', \
      "< awk '(NR>2){print;}' results.csv" u 1:10 w lines title 'T_{OL}' ls 10
 
 # end of multiplot

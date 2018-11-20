@@ -81,6 +81,25 @@ stempel bench stencil.c -m {{ page.machine }}.yml --store
 </div>
 
 <div markdown="1" class="section-block-full">
+## How to replicate this data
+
+<div markdown="1" class="section-block-half">
+### Single Core Measurements
+
+#### Layer Condition Data
+```bash
+kerncraft -p ECM -p RooflineIACA -p Benchmark -p LC -P LC -m {{page.machine}}.yml stencil.c -D N GRID_SIZE -D M GRID_SIZE -D P GRID_SIZE -vvv --cores 1 --compiler icc
+```
+
+#### Cache Simulator Data
+```bash
+kerncraft -p ECM -p RooflineIACA -p Benchmark -p LC -P CS -m {{page.machine}}.yml stencil.c -D N GRID_SIZE -D M GRID_SIZE -D P GRID_SIZE -vvv --cores 1 --compiler icc
+```
+</div>
+
+</div>
+
+<div markdown="1" class="section-block-full">
 ## Benchmark Plots
 <script>
 var index = 0;
