@@ -167,9 +167,9 @@ Choose grid size: {%- for item in page.scaling -%}
 
 {% for item in page.scaling %}
 {%- if forloop.first -%}
-<object data="./ecm_LC.svg" class="scaling" id="scaling_{{ item }}" style="display:block;" type="image/svg+xml"></object>
+<object data="./scaling_{{item}}.svg" class="scaling" id="scaling_{{ item }}" style="display:block;" type="image/svg+xml"></object>
 {%- else -%}
-<object data="./ecm_LC.svg" class="scaling" id="scaling_{{ item }}" style="display:none;" type="image/svg+xml"></object>
+<object data="./scaling_{{item}}.svg" class="scaling" id="scaling_{{ item }}" style="display:none;" type="image/svg+xml"></object>
 {%- endif -%}
 {% endfor %}
 </div>
