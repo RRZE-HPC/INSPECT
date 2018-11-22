@@ -40,6 +40,79 @@ for(int k=2; k < M-2; k++){
 }
 {%- endcapture -%}
 
+{%- capture source_code_asm -%}
+vmovupd ymm15, ymmword ptr [r10+rbx*8+0x8]
+vmovupd ymm12, ymmword ptr [r8+rbx*8+0x8]
+vmovupd ymm5, ymmword ptr [r8+rbx*8]
+vmulpd ymm14, ymm3, ymmword ptr [r8+rbx*8+0x10]
+vmulpd ymm13, ymm3, ymmword ptr [r10+rbx*8+0x10]
+vaddpd ymm10, ymm15, ymmword ptr [r10+rbx*8+0x18]
+vmovupd xmm15, xmmword ptr [rcx+rbx*8+0x10]
+vaddpd ymm11, ymm12, ymmword ptr [r8+rbx*8+0x18]
+vmovupd xmm12, xmmword ptr [rcx+rbx*8+0x30]
+vinsertf128 ymm15, ymm15, xmmword ptr [rcx+rbx*8+0x20], 0x1
+vaddpd ymm10, ymm10, ymm15
+vinsertf128 ymm15, ymm12, xmmword ptr [rcx+rbx*8+0x40], 0x1
+vaddpd ymm15, ymm11, ymm15
+vmovupd xmm11, xmmword ptr [rdx+rbx*8+0x10]
+vmovupd xmm12, xmmword ptr [rdx+rbx*8+0x30]
+vinsertf128 ymm11, ymm11, xmmword ptr [rdx+rbx*8+0x20], 0x1
+vaddpd ymm11, ymm10, ymm11
+vinsertf128 ymm10, ymm12, xmmword ptr [rdx+rbx*8+0x40], 0x1
+vaddpd ymm10, ymm15, ymm10
+vmovupd xmm15, xmmword ptr [r14+rbx*8+0x10]
+vinsertf128 ymm12, ymm15, xmmword ptr [r14+rbx*8+0x20], 0x1
+vmovupd xmm15, xmmword ptr [r14+rbx*8+0x30]
+vaddpd ymm12, ymm11, ymm12
+vinsertf128 ymm11, ymm15, xmmword ptr [r14+rbx*8+0x40], 0x1
+vaddpd ymm11, ymm10, ymm11
+vmovupd xmm10, xmmword ptr [r12+rbx*8+0x10]
+vinsertf128 ymm15, ymm10, xmmword ptr [r12+rbx*8+0x20], 0x1
+vmovupd xmm10, xmmword ptr [r12+rbx*8+0x30]
+vaddpd ymm15, ymm12, ymm15
+vmulpd ymm15, ymm4, ymm15
+vaddpd ymm13, ymm13, ymm15
+vinsertf128 ymm12, ymm10, xmmword ptr [r12+rbx*8+0x40], 0x1
+vaddpd ymm11, ymm11, ymm12
+vmovupd xmm10, xmmword ptr [r11+rbx*8+0x30]
+vmulpd ymm12, ymm4, ymm11
+vaddpd ymm15, ymm14, ymm12
+vaddpd ymm14, ymm5, ymmword ptr [r10+rbx*8]
+vaddpd ymm12, ymm5, ymmword ptr [rdi+rbx*8+0x40]
+vmovupd xmm5, xmmword ptr [r11+rbx*8+0x10]
+vinsertf128 ymm11, ymm5, xmmword ptr [r11+rbx*8+0x20], 0x1
+vinsertf128 ymm5, ymm10, xmmword ptr [r11+rbx*8+0x40], 0x1
+vaddpd ymm10, ymm14, ymm11
+vmovupd xmm14, xmmword ptr [rax+rbx*8+0x10]
+vmovupd xmm11, xmmword ptr [rax+rbx*8+0x30]
+vaddpd ymm5, ymm12, ymm5
+vinsertf128 ymm12, ymm14, xmmword ptr [rax+rbx*8+0x20], 0x1
+vinsertf128 ymm11, ymm11, xmmword ptr [rax+rbx*8+0x40], 0x1
+vaddpd ymm14, ymm10, ymm12
+vaddpd ymm10, ymm5, ymm11
+vmovupd xmm12, xmmword ptr [r15+rbx*8+0x10]
+vmovupd xmm5, xmmword ptr [r15+rbx*8+0x30]
+vinsertf128 ymm11, ymm12, xmmword ptr [r15+rbx*8+0x20], 0x1
+vinsertf128 ymm5, ymm5, xmmword ptr [r15+rbx*8+0x40], 0x1
+vaddpd ymm12, ymm14, ymm11
+vaddpd ymm14, ymm10, ymm5
+vmovupd xmm10, xmmword ptr [r9+rbx*8+0x10]
+vmovupd xmm11, xmmword ptr [r9+rbx*8+0x30]
+vinsertf128 ymm5, ymm10, xmmword ptr [r9+rbx*8+0x20], 0x1
+vaddpd ymm5, ymm12, ymm5
+vmulpd ymm5, ymm9, ymm5
+vaddpd ymm13, ymm13, ymm5
+vmovupd ymmword ptr [r13+rbx*8+0x10], ymm13
+vinsertf128 ymm10, ymm11, xmmword ptr [r9+rbx*8+0x40], 0x1
+vaddpd ymm14, ymm14, ymm10
+vmulpd ymm10, ymm9, ymm14
+vaddpd ymm5, ymm15, ymm10
+vmovupd ymmword ptr [r13+rbx*8+0x30], ymm5
+add rbx, 0x8
+cmp rbx, rsi
+jb 0xfffffffffffffe52
+{%- endcapture -%}
+
 {%- capture layercondition -%}
 L1: unconditionally fulfilled
 L2: unconditionally fulfilled

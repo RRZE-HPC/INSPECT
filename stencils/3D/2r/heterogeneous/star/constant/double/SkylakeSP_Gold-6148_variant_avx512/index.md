@@ -50,6 +50,46 @@ for ( int k = 2; k < M-2; k++ ) {
 }
 {%- endcapture -%}
 
+{%- capture source_code_asm -%}
+vpcmpgtd k1, ymm9, ymm8
+add r14, 0x8
+vpaddd ymm8, ymm8, ymm12
+vmovupd zmm7{k1}{z}, zmmword ptr [rax+r8*1+0x10]
+vmovupd zmm0{k1}{z}, zmmword ptr [rax+r9*1]
+vmovupd zmm1{k1}{z}, zmmword ptr [rax+r9*1+0x20]
+vmovupd zmm26{k1}{z}, zmmword ptr [rax+r10*1+0x10]
+vmovupd zmm28{k1}{z}, zmmword ptr [rax+rbx*1+0x10]
+vmovupd zmm3{k1}{z}, zmmword ptr [rax+r13*1+0x10]
+vmovupd zmm4{k1}{z}, zmmword ptr [rax+r9*1+0x18]
+vmovupd zmm10{k1}{z}, zmmword ptr [rax+r12*1+0x10]
+vmovupd zmm2{k1}{z}, zmmword ptr [rax+rdi*1+0x10]
+vmovupd zmm27{k1}{z}, zmmword ptr [rax+r11*1+0x10]
+vmovupd zmm29{k1}{z}, zmmword ptr [rax+rsi*1+0x10]
+vmovupd zmm5{k1}{z}, zmmword ptr [rax+r9*1+0x8]
+vmovupd zmm6{k1}{z}, zmmword ptr [rax+r9*1+0x10]
+vmulpd zmm7, zmm20, zmm7
+vmulpd zmm30, zmm13, zmm26
+vmulpd zmm31, zmm11, zmm28
+vmulpd zmm0, zmm17, zmm0
+vmulpd zmm1, zmm16, zmm1
+vfmadd231pd zmm7, zmm3, zmm21
+vfmadd231pd zmm30, zmm27, zmm15
+vfmadd231pd zmm31, zmm29, zmm14
+vfmadd231pd zmm0, zmm10, zmm19
+vfmadd231pd zmm1, zmm2, zmm18
+vfmadd231pd zmm7, zmm4, zmm22
+vaddpd zmm26, zmm30, zmm31
+vaddpd zmm2, zmm0, zmm1
+vfmadd231pd zmm7, zmm5, zmm23
+vaddpd zmm3, zmm26, zmm2
+vfmadd231pd zmm7, zmm6, zmm24
+vaddpd zmm4, zmm3, zmm7
+vmovupd zmmword ptr [rax+r15*1+0x10]{k1}, zmm4
+add rax, 0x40
+cmp r14, rdx
+jb 0xfffffffffffffeee
+{%- endcapture -%}
+
 {%- capture layercondition -%}
 L1: unconditionally fulfilled
 L2: unconditionally fulfilled

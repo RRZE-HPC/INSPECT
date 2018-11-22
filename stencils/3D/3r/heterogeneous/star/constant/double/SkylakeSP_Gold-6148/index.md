@@ -58,6 +58,65 @@ for( int k = 3; k < M-3; k++ ) {
 }
 {%- endcapture -%}
 
+{%- capture source_code_asm -%}
+vpcmpgtd k1, xmm29, xmm9
+add r13, 0x4
+vpaddd xmm9, xmm9, xmm27
+vmovupd ymm2{k1}{z}, ymmword ptr [rdi+r14*1+0x18]
+vmovupd ymm3{k1}{z}, ymmword ptr [rdi+r12*1+0x18]
+vmovupd ymm0{k1}{z}, ymmword ptr [rdi+rax*1+0x8]
+vmovupd ymm6{k1}{z}, ymmword ptr [rdi+r9*1+0x18]
+vmovupd ymm30{k1}{z}, ymmword ptr [rdi+rax*1+0x28]
+vmulpd ymm2, ymm20, ymm2
+vmovupd ymm7{k1}{z}, ymmword ptr [rdi+rax*1+0x20]
+vmovupd ymm4{k1}{z}, ymmword ptr [rdi+rax*1+0x10]
+vmovupd ymm5{k1}{z}, ymmword ptr [rdi+rax*1+0x18]
+vfmadd231pd ymm2, ymm3, ymm22
+vmovupd ymm3{k1}{z}, ymmword ptr [rdi+rsi*1+0x18]
+vmulpd ymm7, ymm23, ymm7
+vmulpd ymm3, ymm16, ymm3
+vfmadd231pd ymm7, ymm4, ymm24
+vfmadd231pd ymm3, ymm0, ymm18
+vmovupd ymm0{k1}{z}, ymmword ptr [rdi+r10*1+0x18]
+vfmadd231pd ymm7, ymm5, ymm25
+vmulpd ymm0, ymm15, ymm0
+mov r15, qword ptr [rsp+0x300]
+vfmadd231pd ymm0, ymm30, ymm17
+vmovupd ymm31{k1}{z}, ymmword ptr [rdi+r15*1+0x18]
+vaddpd ymm0, ymm3, ymm0
+vmulpd ymm31, ymm19, ymm31
+vfmadd231pd ymm31, ymm6, ymm21
+vmovupd ymm6{k1}{z}, ymmword ptr [rdi+rax*1]
+vaddpd ymm31, ymm2, ymm31
+vmovupd ymm2{k1}{z}, ymmword ptr [rdi+rax*1+0x30]
+vmulpd ymm6, ymm12, ymm6
+vaddpd ymm0, ymm0, ymm31
+vmulpd ymm2, ymm11, ymm2
+vmovupd ymm31{k1}{z}, ymmword ptr [rdi+rbx*1+0x18]
+mov r15, qword ptr [rsp+0x2f8]
+vmovupd ymm30{k1}{z}, ymmword ptr [rdi+r15*1+0x18]
+mov r15, qword ptr [rsp+0x310]
+vfmadd231pd ymm6, ymm30, ymm14
+vmovupd ymm30{k1}{z}, ymmword ptr [rdi+r11*1+0x18]
+vmovupd ymm3{k1}{z}, ymmword ptr [rdi+r15*1+0x18]
+vfmadd231pd ymm2, ymm3, ymm13
+vmovupd ymm3{k1}{z}, ymmword ptr [rdi+rdx*1+0x18]
+vaddpd ymm2, ymm6, ymm2
+vmovupd ymm6{k1}{z}, ymmword ptr [rdi+rcx*1+0x18]
+vmulpd ymm3, ymm28, ymm3
+vmulpd ymm6, ymm1, ymm6
+vfmadd231pd ymm3, ymm31, ymm10
+vfmadd231pd ymm6, ymm30, ymm8
+vaddpd ymm3, ymm3, ymm6
+vaddpd ymm4, ymm3, ymm2
+vaddpd ymm5, ymm4, ymm0
+vaddpd ymm0, ymm5, ymm7
+vmovupd ymmword ptr [rdi+r8*1+0x18]{k1}, ymm0
+add rdi, 0x20
+cmp r13, qword ptr [rsp+0x328]
+jb 0xfffffffffffffe6a
+{%- endcapture -%}
+
 {%- capture layercondition -%}
 L1: unconditionally fulfilled
 L2: unconditionally fulfilled

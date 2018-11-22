@@ -40,6 +40,41 @@ for( int k = 1; k < M - 1; k++ ) {
 }
 {%- endcapture -%}
 
+{%- capture source_code_asm -%}
+vmovupd ymm2, ymmword ptr [r15+r13*8+0x8]
+vaddpd ymm3, ymm2, ymmword ptr [r12+r13*8]
+vaddpd ymm4, ymm3, ymmword ptr [r14+r13*8]
+vaddpd ymm5, ymm4, ymmword ptr [rcx+r13*8]
+vaddpd ymm6, ymm5, ymmword ptr [r8+r13*8]
+vaddpd ymm7, ymm6, ymmword ptr [r15+r13*8]
+vaddpd ymm8, ymm7, ymmword ptr [rdi+r13*8]
+vaddpd ymm9, ymm8, ymmword ptr [r10+r13*8]
+vaddpd ymm10, ymm9, ymmword ptr [r9+r13*8]
+vaddpd ymm11, ymm10, ymmword ptr [rsi+r13*8]
+vaddpd ymm12, ymm11, ymmword ptr [r12+r13*8+0x8]
+vaddpd ymm13, ymm12, ymmword ptr [r14+r13*8+0x8]
+vaddpd ymm14, ymm13, ymmword ptr [rcx+r13*8+0x8]
+vaddpd ymm15, ymm14, ymmword ptr [r8+r13*8+0x8]
+vaddpd ymm2, ymm15, ymmword ptr [rdi+r13*8+0x8]
+vaddpd ymm3, ymm2, ymmword ptr [r10+r13*8+0x8]
+vaddpd ymm4, ymm3, ymmword ptr [r9+r13*8+0x8]
+vaddpd ymm5, ymm4, ymmword ptr [rsi+r13*8+0x8]
+vaddpd ymm6, ymm5, ymmword ptr [r12+r13*8+0x10]
+vaddpd ymm7, ymm6, ymmword ptr [r14+r13*8+0x10]
+vaddpd ymm8, ymm7, ymmword ptr [rcx+r13*8+0x10]
+vaddpd ymm9, ymm8, ymmword ptr [r8+r13*8+0x10]
+vaddpd ymm10, ymm9, ymmword ptr [r15+r13*8+0x10]
+vaddpd ymm11, ymm10, ymmword ptr [rdi+r13*8+0x10]
+vaddpd ymm12, ymm11, ymmword ptr [r10+r13*8+0x10]
+vaddpd ymm13, ymm12, ymmword ptr [r9+r13*8+0x10]
+vaddpd ymm14, ymm13, ymmword ptr [rsi+r13*8+0x10]
+vmulpd ymm15, ymm0, ymm14
+vmovupd ymmword ptr [r11+r13*8+0x8], ymm15
+add r13, 0x4
+cmp r13, rdx
+jb 0xffffffffffffff39
+{%- endcapture -%}
+
 {%- capture layercondition -%}
 L1: unconditionally fulfilled
 L2: unconditionally fulfilled

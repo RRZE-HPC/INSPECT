@@ -36,6 +36,56 @@ for(int k=1; k < M-1; k++){
 }
 {%- endcapture -%}
 
+{%- capture source_code_asm -%}
+vmovupd ymm3, ymmword ptr [r10+rcx*8+0x10]
+vmovupd ymm2, ymmword ptr [r10+rcx*8+0x8]
+vmovupd ymm6, ymmword ptr [r8+rcx*8+0x8]
+vaddpd ymm5, ymm3, ymmword ptr [rdi+rcx*8+0x8]
+vaddpd ymm4, ymm2, ymmword ptr [r10+rcx*8]
+vaddpd ymm7, ymm6, ymmword ptr [r15+rcx*8+0x8]
+vmovupd ymm2, ymmword ptr [r8+rcx*8+0x28]
+vaddpd ymm8, ymm4, ymm5
+vaddpd ymm9, ymm7, ymmword ptr [r13+rcx*8+0x8]
+vaddpd ymm3, ymm2, ymmword ptr [r15+rcx*8+0x28]
+vaddpd ymm10, ymm8, ymm9
+vaddpd ymm5, ymm3, ymmword ptr [r13+rcx*8+0x28]
+vmulpd ymm11, ymm0, ymm10
+vmovupd ymmword ptr [r14+rcx*8+0x8], ymm11
+vmovupd ymm13, ymmword ptr [r10+rcx*8+0x30]
+vmovupd ymm12, ymmword ptr [r10+rcx*8+0x28]
+vaddpd ymm15, ymm13, ymmword ptr [rdi+rcx*8+0x28]
+vaddpd ymm14, ymm12, ymmword ptr [r10+rcx*8+0x20]
+vmovupd ymm12, ymmword ptr [r8+rcx*8+0x48]
+vaddpd ymm4, ymm14, ymm15
+vaddpd ymm13, ymm12, ymmword ptr [r15+rcx*8+0x48]
+vaddpd ymm6, ymm4, ymm5
+vaddpd ymm15, ymm13, ymmword ptr [r13+rcx*8+0x48]
+vmulpd ymm7, ymm0, ymm6
+vmovupd ymmword ptr [r14+rcx*8+0x28], ymm7
+vmovupd ymm9, ymmword ptr [r10+rcx*8+0x50]
+vmovupd ymm8, ymmword ptr [r10+rcx*8+0x48]
+vaddpd ymm11, ymm9, ymmword ptr [rdi+rcx*8+0x48]
+vaddpd ymm10, ymm8, ymmword ptr [r10+rcx*8+0x40]
+vmovupd ymm8, ymmword ptr [r8+rcx*8+0x68]
+vaddpd ymm14, ymm10, ymm11
+vaddpd ymm9, ymm8, ymmword ptr [r15+rcx*8+0x68]
+vaddpd ymm2, ymm14, ymm15
+vaddpd ymm11, ymm9, ymmword ptr [r13+rcx*8+0x68]
+vmulpd ymm3, ymm0, ymm2
+vmovupd ymmword ptr [r14+rcx*8+0x48], ymm3
+vmovupd ymm5, ymmword ptr [r10+rcx*8+0x70]
+vmovupd ymm4, ymmword ptr [r10+rcx*8+0x68]
+vaddpd ymm7, ymm5, ymmword ptr [rdi+rcx*8+0x68]
+vaddpd ymm6, ymm4, ymmword ptr [r10+rcx*8+0x60]
+vaddpd ymm10, ymm6, ymm7
+vaddpd ymm12, ymm10, ymm11
+vmulpd ymm13, ymm0, ymm12
+vmovupd ymmword ptr [r14+rcx*8+0x68], ymm13
+add rcx, 0x10
+cmp rcx, rdx
+jb 0xfffffffffffffee7
+{%- endcapture -%}
+
 {%- capture layercondition -%}
 L1: unconditionally fulfilled
 L2: unconditionally fulfilled

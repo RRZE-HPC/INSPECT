@@ -40,6 +40,22 @@ for ( int k = 1; k < M-1; k++ ) {
 }
 {%- endcapture -%}
 
+{%- capture source_code_asm -%}
+vmulpd ymm14, ymm1, ymmword ptr [rdi+r12*8+0x8]
+vmulpd ymm15, ymm0, ymmword ptr [r13+r12*8+0x8]
+vfmadd231pd ymm14, ymm3, ymmword ptr [rsi+r12*8+0x8]
+vfmadd231pd ymm15, ymm2, ymmword ptr [rbx+r12*8+0x8]
+vaddpd ymm14, ymm14, ymm15
+vmulpd ymm15, ymm4, ymmword ptr [r14+r12*8+0x10]
+vfmadd231pd ymm15, ymm5, ymmword ptr [r14+r12*8]
+vfmadd231pd ymm15, ymm6, ymmword ptr [r14+r12*8+0x8]
+vaddpd ymm14, ymm14, ymm15
+vmovupd ymmword ptr [r11+r12*8+0x8], ymm14
+add r12, 0x4
+cmp r12, rax
+jb 0xffffffffffffffb8
+{%- endcapture -%}
+
 {%- capture layercondition -%}
 L1: unconditionally fulfilled
 L2: unconditionally fulfilled

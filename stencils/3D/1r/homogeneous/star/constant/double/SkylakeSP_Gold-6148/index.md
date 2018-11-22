@@ -35,6 +35,56 @@ for(int k=1; k < M-1; k++){
 }
 {%- endcapture -%}
 
+{%- capture source_code_asm -%}
+vmovupd ymm2, ymmword ptr [rsi+rdi*8+0x8]
+vmovupd ymm3, ymmword ptr [rsi+rdi*8+0x10]
+vmovupd ymm6, ymmword ptr [r10+rdi*8+0x8]
+vmovupd ymm16, ymmword ptr [r10+rdi*8+0x28]
+vmovupd ymm26, ymmword ptr [r10+rdi*8+0x48]
+vmovupd ymm12, ymmword ptr [rsi+rdi*8+0x28]
+vmovupd ymm13, ymmword ptr [rsi+rdi*8+0x30]
+vmovupd ymm22, ymmword ptr [rsi+rdi*8+0x48]
+vmovupd ymm23, ymmword ptr [rsi+rdi*8+0x50]
+vaddpd ymm4, ymm2, ymmword ptr [rsi+rdi*8]
+vaddpd ymm5, ymm3, ymmword ptr [r9+rdi*8+0x8]
+vaddpd ymm7, ymm6, ymmword ptr [r14+rdi*8+0x8]
+vaddpd ymm17, ymm16, ymmword ptr [r14+rdi*8+0x28]
+vaddpd ymm8, ymm4, ymm5
+vaddpd ymm9, ymm7, ymmword ptr [rcx+rdi*8+0x8]
+vaddpd ymm14, ymm12, ymmword ptr [rsi+rdi*8+0x20]
+vaddpd ymm24, ymm22, ymmword ptr [rsi+rdi*8+0x40]
+vaddpd ymm15, ymm13, ymmword ptr [r9+rdi*8+0x28]
+vaddpd ymm25, ymm23, ymmword ptr [r9+rdi*8+0x48]
+vaddpd ymm27, ymm26, ymmword ptr [r14+rdi*8+0x48]
+vaddpd ymm10, ymm8, ymm9
+vaddpd ymm18, ymm14, ymm15
+vaddpd ymm19, ymm17, ymmword ptr [rcx+rdi*8+0x28]
+vaddpd ymm29, ymm27, ymmword ptr [rcx+rdi*8+0x48]
+vaddpd ymm28, ymm24, ymm25
+vaddpd ymm20, ymm18, ymm19
+vmovupd ymm2, ymmword ptr [rsi+rdi*8+0x68]
+vmovupd ymm3, ymmword ptr [rsi+rdi*8+0x70]
+vmovupd ymm6, ymmword ptr [r10+rdi*8+0x68]
+vmulpd ymm11, ymm0, ymm10
+vmulpd ymm21, ymm0, ymm20
+vaddpd ymm4, ymm2, ymmword ptr [rsi+rdi*8+0x60]
+vaddpd ymm5, ymm3, ymmword ptr [r9+rdi*8+0x68]
+vaddpd ymm7, ymm6, ymmword ptr [r14+rdi*8+0x68]
+vaddpd ymm30, ymm28, ymm29
+vaddpd ymm8, ymm4, ymm5
+vaddpd ymm9, ymm7, ymmword ptr [rcx+rdi*8+0x68]
+vmovupd ymmword ptr [r15+rdi*8+0x8], ymm11
+vmulpd ymm31, ymm0, ymm30
+vmovupd ymmword ptr [r15+rdi*8+0x28], ymm21
+vaddpd ymm10, ymm8, ymm9
+vmovupd ymmword ptr [r15+rdi*8+0x48], ymm31
+vmulpd ymm11, ymm0, ymm10
+vmovupd ymmword ptr [r15+rdi*8+0x68], ymm11
+add rdi, 0x10
+cmp rdi, rbx
+jb 0xfffffffffffffeb8
+{%- endcapture -%}
+
 {%- capture layercondition -%}
 L1: unconditionally fulfilled
 L2: unconditionally fulfilled

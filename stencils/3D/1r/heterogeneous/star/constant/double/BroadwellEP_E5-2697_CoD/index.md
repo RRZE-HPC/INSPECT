@@ -13,7 +13,7 @@ flavor       : ""
 compile_flags: "icc -O3 -xCORE-AVX2 -fno-alias -qopenmp -DLIKWID_PERFMON -I/mnt/opt/likwid-4.3.2/include -L/mnt/opt/likwid-4.3.2/lib -I./stempel/stempel/headers/ ./stempel/headers/timing.c ./stempel/headers/dummy.c stencil.c -o stencil -llikwid"
 flop         : "13"
 scaling      : [ "300", "750", "1100" ]
-blocking     : [ "32", "45", "120", "320" ]
+blocking     : [ "L1", "L2", "L3" ]
 ---
 
 {%- capture basename -%}
@@ -41,6 +41,22 @@ for ( int k = 1; k < M-1; k++ ) {
     }
   }
 }
+{%- endcapture -%}
+
+{%- capture source_code_asm -%}
+vmulpd       ymm14,   ymm1,   ymmword ptr [rdi+r12*8+0x8]
+vmulpd       ymm15,   ymm0,   ymmword ptr [r13+r12*8+0x8]
+vfmadd231pd  ymm14,   ymm3,   ymmword ptr [rsi+r12*8+0x8]
+vfmadd231pd  ymm15,   ymm2,   ymmword ptr [rbx+r12*8+0x8]
+vaddpd       ymm14,   ymm14,  ymm15
+vmulpd       ymm15,   ymm4,   ymmword ptr [r14+r12*8+0x10]
+vfmadd231pd  ymm15,   ymm5,   ymmword ptr [r14+r12*8]
+vfmadd231pd  ymm15,   ymm6,   ymmword ptr [r14+r12*8+0x8]
+vaddpd       ymm14,   ymm14,  ymm15
+vmovupd      ymmword ptr [r11+r12*8+0x8], ymm14
+add          r12,     0x4
+cmp          r12,     rax
+jb           0xffffffffffffffb8
 {%- endcapture -%}
 
 {%- capture layercondition -%}

@@ -27,10 +27,21 @@
 
 <div markdown="1" class="section-block-half">
 ## Kernel Source Code
-
+<div markdown="1" id="c_source">
 ```c
 {{source_code}}
 ```
+</div>
+
+<div markdown="1" id="asm_source" style="display:none;">
+```nasm
+{{source_code_asm}}
+```
+</div>
+Show:
+<input id="plot-button" type="button" onclick="document.getElementById('c_source').style.display = 'block';document.getElementById('asm_source').style.display = 'none'" value="C Source Code" />
+<input id="plot-button" type="button" onclick="document.getElementById('asm_source').style.display = 'block';document.getElementById('c_source').style.display = 'none';" value="Assembly Code" />
+
 </div>
 
 </div>
@@ -182,16 +193,16 @@ Choose grid size: {%- for item in page.scaling -%}
 
 {% if blocking_size > 1 %}
 {% capture hideblocking %}{% for item in page.blocking %}document.getElementById('blocking_{{ item }}').style.display = 'none';{% endfor %}{% endcapture %}
-Choose grid size: {%- for item in page.blocking -%}
-<input id="plot-button" type="button" onclick="{{hideblocking}}document.getElementById('blocking_{{ item }}').style.display = 'block';" value="{{item}}³" />
+Choose blocking option: {%- for item in page.blocking -%}
+<input id="plot-button" type="button" onclick="{{hideblocking}}document.getElementById('blocking_{{ item }}').style.display = 'block';" value="{{item}}" />
 {%- endfor -%}
 {% endif %}
 
 {% for item in page.blocking %}
 {%- if forloop.first -%}
-<object data="./ecm_LC.svg" class="blocking" id="blocking_{{ item }}" style="display:block;" type="image/svg+xml"></object>
+<object data="./blocking_{{ item }}.svg" class="blocking" id="blocking_{{ item }}" style="display:block;" type="image/svg+xml"></object>
 {%- else -%}
-<object data="./ecm_LC.svg" class="blocking" id="blocking_{{ item }}" style="display:none;" type="image/svg+xml"></object>
+<object data="./blocking_{{ item }}.svg" class="blocking" id="blocking_{{ item }}" style="display:none;" type="image/svg+xml"></object>
 {%- endif -%}
 {% endfor %}
 </div>

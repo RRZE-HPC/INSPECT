@@ -31,6 +31,11 @@ else
 cat stencil.c >> ${FILENAME}
 fi
 echo "{%- endcapture -%}" >> ${FILENAME}
+echo "{%- capture source_code_asm -%}" >> ${FILENAME}
+START=$(cat size_10/ECM_LC_stencil.txt | grep -n "X - instruction" | sed 's/:.*//')
+END=$(cat size_10/ECM_LC_stencil.txt | grep -n "Total Num Of Uops:" | sed 's/:.*//')
+cat size_10/ECM_LC_stencil.txt | head -n $((${END}-1)) | tail -n $((${END} - ${START} - 5)) | sed 's/|.*| //g' >> ${FILENAME}
+echo "{%- endcapture -%}" >> ${FILENAME}
 echo "" >> ${FILENAME}
 echo "{%- capture layercondition -%}" >> ${FILENAME}
 echo "$(tail -n 12 size_10/LC_stencil.txt | head -n 11 | sed -e '/layer condition/d')" >> ${FILENAME}

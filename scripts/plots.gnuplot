@@ -239,3 +239,51 @@ do for [N in SCALINGS] {
          '' u ($1 == N ? $2 : 1/0):11:(Info("Roofline Prediction",1,11,2)) w labels hypertext point ls 2 notitle, \
          '' u ($1 == N ? $2 : 1/0):10:(Info("Measurements",1,10,2)) w labels hypertext point ls 1 ps 1 t "Measurement"
 }
+
+
+####################################################################################################
+# Blocking Plots
+####################################################################################################
+
+reset
+
+set datafile separator ","
+set xlabel "Grid Size (N³)"
+set ylabel "Performance [MLUP/s]"
+set yrange [0:*]
+set key top right width 5 samplen 2 font ",18"
+
+set style line 1 lt 1 lc rgb '#0072bd' lw 2 pt 7 ps .5
+set style line 2 lt 1 lc rgb '#edb120' lw 2 pt 5 ps 1
+set style line 3 lt 1 lc rgb '#7e2f8e' lw 2 pt 11 ps 1
+set style line 4 lt 1 lc rgb '#d95319' lw 2 pt 9 ps 1
+set style line 5 lt 1 lc rgb '#77ac30' lw 1 pt 13
+
+set terminal svg enhanced mousing fname 'Open Sans' jsdir JSDIR
+
+save_encoding = GPVAL_ENCODING
+set encoding utf8
+
+set label at 0,0 "" hypertext point pt 1
+
+Info(T,SIZE,MLUPS) = sprintf("%s\nN³ = %d³\nMLUP/s: %d", T, column(SIZE), column(MLUPS))
+
+# SCALINGS=`echo '"';awk -F"," '(NR>1){print $1}' scaling.csv | uniq | tr '\n' ' ';echo '"';`
+
+do for [B in "L1 L2 L3"] {
+    outfile = 'blocking_' . B . '.svg'
+    set output outfile
+    datafile = 'blocking_' . B . '.csv'
+
+    plot "< awk '(NR>2){print;}' results.csv" u 1:COL every 20:20 notitle w points ls 4, \
+            "" u 1:COL notitle w lines ls 4, \
+            "" u 1:COL:(Info(DESC,1,COL)) with labels hypertext point ls 4 pt 7 ps .33 notitle, \
+            1 / 0 title sprintf("Roofline prediction from %s", DESC) w linespoints ls 4 ps 1, \
+         "< awk '(NR>2){print;}' results.csv" u 1:8 every 20:20 notitle w points ls 2, \
+            "" u 1:8 notitle w lines ls 2, \
+            "" u 1:8:(Info("ECM",1,8)) with labels hypertext point ls 2 pt 7 ps .33 notitle, \
+            1 / 0 title "Performance prediction from ECM" w linespoints ls 2 ps 1, \
+         "" u 1:9:(Info("Measurement w/o blocking",1,9)) with labels hypertext point ls 1 title "Measurement w/o blocking", \
+         datafile u 1:8:(Info("Measurement w/ blocking",1,8)) with labels hypertext point ls 5 ps .5 notitle, \
+         1 / 0 w point ls 5 title "Measurement w/ blocking"
+}

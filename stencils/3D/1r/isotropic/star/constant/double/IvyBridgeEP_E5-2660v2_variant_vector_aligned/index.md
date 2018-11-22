@@ -37,6 +37,39 @@ for(int k=1; k < M-1; k++){
 }
 {%- endcapture -%}
 
+{%- capture source_code_asm -%}
+vmovupd xmm1, xmmword ptr [rax+rcx*1+0x8]
+add esi, 0x1
+vbroadcastsd ymm0, qword ptr [rsp+0x120]
+vinsertf128 ymm1, ymm1, xmmword ptr [rax+rcx*1+0x18], 0x1
+vmovupd xmm2, xmmword ptr [rax+rcx*1]
+vmulpd ymm1, ymm1, ymm0
+vmovupd xmm0, xmmword ptr [rax+rcx*1+0x10]
+vinsertf128 ymm2, ymm2, xmmword ptr [rax+rcx*1+0x10], 0x1
+vmovupd xmm3, xmmword ptr [r13+rcx*1+0x8]
+vinsertf128 ymm0, ymm0, xmmword ptr [rax+rcx*1+0x20], 0x1
+vaddpd ymm2, ymm2, ymm0
+vmovupd xmm0, xmmword ptr [r15+rcx*1+0x8]
+vinsertf128 ymm3, ymm3, xmmword ptr [r13+rcx*1+0x18], 0x1
+vinsertf128 ymm0, ymm0, xmmword ptr [r15+rcx*1+0x18], 0x1
+vaddpd ymm0, ymm3, ymm0
+vmovupd xmm3, xmmword ptr [r14+rcx*1+0x8]
+vinsertf128 ymm3, ymm3, xmmword ptr [r14+rcx*1+0x18], 0x1
+vaddpd ymm2, ymm2, ymm0
+vmovupd xmm0, xmmword ptr [r10+rcx*1+0x8]
+vinsertf128 ymm0, ymm0, xmmword ptr [r10+rcx*1+0x18], 0x1
+vaddpd ymm0, ymm3, ymm0
+vaddpd ymm0, ymm2, ymm0
+vbroadcastsd ymm2, qword ptr [rsp+0x140]
+vmulpd ymm0, ymm0, ymm2
+vaddpd ymm0, ymm1, ymm0
+vmovupd xmmword ptr [rdi+rcx*1+0x8], xmm0
+vextractf128 xmmword ptr [rdi+rcx*1+0x18], ymm0, 0x1
+add rcx, 0x20
+cmp esi, dword ptr [rsp+0x84]
+jb 0xffffffffffffff4b
+{%- endcapture -%}
+
 {%- capture layercondition -%}
 L1: unconditionally fulfilled
 L2: unconditionally fulfilled
