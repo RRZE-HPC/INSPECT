@@ -235,8 +235,10 @@ do for [N in SCALINGS] {
     outfile = 'scaling_' . N . '.svg'
     set output outfile
 
-    plot 'scaling.csv' u ($1 == N ? $2 : 1/0):11 w l ls 2 notitle, 1 / 0 w linespoints ls 2 ps 1 t "Roofline Prediction", \
-         '' u ($1 == N ? $2 : 1/0):11:(Info("Roofline Prediction",1,11,2)) w labels hypertext point ls 2 notitle, \
+    plot 'scaling.csv' u ($1 == N ? $2 : 1/0):11 w l ls 4 notitle, 1 / 0 w linespoints ls 4 ps 1 t "Roofline Prediction", \
+         '' u ($1 == N ? $2 : 1/0):11:(Info("Roofline Prediction",1,11,2)) w labels hypertext point ls 4 notitle, \
+         '' u ($1 == N ? $2 : 1/0):14 w l ls 2 notitle, 1 / 0 w linespoints ls 2 ps 1 t "ECM Prediction", \
+         '' u ($1 == N ? $2 : 1/0):14:(Info("ECM Prediction",1,14,2)) w labels hypertext point ls 2 notitle, \
          '' u ($1 == N ? $2 : 1/0):10:(Info("Measurements",1,10,2)) w labels hypertext point ls 1 ps 1 t "Measurement"
 }
 
