@@ -39,8 +39,8 @@
 ```
 </div>
 Show:
-<input id="plot-button" type="button" onclick="document.getElementById('c_source').style.display = 'block';document.getElementById('asm_source').style.display = 'none'" value="C Source Code" />
-<input id="plot-button" type="button" onclick="document.getElementById('asm_source').style.display = 'block';document.getElementById('c_source').style.display = 'none';" value="Assembly Code" />
+<input class="code-button" type="button" onclick="document.getElementById('c_source').style.display = 'block';document.getElementById('asm_source').style.display = 'none'" value="C Source Code" />
+<input class="code-button" type="button" onclick="document.getElementById('asm_source').style.display = 'block';document.getElementById('c_source').style.display = 'none';" value="Assembly Code" />
 
 </div>
 
@@ -169,9 +169,9 @@ Benchmark raw data can be found [in the git repository](https://github.com/RRZE-
 <div markdown="1" class="section-block-half">
 ## Thread Scaling Performance
 
-{% if scaling_size > 1 %}
+{% if scaling_size > 0 %}
 {% capture hidescaling %}{% for item in page.scaling %}document.getElementById('scaling_{{ item }}').style.display = 'none';{% endfor %}{% endcapture %}
-Choose grid size: {%- for item in page.scaling -%}
+{% if scaling_size > 1 %}Choose grid size: {%- endif -%}{%- for item in page.scaling -%}
 <input id="plot-button" type="button" onclick="{{hidescaling}}document.getElementById('scaling_{{ item }}').style.display = 'block';" value="{{item}}³" />
 {%- endfor -%}
 {% endif %}
@@ -191,9 +191,9 @@ Choose grid size: {%- for item in page.scaling -%}
 <div markdown="1" class="section-block-half">
 ## Spatial Blocking Performance
 
-{% if blocking_size > 1 %}
+{% if blocking_size > 0 %}
 {% capture hideblocking %}{% for item in page.blocking %}document.getElementById('blocking_{{ item }}').style.display = 'none';{% endfor %}{% endcapture %}
-Choose blocking option: {%- for item in page.blocking -%}
+{% if blocking_size > 1 %}Choose blocking option: {%- endif -%}{%- for item in page.blocking -%}
 <input id="plot-button" type="button" onclick="{{hideblocking}}document.getElementById('blocking_{{ item }}').style.display = 'block';" value="{{item}}" />
 {%- endfor -%}
 {% endif %}
