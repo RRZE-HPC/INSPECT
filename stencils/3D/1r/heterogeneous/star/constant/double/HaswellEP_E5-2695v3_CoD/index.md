@@ -1,6 +1,6 @@
 ---
 
-title:  "Stencil detail"
+title:  "Stencil 3D r1 star constant heterogeneous double HaswellEP_E5-2695v3_CoD"
 
 dimension    : "3D"
 radius       : "1r"
@@ -9,8 +9,11 @@ kind         : "star"
 coefficients : "constant"
 datatype     : "double"
 machine      : "HaswellEP_E5-2695v3_CoD"
-flavor       : ""
-compile_flags: "icc -O3 -xCORE-AVX2 -fno-alias -qopenmp -DLIKWID_PERFMON -I/mnt/opt/likwid-4.3.2/include -L/mnt/opt/likwid-4.3.2/lib -I./stempel/stempel/headers/ ./stempel/headers/timing.c ./stempel/headers/dummy.c solar_compilable.c -o stencil -llikwid"
+flavor       : "Cluster on Die"
+compile_flags: "icc -O3 -xCORE-AVX2 -fno-alias -qopenmp -DLIKWID_PERFMON -Ilikwid-4.3.2/include -Llikwid-4.3.2/lib -Iheaders/dummy.c stencil_compilable.c -o stencil -llikwid"
+flop         : "13"
+scaling      : [ "1160" ]
+blocking     : [ "L3-3D" ]
 ---
 
 {%- capture basename -%}
@@ -28,18 +31,17 @@ double c4;
 double c5;
 double c6;
 
-for ( int k = 1; k < M-1; k++ ) {
-  for ( int j = 1; j < N-1; j++ ) {
-    for ( int i = 1; i < P-1; i++ ) {
-      b[k][j][i] = c0 * a[k][j][i]
-        + c1 * a[k][j][i-1] + c2 * a[k][j][i+1]
-        + c3 * a[k-1][j][i] + c4 * a[k+1][j][i]
-        + c5 * a[k][j-1][i] + c6 * a[k][j+1][i];
+for (int k = 1; k < M - 1; k++) {
+  for (int j = 1; j < N - 1; j++) {
+    for (int i = 1; i < P - 1; i++) {
+      b[k][j][i] = c0 * a[k][j][i] + c1 * a[k][j][i - 1] +
+                   c2 * a[k][j][i + 1] + c3 * a[k - 1][j][i] +
+                   c4 * a[k + 1][j][i] + c5 * a[k][j - 1][i] +
+                   c6 * a[k][j + 1][i];
     }
   }
 }
 {%- endcapture -%}
-
 {%- capture source_code_asm -%}
 vmulpd ymm14, ymm1, ymmword ptr [rdi+r12*8+0x8]
 vmulpd ymm15, ymm0, ymmword ptr [r13+r12*8+0x8]
@@ -60,13 +62,12 @@ jb 0xffffffffffffffb8
 L1: unconditionally fulfilled
 L2: unconditionally fulfilled
 L3: unconditionally fulfilled
-L1: P <= 2050/3
-L2: P <= 5462
-L3: P <= 1179650/3
-L1: 16*N*P + 16*P*(N - 1) <= 32768;32²
-L2: 16*N*P + 16*P*(N - 1) <= 262144;90²
-L3: 16*N*P + 16*P*(N - 1) <= 18874368;768²
+L1: P <= 2050/3;P ~ 680
+L2: P <= 5462;P ~ 5460
+L3: P <= 1179650/3;P ~ 393210
+L1: 16*N*P + 16*P*(N - 1) <= 32768;N*P ~ 30²
+L2: 16*N*P + 16*P*(N - 1) <= 262144;N*P ~ 90²
+L3: 16*N*P + 16*P*(N - 1) <= 18874368;N*P ~ 760²
 {%- endcapture -%}
 
 {% include stencil_template.md %}
-

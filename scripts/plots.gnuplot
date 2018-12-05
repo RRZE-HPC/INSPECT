@@ -270,12 +270,12 @@ set label at 0,0 "" hypertext point pt 1
 
 Info(T,SIZE,MLUPS) = sprintf("%s\nN³ = %d³\nMLUP/s: %d", T, column(SIZE), column(MLUPS))
 
-# SCALINGS=`echo '"';awk -F"," '(NR>1){print $1}' scaling.csv | uniq | tr '\n' ' ';echo '"';`
+BLOCKINGS=`echo -n '"';find blocking*.csv -type f | sed 's/\.csv//g' | tr '\n' ' ';echo '"'`
 
-do for [B in "L1 L2 L3"] {
-    outfile = 'blocking_' . B . '.svg'
+do for [B in BLOCKINGS] {
+    outfile = B . '.svg'
     set output outfile
-    datafile = 'blocking_' . B . '.csv'
+    datafile = B . '.csv'
 
     plot "< awk '(NR>2){print;}' results.csv" u 1:COL every 20:20 notitle w points ls 4, \
             "" u 1:COL notitle w lines ls 4, \

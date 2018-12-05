@@ -12,36 +12,36 @@
 # - python + python-sympy
 # - grep, sed, awk, bc
 
-export STEMPEL_BINARY=~/.local/bin/stempel
-export KERNCRAFT_BINARY=~/.local/bin/kerncraft
-export STEMPEL_DIR=~/stempel
+STEMPEL_BINARY=~/.local/bin/stempel
+KERNCRAFT_BINARY=~/.local/bin/kerncraft
+STEMPEL_DIR=~/stempel
 
-export OUTPUT_FOLDER=~/stempel_data_collection
+OUTPUT_FOLDER=~/stempel_data_collection
 
 # dimension: 2 or 3 (currently only 3D is supported)
-export DIM=3
+DIM=3
 # desired stencil radius: 1,2,3,...
-export RADIUS=1
+RADIUS=1
 # stencil kind: 'star' or 'box'
-export KIND=star
+KIND=star
 # coefficients: 'constant' or 'variable'
-export CONST=constant
+CONST=constant
 # weighting: 'isotropic', 'heterogeneous', 'homogeneous', 'point-symmetric'
-export WEIGHTING=heterogeneous
+WEIGHTING=heterogeneous
 # datatype: 'double' or 'float'
-export DATATYPE=double
+DATATYPE=double
 
 # variables
-export MACHINE_FILE=${STEMPEL_DIR}/tests/testfiles/BroadwellEP_E5-2697_CoD.yml
-#export MACHINE_FILE=${STEMPEL_DIR}/tests/testfiles/HaswellEP_E5-2695v3.yml
-#export MACHINE_FILE=${STEMPEL_DIR}/tests/testfiles/SkylakeSP_Gold-6148.yml
-#export MACHINE_FILE=${STEMPEL_DIR}/tests/testfiles/SkylakeSP_Gold-6148_512.yml
+MACHINE_FILE=${STEMPEL_DIR}/tests/testfiles/BroadwellEP_E5-2697_CoD.yml
+#MACHINE_FILE=${STEMPEL_DIR}/tests/testfiles/HaswellEP_E5-2695v3.yml
+#MACHINE_FILE=${STEMPEL_DIR}/tests/testfiles/SkylakeSP_Gold-6148.yml
+#MACHINE_FILE=${STEMPEL_DIR}/tests/testfiles/SkylakeSP_Gold-6148_512.yml
 
 # counters for BroadEP2, HasEP1 and SkylapeSP1
-export COUNTER="CAS_COUNT_RD:MBOX4C1,CAS_COUNT_RD:MBOX6C0,CAS_COUNT_RD:MBOX2C1,CAS_COUNT_RD:MBOX3C0,CAS_COUNT_WR:MBOX0C1,CAS_COUNT_RD:MBOX5C1,L1D_REPLACEMENT:PMC0,CAS_COUNT_WR:MBOX5C0,CAS_COUNT_RD:MBOX0C0,CAS_COUNT_WR:MBOX6C1,L1D_M_EVICT:PMC2,CAS_COUNT_RD:MBOX7C1,CAS_COUNT_RD:MBOX1C1,CAS_COUNT_WR:MBOX4C0,CAS_COUNT_WR:MBOX2C0,CAS_COUNT_WR:MBOX1C0,CAS_COUNT_WR:MBOX3C1,CAS_COUNT_WR:MBOX7C0,L2_LINES_IN_ALL:PMC3,L2_TRANS_L2_WB:PMC1"
+COUNTER="CAS_COUNT_RD:MBOX4C1,CAS_COUNT_RD:MBOX6C0,CAS_COUNT_RD:MBOX2C1,CAS_COUNT_RD:MBOX3C0,CAS_COUNT_WR:MBOX0C1,CAS_COUNT_RD:MBOX5C1,L1D_REPLACEMENT:PMC0,CAS_COUNT_WR:MBOX5C0,CAS_COUNT_RD:MBOX0C0,CAS_COUNT_WR:MBOX6C1,L1D_M_EVICT:PMC2,CAS_COUNT_RD:MBOX7C1,CAS_COUNT_RD:MBOX1C1,CAS_COUNT_WR:MBOX4C0,CAS_COUNT_WR:MBOX2C0,CAS_COUNT_WR:MBOX1C0,CAS_COUNT_WR:MBOX3C1,CAS_COUNT_WR:MBOX7C0,L2_LINES_IN_ALL:PMC3,L2_TRANS_L2_WB:PMC1"
 
 # counters for IvyBridge
-#export COUNTER="L1D_REPLACEMENT:PMC0,L2_LINES_OUT_DIRTY_ALL:PMC1,L1D_M_EVICT:PMC2,L2_LINES_IN_ALL:PMC3,CAS_COUNT_RD:MBOX4C1,CAS_COUNT_RD:MBOX6C0,CAS_COUNT_RD:MBOX2C1,CAS_COUNT_RD:MBOX3C0,CAS_COUNT_WR:MBOX0C1,CAS_COUNT_RD:MBOX5C1,CAS_COUNT_WR:MBOX5C0,CAS_COUNT_RD:MBOX0C0,CAS_COUNT_WR:MBOX6C1,CAS_COUNT_RD:MBOX7C1,CAS_COUNT_RD:MBOX1C1,CAS_COUNT_WR:MBOX4C0,CAS_COUNT_WR:MBOX2C0,CAS_COUNT_WR:MBOX1C0,CAS_COUNT_WR:MBOX3C1,CAS_COUNT_WR:MBOX7C0"
+#COUNTER="L1D_REPLACEMENT:PMC0,L2_LINES_OUT_DIRTY_ALL:PMC1,L1D_M_EVICT:PMC2,L2_LINES_IN_ALL:PMC3,CAS_COUNT_RD:MBOX4C1,CAS_COUNT_RD:MBOX6C0,CAS_COUNT_RD:MBOX2C1,CAS_COUNT_RD:MBOX3C0,CAS_COUNT_WR:MBOX0C1,CAS_COUNT_RD:MBOX5C1,CAS_COUNT_WR:MBOX5C0,CAS_COUNT_RD:MBOX0C0,CAS_COUNT_WR:MBOX6C1,CAS_COUNT_RD:MBOX7C1,CAS_COUNT_RD:MBOX1C1,CAS_COUNT_WR:MBOX4C0,CAS_COUNT_WR:MBOX2C0,CAS_COUNT_WR:MBOX1C0,CAS_COUNT_WR:MBOX3C1,CAS_COUNT_WR:MBOX7C0"
 
 # **************************************************************************************************
 # **************************************************************************************************
@@ -58,15 +58,15 @@ echo "NUMA"
 numactl --show
 
 # compile args
-export COMPILE_ARGS="-qopenmp -DLIKWID_PERFMON $LIKWID_INC $LIKWID_LIB \
+COMPILE_ARGS="-qopenmp -DLIKWID_PERFMON $LIKWID_INC $LIKWID_LIB \
 	-I${STEMPEL_DIR}/stempel/headers/ ${STEMPEL_DIR}/stempel/headers/timing.c \
 	${STEMPEL_DIR}/stempel/headers/dummy.c stencil_compilable.c -o stencil -llikwid"
 
 # FIX frequencies
-export ghz=$(grep clock ${MACHINE_FILE} | sed -e 's/clock: //' -e 's/ GHz//')
+ghz=$(grep clock ${MACHINE_FILE} | sed -e 's/clock: //' -e 's/ GHz//')
 likwid-setFrequencies -t 0 -f ${ghz} --umin ${ghz} --umax ${ghz}
 
-export MACHINE=$(echo ${MACHINE_FILE} | sed -e 's/.*\///g' -e 's/.yml//')
+MACHINE=$(echo ${MACHINE_FILE} | sed -e 's/.*\///g' -e 's/.yml//')
 
 for fDIM in ${DIM}; do
 for fRADIUS in ${RADIUS}; do
@@ -75,25 +75,25 @@ for fCONST in ${CONST}; do
 for fWEIGHTING in ${WEIGHTING}; do
 for fDATATYPE in ${DATATYPE}; do
 
-	export DATE=$(date +'%Y%m%d_%H%M%S')
-	export FOLDER="${OUTPUT_FOLDER}/${fDIM}D_r${fRADIUS}_${fKIND}_${fCONST}_${fWEIGHTING}/${DATE}_${MACHINE}"
+	DATE=$(date +'%Y%m%d_%H%M%S')
+	FOLDER="${OUTPUT_FOLDER}/${fDIM}D_r${fRADIUS}_${fKIND}_${fCONST}_${fWEIGHTING}/${DATE}_${MACHINE}"
 	mkdir -p ${FOLDER} && cd ${FOLDER}
 	mkdir data
 
 	echo ":: RUNNING: ${fDIM}D r${fRADIUS} ${fKIND} ${fCONST} ${fWEIGHTING} ${DATE} ${MACHINE}"
 
 	if [[ ${fWEIGHTING} == "isotropic" ]]; then
-		export S_WEIGHTING=-i
+		S_WEIGHTING=-i
 	elif [[ ${fWEIGHTING} == "heterogeneous" ]]; then
-		export S_WEIGHTING=-e
+		S_WEIGHTING=-e
 	elif [[ ${fWEIGHTING} == "homogeneous" ]]; then
-		export S_WEIGHTING=-o
+		S_WEIGHTING=-o
 	elif [[ ${fWEIGHTING} == "point-symmetric" ]]; then
-		export S_WEIGHTING=-p
+		S_WEIGHTING=-p
 	fi
 
-	export COMPILER=$(cat ${MACHINE_FILE} | grep icc | sed 's/.*icc: /icc /')
-	export STEMPEL_ARGS="gen -D ${fDIM} -r ${fRADIUS} -k ${fKIND} -C ${fCONST} ${S_WEIGHTING} -t ${fDATATYPE}"
+	COMPILER=$(cat ${MACHINE_FILE} | grep icc | sed 's/.*icc: /icc /')
+	STEMPEL_ARGS="gen -D ${fDIM} -r ${fRADIUS} -k ${fKIND} -C ${fCONST} ${S_WEIGHTING} -t ${fDATATYPE}"
 	# save all arguments
 	echo ":: SAVING ARGUMENTS"
 	echo {\$,$}STEMPEL_ARGS >> args.txt
@@ -116,17 +116,17 @@ for fDATATYPE in ${DATATYPE}; do
 	${KERNCRAFT_BINARY} -p LC -m ${MACHINE_FILE} ./stencil.c -D N 100 -D M 100 -D P 100 -vvv --cores 1 --compiler icc --ignore-warnings > data/LC.txt
 
 	# L3 3D Layer Condition
-	export LC_3D_L3=$(cat data/LC.txt | grep L3: | tail -n 1 | sed -e 's/.*: //' -e 's/<=/-/')
-	export LC_3D_L3_N=$(python -c "import sympy;N=sympy.Symbol('N',positive=True);print(sympy.solvers.solve($(echo ${LC_3D_L3} | sed 's/[A-Z]/N/g'), N))" | sed -e 's/\[//' -e 's/\]//')
-	export LC_3D_L3_N=$(bc -l <<< "scale=0;1.5*(${LC_3D_L3_N})")
-	export LC_3D_L3_N=$(bc -l <<< "scale=0;${LC_3D_L3_N}-${LC_3D_L3_N}%10+10")
-	export LC_3D_L3_N=$(echo ${LC_3D_L3_N} | sed 's/\..*//')
+	LC_3D_L3=$(cat data/LC.txt | grep L3: | tail -n 1 | sed -e 's/.*: //' -e 's/<=/-/')
+	LC_3D_L3_N=$(python -c "import sympy;N=sympy.Symbol('N',positive=True);print(sympy.solvers.solve($(echo ${LC_3D_L3} | sed 's/[A-Z]/N/g'), N))" | sed -e 's/\[//' -e 's/\]//')
+	LC_3D_L3_N=$(bc -l <<< "scale=0;1.5*(${LC_3D_L3_N})")
+	LC_3D_L3_N=$(bc -l <<< "scale=0;${LC_3D_L3_N}-${LC_3D_L3_N}%10+10")
+	LC_3D_L3_N=$(echo ${LC_3D_L3_N} | sed 's/\..*//')
 
 	mkdir data/singlecore
 
 	for (( size=10; size<=${LC_3D_L3_N}+10; size=size+10)); do
 		echo -ne "\033[0K\r:: RUNNIG SINGLE CORE BENCHMARK N=${size}"
-		export KERNCRAFT_ARGS="-m ${MACHINE_FILE} ./stencil.c -D N ${size} -D M ${size} -D P ${size} -vvv --cores 1 --compiler icc --ignore-warnings"
+		KERNCRAFT_ARGS="-m ${MACHINE_FILE} ./stencil.c -D N ${size} -D M ${size} -D P ${size} -vvv --cores 1 --compiler icc --ignore-warnings"
 		${KERNCRAFT_BINARY} -p RooflineIACA -P SIM ${KERNCRAFT_ARGS} > data/singlecore/Roofline_SIM_${size}.txt
 		${KERNCRAFT_BINARY} -p RooflineIACA -P LC ${KERNCRAFT_ARGS} > data/singlecore/Roofline_LC_${size}.txt
 		${KERNCRAFT_BINARY} -p ECM -P SIM ${KERNCRAFT_ARGS} > data/singlecore/ECM_SIM_${size}.txt
@@ -153,7 +153,7 @@ for fDATATYPE in ${DATATYPE}; do
 	${COMPILER} ${COMPILE_ARGS}
 	mv stencil stencil_scaling
 
-	export cores=$(cat ${MACHINE_FILE} | grep "cores per socket" | sed 's/.*: //')
+	cores=$(cat ${MACHINE_FILE} | grep "cores per socket" | sed 's/.*: //')
 
 	mkdir data/scaling
 
@@ -195,19 +195,19 @@ for fDATATYPE in ${DATATYPE}; do
 	for (( size=10; size<=${LC_3D_L3_N}+10; size=size+10)); do
 
 		# blocking factor  x direction 100 or size_x if it is smaller
-		export PB=$(python -c "import sympy;P=sympy.Symbol('P',positive=True);print(sympy.solvers.solve($(echo ${LC_3D_L3} | sed 's/N/16/g'), P))" | sed -e 's/\[//' -e 's/\]//')
-		export PB=$(bc -l <<< "scale=0;1.5*(${PB})/10*10")
-		export PB=$(( ${PB} > ${size} ? ${size} : ${PB} ))
+		PB=$(python -c "import sympy;P=sympy.Symbol('P',positive=True);print(sympy.solvers.solve($(echo ${LC_3D_L3} | sed 's/N/16/g'), P))" | sed -e 's/\[//' -e 's/\]//')
+		PB=$(bc -l <<< "scale=0;1.5*(${PB})/10*10")
+		PB=$(( ${PB} > ${size} ? ${size} : ${PB} ))
 
 		# y direction: LC
-		export TMP=$(echo ${LC_3D_L3} | sed "s/P/${PB}/g")
-		export NB=$(bc -l <<< "scale=0;$(python -c "import sympy;N=sympy.Symbol('N',positive=True);print(sympy.solvers.solve(${TMP}, N))" | sed -e 's/\[//' -e 's/\]//')")
+		TMP=$(echo ${LC_3D_L3} | sed "s/P/${PB}/g")
+		NB=$(bc -l <<< "scale=0;$(python -c "import sympy;N=sympy.Symbol('N',positive=True);print(sympy.solvers.solve(${TMP}, N))" | sed -e 's/\[//' -e 's/\]//')")
 
 		# blocking factor z direction, fixed factor: 16
-		export MB=16
+		MB=16
 
-		export STEMPEL_BENCH_BLOCKING_value="${MB} ${NB} ${PB}"
-		export args="${size} ${size} ${size} ${STEMPEL_BENCH_BLOCKING_value}"
+		STEMPEL_BENCH_BLOCKING_value="${MB} ${NB} ${PB}"
+		args="${size} ${size} ${size} ${STEMPEL_BENCH_BLOCKING_value}"
 
 		echo -ne "\033[0K\r:: RUNNIG BENCHMARK N=${args}"
 

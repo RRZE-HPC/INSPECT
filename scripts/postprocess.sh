@@ -5,35 +5,42 @@
 # - grep, sed, awk, bc
 
 # variables
-export MACHINE_FILE=$(grep MACHINE_FILE args.txt | sed 's/.* //')
+MACHINE_FILE=$(grep MACHINE_FILE args.txt | sed 's/.* //')
 
 # dimension: 2 or 3
-export DIM=$(grep STEMPEL_ARGS args.txt | sed 's/.*-D //; s/ .*//')
+DIM=$(grep STEMPEL_ARGS args.txt | sed 's/.*-D //; s/ .*//')
 # desired stencil radius: 1,2,3,...
-export RADIUS=$(grep STEMPEL_ARGS args.txt | sed 's/.*-r //; s/ .*//')
+RADIUS=$(grep STEMPEL_ARGS args.txt | sed 's/.*-r //; s/ .*//')
 # stencil kind: 'star' or 'box'
-export KIND=$(grep STEMPEL_ARGS args.txt | sed 's/.*-k //; s/ .*//')
+KIND=$(grep STEMPEL_ARGS args.txt | sed 's/.*-k //; s/ .*//')
 # coefficients: 'constant' or 'variable'
-export CONST=$(grep STEMPEL_ARGS args.txt | sed 's/.*-C //; s/ .*//')
+CONST=$(grep STEMPEL_ARGS args.txt | sed 's/.*-C //; s/ .*//')
 # weighting: 'isotropic', 'heterogeneous', 'homogeneous', 'point-symmetric'
-export WEIGHTING=replaceme
+WEIGHTING=replaceme
 # datatype: 'double' or 'float'
-export DATATYPE=$(grep STEMPEL_ARGS args.txt | sed 's/.*-t //; s/ .*//')
+DATATYPE=$(grep STEMPEL_ARGS args.txt | sed 's/.*-t //; s/ .*//')
 
-export ghz=$(grep clock ${MACHINE_FILE} | sed 's/clock: //; s/ GHz//')
-export MACHINE=$(echo ${MACHINE_FILE} | sed 's/.*\///g; s/.yml//')
+ghz=$(grep clock ${MACHINE_FILE} | sed 's/clock: //; s/ GHz//')
+MACHINE=$(echo ${MACHINE_FILE} | sed 's/.*\///g; s/.yml//')
 
 if [[ $(grep STEMPEL_ARGS args.txt | grep -c '\-i') -eq 1 ]]; then
-	export WEIGHTING=isotropic
+	WEIGHTING=isotropic
 elif [[ $(grep STEMPEL_ARGS args.txt | grep -c '\-e') -eq 1 ]]; then
-	export WEIGHTING=heterogeneous
+	WEIGHTING=heterogeneous
 elif [[ $(grep STEMPEL_ARGS args.txt | grep -c '\-o') -eq 1 ]]; then
-	export WEIGHTING=homogeneous
+	WEIGHTING=homogeneous
 elif [[ $(grep STEMPEL_ARGS args.txt | grep -c '\-p') -eq 1 ]]; then
-	export WEIGHTING=point-symmetric
+	WEIGHTING=point-symmetric
 fi
 
 echo ":: PROCESSING ${DIM}D r${RADIUS} ${KIND} ${CONST} ${WEIGHTING} ${DATATYPE} ${MACHINE}"
+
+# L3 3D Layer Condition
+LC_3D_L3=$(cat data/LC.txt | grep L3: | tail -n 1 | sed 's/.*: //; s/<=/-/')
+LC_3D_L3_N=$(python -c "import sympy;N=sympy.Symbol('N',positive=True);print(sympy.solvers.solve($(echo ${LC_3D_L3} | sed 's/[A-Z]/N/g'), N))" | sed 's/\[//; s/\]//')
+LC_3D_L3_N=$(bc -l <<< "scale=0;1.5*(${LC_3D_L3_N})")
+LC_3D_L3_N=$(bc -l <<< "scale=0;${LC_3D_L3_N}-${LC_3D_L3_N}%10+10")
+LC_3D_L3_N=$(echo ${LC_3D_L3_N} | sed 's/\..*//')
 
 # ************************************************************************************************
 # Generate index.md
@@ -43,13 +50,12 @@ echo ":: GENERATING index.md"
 
 FILENAME=index.md
 
-echo "" > ${FILENAME}
-echo "---" >> ${FILENAME}
+echo "---" > ${FILENAME}
 echo "" >> ${FILENAME}
 echo "title:  \"Stencil ${DIM}D r${RADIUS} ${KIND} ${CONST} ${WEIGHTING} ${DATATYPE} ${MACHINE}\"" >> ${FILENAME}
 echo "" >> ${FILENAME}
 echo "dimension    : \"${DIM}D\"" >> ${FILENAME}
-echo "radius       : \"${RADIUS}\"" >> ${FILENAME}
+echo "radius       : \"${RADIUS}r\"" >> ${FILENAME}
 echo "weighting    : \"${WEIGHTING}\"" >> ${FILENAME}
 echo "kind         : \"${KIND}\"" >> ${FILENAME}
 echo "coefficients : \"${CONST}\"" >> ${FILENAME}
@@ -59,6 +65,8 @@ echo "flavor       : \"EDIT_ME\"" >> ${FILENAME}
 echo "comment      : \"EDIT_ME\"" >> ${FILENAME}
 echo "compile_flags: \"$(cat args.txt | grep COMPILER | sed 's/\$COMPILER //') $(cat args.txt | grep COMPILE_ARGS | sed 's/\$COMPILE_ARGS //; s/\/home.*stempel\///g; s/\/mnt\/opt\///g')\"" >> ${FILENAME}
 echo "flop         : \"$(grep -A 8 FLOPs data/LC.txt | grep -A 1 == | tail -n 1 | sed 's/ //g')\"" >> ${FILENAME}
+echo "scaling      : [ \"${LC_3D_L3_N}\" ]" >> ${FILENAME}
+echo "blocking     : [ \"L3-3D\" ]" >> ${FILENAME}
 echo "---" >> ${FILENAME}
 echo "" >> ${FILENAME}
 echo "{%- capture basename -%}" >> ${FILENAME}
@@ -83,14 +91,14 @@ while read -r line; do
 	if [[ $(echo ${line} | grep -c unconditionally) -eq 1 ]]; then
 		echo ${line} >> ${FILENAME}
 	elif [[ $(echo ${line} | grep -c "*") -eq 0 ]]; then
-		export equation=$(echo ${line} | sed s'/.*: //; s/<=/-/; s/[A-Z]/N/g' )
-		export APPROX=$(python -c "import sympy;N=sympy.Symbol('N',positive=True);print(sympy.solvers.solve(${equation}, N))" | sed 's/\[//; s/\]//')
-		export APPROX=$(bc -l <<< "scale=0;${APPROX}/10*10")
+		equation=$(echo ${line} | sed s'/.*: //; s/<=/-/; s/[A-Z]/N/g' )
+		APPROX=$(python -c "import sympy;N=sympy.Symbol('N',positive=True);print(sympy.solvers.solve(${equation}, N))" | sed 's/\[//; s/\]//')
+		APPROX=$(bc -l <<< "scale=0;${APPROX}/10*10")
 		echo ${line}";"$(echo ${line}|sed 's/.*: //; s/ .*//')" ~ "${APPROX} >> ${FILENAME}
 	else
-		export equation=$(echo ${line} | sed s'/.*: //; s/<=/-/; s/[A-Z]/N/g' )
-		export APPROX=$(python -c "import sympy;N=sympy.Symbol('N',positive=True);print(sympy.solvers.solve(${equation}, N))" | sed 's/\[//; s/\]//')
-		export APPROX=$(bc -l <<< "scale=0;${APPROX}/10*10")
+		equation=$(echo ${line} | sed s'/.*: //; s/<=/-/; s/[A-Z]/N/g' )
+		APPROX=$(python -c "import sympy;N=sympy.Symbol('N',positive=True);print(sympy.solvers.solve(${equation}, N))" | sed 's/\[//; s/\]//')
+		APPROX=$(bc -l <<< "scale=0;${APPROX}/10*10")
 		echo ${line}";"$(echo ${line}|sed 's/.*: //; s/ .*//; s/[0-9]*\*//')" ~ "${APPROX}$"²" >> ${FILENAME}
 	fi
 done <<< $(tail -n 12 data/LC.txt | head -n 11 | sed '/layer condition/d')
@@ -104,19 +112,12 @@ echo "{% include stencil_template.md %}" >> ${FILENAME}
 
 echo ":: GENERATING results.csv"
 
-# L3 3D Layer Condition
-export LC_3D_L3=$(cat data/LC.txt | grep L3: | tail -n 1 | sed 's/.*: //; s/<=/-/')
-export LC_3D_L3_N=$(python -c "import sympy;N=sympy.Symbol('N',positive=True);print(sympy.solvers.solve($(echo ${LC_3D_L3} | sed 's/[A-Z]/N/g'), N))" | sed 's/\[//; s/\]//')
-export LC_3D_L3_N=$(bc -l <<< "scale=0;1.5*(${LC_3D_L3_N})")
-export LC_3D_L3_N=$(bc -l <<< "scale=0;${LC_3D_L3_N}-${LC_3D_L3_N}%10+10")
-export LC_3D_L3_N=$(echo ${LC_3D_L3_N} | sed 's/\..*//')
-
 FILENAME=results.csv
 
 # write header
 echo ",Roofline,,,,,,,,ECM,,,,,,,,,,,,,Data Transfer (Benchmark),,,,,,,,,Data Transfer (Prediction CS),,,,,,,,,Data Transfer (Prediction CS),,,,,,,,," > ${FILENAME}
 echo ",Cache Simulator,,,Layer Conditions,,,ECM,Benchmark,Cache Simulator,,,,,,Layer Condition,,,,,,Benchmark,L1-L2 (B/LUP),,,L2-L3 (B/LUP),,,L3-MEM (B/LUP),,,L1-L2 (B/LUP),,,L2-L3 (B/LUP),,,L3-MEM (B/LUP),,,L1-L2 (B/LUP),,,L2-L3 (B/LUP),,,L3-MEM (B/LUP),,," >> ${FILENAME}
-echo "N(^3),GFLOP/s,MLUP/s,Arithmetic Intensity,GFLOP/s,MLUP/s,Arithmetic Intensity,MLUP/s,MLUP/s,T_OL,T_nOL,T_L1L2,T_L2L3,T_L3MEM,cy/CL,T_OL,T_nOL,T_L1L2,T_L2L3,T_L3MEM,cy/CL,cy/CL,load,evict,total,load,evict,total,load,evict,total,load,evict,total,load,evict,total,load,evict,total" >> ${FILENAME}
+echo "N(^3),GFLOP/s,MLUP/s,Arithmetic Intensity,GFLOP/s,MLUP/s,Arithmetic Intensity,MLUP/s,MLUP/s,T_OL,T_nOL,T_L1L2,T_L2L3,T_L3MEM,cy/CL,T_OL,T_nOL,T_L1L2,T_L2L3,T_L3MEM,cy/CL,cy/CL,load,evict,total,load,evict,total,load,evict,total,load,evict,total,load,evict,total,load,evict,total,load,evict,total,load,evict,total,load,evict,total" >> ${FILENAME}
 
 for (( size=10; size<=${LC_3D_L3_N}+10; size=size+10)); do
 	flops=$(cat stencil.flop | sed 's/.* //g')
@@ -277,124 +278,137 @@ done
 # ************************************************************************************************
 echo ":: GENERATING scaling.csv"
 
-export cores=$(cat ${MACHINE_FILE} | grep "cores per socket" | sed 's/.*: //')
+FILENAME=scaling.csv
+cores=$(cat ${MACHINE_FILE} | grep "cores per socket" | sed 's/.*: //')
 
 # write results file header
-echo "N,threads,iterations,time,blocking factor,flop,lup,Gflop/s,Gflop/s (Roofline),Mlup/s,Mlup/s (Roofline),cy/CL,cy/CL (ECM),MLUP/s (ECM),l1-l2 miss,l1-l2 evict,l2-l3 miss,l2-l3 evict,l3-mem miss,l3-mem evict,l1-l2 total,l2-l3 total,l3-mem total" >> scaling.csv
+echo "N,threads,iterations,time,blocking factor,flop,lup,Gflop/s,Gflop/s (Roofline),Mlup/s,Mlup/s (Roofline),cy/CL,cy/CL (ECM),MLUP/s (ECM),l1-l2 miss,l1-l2 evict,l2-l3 miss,l2-l3 evict,l3-mem miss,l3-mem evict,l1-l2 total,l2-l3 total,l3-mem total" > ${FILENAME}
 
 for (( threads = 1; threads <= ${cores}; threads++ )); do
 
-	export OMP_NUM_THREADS=${threads}
+	OMP_NUM_THREADS=${threads}
 
 	#save results/metrics
-	export iterations=$(head -n 1 data/scaling/likwid_${LC_3D_L3_N}_${threads}_out.txt | grep "iterations:" | sed 's/iterations: //')
-	export time=$(grep "time:" data/scaling/likwid_${LC_3D_L3_N}_${threads}_out.txt | sed 's/time: //')
-	export flop=$(grep "Total work" data/scaling/likwid_${LC_3D_L3_N}_${threads}_out.txt | sed 's/ FLOP//; s/Total work: //')
-	export lup=$(grep "Total iterations: " data/scaling/likwid_${LC_3D_L3_N}_${threads}_out.txt | sed 's/Total iterations: //; s/ LUP//')
+	iterations=$(head -n 1 data/scaling/likwid_${LC_3D_L3_N}_${threads}_out.txt | grep "iterations:" | sed 's/iterations: //')
+	time=$(grep "time:" data/scaling/likwid_${LC_3D_L3_N}_${threads}_out.txt | sed 's/time: //')
+	flop=$(grep "Total work" data/scaling/likwid_${LC_3D_L3_N}_${threads}_out.txt | sed 's/ FLOP//; s/Total work: //')
+	lup=$(grep "Total iterations: " data/scaling/likwid_${LC_3D_L3_N}_${threads}_out.txt | sed 's/Total iterations: //; s/ LUP//')
 
 	if [ $threads -eq 1 ]; then
-		export L1D_M_EVICT=$(grep L1D_M_EVICT data/scaling/likwid_${LC_3D_L3_N}_${threads}.txt | sed 's/|[ ]*L1D_M_EVICT[ ]*|[ ]*PMC[0123][ ]*|[ ]*//; s/ |//')
-		export L1D_REPLACEMENT=$(grep L1D_REPLACEMENT data/scaling/likwid_${LC_3D_L3_N}_${threads}.txt | sed 's/|[ ]*L1D_REPLACEMENT[ ]*|[ ]*PMC[0123][ ]*|[ ]*//; s/ |//')
+		L1D_M_EVICT=$(grep L1D_M_EVICT data/scaling/likwid_${LC_3D_L3_N}_${threads}.txt | sed 's/|[ ]*L1D_M_EVICT[ ]*|[ ]*PMC[0123][ ]*|[ ]*//; s/ |//')
+		L1D_REPLACEMENT=$(grep L1D_REPLACEMENT data/scaling/likwid_${LC_3D_L3_N}_${threads}.txt | sed 's/|[ ]*L1D_REPLACEMENT[ ]*|[ ]*PMC[0123][ ]*|[ ]*//; s/ |//')
 
-		export L2_LINES_IN_ALL=$(grep L2_LINES_IN_ALL data/scaling/likwid_${LC_3D_L3_N}_${threads}.txt | sed 's/|[ ]*L2_LINES_IN_ALL[ ]*|[ ]*PMC[0123][ ]*|[ ]*//; s/ |//')
-		export L2_TRANS_L2_WB=$(grep L2_TRANS_L2_WB data/scaling/likwid_${LC_3D_L3_N}_${threads}.txt | sed 's/|[ ]*L2_TRANS_L2_WB[ ]*|[ ]*PMC[0123][ ]*|[ ]*//; s/ |//')
+		L2_LINES_IN_ALL=$(grep L2_LINES_IN_ALL data/scaling/likwid_${LC_3D_L3_N}_${threads}.txt | sed 's/|[ ]*L2_LINES_IN_ALL[ ]*|[ ]*PMC[0123][ ]*|[ ]*//; s/ |//')
+		L2_TRANS_L2_WB=$(grep L2_TRANS_L2_WB data/scaling/likwid_${LC_3D_L3_N}_${threads}.txt | sed 's/|[ ]*L2_TRANS_L2_WB[ ]*|[ ]*PMC[0123][ ]*|[ ]*//; s/ |//')
 
-		export CAS_COUNT_RD=$(var=$(grep CAS_COUNT_RD data/scaling/likwid_${LC_3D_L3_N}_${threads}.txt | sed 's/|[ ]*CAS_COUNT_RD[ ]*|[ ]*MBOX[01234567]C[01][ ]*|[ ]*//; s/[ ]*|/+/; s/-/0/' | tr -d '\n') && echo ${var::-1})
-		export CAS_COUNT_WR=$(var=$(grep CAS_COUNT_WR data/scaling/likwid_${LC_3D_L3_N}_${threads}.txt | sed 's/|[ ]*CAS_COUNT_WR[ ]*|[ ]*MBOX[01234567]C[01][ ]*|[ ]*//; s/[ ]*|/+/; s/-/0/' | tr -d '\n') && echo ${var::-1})
+		CAS_COUNT_RD=$(var=$(grep CAS_COUNT_RD data/scaling/likwid_${LC_3D_L3_N}_${threads}.txt | sed 's/|[ ]*CAS_COUNT_RD[ ]*|[ ]*MBOX[01234567]C[01][ ]*|[ ]*//; s/[ ]*|/+/; s/-/0/' | tr -d '\n') && echo ${var::-1})
+		CAS_COUNT_WR=$(var=$(grep CAS_COUNT_WR data/scaling/likwid_${LC_3D_L3_N}_${threads}.txt | sed 's/|[ ]*CAS_COUNT_WR[ ]*|[ ]*MBOX[01234567]C[01][ ]*|[ ]*//; s/[ ]*|/+/; s/-/0/' | tr -d '\n') && echo ${var::-1})
 	else
-		export L1D_M_EVICT=$(grep 'L1D_M_EVICT STAT' data/scaling/likwid_${LC_3D_L3_N}_${threads}.txt | sed -e 's/|[ ]*L1D_M_EVICT STAT[ ]*|[ ]*PMC[0123][ ]*|[ ]*//' -e 's/ |.*//')
-		export L1D_REPLACEMENT=$(grep 'L1D_REPLACEMENT STAT' data/scaling/likwid_${LC_3D_L3_N}_${threads}.txt | sed -e 's/|[ ]*L1D_REPLACEMENT STAT[ ]*|[ ]*PMC[0123][ ]*|[ ]*//'  -e 's/ |.*//')
+		L1D_M_EVICT=$(grep 'L1D_M_EVICT STAT' data/scaling/likwid_${LC_3D_L3_N}_${threads}.txt | sed -e 's/|[ ]*L1D_M_EVICT STAT[ ]*|[ ]*PMC[0123][ ]*|[ ]*//' -e 's/ |.*//')
+		L1D_REPLACEMENT=$(grep 'L1D_REPLACEMENT STAT' data/scaling/likwid_${LC_3D_L3_N}_${threads}.txt | sed -e 's/|[ ]*L1D_REPLACEMENT STAT[ ]*|[ ]*PMC[0123][ ]*|[ ]*//'  -e 's/ |.*//')
 
-		export L2_LINES_IN_ALL=$(grep 'L2_LINES_IN_ALL STAT' data/scaling/likwid_${LC_3D_L3_N}_${threads}.txt | sed -e 's/|[ ]*L2_LINES_IN_ALL STAT[ ]*|[ ]*PMC[0123][ ]*|[ ]*//' -e 's/ |.*//')
-		export L2_TRANS_L2_WB=$(grep 'L2_TRANS_L2_WB STAT' data/scaling/likwid_${LC_3D_L3_N}_${threads}.txt | sed -e 's/|[ ]*L2_TRANS_L2_WB STAT[ ]*|[ ]*PMC[0123][ ]*|[ ]*//' -e 's/ |.*//')
+		L2_LINES_IN_ALL=$(grep 'L2_LINES_IN_ALL STAT' data/scaling/likwid_${LC_3D_L3_N}_${threads}.txt | sed -e 's/|[ ]*L2_LINES_IN_ALL STAT[ ]*|[ ]*PMC[0123][ ]*|[ ]*//' -e 's/ |.*//')
+		L2_TRANS_L2_WB=$(grep 'L2_TRANS_L2_WB STAT' data/scaling/likwid_${LC_3D_L3_N}_${threads}.txt | sed -e 's/|[ ]*L2_TRANS_L2_WB STAT[ ]*|[ ]*PMC[0123][ ]*|[ ]*//' -e 's/ |.*//')
 
-		export CAS_COUNT_RD=$(var=$(grep 'CAS_COUNT_RD STAT' data/scaling/likwid_${LC_3D_L3_N}_${threads}.txt | sed -e 's/|[ ]*CAS_COUNT_RD STAT[ ]*|[ ]*MBOX[01234567]C[01][ ]*|[ ]*//' -e 's/[ ]*|[ ]*/+/g' -e 's/-/0/' -e 's/e+/*10^/g' | tr -d '\n') && echo ${var::-1})
-		export CAS_COUNT_WR=$(var=$(grep 'CAS_COUNT_WR STAT' data/scaling/likwid_${LC_3D_L3_N}_${threads}.txt | sed -e 's/|[ ]*CAS_COUNT_WR STAT[ ]*|[ ]*MBOX[01234567]C[01][ ]*|[ ]*//' -e 's/[ ]*|[ ]*/+/g' -e 's/-/0/' -e 's/e+/*10^/g' | tr -d '\n') && echo ${var::-1})
+		CAS_COUNT_RD=$(var=$(grep 'CAS_COUNT_RD STAT' data/scaling/likwid_${LC_3D_L3_N}_${threads}.txt | sed -e 's/|[ ]*CAS_COUNT_RD STAT[ ]*|[ ]*MBOX[01234567]C[01][ ]*|[ ]*//' -e 's/[ ]*|[ ]*/+/g' -e 's/-/0/' -e 's/e+/*10^/g' | tr -d '\n') && echo ${var::-1})
+		CAS_COUNT_WR=$(var=$(grep 'CAS_COUNT_WR STAT' data/scaling/likwid_${LC_3D_L3_N}_${threads}.txt | sed -e 's/|[ ]*CAS_COUNT_WR STAT[ ]*|[ ]*MBOX[01234567]C[01][ ]*|[ ]*//' -e 's/[ ]*|[ ]*/+/g' -e 's/-/0/' -e 's/e+/*10^/g' | tr -d '\n') && echo ${var::-1})
 	fi
 
-	export l2_load=$(bc -l <<< "scale=2;${L1D_REPLACEMENT} * 64 / ( ${iterations} * ( ${LC_3D_L3_N} - 2 )^3 )")
-	export l2_evict=$(bc -l <<< "scale=2;${L1D_M_EVICT} * 64 / ( ${iterations} * ( ${LC_3D_L3_N} - 2 )^3 )")
+	l2_load=$(bc -l <<< "scale=2;${L1D_REPLACEMENT} * 64 / ( ${iterations} * ( ${LC_3D_L3_N} - 2 )^3 )")
+	l2_evict=$(bc -l <<< "scale=2;${L1D_M_EVICT} * 64 / ( ${iterations} * ( ${LC_3D_L3_N} - 2 )^3 )")
 
-	export l3_load=$(bc -l <<< "scale=2;${L2_LINES_IN_ALL} * 64 / ( ${iterations} * ( ${LC_3D_L3_N} - 2 )^3 )")
-	export l3_evict=$(bc -l <<< "scale=2;${L2_TRANS_L2_WB} * 64 / ( ${iterations} * ( ${LC_3D_L3_N} - 2 )^3 )")
+	l3_load=$(bc -l <<< "scale=2;${L2_LINES_IN_ALL} * 64 / ( ${iterations} * ( ${LC_3D_L3_N} - 2 )^3 )")
+	l3_evict=$(bc -l <<< "scale=2;${L2_TRANS_L2_WB} * 64 / ( ${iterations} * ( ${LC_3D_L3_N} - 2 )^3 )")
 
-	export mem_read=$(bc -l <<< "scale=2;${CAS_COUNT_RD} * 64 / ( ${iterations} * ( ${LC_3D_L3_N} - 2 )^3 )")
-	export mem_write=$(bc -l <<< "scale=2;${CAS_COUNT_WR} * 64 / ( ${iterations} * ( ${LC_3D_L3_N} - 2 )^3 )")
+	mem_read=$(bc -l <<< "scale=2;${CAS_COUNT_RD} * 64 / ( ${iterations} * ( ${LC_3D_L3_N} - 2 )^3 )")
+	mem_write=$(bc -l <<< "scale=2;${CAS_COUNT_WR} * 64 / ( ${iterations} * ( ${LC_3D_L3_N} - 2 )^3 )")
 
-	export gflops=$(bc -l <<< "scale=2;${flop} / 10^9 / ${time}")
-	export mlups=$(bc -l <<< "scale=2;${lup} / 10^6 / ${time}")
-	export cyCL=$(bc -l <<< "scale=2;${ghz} / ( ${lup} / 10^9 / ${time} ) * 8")
+	gflops=$(bc -l <<< "scale=2;${flop} / 10^9 / ${time}")
+	mlups=$(bc -l <<< "scale=2;${lup} / 10^6 / ${time}")
+	cyCL=$(bc -l <<< "scale=2;${ghz} / ( ${lup} / 10^9 / ${time} ) * 8")
 
-	export gflopsIACA=$(cat data/scaling/RooflineIACA_${LC_3D_L3_N}_${threads}.txt | grep GFLOP | tail -n 1 | sed 's/ GFLOP.*//')
-	export mlupsIACA=$(bc -l <<< "scale=2;${gflopsIACA} * 10^3 / $(cat ./stencil.flop | sed 's/FLOP: //')")
+	gflopsIACA=$(cat data/scaling/RooflineIACA_${LC_3D_L3_N}_${threads}.txt | grep GFLOP | tail -n 1 | sed 's/ GFLOP.*//')
+	mlupsIACA=$(bc -l <<< "scale=2;${gflopsIACA} * 10^3 / $(cat ./stencil.flop | sed 's/FLOP: //')")
 
-	export cyclECM=$(cat data/scaling/ECM_${LC_3D_L3_N}_${threads}.txt | tail -n 3 | grep cy/CL | sed -e 's/ cy\/CL (.*//' -e 's/} cy\/CL//' | awk '{print $NF}')
-	export mlupsECM=$(bc -l <<< "scale=2;8 * ${ghz} * 10^3 / ${cyclECM}")
+	cyclECM=$(cat data/scaling/ECM_${LC_3D_L3_N}_${threads}.txt | tail -n 3 | grep cy/CL | sed -e 's/ cy\/CL (.*//' -e 's/} cy\/CL//' | awk '{print $NF}')
+	mlupsECM=$(bc -l <<< "scale=2;8 * ${ghz} * 10^3 / ${cyclECM}")
 
-	echo "${LC_3D_L3_N},${threads},${iterations},${time},${STEMPEL_BENCH_BLOCKING_value},${flop},${lup},${gflops},${gflopsIACA},${mlups},${mlupsIACA},${cyCL},${cyclECM},${mlupsECM},${l2_load},${l2_evict},${l3_load},${l3_evict},${mem_read},${mem_write}" >> scaling.csv
+	echo "${LC_3D_L3_N},${threads},${iterations},${time},${STEMPEL_BENCH_BLOCKING_value},${flop},${lup},${gflops},${gflopsIACA},${mlups},${mlupsIACA},${cyCL},${cyclECM},${mlupsECM},${l2_load},${l2_evict},${l3_load},${l3_evict},${mem_read},${mem_write}" >> ${FILENAME}
 done
 
 # ************************************************************************************************
 # Cache Blocking
 # ************************************************************************************************
+
 echo ":: GENERATING blocking.csv"
+
+FILENAME=blocking_L3-3D.csv
+
 # write results file header
-echo "N,iterations,time,blocking options,flop,lup,Gflop/s,Mlup/s,cy/CL,l1-l2 miss,l1-l2 evict,l2-l3 miss,l2-l3 evict,l3-mem miss,l3-mem evict,l1-l2 total,l2-l3 total,l3-mem total" >> scaling.csv
+echo "N,iterations,time,blocking options,flop,lup,Gflop/s,Mlup/s,cy/CL,l1-l2 miss,l1-l2 evict,l2-l3 miss,l2-l3 evict,l3-mem miss,l3-mem evict,l1-l2 total,l2-l3 total,l3-mem total" > ${FILENAME}
 
 # run benchmark
 for (( size=10; size<=${LC_3D_L3_N}+10; size=size+10)); do
 
 	# blocking factor  x direction 100 or size_x if it is smaller
-	export PB=$(python -c "import sympy;P=sympy.Symbol('P',positive=True);print(sympy.solvers.solve($(echo ${LC_3D_L3} | sed 's/N/16/g'), P))" | sed 's/\[//; s/\]//')
-	export PB=$(bc -l <<< "scale=0;1.5*(${PB})/10*10")
-	export PB=$(( ${PB} > ${size} ? ${size} : ${PB} ))
+	PB=$(python -c "import sympy;P=sympy.Symbol('P',positive=True);print(sympy.solvers.solve($(echo ${LC_3D_L3} | sed 's/N/16/g'), P))" | sed 's/\[//; s/\]//')
+	PB=$(bc -l <<< "scale=0;1.5*(${PB})/10*10")
+	PB=$(( ${PB} > ${size} ? ${size} : ${PB} ))
 
 	# y direction: LC
-	export TMP=$(echo ${LC_3D_L3} | sed "s/P/${PB}/g")
-	export NB=$(bc -l <<< "scale=0;$(python -c "import sympy;N=sympy.Symbol('N',positive=True);print(sympy.solvers.solve(${TMP}, N))" | sed 's/\[//; s/\]//')")
+	TMP=$(echo ${LC_3D_L3} | sed "s/P/${PB}/g")
+	NB=$(bc -l <<< "scale=0;$(python -c "import sympy;N=sympy.Symbol('N',positive=True);print(sympy.solvers.solve(${TMP}, N))" | sed 's/\[//; s/\]//')")
 
 	# blocking factor z direction, fixed factor: 16
-	export MB=16
+	MB=16
 
-	export STEMPEL_BENCH_BLOCKING_value="${MB} ${NB} ${PB}"
-	export args="${size} ${size} ${size} ${STEMPEL_BENCH_BLOCKING_value}"
+	STEMPEL_BENCH_BLOCKING_value="${MB} ${NB} ${PB}"
+	args="${size} ${size} ${size} ${STEMPEL_BENCH_BLOCKING_value}"
 
 	#save results/metrics
-	export iterations=$(head -n 1 data/blocking/likwid_${size}_out.txt | grep "iterations:" | sed 's/iterations: //')
-	export time=$(grep "time:" data/blocking/likwid_${size}_out.txt | sed 's/time: //')
-	export flop=$(grep "Total work" data/blocking/likwid_${size}_out.txt | sed 's/ FLOP//; s/Total work: //')
-	export lup=$(grep "Total iterations: " data/blocking/likwid_${size}_out.txt | sed 's/Total iterations: //; s/ LUP//')
-	export ghz=$(grep clock ${MACHINE_FILE} | sed 's/clock: //; s/ GHz//')
+	iterations=$(head -n 1 data/blocking/likwid_${size}_out.txt | grep "iterations:" | sed 's/iterations: //')
+	time=$(grep "time:" data/blocking/likwid_${size}_out.txt | sed 's/time: //')
+	flop=$(grep "Total work" data/blocking/likwid_${size}_out.txt | sed 's/ FLOP//; s/Total work: //')
+	lup=$(grep "Total iterations: " data/blocking/likwid_${size}_out.txt | sed 's/Total iterations: //; s/ LUP//')
+	ghz=$(grep clock ${MACHINE_FILE} | sed 's/clock: //; s/ GHz//')
 
-	export L1D_M_EVICT=$(grep L1D_M_EVICT data/blocking/likwid_${size}.txt | sed 's/|[ ]*L1D_M_EVICT[ ]*|[ ]*PMC[0123][ ]*|[ ]*//; s/ |//')
-	export L1D_REPLACEMENT=$(grep L1D_REPLACEMENT data/blocking/likwid_${size}.txt | sed 's/|[ ]*L1D_REPLACEMENT[ ]*|[ ]*PMC[0123][ ]*|[ ]*//; s/ |//')
+	L1D_M_EVICT=$(grep L1D_M_EVICT data/blocking/likwid_${size}.txt | sed 's/|[ ]*L1D_M_EVICT[ ]*|[ ]*PMC[0123][ ]*|[ ]*//; s/ |//')
+	L1D_REPLACEMENT=$(grep L1D_REPLACEMENT data/blocking/likwid_${size}.txt | sed 's/|[ ]*L1D_REPLACEMENT[ ]*|[ ]*PMC[0123][ ]*|[ ]*//; s/ |//')
 
-	export L2_LINES_IN_ALL=$(grep L2_LINES_IN_ALL data/blocking/likwid_${size}.txt | sed 's/|[ ]*L2_LINES_IN_ALL[ ]*|[ ]*PMC[0123][ ]*|[ ]*//; s/ |//')
-	export L2_TRANS_L2_WB=$(grep L2_TRANS_L2_WB data/blocking/likwid_${size}.txt | sed 's/|[ ]*L2_TRANS_L2_WB[ ]*|[ ]*PMC[0123][ ]*|[ ]*//; s/ |//')
+	L2_LINES_IN_ALL=$(grep L2_LINES_IN_ALL data/blocking/likwid_${size}.txt | sed 's/|[ ]*L2_LINES_IN_ALL[ ]*|[ ]*PMC[0123][ ]*|[ ]*//; s/ |//')
+	L2_TRANS_L2_WB=$(grep L2_TRANS_L2_WB data/blocking/likwid_${size}.txt | sed 's/|[ ]*L2_TRANS_L2_WB[ ]*|[ ]*PMC[0123][ ]*|[ ]*//; s/ |//')
 
-	export CAS_COUNT_RD=$(var=$(grep CAS_COUNT_RD data/blocking/likwid_${size}.txt | sed 's/|[ ]*CAS_COUNT_RD[ ]*|[ ]*MBOX[01234567]C[01][ ]*|[ ]*//; s/[ ]*|/+/; s/-/0/' | tr -d '\n') && echo ${var::-1})
-	export CAS_COUNT_WR=$(var=$(grep CAS_COUNT_WR data/blocking/likwid_${size}.txt | sed 's/|[ ]*CAS_COUNT_WR[ ]*|[ ]*MBOX[01234567]C[01][ ]*|[ ]*//; s/[ ]*|/+/; s/-/0/' | tr -d '\n') && echo ${var::-1})
+	CAS_COUNT_RD=$(var=$(grep CAS_COUNT_RD data/blocking/likwid_${size}.txt | sed 's/|[ ]*CAS_COUNT_RD[ ]*|[ ]*MBOX[01234567]C[01][ ]*|[ ]*//; s/[ ]*|/+/; s/-/0/' | tr -d '\n') && echo ${var::-1})
+	CAS_COUNT_WR=$(var=$(grep CAS_COUNT_WR data/blocking/likwid_${size}.txt | sed 's/|[ ]*CAS_COUNT_WR[ ]*|[ ]*MBOX[01234567]C[01][ ]*|[ ]*//; s/[ ]*|/+/; s/-/0/' | tr -d '\n') && echo ${var::-1})
 
-	export l2_load=$(bc -l <<< "scale=2;${L1D_REPLACEMENT} * 64 / ( ${iterations} * ( ${size} - 2 )^3 )")
-	export l2_evict=$(bc -l <<< "scale=2;${L1D_M_EVICT} * 64 / ( ${iterations} * ( ${size} - 2 )^3 )")
-	export l2_total=$(bc -l <<< "scale=2;${l2_load}+${l2_evict}")
+	l2_load=$(bc -l <<< "scale=2;${L1D_REPLACEMENT} * 64 / ( ${iterations} * ( ${size} - 2 )^3 )")
+	l2_evict=$(bc -l <<< "scale=2;${L1D_M_EVICT} * 64 / ( ${iterations} * ( ${size} - 2 )^3 )")
+	l2_total=$(bc -l <<< "scale=2;${l2_load}+${l2_evict}")
 
-	export l3_load=$(bc -l <<< "scale=2;${L2_LINES_IN_ALL} * 64 / ( ${iterations} * ( ${size} - 2 )^3 )")
-	export l3_evict=$(bc -l <<< "scale=2;${L2_TRANS_L2_WB} * 64 / ( ${iterations} * ( ${size} - 2 )^3 )")
-	export l3_total=$(bc -l <<< "scale=2;${l3_load}+${l3_evict}")
+	l3_load=$(bc -l <<< "scale=2;${L2_LINES_IN_ALL} * 64 / ( ${iterations} * ( ${size} - 2 )^3 )")
+	l3_evict=$(bc -l <<< "scale=2;${L2_TRANS_L2_WB} * 64 / ( ${iterations} * ( ${size} - 2 )^3 )")
+	l3_total=$(bc -l <<< "scale=2;${l3_load}+${l3_evict}")
 
-	export mem_read=$(bc -l <<< "scale=2;${CAS_COUNT_RD} * 64 / ( ${iterations} * ( ${size} - 2 )^3 )")
-	export mem_write=$(bc -l <<< "scale=2;${CAS_COUNT_WR} * 64 / ( ${iterations} * ( ${size} - 2 )^3 )")
-	export mem_total=$(bc -l <<< "scale=2;${mem_read}+${mem_write}")
+	mem_read=$(bc -l <<< "scale=2;${CAS_COUNT_RD} * 64 / ( ${iterations} * ( ${size} - 2 )^3 )")
+	mem_write=$(bc -l <<< "scale=2;${CAS_COUNT_WR} * 64 / ( ${iterations} * ( ${size} - 2 )^3 )")
+	mem_total=$(bc -l <<< "scale=2;${mem_read}+${mem_write}")
 
-	export gflops=$(bc -l <<< "scale=2;${flop} / 10^9 / ${time}")
-	export mlups=$(bc -l <<< "scale=2;${lup} / 10^6 / ${time}")
-	export cyCL=$(bc -l <<< "scale=2;${ghz} / ( ${lup} / 10^9 / ${time} ) * 8")
+	gflops=$(bc -l <<< "scale=2;${flop} / 10^9 / ${time}")
+	mlups=$(bc -l <<< "scale=2;${lup} / 10^6 / ${time}")
+	cyCL=$(bc -l <<< "scale=2;${ghz} / ( ${lup} / 10^9 / ${time} ) * 8")
 
-	echo "${size},${iterations},${time},${STEMPEL_BENCH_BLOCKING_value},${flop},${lup},${gflops},${mlups},${cyCL},${l2_load},${l2_evict},${l3_load},${l3_evict},${mem_read},${mem_write},${l2_total},${l3_total},${mem_total}" >> blocking.csv
+	echo "${size},${iterations},${time},${STEMPEL_BENCH_BLOCKING_value},${flop},${lup},${gflops},${mlups},${cyCL},${l2_load},${l2_evict},${l3_load},${l3_evict},${mem_read},${mem_write},${l2_total},${l3_total},${mem_total}" >> ${FILENAME}
 done
+
+# ************************************************************************************************
+# generate plots
+# ************************************************************************************************
+
+echo ":: GENERATING PLOTS"
+gnuplot $(echo $(dirname $(realpath $0))"/plots.gnuplot")
 
 # ************************************************************************************************
 # compress data files
 # ************************************************************************************************
-tar czf data.tar.gz data
+
+tar czf data.tar.gz data && rm -rf data
