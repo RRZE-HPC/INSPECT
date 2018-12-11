@@ -1,6 +1,6 @@
 #! /bin/bash -l
 #PBS -l nodes=broadep2:ppn=72,walltime=24:0:0
-#PBS -N stempel_bench_broadwell
+#PBS -N BDW_stempel_bench
 # stdout and stderr files
 
 # dependencies
@@ -25,15 +25,15 @@ RADIUS=1
 # stencil kind: 'star' or 'box'
 KIND=star
 # coefficients: 'constant' or 'variable'
-CONST=constant
+CONST=variable
 # weighting: 'isotropic', 'heterogeneous', 'homogeneous', 'point-symmetric'
-WEIGHTING=heterogeneous
+WEIGHTING="heterogeneous point-symmetric isotropic homogeneous"
 # datatype: 'double' or 'float'
 DATATYPE=double
 
 # variables
 MACHINE_FILE=${STEMPEL_DIR}/tests/testfiles/BroadwellEP_E5-2697_CoD.yml
-#MACHINE_FILE=${STEMPEL_DIR}/tests/testfiles/HaswellEP_E5-2695v3.yml
+# MACHINE_FILE=${STEMPEL_DIR}/tests/testfiles/HaswellEP_E5-2695v3_CoD.yml
 #MACHINE_FILE=${STEMPEL_DIR}/tests/testfiles/SkylakeSP_Gold-6148.yml
 #MACHINE_FILE=${STEMPEL_DIR}/tests/testfiles/SkylakeSP_Gold-6148_512.yml
 
@@ -106,7 +106,7 @@ for fDATATYPE in ${DATATYPE}; do
 
 	# generate stencil
 	echo ":: GENERATING STENCIL"
-	${STEMPEL_BINARY} gen -D ${fDIM} -r ${fRADIUS} -k ${fKIND} -C ${fCONST} ${S_WEIGHTING} -t ${fDATATYPE} --store stencil.c
+	${STEMPEL_BINARY} ${STEMPEL_ARGS} --store stencil.c
 
 	# ************************************************************************************************
 	# Grid Scaling
@@ -117,10 +117,33 @@ for fDATATYPE in ${DATATYPE}; do
 
 	# L3 3D Layer Condition
 	LC_3D_L3=$(cat data/LC.txt | grep L3: | tail -n 1 | sed -e 's/.*: //' -e 's/<=/-/')
-	LC_3D_L3_N=$(python -c "import sympy;N=sympy.Symbol('N',positive=True);print(sympy.solvers.solve($(echo ${LC_3D_L3} | sed 's/[A-Z]/N/g'), N))" | sed -e 's/\[//' -e 's/\]//')
-	LC_3D_L3_N=$(bc -l <<< "scale=0;1.5*(${LC_3D_L3_N})")
+	LC_3D_L3_N_orig=$(python -c "import sympy;N=sympy.Symbol('N',positive=True);print(sympy.solvers.solve($(echo ${LC_3D_L3} | sed 's/[A-Z]/N/g'), N))" | sed -e 's/\[//' -e 's/\]//')
+	LC_3D_L3_N_orig=$(bc -l <<< "scale=0;1.0*(${LC_3D_L3_N_orig})" | sed 's/\..*//')
+	LC_3D_L3_N=$(bc -l <<< "scale=0;1.5*(${LC_3D_L3_N_orig})")
 	LC_3D_L3_N=$(bc -l <<< "scale=0;${LC_3D_L3_N}-${LC_3D_L3_N}%10+10")
 	LC_3D_L3_N=$(echo ${LC_3D_L3_N} | sed 's/\..*//')
+
+	echo ":: L3 3D Layer Condition * 1.5 = ${LC_3D_L3_N} (${LC_3D_L3})"
+
+	# get memory size per NUMA domain and adjust iteration size
+	MEM_PER_NUMA=$(likwid-topology | grep "Total memory" | head -n 1 | sed 's/.*://g; s/\..*MB//g;' | tr -d '[:space:]')
+
+	TMP_FACTOR=2
+	if [[ ${fCONST} == "variable" ]]; then
+		TMP_FACTOR=$(grep "W" stencil.c | head -n 1 | sed 's/\].*//; s/.*\[//')
+	fi
+
+	while [[ $((${LC_3D_L3_N}*${LC_3D_L3_N}*${LC_3D_L3_N}*${TMP_FACTOR}*8/1024/1024)) -gt ${MEM_PER_NUMA} ]]; do
+		LC_3D_L3_N=$((${LC_3D_L3_N}-10))
+	done
+
+	if [[ $(( ${LC_3D_L3_N} * 10 )) -lt $(( ${LC_3D_L3_N_orig} * 15 )) ]]; then
+		echo ":: ADJUSTED ITERATION SIZE DUE TO MEMORY REQUIREMENTS TO ${LC_3D_L3_N}^3"
+	fi
+
+	echo {\$,$}LC_3D_L3 >> args.txt
+	echo {\$,$}LC_3D_L3_N >> args.txt
+	echo {\$,$}MEM_PER_NUMA >> args.txt
 
 	mkdir data/singlecore
 
@@ -214,6 +237,9 @@ for fDATATYPE in ${DATATYPE}; do
 		likwid-perfctr -f -o data/blocking/likwid_${size}.txt -g ${COUNTER} -C S0:0 -m ./stencil_blocking ${args} >> data/blocking/likwid_${size}_out.txt
 	done
 	echo
+
+	echo ":: POSTPROCESSING DATA"
+	sh $(echo $(dirname $(realpath $0))"/postprocess.sh")
 
 done
 done

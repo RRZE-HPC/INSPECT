@@ -91,20 +91,20 @@ set label at 0,0 "" hypertext point pt 1
 do for [type=0:1] {
     if ( type == 0 ) {
         TYPE="LC"
-        COLA=34
-        COLB=37
-        COLC=40
-    } else {
-        TYPE="CS"
         COLA=43
         COLB=46
         COLC=49
+    } else {
+        TYPE="CS"
+        COLA=34
+        COLB=37
+        COLC=40
     }
 
     outfile = 'memory_' . TYPE . '.svg'
     set output outfile
 
-plot "< awk '(NR>2){print;}' results.csv" u 1:COLA every 20:20 notitle w points ls 4, \
+    plot "< awk '(NR>2){print;}' results.csv" u 1:COLA every 20:20 notitle w points ls 4, \
         "" u 1:COLA notitle w lines ls 4, \
         "" u 1:25:(Info("L1 - L2",1,25)) with labels hypertext point ls 1 ps .5 notitle, \
         1 / 0 title "L1 - L2 transfer" w linespoints ls 1 ps 1, \
@@ -212,7 +212,7 @@ reset
 set datafile separator ","
 set xlabel "Number of Threads"
 set ylabel "Performance [MLUP/s]"
-set yrange [0:YMAX]
+set yrange [0:]
 set key bottom right width 5 samplen 2 font ",18"
 
 set style line 1 lt 1 lc rgb '#0072bd' lw 2 pt 7 ps .5

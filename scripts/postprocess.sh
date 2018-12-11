@@ -4,6 +4,8 @@
 # - python + python-sympy
 # - grep, sed, awk, bc
 
+OUTPUT_FOLDER=~/Uni/stempel/stempel_data_collection/stencils
+
 # variables
 MACHINE_FILE=$(grep MACHINE_FILE args.txt | sed 's/.* //')
 
@@ -36,11 +38,8 @@ fi
 echo ":: PROCESSING ${DIM}D r${RADIUS} ${KIND} ${CONST} ${WEIGHTING} ${DATATYPE} ${MACHINE}"
 
 # L3 3D Layer Condition
-LC_3D_L3=$(cat data/LC.txt | grep L3: | tail -n 1 | sed 's/.*: //; s/<=/-/')
-LC_3D_L3_N=$(python -c "import sympy;N=sympy.Symbol('N',positive=True);print(sympy.solvers.solve($(echo ${LC_3D_L3} | sed 's/[A-Z]/N/g'), N))" | sed 's/\[//; s/\]//')
-LC_3D_L3_N=$(bc -l <<< "scale=0;1.5*(${LC_3D_L3_N})")
-LC_3D_L3_N=$(bc -l <<< "scale=0;${LC_3D_L3_N}-${LC_3D_L3_N}%10+10")
-LC_3D_L3_N=$(echo ${LC_3D_L3_N} | sed 's/\..*//')
+LC_3D_L3=$(cat args.txt | grep "LC_3D_L3 " | sed 's/\$LC_3D_L3 //')
+LC_3D_L3_N=$(cat args.txt | grep LC_3D_L3_N | sed 's/.* //')
 
 # ************************************************************************************************
 # Generate index.md
@@ -349,21 +348,7 @@ echo "N,iterations,time,blocking options,flop,lup,Gflop/s,Mlup/s,cy/CL,l1-l2 mis
 
 # run benchmark
 for (( size=10; size<=${LC_3D_L3_N}+10; size=size+10)); do
-
-	# blocking factor  x direction 100 or size_x if it is smaller
-	PB=$(python -c "import sympy;P=sympy.Symbol('P',positive=True);print(sympy.solvers.solve($(echo ${LC_3D_L3} | sed 's/N/16/g'), P))" | sed 's/\[//; s/\]//')
-	PB=$(bc -l <<< "scale=0;1.5*(${PB})/10*10")
-	PB=$(( ${PB} > ${size} ? ${size} : ${PB} ))
-
-	# y direction: LC
-	TMP=$(echo ${LC_3D_L3} | sed "s/P/${PB}/g")
-	NB=$(bc -l <<< "scale=0;$(python -c "import sympy;N=sympy.Symbol('N',positive=True);print(sympy.solvers.solve(${TMP}, N))" | sed 's/\[//; s/\]//')")
-
-	# blocking factor z direction, fixed factor: 16
-	MB=16
-
-	STEMPEL_BENCH_BLOCKING_value="${MB} ${NB} ${PB}"
-	args="${size} ${size} ${size} ${STEMPEL_BENCH_BLOCKING_value}"
+	args=$(grep "${size} ${size} ${size}" args.txt)
 
 	#save results/metrics
 	iterations=$(head -n 1 data/blocking/likwid_${size}_out.txt | grep "iterations:" | sed 's/iterations: //')
@@ -412,3 +397,11 @@ gnuplot $(echo $(dirname $(realpath $0))"/plots.gnuplot")
 # ************************************************************************************************
 
 tar czf data.tar.gz data && rm -rf data
+
+# ************************************************************************************************
+# copy results for stencil data collection
+# ************************************************************************************************
+
+FOLDER="${OUTPUT_FOLDER}/${DIM}D/${RADIUS}r/${WEIGHTING}/${KIND}/${CONST}/${DATATYPE}/${MACHINE}/"
+mkdir -p ${FOLDER}
+cp index.md *csv *svg stencil.c ${FOLDER}
