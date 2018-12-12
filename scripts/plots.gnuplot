@@ -5,14 +5,14 @@ JSDIR = "https://rrze-hpc.github.io/stempel_data_collection/assets/js/"
 # Roofline LC+CS Plot
 ####################################################################################################
 
-YMAX = `bc -l <<< "1.2 * $(awk -F"," '(NR>3){print $22}' results.csv | sort -n | uniq | tail -n 1)"`
+YMAX = `bc -l <<< "1.2 * $(awk -F"," '(NR>3){print $3}{print $6}{print $8}{print $9}' results.csv | sort -n | uniq | tail -n 1)"`
 
 reset
 
 set datafile separator ","
 set xlabel "Grid Size (N^3)"
 set ylabel "Performance [MLUP/s]"
-set yrange [0:*]
+set yrange [0:YMAX]
 set xtics 100
 set key top right width 5 samplen 2 font ",18"
 
@@ -60,7 +60,7 @@ do for [type=0:1] {
 # Memory Transfer Plot CS
 ####################################################################################################
 
-YMAX = `bc -l <<< "1.2 * $(awk -F"," '(NR>3){print $25}' results.csv | sort -n | uniq | tail -n 1)"`
+YMAX = `bc -l <<< "1.2 * $(awk -F"," '(NR>3){print $25}{print $28}{print $31}{print $34}{print $37}{print $40}{print $43}{print $46}{print $49}' results.csv | sort -n | uniq | tail -n 1)"`
 
 reset
 
@@ -122,7 +122,7 @@ do for [type=0:1] {
 # ECM LC Plot
 ####################################################################################################
 
-YMAX = `bc -l <<< "1.2 * $(awk -F"," '(NR>3){print $22}' results.csv | sort -n | uniq | tail -n 1)"`
+YMAX = `bc -l <<< "1.2 * $(awk -F"," '(NR>3){print $15}{print $21}{print $22}' results.csv | sort -n | uniq | tail -n 1)"`
 
 do for [type=0:1] {
     if ( type == 0 ) {
@@ -247,12 +247,14 @@ do for [N in SCALINGS] {
 # Blocking Plots
 ####################################################################################################
 
+YMAX  = `bc -l <<< "1.2 * $({ awk -F"," '(NR>3){print $6}{print $8}{print $9}' results.csv; awk -F"," '(NR>3){print $8}' blocking_L3-3D.csv;} | sort -n | uniq | tail -n 1)"`
+
 reset
 
 set datafile separator ","
 set xlabel "Grid Size (N³)"
 set ylabel "Performance [MLUP/s]"
-set yrange [0:*]
+set yrange [0:YMAX]
 set key top right width 5 samplen 2 font ",18"
 
 set style line 1 lt 1 lc rgb '#0072bd' lw 2 pt 7 ps .5
@@ -276,6 +278,9 @@ do for [B in BLOCKINGS] {
     outfile = B . '.svg'
     set output outfile
     datafile = B . '.csv'
+
+    COL=6
+    DESC="Layer Condition"
 
     plot "< awk '(NR>2){print;}' results.csv" u 1:COL every 20:20 notitle w points ls 4, \
             "" u 1:COL notitle w lines ls 4, \

@@ -172,6 +172,9 @@ for (( size=10; size<=${LC_3D_L3_N}+10; size=size+10)); do
 			gflops=$(grep "GFLOP/s d" data/singlecore/Roofline_SIM_${size}.txt | sed -e 's/ GFLOP.*//' -e 's/CPU bound. //')
 			mflops=$(bc -l <<< "scale=2;${gflops} * 1000 / ${flops}")
 			intensity=$(grep Arithmetic  data/singlecore/Roofline_SIM_${size}.txt | sed -e 's/Arithmetic Intensity: //' -e 's/ FLOP\/B//')
+			if [ ${#intensity} -lt 2 ]; then
+				intensity=$(tail -n 2 data/singlecore/Roofline_SIM_${size}.txt | sed '/^\s*$/d')
+			fi
 		fi
 	fi
 
@@ -226,6 +229,9 @@ for (( size=10; size<=${LC_3D_L3_N}+10; size=size+10)); do
 			gflops_LC=$(grep "GFLOP/s d" data/singlecore/Roofline_LC_${size}.txt | sed -e 's/ GFLOP.*//' -e 's/CPU bound. //')
 			mflops_LC=$(bc -l <<< "scale=2;${gflops_LC} * 1000 / ${flops}")
 			intensity_LC=$(grep Arithmetic  data/singlecore/Roofline_LC_${size}.txt | sed -e 's/Arithmetic Intensity: //' -e 's/ FLOP\/B//')
+			if [ ${#intensity_LC} -lt 2 ]; then
+				intensity=$(tail -n 2 data/singlecore/Roofline_LC_${size}.txt | sed '/^\s*$/d')
+			fi
 		fi
 	fi
 
@@ -326,7 +332,7 @@ for (( threads = 1; threads <= ${cores}; threads++ )); do
 	mlups=$(bc -l <<< "scale=2;${lup} / 10^6 / ${time}")
 	cyCL=$(bc -l <<< "scale=2;${ghz} / ( ${lup} / 10^9 / ${time} ) * 8")
 
-	gflopsIACA=$(cat data/scaling/RooflineIACA_${LC_3D_L3_N}_${threads}.txt | grep GFLOP | tail -n 1 | sed 's/ GFLOP.*//')
+	gflopsIACA=$(cat data/scaling/RooflineIACA_${LC_3D_L3_N}_${threads}.txt | grep GFLOP | tail -n 1 | sed 's/ GFLOP.*//; s/CPU bound. //')
 	mlupsIACA=$(bc -l <<< "scale=2;${gflopsIACA} * 10^3 / $(cat ./stencil.flop | sed 's/FLOP: //')")
 
 	cyclECM=$(cat data/scaling/ECM_${LC_3D_L3_N}_${threads}.txt | tail -n 3 | grep cy/CL | sed -e 's/ cy\/CL (.*//' -e 's/} cy\/CL//' | awk '{print $NF}')
