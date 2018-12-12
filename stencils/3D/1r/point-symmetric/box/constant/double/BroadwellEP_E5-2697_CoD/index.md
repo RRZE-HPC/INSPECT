@@ -10,6 +10,7 @@ coefficients : "constant"
 datatype     : "double"
 machine      : "BroadwellEP_E5-2697_CoD"
 flavor       : "Cluster on Die"
+comment      : "The relatively long dependency chain (see assembler code) is a common issue for boxed stencils. This makes this code in general core bound because of those dependencies."
 compile_flags: "icc -O3 -xCORE-AVX2 -fno-alias -qopenmp -DLIKWID_PERFMON -Ilikwid-4.3.2/include -Llikwid-4.3.2/lib -Iheaders/dummy.c stencil_compilable.c -o stencil -llikwid"
 flop         : "40"
 scaling      : [ "1280" ]
