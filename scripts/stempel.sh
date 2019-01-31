@@ -150,10 +150,10 @@ for fDATATYPE in ${DATATYPE}; do
 	for (( size=10; size<=${LC_3D_L3_N}+10; size=size+10)); do
 		echo -ne "\033[0K\r:: RUNNIG SINGLE CORE BENCHMARK N=${size}"
 		KERNCRAFT_ARGS="-m ${MACHINE_FILE} ./stencil.c -D N ${size} -D M ${size} -D P ${size} -vvv --cores 1 --compiler icc --ignore-warnings"
-		${KERNCRAFT_BINARY} -p RooflineIACA -P SIM ${KERNCRAFT_ARGS} > data/singlecore/Roofline_SIM_${size}.txt
-		${KERNCRAFT_BINARY} -p RooflineIACA -P LC ${KERNCRAFT_ARGS} > data/singlecore/Roofline_LC_${size}.txt
-		${KERNCRAFT_BINARY} -p ECM -P SIM ${KERNCRAFT_ARGS} > data/singlecore/ECM_SIM_${size}.txt
-		${KERNCRAFT_BINARY} -p ECM -P LC ${KERNCRAFT_ARGS} > data/singlecore/ECM_LC_${size}.txt
+		for cache_predictor in LC SIM; do
+			${KERNCRAFT_BINARY} -p RooflineIACA -P ${cache_predictor} ${KERNCRAFT_ARGS} > data/singlecore/Roofline_${cache_predictor}_${size}.txt
+			${KERNCRAFT_BINARY} -p ECM -P ${cache_predictor} ${KERNCRAFT_ARGS} > data/singlecore/ECM_${cache_predictor}_${size}.txt
+		done
 		${KERNCRAFT_BINARY} -p Benchmark -P LC ${KERNCRAFT_ARGS} > data/singlecore/Bench_${size}.txt
 	done
 
@@ -180,18 +180,13 @@ for fDATATYPE in ${DATATYPE}; do
 
 	mkdir data/scaling
 
-	# write results file header
-	echo "N,threads,iterations,time,blocking factor,flop,lup,Gflop/s,Gflop/s (Roofline),Mlup/s,Mlup/s (Roofline),cy/CL,cy/CL (ECM),MLUP/s (ECM),l1-l2 miss,l1-l2 evict,l2-l3 miss,l2-l3 evict,l3-mem miss,l3-mem evict,l1-l2 total,l2-l3 total,l3-mem total" >> scaling.csv
-
 	for (( threads = 1; threads <= ${cores}; threads++ )); do
-
-		export OMP_NUM_THREADS=${threads}
-
 		echo -ne "\033[0K\r:: RUNNIG THREAD SCALING BENCHMARK N=${LC_3D_L3_N} threads=${threads}"
 
-		likwid-perfctr -f -o data/scaling/likwid_${LC_3D_L3_N}_${threads}.txt -g ${COUNTER} -C S0:0-$(($threads - 1)) -m ./stencil_scaling ${LC_3D_L3_N} ${LC_3D_L3_N} ${LC_3D_L3_N} >> data/scaling/likwid_${LC_3D_L3_N}_${threads}_out.txt
-		${KERNCRAFT_BINARY} -p RooflineIACA -P SIM -m ${MACHINE_FILE} ./stencil.c -D N ${LC_3D_L3_N} -D M ${LC_3D_L3_N} -D P ${LC_3D_L3_N} -vvv --cores ${threads} --compiler icc --ignore-warnings >> data/scaling/RooflineIACA_${LC_3D_L3_N}_${threads}.txt
-		${KERNCRAFT_BINARY} -p ECM -P SIM -m ${MACHINE_FILE} ./stencil.c -D N ${LC_3D_L3_N} -D M ${LC_3D_L3_N} -D P ${LC_3D_L3_N} -vvv --cores ${threads} --compiler icc --ignore-warnings >> data/scaling/ECM_${LC_3D_L3_N}_${threads}.txt
+		KERNCRAFT_ARGS="-m ${MACHINE_FILE} ./stencil.c -D N ${LC_3D_L3_N} -D M ${LC_3D_L3_N} -D P ${LC_3D_L3_N} -vvv --cores ${threads} --compiler icc --ignore-warnings"
+		for pmodel in RooflineIACA ECM Benchmark; do
+			${KERNCRAFT_BINARY} -p ${pmodel} -P LC ${KERNCRAFT_ARGS} >> data/scaling/${pmodel}_${LC_3D_L3_N}_${threads}.txt
+		done
 	done
 
 	echo
@@ -204,6 +199,7 @@ for fDATATYPE in ${DATATYPE}; do
 	echo ":: GENERATING BENCHMARK CODE WITH BLOCKING"
 	${STEMPEL_BINARY} bench stencil.c -m ${MACHINE_FILE} -b 2 --store
 
+	# fix compilation
 	sed -ri 's/#include <math.h>//' stencil_compilable.c
 	sed -ri 's/ rand.*/ 1.;/' stencil_compilable.c
 
@@ -231,6 +227,7 @@ for fDATATYPE in ${DATATYPE}; do
 
 		STEMPEL_BENCH_BLOCKING_value="${MB} ${NB} ${PB}"
 		args="${size} ${size} ${size} ${STEMPEL_BENCH_BLOCKING_value}"
+		echo ${args} >> args.txt
 
 		echo -ne "\033[0K\r:: RUNNIG BENCHMARK N=${args}"
 

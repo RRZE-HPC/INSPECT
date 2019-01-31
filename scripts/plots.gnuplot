@@ -60,7 +60,7 @@ do for [type=0:1] {
 # Memory Transfer Plot CS
 ####################################################################################################
 
-YMAX = `bc -l <<< "1.2 * $(awk -F"," '(NR>3){print $25}{print $28}{print $31}{print $34}{print $37}{print $40}{print $43}{print $46}{print $49}' results.csv | sort -n | uniq | tail -n 1)"`
+YMAX = `bc -l <<< "1.2 * $(awk -F"," '(NR>3){print $30}{print $33}{print $36}{print $39}{print $42}{print $45}{print $48}{print $51}{print $54}' results.csv | sort -n | uniq | tail -n 1)"`
 
 reset
 
@@ -91,14 +91,14 @@ set label at 0,0 "" hypertext point pt 1
 do for [type=0:1] {
     if ( type == 0 ) {
         TYPE="LC"
-        COLA=43
-        COLB=46
-        COLC=49
+        COLA=48
+        COLB=51
+        COLC=54
     } else {
         TYPE="CS"
-        COLA=34
-        COLB=37
-        COLC=40
+        COLA=39
+        COLB=42
+        COLC=45
     }
 
     outfile = 'memory_' . TYPE . '.svg'
@@ -106,15 +106,15 @@ do for [type=0:1] {
 
     plot "< awk '(NR>2){print;}' results.csv" u 1:COLA every 20:20 notitle w points ls 4, \
         "" u 1:COLA notitle w lines ls 4, \
-        "" u 1:25:(Info("L1 - L2",1,25)) with labels hypertext point ls 1 ps .5 notitle, \
+        "" u 1:30:(Info("L1 - L2",1,30)) with labels hypertext point ls 1 ps .5 notitle, \
         1 / 0 title "L1 - L2 transfer" w linespoints ls 1 ps 1, \
      "" u 1:COLB every 20:20 notitle w points ls 5, \
          "" u 1:COLB notitle w lines ls 5, \
-         "" u 1:28:(Info("L2 - L3",1,28)) with labels hypertext point ls 2 ps .5 notitle, \
+         "" u 1:33:(Info("L2 - L3",1,33)) with labels hypertext point ls 2 ps .5 notitle, \
          1 / 0 title "L2 - L3 transfer" w linespoints ls 2 ps 1, \
      "" u 1:COLC every 20:20 notitle w points ls 6, \
          "" u 1:COLC notitle w lines ls 6, \
-         "" u 1:31:(Info("L3 - MEM",1,31)) with labels hypertext point ls 3 ps .5 notitle, \
+         "" u 1:36:(Info("L3 - MEM",1,36)) with labels hypertext point ls 3 ps .5 notitle, \
          1 / 0 title "L3 - Mem transfer" w linespoints ls 3 ps 1
 }
 
@@ -124,19 +124,32 @@ do for [type=0:1] {
 
 YMAX = `bc -l <<< "1.2 * $(awk -F"," '(NR>3){print $15}{print $21}{print $22}' results.csv | sort -n | uniq | tail -n 1)"`
 
-do for [type=0:1] {
+do for [type=0:2] {
     if ( type == 0 ) {
         TYPE="LC"
-        COLA=17
-        COLB=18
-        COLC=19
-        COLD=20
-    } else {
+        COLA=16
+        COLB=17
+        COLC=18
+        COLD=19
+        COLE=20
+    }
+
+    if ( type == 1 ) {
         TYPE="CS"
-        COLA=11
-        COLB=12
-        COLC=13
-        COLD=14
+        COLA=10
+        COLB=11
+        COLC=12
+        COLD=13
+        COLE=14
+    }
+
+    if ( type == 2 ) {
+        TYPE="Pheno"
+        COLA=23
+        COLB=24
+        COLC=25
+        COLD=26
+        COLE=27
     }
 
     reset
@@ -175,10 +188,10 @@ do for [type=0:1] {
     set key reverse outside top horizontal Left samplen 1
     set tics scale 0
 
-    plot  "< awk '(NR>2){print;}' results.csv" u COLA:xticlabels(1) title 'T_{nOL}' ls 4, \
-          "< awk '(NR>2){print;}' results.csv" u COLB:xticlabels(1) title 'T_{L1L2}' ls 7, \
-          "< awk '(NR>2){print;}' results.csv" u COLC:xticlabels(1) title 'T_{L2L3}' ls 2, \
-          "< awk '(NR>2){print;}' results.csv" u COLD:xticlabels(1) title 'T_{L3MEM}' ls 3
+    plot  "< awk '(NR>2){print;}' results.csv" u COLB:xticlabels(1) title 'T_{nOL}' ls 4, \
+          "< awk '(NR>2){print;}' results.csv" u COLC:xticlabels(1) title 'T_{L1L2}' ls 7, \
+          "< awk '(NR>2){print;}' results.csv" u COLD:xticlabels(1) title 'T_{L2L3}' ls 2, \
+          "< awk '(NR>2){print;}' results.csv" u COLE:xticlabels(1) title 'T_{L3MEM}' ls 3
 
     set origin 0,0
     set size 1,1
@@ -195,7 +208,7 @@ do for [type=0:1] {
     set label at 0,0 "" hypertext point pt 1
 
     plot "< awk '(NR>2){print;}' results.csv" u 1:22:(Info("ECM",1,22)) with labels hypertext point ls 1 title 'Measurement', \
-         "< awk '(NR>2){print;}' results.csv" u 1:16 w lines title 'T_{OL}' ls 10
+         "< awk '(NR>2){print;}' results.csv" u 1:COLA w lines title 'T_{OL}' ls 10
 
     # end of multiplot
     unset multiplot
