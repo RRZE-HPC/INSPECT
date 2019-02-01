@@ -300,53 +300,6 @@ for (( threads = 1; threads <= ${cores}; threads++ )); do
 
 	OMP_NUM_THREADS=${threads}
 
-	#save results/metrics
-	# iterations=$(head -n 1 data/scaling/likwid_${LC_3D_L3_N}_${threads}_out.txt | grep "iterations:" | sed 's/iterations: //')
-	# time=$(grep "time:" data/scaling/likwid_${LC_3D_L3_N}_${threads}_out.txt | sed 's/time: //')
-	# flop=$(grep "Total work" data/scaling/likwid_${LC_3D_L3_N}_${threads}_out.txt | sed 's/ FLOP//; s/Total work: //')
-	# lup=$(grep "Total iterations: " data/scaling/likwid_${LC_3D_L3_N}_${threads}_out.txt | sed 's/Total iterations: //; s/ LUP//')
-
-	# gflops=$(bc -l <<< "scale=2;${flop} / 10^9 / ${time}")
-
-	# mlups=$(bc -l <<< "scale=2;${lup} / 10^6 / ${time}")
-	# cyCL=$(bc -l <<< "scale=2;${ghz} / ( ${lup} / 10^9 / ${time} ) * 8")
-
-	# if [ $threads -eq 1 ]; then
-	# 	L1D_M_EVICT=$(grep L1D_M_EVICT data/scaling/likwid_${LC_3D_L3_N}_${threads}.txt | sed 's/|[ ]*L1D_M_EVICT[ ]*|[ ]*PMC[0123][ ]*|[ ]*//; s/ |//')
-	# 	L1D_REPLACEMENT=$(grep L1D_REPLACEMENT data/scaling/likwid_${LC_3D_L3_N}_${threads}.txt | sed 's/|[ ]*L1D_REPLACEMENT[ ]*|[ ]*PMC[0123][ ]*|[ ]*//; s/ |//')
-
-	# 	L2_LINES_IN_ALL=$(grep L2_LINES_IN_ALL data/scaling/likwid_${LC_3D_L3_N}_${threads}.txt | sed 's/|[ ]*L2_LINES_IN_ALL[ ]*|[ ]*PMC[0123][ ]*|[ ]*//; s/ |//')
-	# 	L2_TRANS_L2_WB=$(grep L2_TRANS_L2_WB data/scaling/likwid_${LC_3D_L3_N}_${threads}.txt | sed 's/|[ ]*L2_TRANS_L2_WB[ ]*|[ ]*PMC[0123][ ]*|[ ]*//; s/ |//')
-
-	# 	CAS_COUNT_RD=$(var=$(grep CAS_COUNT_RD data/scaling/likwid_${LC_3D_L3_N}_${threads}.txt | sed 's/|[ ]*CAS_COUNT_RD[ ]*|[ ]*MBOX[01234567]C[01][ ]*|[ ]*//; s/[ ]*|/+/; s/-/0/' | tr -d '\n') && echo ${var::-1})
-	# 	CAS_COUNT_WR=$(var=$(grep CAS_COUNT_WR data/scaling/likwid_${LC_3D_L3_N}_${threads}.txt | sed 's/|[ ]*CAS_COUNT_WR[ ]*|[ ]*MBOX[01234567]C[01][ ]*|[ ]*//; s/[ ]*|/+/; s/-/0/' | tr -d '\n') && echo ${var::-1})
-	# else
-	# 	L1D_M_EVICT=$(grep 'L1D_M_EVICT STAT' data/scaling/likwid_${LC_3D_L3_N}_${threads}.txt | sed -e 's/|[ ]*L1D_M_EVICT STAT[ ]*|[ ]*PMC[0123][ ]*|[ ]*//' -e 's/ |.*//')
-	# 	L1D_REPLACEMENT=$(grep 'L1D_REPLACEMENT STAT' data/scaling/likwid_${LC_3D_L3_N}_${threads}.txt | sed -e 's/|[ ]*L1D_REPLACEMENT STAT[ ]*|[ ]*PMC[0123][ ]*|[ ]*//'  -e 's/ |.*//')
-
-	# 	L2_LINES_IN_ALL=$(grep 'L2_LINES_IN_ALL STAT' data/scaling/likwid_${LC_3D_L3_N}_${threads}.txt | sed -e 's/|[ ]*L2_LINES_IN_ALL STAT[ ]*|[ ]*PMC[0123][ ]*|[ ]*//' -e 's/ |.*//')
-	# 	L2_TRANS_L2_WB=$(grep 'L2_TRANS_L2_WB STAT' data/scaling/likwid_${LC_3D_L3_N}_${threads}.txt | sed -e 's/|[ ]*L2_TRANS_L2_WB STAT[ ]*|[ ]*PMC[0123][ ]*|[ ]*//' -e 's/ |.*//')
-
-	# 	CAS_COUNT_RD=$(var=$(grep 'CAS_COUNT_RD STAT' data/scaling/likwid_${LC_3D_L3_N}_${threads}.txt | sed -e 's/|[ ]*CAS_COUNT_RD STAT[ ]*|[ ]*MBOX[01234567]C[01][ ]*|[ ]*//' -e 's/[ ]*|[ ]*/+/g' -e 's/-/0/' -e 's/e+/*10^/g' | tr -d '\n') && echo ${var::-1})
-	# 	CAS_COUNT_WR=$(var=$(grep 'CAS_COUNT_WR STAT' data/scaling/likwid_${LC_3D_L3_N}_${threads}.txt | sed -e 's/|[ ]*CAS_COUNT_WR STAT[ ]*|[ ]*MBOX[01234567]C[01][ ]*|[ ]*//' -e 's/[ ]*|[ ]*/+/g' -e 's/-/0/' -e 's/e+/*10^/g' | tr -d '\n') && echo ${var::-1})
-	# fi
-
-	# L1D_M_EVICT=$(grep 'L1.*|' data/scaling/Benchmark_${LC_3D_L3_N}_${threads}.txt | sed 's/.*LOAD\/CL[ ]*//;s/ .*//')
-	# L1D_REPLACEMENT=0
-	# L2_LINES_IN_ALL=0
-	# L2_TRANS_L2_WB=0
-	# CAS_COUNT_RD=0
-	# CAS_COUNT_WR=0
-
-	# l2_load=$(bc -l <<< "scale=2;${L1D_REPLACEMENT} * 64 / ( ${iterations} * ( ${LC_3D_L3_N} - 2 )^3 )")
-	# l2_evict=$(bc -l <<< "scale=2;${L1D_M_EVICT} * 64 / ( ${iterations} * ( ${LC_3D_L3_N} - 2 )^3 )")
-
-	# l3_load=$(bc -l <<< "scale=2;${L2_LINES_IN_ALL} * 64 / ( ${iterations} * ( ${LC_3D_L3_N} - 2 )^3 )")
-	# l3_evict=$(bc -l <<< "scale=2;${L2_TRANS_L2_WB} * 64 / ( ${iterations} * ( ${LC_3D_L3_N} - 2 )^3 )")
-
-	# mem_read=$(bc -l <<< "scale=2;${CAS_COUNT_RD} * 64 / ( ${iterations} * ( ${LC_3D_L3_N} - 2 )^3 )")
-	# mem_write=$(bc -l <<< "scale=2;${CAS_COUNT_WR} * 64 / ( ${iterations} * ( ${LC_3D_L3_N} - 2 )^3 )")
-
 	l2_load=0
 	l2_evict=0
 	l3_load=0
