@@ -10,8 +10,7 @@ coefficients : "variable"
 datatype     : "double"
 machine      : "HaswellEP_E5-2695v3_CoD"
 flavor       : "Cluster on Die"
-comment      : "The relatively long dependency chain (see assembler code) is a common issue for boxed stencils. This makes this code in general core bound because of those dependencies."
-compile_flags: "icc -O3 -xCORE-AVX2 -fno-alias -qopenmp -DLIKWID_PERFMON -Ilikwid-4.3.2/include -Llikwid-4.3.2/lib -Iheaders/dummy.c stencil_compilable.c -o stencil -llikwid"
+compile_flags: "icc -O3 -xCORE-AVX2 -fno-alias -qopenmp -qopenmp -DLIKWID_PERFMON -Ilikwid-4.3.3/include -Llikwid-4.3.3/lib -Iheaders/dummy.c stencil_compilable.c -o stencil -llikwid"
 flop         : "13"
 scaling      : [ "660" ]
 blocking     : [ "L3-3D" ]
@@ -26,9 +25,9 @@ double a[M][N][P];
 double b[M][N][P];
 double W[7][M][N][P];
 
-for (int k = 1; k < M - 1; ++k) {
-  for (int j = 1; j < N - 1; ++j) {
-    for (int i = 1; i < P - 1; ++i) {
+for (long k = 1; k < M - 1; ++k) {
+  for (long j = 1; j < N - 1; ++j) {
+    for (long i = 1; i < P - 1; ++i) {
       b[k][j][i] = W[0][k][j][i] * a[k][j][i] +
                    W[1][k][j][i] * a[k][j][i - 1] +
                    W[2][k][j][i] * a[k][j][i + 1] +
@@ -41,26 +40,26 @@ for (int k = 1; k < M - 1; ++k) {
 }
 {%- endcapture -%}
 {%- capture source_code_asm -%}
-vmovupd ymm6, ymmword ptr [rdi+r15*8+0x8]
-vmovupd ymm0, ymmword ptr [r11+r15*8+0x8]
-vmovupd ymm2, ymmword ptr [rbx+r15*8+0x8]
-vmovupd ymm7, ymmword ptr [rax+r15*8]
-vmovupd ymm1, ymmword ptr [r9+r15*8+0x8]
-vmulpd ymm10, ymm6, ymmword ptr [rax+r15*8+0x10]
-vmovupd ymm3, ymmword ptr [r10+r15*8+0x8]
-vmulpd ymm4, ymm0, ymmword ptr [rdx+r15*8+0x8]
-vmulpd ymm5, ymm2, ymmword ptr [rcx+r15*8+0x8]
-vmovupd ymm8, ymmword ptr [rax+r15*8+0x8]
-vfmadd231pd ymm10, ymm7, ymmword ptr [r14+r15*8+0x8]
-vfmadd231pd ymm4, ymm1, ymmword ptr [r8+r15*8+0x8]
-vfmadd231pd ymm5, ymm3, ymmword ptr [r13+r15*8+0x8]
-vfmadd231pd ymm10, ymm8, ymmword ptr [rsi+r15*8+0x8]
+vmovupd ymm6, ymmword ptr [r12+rdx*8+0x8]
+vmovupd ymm0, ymmword ptr [rbx+rdx*8+0x8]
+vmovupd ymm2, ymmword ptr [rdi+rdx*8+0x8]
+vmovupd ymm7, ymmword ptr [r14+rdx*8]
+vmovupd ymm1, ymmword ptr [r11+rdx*8+0x8]
+vmulpd ymm10, ymm6, ymmword ptr [r14+rdx*8+0x10]
+vmovupd ymm3, ymmword ptr [r10+rdx*8+0x8]
+vmulpd ymm4, ymm0, ymmword ptr [rsi+rdx*8+0x8]
+vmulpd ymm5, ymm2, ymmword ptr [r8+rdx*8+0x8]
+vmovupd ymm8, ymmword ptr [r14+rdx*8+0x8]
+vfmadd231pd ymm10, ymm7, ymmword ptr [r13+rdx*8+0x8]
+vfmadd231pd ymm4, ymm1, ymmword ptr [r15+rdx*8+0x8]
+vfmadd231pd ymm5, ymm3, ymmword ptr [rax+rdx*8+0x8]
+vfmadd231pd ymm10, ymm8, ymmword ptr [rcx+rdx*8+0x8]
 vaddpd ymm9, ymm4, ymm5
 vaddpd ymm11, ymm9, ymm10
-vmovupd ymmword ptr [r12+r15*8+0x8], ymm11
-add r15, 0x4
-cmp r15, qword ptr [rsp+0x158]
-jb 0xffffffffffffff83
+vmovupd ymmword ptr [r9+rdx*8+0x8], ymm11
+add rdx, 0x4
+cmp rdx, qword ptr [rsp+0x148]
+jb 0xffffffffffffff86
 {%- endcapture -%}
 
 {%- capture layercondition -%}
