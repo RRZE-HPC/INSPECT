@@ -39,6 +39,12 @@ elif [[ $(grep STEMPEL_ARGS args.txt | grep -c '\-p') -eq 1 ]]; then
 	WEIGHTING=point-symmetric
 fi
 
+if [[ ${DATATYPE} == "double" ]]; then
+	LUPperCL=8
+else
+	LUPperCL=16
+fi
+
 echo ":: PROCESSING ${DIM}D r${RADIUS} ${KIND} ${CONST} ${WEIGHTING} ${DATATYPE} ${MACHINE}"
 
 # L3 3D Layer Condition
@@ -258,7 +264,7 @@ for (( size=10; size<=${LC_3D_L3_N}+10; size=size+10)); do
 		bench_mlup=$(cat data/singlecore/Bench_${size}.txt | grep " MLUP" | sed -e 's/Performance: //' -e 's/ MLUP\/s//')
 
 		ecm_mlup=$(grep "Clock" data/singlecore/Bench_${size}.txt | sed -e 's/.*: //g' -e 's/\..*//g')
-		ecm_mlup=$(bc -l <<< "scale=2;(8 * ${ecm_mlup} / ${ecm_cy_LC})")
+		ecm_mlup=$(bc -l <<< "scale=2;(${LUPperCL} * ${ecm_mlup} / ${ecm_cy_LC})")
 
 		pheno_ecm=$(grep Pheno data/singlecore/Bench_${size}.txt | sed 's/.*: //;s/{ //g;s/ } cy\/CL//g;s/ [|]* /,/g')
 
@@ -321,7 +327,7 @@ for (( threads = 1; threads <= ${cores}; threads++ )); do
 	mlupsIACA=$(bc -l <<< "scale=2;${gflopsIACA} * 10^3 / $(cat ./stencil.flop | sed 's/FLOP: //')")
 
 	cyclECM=$(cat data/scaling/ECM_${LC_3D_L3_N}_${threads}.txt | tail -n 3 | grep cy/CL | sed -e 's/ cy\/CL (.*//' -e 's/} cy\/CL//' | awk '{print $NF}')
-	mlupsECM=$(bc -l <<< "scale=2;8 * ${ghz} * 10^3 / ${cyclECM}")
+	mlupsECM=$(bc -l <<< "scale=2;${LUPperCL} * ${ghz} * 10^3 / ${cyclECM}")
 
 	echo "${LC_3D_L3_N},${threads},${iterations},${time},${STEMPEL_BENCH_BLOCKING_value},${flop},${lup},${gflops},${gflopsIACA},${mlups},${mlupsIACA},${cyCL},${cyclECM},${mlupsECM},${l2_load},${l2_evict},${l3_load},${l3_evict},${mem_read},${mem_write}" >> ${FILENAME}
 done
@@ -383,7 +389,7 @@ for (( size=10; size<=${LC_3D_L3_N}+10; size=size+10)); do
 
 	gflops=$(bc -l <<< "scale=2;${flop} / 10^9 / ${time}")
 	mlups=$(bc -l <<< "scale=2;${lup} / 10^6 / ${time}")
-	cyCL=$(bc -l <<< "scale=2;${ghz} / ( ${lup} / 10^9 / ${time} ) * 8")
+	cyCL=$(bc -l <<< "scale=2;${ghz} / ( ${lup} / 10^9 / ${time} ) * ${LUPperCL}")
 
 	echo "${size},${iterations},${time},${args},${flop},${lup},${gflops},${mlups},${cyCL},${l2_load},${l2_evict},${l3_load},${l3_evict},${mem_read},${mem_write},${l2_total},${l3_total},${mem_total}" >> ${FILENAME}
 done
