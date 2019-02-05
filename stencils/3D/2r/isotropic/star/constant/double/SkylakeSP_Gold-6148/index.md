@@ -1,6 +1,6 @@
 ---
 
-title:  "Stencil detail"
+title:  "Stencil 3D r2 star constant isotropic double SkylakeSP_Gold-6148"
 
 dimension    : "3D"
 radius       : "2r"
@@ -9,8 +9,11 @@ kind         : "star"
 coefficients : "constant"
 datatype     : "double"
 machine      : "SkylakeSP_Gold-6148"
-flavor       : ""
-compile_flags: "icc -O3 -xCORE-AVX512 -fno-alias -qopenmp -DLIKWID_PERFMON -I/mnt/opt/likwid-4.3.2/include -L/mnt/opt/likwid-4.3.2/lib -I./stempel/stempel/headers/ ./stempel/headers/timing.c ./stempel/headers/dummy.c solar_compilable.c -o stencil -llikwid"
+comment      : "The correct way to measure L2-Memory and L3-Memory traffic is unknown, hence the prediction by kerncraft is less accurate."
+compile_flags: "icc -O3 -fno-alias -xCORE-AVX512 -qopenmp -qopenmp -DLIKWID_PERFMON -Ilikwid-4.3.3/include -Llikwid-4.3.3/lib -Iheaders/dummy.c stencil_compilable.c -o stencil -llikwid"
+flop         : "15"
+scaling      : [ "1030" ]
+blocking     : [ "L3-3D" ]
 ---
 
 {%- capture basename -%}
@@ -21,70 +24,68 @@ compile_flags: "icc -O3 -xCORE-AVX512 -fno-alias -qopenmp -DLIKWID_PERFMON -I/mn
 double a[M][N][P];
 double b[M][N][P];
 double c0;
+double c1;
+double c2;
 
-for(int k=2; k < M-2; k++){
-  for(int j=2; j < N-2; j++){
-    for(int i=2; i < P-2; i++){
-      b[k][j][i] = c0 * (a[k][j][i]
-        + a[k][j][i-1] + a[k][j][i+1]
-        + a[k-1][j][i] + a[k+1][j][i]
-        + a[k][j-1][i] + a[k][j+1][i]
-        + a[k][j][i-2] + a[k][j][i+2]
-        + a[k-2][j][i] + a[k+2][j][i]
-        + a[k][j-2][i] + a[k][j+2][i]
-        );
+for (long k = 2; k < M - 2; ++k) {
+  for (long j = 2; j < N - 2; ++j) {
+    for (long i = 2; i < P - 2; ++i) {
+      b[k][j][i] = c0 * a[k][j][i] +
+                   c1 * ((a[k][j][i - 1] + a[k][j][i + 1]) +
+                         (a[k - 1][j][i] + a[k + 1][j][i]) +
+                         (a[k][j - 1][i] + a[k][j + 1][i])) +
+                   c2 * ((a[k][j][i - 2] + a[k][j][i + 2]) +
+                         (a[k - 2][j][i] + a[k + 2][j][i]) +
+                         (a[k][j - 2][i] + a[k][j + 2][i]));
     }
   }
 }
 {%- endcapture -%}
-
 {%- capture source_code_asm -%}
-vpcmpgtd k1, xmm4, xmm5
-add r14, 0x4
-vpaddd xmm5, xmm5, xmm1
-vmovupd ymm6{k1}{z}, ymmword ptr [rbx+rcx*1+0x10]
-vmovupd ymm7{k1}{z}, ymmword ptr [rbx+rcx*1+0x8]
-vmovupd ymm8{k1}{z}, ymmword ptr [rbx+rcx*1+0x18]
-vmovupd ymm15{k1}{z}, ymmword ptr [rbx+rcx*1]
-vmovupd ymm20{k1}{z}, ymmword ptr [rbx+rcx*1+0x20]
-vmovupd ymm9{k1}{z}, ymmword ptr [rbx+r12*1+0x10]
-vmovupd ymm12{k1}{z}, ymmword ptr [rbx+r9*1+0x10]
-vmovupd ymm13{k1}{z}, ymmword ptr [rbx+r13*1+0x10]
-vmovupd ymm14{k1}{z}, ymmword ptr [rbx+rsi*1+0x10]
-vmovupd ymm21{k1}{z}, ymmword ptr [rbx+r11*1+0x10]
-vmovupd ymm22{k1}{z}, ymmword ptr [rbx+rdx*1+0x10]
-vmovupd ymm23{k1}{z}, ymmword ptr [rbx+r10*1+0x10]
-vmovupd ymm27{k1}{z}, ymmword ptr [rbx+rdi*1+0x10]
-vaddpd ymm10, ymm6, ymm7
-vaddpd ymm11, ymm8, ymm9
-vaddpd ymm16, ymm12, ymm13
-vaddpd ymm17, ymm14, ymm15
-vaddpd ymm24, ymm20, ymm21
-vaddpd ymm25, ymm22, ymm23
-vaddpd ymm18, ymm10, ymm11
-vaddpd ymm19, ymm16, ymm17
-vaddpd ymm26, ymm24, ymm25
-vaddpd ymm28, ymm18, ymm19
-vaddpd ymm29, ymm26, ymm27
-vaddpd ymm30, ymm28, ymm29
-vmulpd ymm31, ymm0, ymm30
-vmovupd ymmword ptr [rbx+r15*1+0x10]{k1}, ymm31
-add rbx, 0x20
-cmp r14, r8
-jb 0xffffffffffffff0d
+vpcmpgtq k1, ymm5, ymm6
+vpaddq ymm6, ymm6, ymm4
+vmovupd ymm7{k1}{z}, ymmword ptr [rdi+r15*8+0x8]
+vmovupd ymm8{k1}{z}, ymmword ptr [rdi+r15*8+0x18]
+vmovupd ymm10{k1}{z}, ymmword ptr [r8+r15*8+0x10]
+vmovupd ymm12{k1}{z}, ymmword ptr [rsi+r15*8+0x10]
+vmovupd ymm14{k1}{z}, ymmword ptr [r9+r15*8+0x10]
+vmovupd ymm19{k1}{z}, ymmword ptr [rdi+r15*8]
+vmovupd ymm20{k1}{z}, ymmword ptr [rdi+r15*8+0x20]
+vmovupd ymm16{k1}{z}, ymmword ptr [rbx+r15*8+0x10]
+vmovupd ymm22{k1}{z}, ymmword ptr [r10+r15*8+0x10]
+vmovupd ymm24{k1}{z}, ymmword ptr [rcx+r15*8+0x10]
+vmovupd ymm26{k1}{z}, ymmword ptr [r11+r15*8+0x10]
+vmovupd ymm18{k1}{z}, ymmword ptr [rdi+r15*8+0x10]
+vmovupd ymm28{k1}{z}, ymmword ptr [rdx+r15*8+0x10]
+vaddpd ymm9, ymm7, ymm8
+vaddpd ymm21, ymm19, ymm20
+vaddpd ymm11, ymm9, ymm10
+vaddpd ymm23, ymm21, ymm22
+vaddpd ymm13, ymm11, ymm12
+vaddpd ymm25, ymm23, ymm24
+vaddpd ymm15, ymm13, ymm14
+vaddpd ymm27, ymm25, ymm26
+vaddpd ymm17, ymm15, ymm16
+vaddpd ymm29, ymm27, ymm28
+vmulpd ymm30, ymm1, ymm17
+vfmadd231pd ymm30, ymm18, ymm2
+vfmadd231pd ymm30, ymm29, ymm0
+vmovupd ymmword ptr [rax+r15*8+0x10]{k1}, ymm30
+add r15, 0x4
+cmp r15, r12
+jb 0xffffffffffffff12
 {%- endcapture -%}
 
 {%- capture layercondition -%}
 L1: unconditionally fulfilled
 L2: unconditionally fulfilled
 L3: unconditionally fulfilled
-L1: P <= 2048/5;409
-L2: P <= 16384/5;3276
-L3: P <= 1441792/5;288385
-L1: 32*N*P + 16*P*(N - 2) + 32*P <= 32768;26²
-L2: 32*N*P + 16*P*(N - 2) + 32*P <= 1048576;147²
-L3: 32*N*P + 16*P*(N - 2) + 32*P <= 29360128;781²
+L1: P <= 2048/5;P ~ 400
+L2: P <= 65536/5;P ~ 13100
+L3: P <= 1835008/5;P ~ 367000
+L1: 32*N*P + 16*P*(N - 2) + 32*P <= 32768;N*P ~ 20²
+L2: 32*N*P + 16*P*(N - 2) + 32*P <= 1048576;N*P ~ 80²
+L3: 32*N*P + 16*P*(N - 2) + 32*P <= 29360128;N*P ~ 680²
 {%- endcapture -%}
 
 {% include stencil_template.md %}
-
