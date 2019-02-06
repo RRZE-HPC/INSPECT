@@ -41,7 +41,7 @@ body {
 
 h1, h2, h3, h4, h5, h6 {
   color: #333;
-  margin: 0 0 10px;
+  margin: 0 0 20px;
 }
 
 p, ul, ol, table, pre, dl {
@@ -107,8 +107,13 @@ section img {
 blockquote {
   border-left: 1px solid #ffcc00;
   margin: 0;
-  padding: 0 0 0 20px;
+  padding: 0 0 0 0px;
   font-style: italic;
+
+  p {
+    margin: 0 !important;
+  }
+
 }
 
 code {
@@ -149,6 +154,10 @@ th {
   color: #aaa;
   font-weight: normal;
   font-style: italic;
+}
+
+tr:first-child {
+  border-top: 1px solid #e5e5e5;
 }
 
 td {
@@ -333,7 +342,7 @@ header {
 section {
   margin: 20px 0;
   margin-top: 190px;
-  margin-left: 230px;
+  margin-left: 250px;
   border-radius: 3px;
   min-width: 470px;
   width: auto;
@@ -363,7 +372,7 @@ section ul li:before {
 nav {
   position: fixed;
   text-align: right;
-  width: 230px;
+  width: 260px;
   float: left;
 
   ul {
@@ -401,6 +410,7 @@ nav {
 
       &.tag-h2 a {
         font-size: 110%;
+        font-weight: bold;
       }
 
       &.tag-h3 a {
@@ -470,8 +480,8 @@ footer {
 }
 
 .highlight .err {
-    color: #efefef;
-    background-color: transparent;
+  color: #efefef;
+  background-color: transparent;
 }
 
 .nav-selection {
@@ -510,6 +520,7 @@ footer {
 
 #ecm_LC object, #ecm_CS object, #ecm_Pheno object, #rfl_LC, #rfl_CS, #mem_LC, #mem_CS, .blocking, .scaling {
   width: 100%;
+  margin-bottom: 10px;
 }
 
 @media print, screen and (max-width:1225px) {
@@ -533,13 +544,63 @@ footer {
   }
 
   nav {
-    width: 230px;
+    width: 260px;
     float: left;
     position: initial;
     margin-left: 0px;
     text-align: right;
   }
 
+}
+
+.comment_bubble_img {
+  float: left;
+  width: 15%;
+  padding: 5px 0;
+}
+
+.comment_bubble {
+  position: relative;
+  width: 75%;
+  float: right;
+  border: 1px solid #bbb;
+  border-radius: 2px;
+  box-shadow: inset 0px 1px 0px rgba(255, 255, 255, 0.4), 0px 1px 1px rgba(0, 0, 0, 0.1);
+  margin-left: 5px;
+  padding: 10px 12px;
+  margin-top: 6px;
+  line-height: 14px;
+  font-size: 14px;
+  background-color: #ddd;
+  color: #333;
+  font-weight: bold;
+  display: inline-block;
+  text-align: center;
+}
+
+.comment_bubble:after, .comment_bubble:before {
+  right: 100%;
+  top: 25%;
+  border: solid transparent;
+  content: " ";
+  height: 0;
+  width: 0;
+  position: absolute;
+  pointer-events: none;
+}
+
+.comment_bubble:after {
+  border-color: rgba(213, 213, 213, 0);
+  border-right-color: #ddd;
+  border-width: 15px;
+  margin-top: -15px;
+}
+
+.comment_bubble:before {
+  border-color: rgba(0, 0, 0, 0);
+  border-right-color: #bbb;
+  border-width: 16px;
+  margin-top: -16px;
 }
 
 @media print, screen and (max-width:755px) {

@@ -5,7 +5,6 @@
 <div markdown="1" class="section-block-half">
 ## Stencil Properties
 
-|              |                       |
 |--------------|----------------------:|
 | dimension    | {{page.dimension}}    |
 | radius       | {{page.radius}}       |
@@ -20,16 +19,32 @@
 
 Benchmark raw data can be found [in the git repository](https://github.com/RRZE-HPC/stempel_data_collection/tree/master/stencils/{{page.dimension}}/{{page.radius}}/{{page.weighting}}/{{page.kind}}/{{page.coefficients}}/{{page.datatype}}/{{page.machine}}/).
 
-{% if page.comment and page.comment != "" and page.comment != nil and page.comment != "EDIT_ME" %}
-## Comments
+If you have feedback, issues or found errors on this page: please [submit an issue on the github page](https://github.com/RRZE-HPC/stempel_data_collection/issues/new) and include the stencil type:
 
+```
+{{page.dimension}}/{{page.radius}}/{{page.weighting}}/{{page.kind}}/{{page.coefficients}}/{{page.datatype}}/{{page.machine}}{% assign flavor_size = {{page.flavor | size}} %}{% if flavor_size != 0 %}/{{page.flavor}}{% endif %}
+```
+
+{% if page.comment and page.comment != "" and page.comment != nil and page.comment != "EDIT_ME" %}
+<div markdown="1">
+<img src="{{site.baseurl}}/assets/img/male-avatar.svg" class="comment_bubble_img" />
+<blockquote markdown="1" class="comment_bubble">
+<!-- ## Comments -->
 {{page.comment}}
+</blockquote>
+</div>
+
 {% endif %}
 
 </div>
 
 <div markdown="1" class="section-block-half">
 ## Kernel Source Code
+
+Show:
+<input class="code-button" type="button" onclick="document.getElementById('c_source').style.display = 'block';document.getElementById('asm_source').style.display = 'none'" value="C Source Code" />
+<input class="code-button" type="button" onclick="document.getElementById('asm_source').style.display = 'block';document.getElementById('c_source').style.display = 'none';" value="Assembly Code" />
+
 <div markdown="1" id="c_source">
 ```c
 {{source_code}}
@@ -41,10 +56,6 @@ Benchmark raw data can be found [in the git repository](https://github.com/RRZE-
 {{source_code_asm}}
 ```
 </div>
-Show:
-<input class="code-button" type="button" onclick="document.getElementById('c_source').style.display = 'block';document.getElementById('asm_source').style.display = 'none'" value="C Source Code" />
-<input class="code-button" type="button" onclick="document.getElementById('asm_source').style.display = 'block';document.getElementById('c_source').style.display = 'none';" value="Assembly Code" />
-
 </div>
 
 </div>
@@ -75,14 +86,14 @@ Have a look at the [kernel source code](#kernel-source-code) for dimension namin
 grep "\[[a-z]" stencil.c | sed -r 's/([A-Z])\[([0-9]*)\]/\1\2/g' | sed 's/.* =//;s/ c[0-9]* //;s/[ijk]//g;s/(//g;s/)//g;s/+ /,/g;s/\* /,/g;s/\[\]/\[0\]/g;s/+,/,/;s/[[:space:]]//g;s/[a-Z][0-9]*/\"&\":/g;s/\]\[/,/g' | tr -d '\n'
 -->
 
-<script>
+<!-- <script>
 function get_url() {
 var jsonstr='{"dimensions":3,"arrays":{"type":"double","bytes_per_element":8,"dimension":[1024,1024,1024]},"accesses":{"a":[0,0,0],"a":[-1,-1,-1],"a":[0,-1,-1],"a":[+1,-1,-1],"a":[-1,0,-1],"a":[0,0,-1],"a":[+1,0,-1],"a":[-1,+1,-1],"a":[0,+1,-1],"a":[+1,+1,-1],"a":[-1,-1,0],"a":[0,-1,0],"a":[+1,-1,0],"a":[-1,0,0],"a":[+1,0,0],"a":[-1,+1,0],"a":[0,+1,0],"a":[+1,+1,0],"a":[-1,-1,+1],"a":[0,-1,+1],"a":[+1,-1,+1],"a":[-1,0,+1],"a":[0,0,+1],"a":[+1,0,+1],"a":[-1,+1,+1],"a":[0,+1,+1],"a":[+1,+1,+1]},"cache_sizes":{"L1":{"size":32768,"cores":1,"available":32768},"L2":{"size":262144,"cores":1,"available":262144},"L3":{"size":20971520,"cores":1,"available":20971520}},"safety_margin":2}'
 return "https://rrze-hpc.github.io/layer-condition/#calculator%23!"+encodeURIComponent(JSON.stringify(jsonstr));
 }
 </script>
 
-<a href='get_url()'>Layer Condition website</a>
+<a href='get_url()'>Layer Condition website</a> -->
 {% endif %}
 </div>
 
@@ -109,7 +120,7 @@ stempel bench stencil.c -m {{ page.machine }}.yml --store
 </div>
 
 <div markdown="1" class="section-block-full">
-## Single Core Benchmark Data
+## Single Core Grid Scaling
 
 <div markdown="1" class="section-block-half">
 ### ECM Prediction vs. Performance
@@ -167,7 +178,8 @@ View data for:
 <div markdown="1" class="section-block-full">
 
 <div markdown="1" class="section-block-half">
-### Memory Transfers between Caches and Memory
+<!-- ### Memory Transfers between Caches and Memory -->
+### Data Transfers between Caches
 
 View data for:
 <input class="plot-button" type="button" value="Layer Condition"
@@ -192,7 +204,7 @@ View data for:
 {%- if scaling_size != 0 -%}
 
 <div markdown="1" class="section-block-half">
-## Thread Scaling Performance
+## Multi Core Thread Scaling
 
 {% if scaling_size > 0 %}
 {% capture hidescaling %}{% for item in page.scaling %}document.getElementById('scaling_{{ item }}').style.display = 'none';{% endfor %}{% endcapture %}
@@ -214,7 +226,7 @@ View data for:
 {%- assign blocking_size = {{page.blocking | size}} -%}
 {%- if blocking_size != 0 -%}
 <div markdown="1" class="section-block-half">
-## Spatial Blocking Performance
+## Single Core Spatial Blocking
 
 {% if blocking_size > 0 %}
 {% capture hideblocking %}{% for item in page.blocking %}document.getElementById('blocking_{{ item }}').style.display = 'none';{% endfor %}{% endcapture %}
