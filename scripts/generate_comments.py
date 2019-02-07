@@ -45,7 +45,8 @@ def main():
     for base_file, comment_file in find_commented_files(base_path):
         comment = load_comment(comment_file)
         # 2. check up-to-dateness of commit hash of associated files
-        uptodate = get_latest_commit_hash(base_file).startswith(comment['commithash'])
+        latest_commit_hash = get_latest_commit_hash(base_file)
+        uptodate = latest_commit_hash.startswith(comment['commithash'])
         # 3. include into data table
         d = data
         # Recursivly get to leaf for comment insertion
@@ -55,6 +56,7 @@ def main():
             d = d[sub]
         d.update(comment)
         d['uptodate'] = uptodate
+        d['latest_commit_hash'] = latest_commit_hash
     # 4. export csv
     print(yaml.dump(data))
 
