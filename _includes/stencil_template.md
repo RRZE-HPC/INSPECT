@@ -49,6 +49,10 @@ Show:
 ```c
 {{source_code}}
 ```
+{% assign com = site.data.comments.stencils[page.dimension][page.radius][page.weighting][page.kind][page.coefficients][page.datatype][page.machine].stencil_c %}
+{% if com %}
+{% include comment.md comment=com.comment author=com.author review=com.review uptodate=com.uptodate %}
+{% endif %}
 </div>
 
 <div markdown="1" id="asm_source" style="display:none;">
