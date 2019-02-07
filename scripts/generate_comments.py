@@ -5,6 +5,7 @@ import os
 import sys
 import subprocess
 from collections import defaultdict
+import re
 
 import yaml
 
@@ -51,6 +52,8 @@ def main():
         d = data
         # Recursivly get to leaf for comment insertion
         for sub in base_file[len(base_path):].split('/'):
+            # Workaround for jakyl because it does not like special characters
+            sub = re.sub(r'[^a-zA-Z0-9\-_]', '_', sub)
             if sub not in d:
                 d[sub] = {}
             d = d[sub]
