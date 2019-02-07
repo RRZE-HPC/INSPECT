@@ -59,7 +59,7 @@ def main():
             d = d[sub]
         d.update(comment)
         d['uptodate'] = uptodate
-        d['latest_commit_hash'] = latest_commit_hash
+        d['latest_commithash'] = latest_commit_hash
     # 4. export csv
     print(yaml.dump(data))
 
