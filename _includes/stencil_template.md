@@ -24,18 +24,6 @@ If you have feedback, issues or found errors on this page: please [submit an iss
 ```
 {{page.dimension}}/{{page.radius}}/{{page.weighting}}/{{page.kind}}/{{page.coefficients}}/{{page.datatype}}/{{page.machine}}{% assign flavor_size = {{page.flavor | size}} %}{% if flavor_size != 0 %}/{{page.flavor}}{% endif %}
 ```
-
-{% if page.comment and page.comment != "" and page.comment != nil and page.comment != "EDIT_ME" %}
-<div markdown="1">
-<img src="{{site.baseurl}}/assets/img/male-avatar.svg" class="comment_bubble_img" />
-<blockquote markdown="1" class="comment_bubble">
-<!-- ## Comments -->
-{{page.comment}}
-</blockquote>
-</div>
-
-{% endif %}
-
 </div>
 
 <div markdown="1" class="section-block-half">
@@ -49,9 +37,9 @@ Show:
 ```c
 {{source_code}}
 ```
-{% assign com = site.data.comments.stencils[page.dimension][page.radius][page.weighting][page.kind][page.coefficients][page.datatype][page.machine].stencil_c %}
+{% assign com = site.data.comments.stencils[page.dimension][page.radius][page.weighting][page.kind][page.coefficients][page.datatype][page.machine]["stencil.c"] %}
 {% if com %}
-{% include comment.md comment=com.comment author=com.author review=com.review uptodate=com.uptodate %}
+{% include template_comment.md comment=com.comment author=com.author review=com.review uptodate=com.uptodate %}
 {% endif %}
 </div>
 
@@ -65,7 +53,6 @@ Show:
 </div>
 
 <div markdown="1" class="section-block-full">
-
 
 <div markdown="1" class="section-block-half">
 {% if layercondition %}
@@ -100,7 +87,6 @@ return "https://rrze-hpc.github.io/layer-condition/#calculator%23!"+encodeURICom
 <a href='get_url()'>Layer Condition website</a> -->
 {% endif %}
 </div>
-
 
 <div markdown="1" class="section-block-half">
 ## How to test this stencil
@@ -143,20 +129,9 @@ View data for:
            document.getElementById('ecm_CS').style.display = 'none';
            document.getElementById('ecm_LC').style.display = 'none';" />
 
-<div  markdown="1" id="ecm_LC">
-<object data="./ecm_LC.svg" type="image/svg+xml"></object>
-*Comparison of the measured stencil performance (in cycles per cache line) and the (stacked) contributions of the [ECM Performance Model](https://hpc.fau.de/research/ecm/) predicted by [kerncraft](https://github.com/RRZE-HPC/kerncraft) using [Layer Conditions](https://rrze-hpc.github.io/layer-condition/) to model the cache behavior. The calculated [layer conditions](#layer-conditions) shown above correspond to the jumps in the ECM prediction in this plot.*
-</div>
-
-<div  markdown="1" id="ecm_CS" style="display:none;">
-<object data="./ecm_CS.svg" type="image/svg+xml"></object>
-*Comparison of the measured stencil performance (in cycles per cache line) and the (stacked) contributions of the [ECM Performance Model](https://hpc.fau.de/research/ecm/) predicted by [kerncraft](https://github.com/RRZE-HPC/kerncraft) using [Cache Simulation](https://github.com/RRZE-HPC/pycachesim) to model the cache behavior.*
-</div>
-
-<div  markdown="1" id="ecm_Pheno" style="display:none;">
-<object data="./ecm_Pheno.svg" type="image/svg+xml"></object>
-*Comparison of the measured stencil performance (in cycles per cache line) and the (stacked) contributions of the phenomenological [ECM Performance Model](https://hpc.fau.de/research/ecm/) measured with [kerncraft](https://github.com/RRZE-HPC/kerncraft). The phenomenological ECM Model is completely derived from performance counter measurements during benchmark execution.*
-</div>
+{% include template_ecm_plots.md type='LC' hidden='false' %}
+{% include template_ecm_plots.md type='CS' hidden='true' %}
+{% include template_ecm_plots.md type='Pheno' hidden='true' %}
 
 </div>
 
@@ -171,10 +146,8 @@ View data for:
   onclick="document.getElementById('rfl_CS').style.display = 'block';
            document.getElementById('rfl_LC').style.display = 'none';" />
 
-<object data="./roofline_LC.svg" type="image/svg+xml" id="rfl_LC"></object>
-<object data="./roofline_CS.svg" type="image/svg+xml" id="rfl_CS" style="display:none;"></object>
-
-*Performance plot with [roofline prediction](https://www2.eecs.berkeley.edu/Pubs/TechRpts/2008/EECS-2008-164.html) in comparison with the measured stencil performance. For comparison the according ECM prediction is also included.*
+{% include template_roofline_plots.md type='LC' hidden='false' %}
+{% include template_roofline_plots.md type='CS' hidden='true' %}
 </div>
 
 </div>
@@ -182,7 +155,6 @@ View data for:
 <div markdown="1" class="section-block-full">
 
 <div markdown="1" class="section-block-half">
-<!-- ### Memory Transfers between Caches and Memory -->
 ### Data Transfers between Caches
 
 View data for:
@@ -193,10 +165,8 @@ View data for:
   onclick="document.getElementById('mem_CS').style.display = 'block';
            document.getElementById('mem_LC').style.display = 'none';" />
 
-<object data="./memory_LC.svg" type="image/svg+xml" id="mem_LC"></object>
-<object data="./memory_CS.svg" type="image/svg+xml" id="mem_CS" style="display:none;"></object>
-
-*Data transfers between the different cache levels and main memory. The shown data for each level contains evicted and loaded data. The measured data is represented by points and the predicted transfer rates by [kerncraft](https://github.com/RRZE-HPC/kerncraft) by lines.*
+{% include template_mem_plots.md type='LC' hidden='false' %}
+{% include template_mem_plots.md type='CS' hidden='true' %}
 </div>
 
 </div>
@@ -218,11 +188,11 @@ View data for:
 {% endif %}
 
 {% for item in page.scaling %}
-{%- if forloop.first -%}
-<object data="./scaling_{{item}}.svg" class="scaling" id="scaling_{{ item }}" style="display:block;" type="image/svg+xml"></object>
-{%- else -%}
-<object data="./scaling_{{item}}.svg" class="scaling" id="scaling_{{ item }}" style="display:none;" type="image/svg+xml"></object>
-{%- endif -%}
+  {%- if forloop.first -%}
+    {% include template_threadscaling_plots.md type=item hidden='false' %}
+  {%- else -%}
+    {% include template_threadscaling_plots.md type=item hidden='true' %}
+  {%- endif -%}
 {% endfor %}
 </div>
 {% endif %}
@@ -240,11 +210,11 @@ View data for:
 {% endif %}
 
 {% for item in page.blocking %}
-{%- if forloop.first -%}
-<object data="./blocking_{{ item }}.svg" class="blocking" id="blocking_{{ item }}" style="display:block;" type="image/svg+xml"></object>
-{%- else -%}
-<object data="./blocking_{{ item }}.svg" class="blocking" id="blocking_{{ item }}" style="display:none;" type="image/svg+xml"></object>
-{%- endif -%}
+  {%- if forloop.first -%}
+    {% include template_blocking_plots.md type=item hidden='false' %}
+  {%- else -%}
+    {% include template_blocking_plots.md type=item hidden='true' %}
+  {%- endif -%}
 {% endfor %}
 </div>
 {% endif %}

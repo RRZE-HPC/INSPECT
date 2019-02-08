@@ -123,6 +123,7 @@ do for [type=0:1] {
 ####################################################################################################
 
 YMAX = `bc -l <<< "1.2 * $(awk -F"," '(NR>3){print $15}{print $21}{print $22}' results.csv | sort -n | uniq | tail -n 1)"`
+XMAX = `awk -F"," '{print $1}' results.csv | tail -n 1`
 
 do for [type=0:2] {
     if ( type == 0 ) {
@@ -196,6 +197,7 @@ do for [type=0:2] {
     set origin 0,0
     set size 1,1
     set yrange [0:YMAX]
+    set xrange [0:XMAX]
     set xlabel "Grid Size (N^3)" textcolor "#000000"
     set ylabel "cy/CL" textcolor "#000000"
     set xtics 100 textcolor "#000000"

@@ -107,11 +107,30 @@ section img {
 blockquote {
   border-left: 1px solid #ffcc00;
   margin: 0;
-  padding: 0 0 0 0px;
+  padding: 0 5px;
   font-style: italic;
 
   p {
     margin: 0 !important;
+    text-align: justify;
+    padding: 5px 0;
+  }
+
+  .warning {
+    color: rgb(255, 40, 0);
+    padding: 2px;
+    margin: 0 5px;
+    display: block;
+  }
+
+  .svg {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+  }
+
+  .outofdate {
+    color: #aaa !important;
   }
 
 }
@@ -518,9 +537,12 @@ footer {
   display: inline;
 }
 
-#ecm_LC object, #ecm_CS object, #ecm_Pheno object, #rfl_LC, #rfl_CS, #mem_LC, #mem_CS, .blocking, .scaling {
-  width: 100%;
-  margin-bottom: 10px;
+.ecm, .roofline, .memory, .blocking, .scaling {
+  object {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
 }
 
 @media print, screen and (max-width:1225px) {
@@ -575,7 +597,6 @@ footer {
   color: #333;
   font-weight: bold;
   display: inline-block;
-  text-align: center;
 }
 
 .comment_bubble:after, .comment_bubble:before {
