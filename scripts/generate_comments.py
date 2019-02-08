@@ -15,7 +15,9 @@ def find_commented_files(base_path, comment_extension=".comment.yml"):
     commented_files = []
     comment_files = glob(os.path.join(base_path, '**/*'+comment_extension), recursive=True)
     for cf in comment_files:
-        base_file = cf[:-len(comment_extension)]
+        # Ignoring all files starting with _
+        if cf[len(base_path):].startswith('_'): continue
+        base_file = cf[:-len(comment_extension)[]
         if os.path.isfile(base_file):
             commented_files.append((
                 base_file, cf))
@@ -52,14 +54,12 @@ def main():
         d = data
         # Recursivly get to leaf for comment insertion
         for sub in base_file[len(base_path):].split('/'):
-            # Workaround for jakyl because it does not like special characters
-            sub = re.sub(r'[^a-zA-Z0-9\-_]', '_', sub)
             if sub not in d:
                 d[sub] = {}
             d = d[sub]
         d.update(comment)
         d['uptodate'] = uptodate
-        d['latest_commit_hash'] = latest_commit_hash
+        d['latest_commithash'] = latest_commit_hash
     # 4. export csv
     print(yaml.dump(data))
 
