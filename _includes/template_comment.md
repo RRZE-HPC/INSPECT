@@ -25,17 +25,17 @@
 {% capture color %}{% if include.review != null %}{{include.review}}{% else %}gray{% endif %}{% endcapture %}
 
 {% if include.review == 'green' %}
-{% assign review_desc = "Data has been reviewed"}
+{% assign review_desc = "Data has been reviewed" %}
 {% elsif include.review == 'orange' %}
-{% assign review_desc = 'might be okay...'}
+{% assign review_desc = 'might be okay...' %}
 {% elsif include.review == 'red' %}
-{% assign review_desc = 'Something is wrong...' }
+{% assign review_desc = 'Something is wrong...' %}
 {% else %}
-{% assign review_desc = "Data has not been manually reviewd yet."}
+{% assign review_desc = "Data has not been manually reviewd yet." %}
 {% endif %}
 
 <svg class="svg" height="18" width="18">
-	<title>{{color}}</title>
+	<title>{{review_desc}}</title>
 	<circle cx="9" cy="9" r="8" stroke="black" stroke-width="1" fill="{{color}}" />
 </svg>
 
