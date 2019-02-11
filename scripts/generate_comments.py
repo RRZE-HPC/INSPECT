@@ -17,7 +17,7 @@ def find_commented_files(base_path, comment_extension=".comment.yml"):
     for cf in comment_files:
         # Ignoring all files starting with _
         if cf[len(base_path):].startswith('_'): continue
-        base_file = cf[:-len(comment_extension)[]
+        base_file = cf[:-len(comment_extension)]
         if os.path.isfile(base_file):
             commented_files.append((
                 base_file, cf))
@@ -42,7 +42,7 @@ def main():
         base_path = os.path.join(os.chdir(sys.argv[1]), '')
     else:
         base_path = './'
-    
+
     data = {}
     # 1. find all comment files
     for base_file, comment_file in find_commented_files(base_path):
