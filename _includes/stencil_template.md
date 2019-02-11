@@ -12,10 +12,14 @@
 | kind         | {{page.kind}}         |
 | coefficients | {{page.coefficients}} |
 | datatype     | {{page.datatype}}     |
-| machine      | [{{page.machine}}](https://github.com/RRZE-HPC/stempel_data_collection/blob/master/machine_files/{{page.machine}}.yml) |
+| machine      | [{{page.machine}}](https://github.com/RRZE-HPC/stempel_data_collection/blob/master/_data/machine_files/{{page.machine}}.yml) |
 {% assign flop_size = {{page.flop | size}} %}{% if flop_size != 0 %}| FLOP per LUP       | {{page.flop}}       |{% endif %}
 {% assign flavor_size = {{page.flavor | size}} %}{% if flavor_size != 0 %}| flavor       | {{page.flavor}}       |{% endif %}
 
+{% assign com = site.data.comments.machine_files[page.machine] %}
+{% if com %}
+{% include template_comment.md comment=com.comment author=com.author review=com.review uptodate=com.uptodate %}
+{% endif %}
 
 Benchmark raw data can be found [in the git repository](https://github.com/RRZE-HPC/stempel_data_collection/tree/master/stencils/{{page.dimension}}/{{page.radius}}/{{page.weighting}}/{{page.kind}}/{{page.coefficients}}/{{page.datatype}}/{{page.machine}}/).
 
