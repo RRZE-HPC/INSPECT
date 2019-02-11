@@ -49,7 +49,10 @@ def main():
         comment = load_comment(comment_file)
         # 2. check up-to-dateness of commit hash of associated files
         latest_commit_hash = get_latest_commit_hash(base_file)
-        uptodate = latest_commit_hash.startswith(comment['commithash'])
+        if comment['commithash']:
+            uptodate = latest_commit_hash.startswith(comment['commithash'])
+        else:
+            uptodate = False
         # 3. include into data table
         d = data
         # Recursivly get to leaf for comment insertion

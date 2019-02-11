@@ -34,7 +34,7 @@ def main():
             {} "Author's Name" [path/filter]
             When asked to input review, options are: green, orange, red and "nothing".
             Comments may be any markdown formatted string.
-            
+
             To skip comment AND review (or leave unchanged) hit Ctrl-D.
         """.format(sys.argv[0])))
     if len(sys.argv) < 2:
@@ -46,17 +46,18 @@ def main():
     else:
         path_filter = ''
     path_filter = re.compile(path_filter)
-    
+
     for glob_pattern in patterns_to_comment:
+        # TODO group by folder
         for file_to_comment in glob(glob_pattern, recursive=True):
             # Skip files based on filter
             if not re.match(path_filter, file_to_comment):
                 continue
             print('*', file_to_comment, end=': ')
-            
+
             # Initialize comment with default data
             comment = copy(default_comment)
-            
+
             # Load already existing comment
             comment_file = file_to_comment+'.comment.yml'
             try:
@@ -65,7 +66,7 @@ def main():
                 pass
             except TypeError:
                 print('malformed comment file, will overwrite with defaults.')
-            
+
             # Check if it is up-to-date
             try:
                 latest_commit_hash = get_latest_commit_hash(file_to_comment)
@@ -79,12 +80,13 @@ def main():
                 if latest_commit_hash.startswith(comment['commithash']):
                     print('comment and review is up-to-date. You may update it manually.')
                     continue
-            
+
             # Ask user to update comment and review
             print('needs review and (optional) comment')
             # commithash
             print('{}: {} -> {} (latest commit hash)'.format(
                 'commithash', comment['commithash'],latest_commit_hash))
+            comment['commithash'] = latest_commit_hash
             # review
             try:
                 first = True
@@ -113,9 +115,9 @@ def main():
                 yaml.dump(comment, f)
             print('saved to {}'.format(comment_file))
             print()
-            
-                
-            
+
+
+
 
 
 if __name__ == '__main__':
