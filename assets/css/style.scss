@@ -116,11 +116,33 @@ blockquote {
     padding: 5px 0;
   }
 
+  .comment-author {
+    font-size: 90%;
+  }
+
+  .comment {
+    font-size: 120%;
+    padding: 5px 5%;
+  }
+
   .warning {
     color: rgb(255, 40, 0);
-    padding: 2px;
-    margin: 0 5px;
+    padding-left: 5%;
+    margin: 0 auto;
     display: block;
+    width: 85%;
+    font-weight: bold;
+    float: left;
+  }
+
+  .warning:before {
+    content: "⚠️";
+    width: 10%;
+    display: block;
+    float: left;
+    height: 40px;
+    font-size: 28px;
+    padding-top: 8px;
   }
 
   .svg {
@@ -191,6 +213,7 @@ td {
 
   &:nth-child(2) {
     font-weight: bold;
+    text-align: right;
   }
 
 }
@@ -573,6 +596,15 @@ footer {
     text-align: right;
   }
 
+  .section-block-half {
+    float: left;
+    display: block;
+    width: 95%;
+    max-width: 675px;
+    min-width: 450px;
+    margin: 10px;
+  }
+
 }
 
 .comment_bubble_img {
@@ -584,13 +616,11 @@ footer {
 .comment_bubble {
   position: relative;
   width: 75%;
-  float: right;
   border: 1px solid #bbb;
   border-radius: 2px;
   box-shadow: inset 0px 1px 0px rgba(255, 255, 255, 0.4), 0px 1px 1px rgba(0, 0, 0, 0.1);
-  margin-left: 5px;
   padding: 10px 12px;
-  margin-top: 6px;
+  margin: 6px 0 10px calc(10% - 28px);
   line-height: 14px;
   font-size: 14px;
   background-color: #ddd;
@@ -641,6 +671,14 @@ footer {
   footer {
     width: 400px;
     position: relative;
+  }
+
+  .section-block-half {
+    float: left;
+    display: block;
+    width: 95%;
+    min-width: 450px;
+    margin: 10px;
   }
 
 }
