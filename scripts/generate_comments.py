@@ -33,7 +33,7 @@ def load_comment(comment_file):
 def get_latest_commit_hash(base_file):
     """Return base_file's latest commit hash."""
     return subprocess.check_output('git log -n 1 --pretty=format:%H'.split(' ') + [base_file],
-                                   text=True)
+                                   universal_newlines=True)
 
 
 def main():

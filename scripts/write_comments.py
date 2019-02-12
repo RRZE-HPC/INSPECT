@@ -6,6 +6,8 @@ import readline  # requires py3x-gnureadline on OS X
 import sys
 import textwrap
 import re
+import atexit
+from subprocess import CalledProcessError
 
 import yaml
 
@@ -57,6 +59,17 @@ def main():
     print('Selected files:', len(files))
     print()
 
+    saved_comment_files = []
+    # atexit handler
+    def print_saved_comment_files():
+        if saved_comment_files:
+            print('Saved comment files:')
+            print(' '.join(saved_comment_files))
+            print('Add, commit and push them to git repo.')
+        else:
+            print('Nothing changed.')
+    atexit.register(print_saved_comment_files)
+
     for n, file_to_comment in enumerate(files):
         print('{:>4}/{:<4} '.format(n+1, len(files)), file_to_comment)
         print('Status: ', end='')
@@ -72,6 +85,7 @@ def main():
             pass
         except TypeError:
             print('malformed comment file, will overwrite with defaults.')
+        orig_comment = copy(comment)
 
         # Check if it is up-to-date
         try:
@@ -89,9 +103,14 @@ def main():
 
         # Ask user to update comment and review
         print('needs review and (optional) comment')
+
+        if comment['author']:
+            print('previous author:', comment['author'])
+
         # commithash
         print('{}: {} -> {} (latest commit hash)'.format(
-            'commithash', comment['commithash'],latest_commit_hash))
+            'commithash', comment['commithash'], latest_commit_hash))
+        comment['commithash'] = latest_commit_hash
         # review
         try:
             first = True
@@ -112,14 +131,43 @@ def main():
             print(' [skipped]\n')
             continue
 
-        # save and show author
+        # Skip if:
+        # comment and review are empty
+        if not (comment['comment'] or orig_comment['review']):
+            print('nothing changed. Not saving.\n')
+            continue
+
         if author:
-            print('auther: {}'.format(author))
+            print('new author: {}'.format(author))
             comment['author'] = author
+
+        # confirm saving
+        try:
+            first = True
+            valid_inputs = {'yes': True, 'no': False, 'y': True, 'n': False, '1': True, '0': False}
+            while first or save not in valid_inputs:
+                if not first:
+                    print('Valid inputs are: {}'.format(', '.join(valid_inputs.keys())))
+                else:
+                    first = False
+                save = input('Save? [y/n] ')
+        except EOFError:
+            print(' [skipped]\n')
+            continue
+        save = valid_inputs[save]
+        if not save:
+            print('not saved.\n')
+            continue
+
+        # save
         with open(comment_file, 'w') as f:
             yaml.dump(comment, f)
         print('saved to {}'.format(comment_file))
+        saved_comment_files.append(comment_file)
         print()
 
 if __name__ == '__main__':
-    main()
+    try:
+        main()
+    except KeyboardInterrupt:
+        print('\n')
