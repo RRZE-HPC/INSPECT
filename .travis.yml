@@ -1,7 +1,9 @@
+dist: xenial
 language: ruby
-rvm:
-- 2.4
-install: gem install jekyll jekyll-theme-leap-day
+rvm: 2.5
+install:
+  - gem install jekyll jekyll-theme-leap-day
+  - pip install yaml
 script: "./scripts/cibuild"
 deploy:
   provider: pages
@@ -13,6 +15,4 @@ deploy:
   on:
     branch: master
 sudo: false
-exclude:
-- vendor
 cache: bundler
