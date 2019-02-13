@@ -1,0 +1,18 @@
+dist: xenial
+language: ruby
+rvm: 2.5
+install:
+  - gem install jekyll jekyll-theme-leap-day
+  - pip3 install pyyaml
+script: "./scripts/cibuild"
+deploy:
+  provider: pages
+  local-dir: "./_site"
+  skip-cleanup: true
+  github-token:
+    secure: J8xQAV9GYo41yg9w56jqKWgImxesoJwIrPsGy1xPSKm0c2evWcefMILHkPsG3kliKadAaUw4SaK5UxRZLQ1F7i8cwXPMjIdyX3/ALOIY+pjceThcKXV7+/hKUhi5S8WOSYYepbA2rrJwjVqdThe+DoweNOhJvl26IyF6sEkdhnO/HnegI+HM0csONGQi6lw7V4gAVnKrjrRitadpwI1kp1J1ewAVsgvgqVxvnC1OSouTYDEFljg1VvgwbPkfZSHjOBhsVGe4bQf8sXD3vOhnO6TdGu2uivp0CTFyb1M/kky37y03XfBuXKgdV4qhAiWz83aHYaxLUtD1tXM2D7IxUF6v7GL0VNRh7NZcGolG2eDU+9NicQou+RyX9CsTGJXiR/7mS17mZn+7ZTor+BMDKDjzM/i4FpyCZMu2i+4abjNH5fqDgxRe4Ip3/GtrU5/JuAlDzQgsId3XRYW8DUbLj32CeJgs0HXFzkKy2WZPYepuw1rNkI6dmUDEHflh7I949bxr4DX4EZwBkNS30uSdt8xCdPUmdaS8wDLi3EaK/vBe1b1JlxCvWgMD+eh+5Fj/IVyI2NnOyAZMdOPD85Br9BcyHLnN3NKgqDf/6ovzN1CJj/9l5M3Ada4yNIGaWwlIY3K2A6MFgqN7sOAyX71GzS7OXA+uUPIgby+aUkGtzHo=
+  keep-history: false
+  on:
+    branch: master
+sudo: false
+cache: bundler
