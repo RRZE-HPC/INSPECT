@@ -4,6 +4,7 @@ before_install:
 - sudo apt-get install python3-pip python3-setuptools
 install:
 - pip3 install pyyaml
+- bundle install --jobs=3 --retry=3 --path=${BUNDLE_PATH:-vendor/bundle}
 script: "./scripts/cibuild"
 deploy:
   provider: pages
