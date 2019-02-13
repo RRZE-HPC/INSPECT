@@ -3,7 +3,7 @@ language: ruby
 before_install:
 - sudo apt-get install python3-pip python3-setuptools
 install:
-- bundle install jekyll jekyll-theme-leap-day
+- bundle install
 - pip3 install pyyaml
 script: "./scripts/cibuild"
 deploy:
@@ -15,4 +15,6 @@ deploy:
   keep-history: false
   on:
     branch: master
-cache: bundler
+cache:
+- bundler
+- pip
