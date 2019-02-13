@@ -1,18 +1,17 @@
 dist: xenial
 language: ruby
-rvm: 2.5
 before_install:
-    - sudo apt-get install python3-pip python3-setuptools
+- sudo apt-get install python3-pip python3-setuptools
 install:
-  - gem install jekyll jekyll-theme-leap-day
-  - pip3 install pyyaml
+- gem install jekyll jekyll-theme-leap-day
+- pip3 install pyyaml
 script: "./scripts/cibuild"
 deploy:
   provider: pages
   local-dir: "./_site"
   skip-cleanup: true
   github-token:
-    secure: J8xQAV9GYo41yg9w56jqKWgImxesoJwIrPsGy1xPSKm0c2evWcefMILHkPsG3kliKadAaUw4SaK5UxRZLQ1F7i8cwXPMjIdyX3/ALOIY+pjceThcKXV7+/hKUhi5S8WOSYYepbA2rrJwjVqdThe+DoweNOhJvl26IyF6sEkdhnO/HnegI+HM0csONGQi6lw7V4gAVnKrjrRitadpwI1kp1J1ewAVsgvgqVxvnC1OSouTYDEFljg1VvgwbPkfZSHjOBhsVGe4bQf8sXD3vOhnO6TdGu2uivp0CTFyb1M/kky37y03XfBuXKgdV4qhAiWz83aHYaxLUtD1tXM2D7IxUF6v7GL0VNRh7NZcGolG2eDU+9NicQou+RyX9CsTGJXiR/7mS17mZn+7ZTor+BMDKDjzM/i4FpyCZMu2i+4abjNH5fqDgxRe4Ip3/GtrU5/JuAlDzQgsId3XRYW8DUbLj32CeJgs0HXFzkKy2WZPYepuw1rNkI6dmUDEHflh7I949bxr4DX4EZwBkNS30uSdt8xCdPUmdaS8wDLi3EaK/vBe1b1JlxCvWgMD+eh+5Fj/IVyI2NnOyAZMdOPD85Br9BcyHLnN3NKgqDf/6ovzN1CJj/9l5M3Ada4yNIGaWwlIY3K2A6MFgqN7sOAyX71GzS7OXA+uUPIgby+aUkGtzHo=
+    secure: B6HdduMp+td9XDdCg292XADb7uwDfOoHJIG8QdMFdK566TBJ3BHD7CIneGxPxYPCxVOCNYYReO5xJd3yg+9++yIy/4q8Q/j+cKyAKe39gBL/09W0kNcUIAsc/JCi4T3H6xhB2SXQc6PChaG/JmmJvQCXEETN4JK5e1/Lomd0VrZF57aGvtMIP6A+whj9z/zCPKcF4aSuEDM4V+7o2kmGrPfRe3nEi+z/EHulvVgm0phK4j4Z6rlwzpXtoWyPnaiO2IZ+gRU8C7sqjwWQSGoicmfoYmJJhCjiwZqAyOb+g0eh0auIqDOZ1BvSKL4bwx2FkJCH69JdJhK5StbGRZexIhlal/NuxBgbQxHO6eNaNNPPTeM4uo5113ibD5mTm4bgQhjnFQrNQ9vSTKvjWULg+xn/+G2+QW9aw7OwRwHEqRekIHImZSd4MWa6Z8GEvZhyv0bSmAP4rpL0L7PNU0qrXalFgcrywA263zlv0LyvikbPFYEj1XoBInKXu+IHlc8pR0mJS9LIV5OnvXynNAPvYhjQ3xdVGybYirkFtoq9gbiuFD471kEurYXrinsKnPhSNc5aCfL8RLk+XowgJmKrLtO0ULoX2Lry5KSpY7BBfgjZEQ+mMzmV2rMhh86nFKbZQnWln5Wm6/HE5iPKCATG6F5HH8As55l2KYfiOL1kSBs=
   keep-history: false
   on:
     branch: master
