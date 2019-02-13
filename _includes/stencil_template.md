@@ -23,11 +23,9 @@
 
 Benchmark raw data can be found [in the git repository](https://github.com/RRZE-HPC/stempel_data_collection/tree/master/stencils/{{page.dimension}}/{{page.radius}}/{{page.weighting}}/{{page.kind}}/{{page.coefficients}}/{{page.datatype}}/{{page.machine}}/).
 
-If you have feedback, issues or found errors on this page: please [submit an issue on the github page](https://github.com/RRZE-HPC/stempel_data_collection/issues/new) and include the stencil type:
+If you have feedback, issues or found errors on this page: please [submit an issue on the github page](
+https://github.com/RRZE-HPC/stempel_data_collection/issues/new?labels[]=Stencil%20Comment%20Management&labels[]=[Type]%20Bug&title=Stencil%20Comment&milestone=People%20Management:%20m6&assignee=ebinnion&body=Stencil:%20{{page.dimension}}%20{{page.radius}}%20{{page.weighting}}%20{{page.kind}}%20{{page.coefficients}}%20{{page.datatype}}%20{{page.machine}}{% assign flavor_size = {{page.flavor | size}} %}{% if flavor_size != 0 %}%20{{page.flavor}}{% endif %}).
 
-```
-{{page.dimension}}/{{page.radius}}/{{page.weighting}}/{{page.kind}}/{{page.coefficients}}/{{page.datatype}}/{{page.machine}}{% assign flavor_size = {{page.flavor | size}} %}{% if flavor_size != 0 %}/{{page.flavor}}{% endif %}
-```
 </div>
 
 <div markdown="1" class="section-block-half">
