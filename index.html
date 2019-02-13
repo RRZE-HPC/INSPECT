@@ -1,0 +1,564 @@
+<h1 id="stempel-data-collection">stempel data collection</h1>
+
+<p>The <a href="https://github.com/RRZE-HPC/stempel">stempel</a> tool allows automatic generation of loop kernels for several kind of stencil patterns. Stempel provides a framework to generate, perform static analysis of the code (exploiting kerncraft), generate a full C code and parallelize it via openMP and blocking.</p>
+
+<p>On this site a collection of benchmark data obtained from the <a href="https://github.com/RRZE-HPC/stempel">stempel</a> tool can be found.</p>
+
+<p>Machine descriptions can be found <a href="machinefiles">here</a>.</p>
+
+<p>Information on how to perform reproducible performance benchmarks, can be found on <a href="reproducibility">this page</a>.</p>
+
+<div id="navigation">
+  <h2 id="stencil-navigation">Stencil Navigation</h2>
+
+  <p>Filter available stencil data by categories or by collapsing levels:</p>
+
+  <p><span class="nav-selection">Dimension:<br />
+<select class="select_dims nav-selection-dropdowns">
+<option value="all" selected="selected">All</option>
+<option value="dim3D">3D</option></select>
+</span>
+<span class="nav-selection">Radius:<br />
+<select class="select_rads nav-selection-dropdowns" onchange="toggle_visibility(this.options[this.selectedIndex].value)">
+<option value="radall" selected="selected">All</option>
+<option value="rad1r">1r</option>
+<option value="rad2r">2r</option>
+<option value="rad3r">3r</option></select>
+</span>
+<span class="nav-selection">Weight:<br />
+<select class="select_weights nav-selection-dropdowns" onchange="toggle_visibility(this.options[this.selectedIndex].value)">
+<option value="weightall" selected="selected">All</option>
+<option value="weightheterogeneous">heterogeneous</option>
+<option value="weighthomogeneous">homogeneous</option>
+<option value="weightisotropic">isotropic</option>
+<option value="weightpoint-symmetric">point-symmetric</option></select>
+</span>
+<span class="nav-selection">Kind:<br />
+<select class="select_kinds nav-selection-dropdowns" onchange="toggle_visibility(this.options[this.selectedIndex].value)">
+<option value="kindall" selected="selected">All</option>
+<option value="kindbox">box</option>
+<option value="kindstar">star</option></select>
+</span>
+<span class="nav-selection">Coefficients:<br />
+<select class="select_coeffs nav-selection-dropdowns" onchange="toggle_visibility(this.options[this.selectedIndex].value)">
+<option value="coeffall" selected="selected">All</option>
+<option value="coeffconstant">constant</option>
+<option value="coeffvariable">variable</option></select>
+</span>
+<span class="nav-selection">Datatype:<br />
+<select class="select_dts nav-selection-dropdowns" onchange="toggle_visibility(this.options[this.selectedIndex].value)">
+<option value="dtall" selected="selected">All</option>
+<option value="dtdouble">double</option>
+<option value="dtfloat">float</option></select>
+</span>
+<!-- <select class="select_machines" onchange="toggle_visibility(this.options[this.selectedIndex].value)">
+<option value="machineall" selected="selected">All</option>
+<option value="machineBroadwellEP_E5-2697_CoD">BroadwellEP_E5-2697_CoD</option>
+<option value="machineHaswellEP_E5-2695v3_CoD">HaswellEP_E5-2695v3_CoD</option>
+<option value="machineIvyBridgeEP_E5-2660v2">IvyBridgeEP_E5-2660v2</option>
+<option value="machineSkylakeSP_Gold-6148">SkylakeSP_Gold-6148</option>
+<option value="machineSkylakeSP_Gold-6148_512">SkylakeSP_Gold-6148_512</option>
+<option value="machineSkylakeSP_Gold-6148_avx512">SkylakeSP_Gold-6148_avx512</option></select> --></p>
+
+  <p><br /><br /><br /></p>
+
+  <script>
+function toggle_visibility(option) {
+	var name = "";
+	if (String(option).startsWith("dim")) {
+		name = "dim"
+	} else if (String(option).startsWith("rad")) {
+		name = "rad"
+	} else if (String(option).startsWith("weight")) {
+		name = "weight"
+	} else if (String(option).startsWith("kind")) {
+		name = "kind"
+	} else if (String(option).startsWith("coeff")) {
+		name = "coeff"
+	} else if (String(option).startsWith("dt")) {
+		name = "dt"
+	} else if (String(option).startsWith("machine")) {
+		name = "machine"
+	}
+
+	if (String(option).endsWith("all")) {
+		$("[class^="+name+"]").css("display","block");
+	} else {
+		$("[class^="+name+"]").css("display","none");
+		$("."+String(option)).css("display","block");
+	}
+}
+</script>
+
+  <details class="dim3D" open="">
+<summary>3D</summary>
+
+<details class="rad1r" open="">
+<summary>1r</summary>
+
+<details class="weightheterogeneous" open="">
+<summary>heterogeneous</summary>
+
+<details class="kindbox" open="">
+<summary>box</summary>
+
+<details class="coeffconstant" open="">
+<summary>constant</summary>
+
+<details class="dtdouble" open="">
+              <summary>double</summary>
+              <ul>
+                <li><a href="/stempel_data_collection/stencils/3D/1r/heterogeneous/box/constant/double/BroadwellEP_E5-2697_CoD/" class="machineBroadwellEP_E5-2697_CoD">BroadwellEP_E5-2697_CoD - Cluster on Die</a></li>
+                <li><a href="/stempel_data_collection/stencils/3D/1r/heterogeneous/box/constant/double/HaswellEP_E5-2695v3_CoD/" class="machineHaswellEP_E5-2695v3_CoD">HaswellEP_E5-2695v3_CoD - Cluster on Die</a></li>
+                <li><a href="/stempel_data_collection/stencils/3D/1r/heterogeneous/box/constant/double/SkylakeSP_Gold-6148/" class="machineSkylakeSP_Gold-6148">SkylakeSP_Gold-6148</a></li>
+              </ul>
+            </details>
+</details>
+
+<details class="coeffvariable" open="">
+<summary>variable</summary>
+
+<details class="dtdouble" open="">
+              <summary>double</summary>
+              <ul>
+                <li><a href="/stempel_data_collection/stencils/3D/1r/heterogeneous/box/variable/double/BroadwellEP_E5-2697_CoD/" class="machineBroadwellEP_E5-2697_CoD">BroadwellEP_E5-2697_CoD - Cluster on Die</a></li>
+                <li><a href="/stempel_data_collection/stencils/3D/1r/heterogeneous/box/variable/double/HaswellEP_E5-2695v3_CoD/" class="machineHaswellEP_E5-2695v3_CoD">HaswellEP_E5-2695v3_CoD - Cluster on Die</a></li>
+                <li><a href="/stempel_data_collection/stencils/3D/1r/heterogeneous/box/variable/double/SkylakeSP_Gold-6148_512/" class="machineSkylakeSP_Gold-6148">SkylakeSP_Gold-6148 - AVX 512</a></li>
+                <li><a href="/stempel_data_collection/stencils/3D/1r/heterogeneous/box/variable/double/SkylakeSP_Gold-6148_512/" class="machineSkylakeSP_Gold-6148_512">SkylakeSP_Gold-6148_512 - AVX 512</a></li>
+              </ul>
+            </details>
+</details></details>
+
+<details class="kindstar" open="">
+<summary>star</summary>
+
+<details class="coeffconstant" open="">
+<summary>constant</summary>
+
+<details class="dtdouble" open="">
+              <summary>double</summary>
+              <ul>
+                <li><a href="/stempel_data_collection/stencils/3D/1r/heterogeneous/star/constant/double/BroadwellEP_E5-2697_CoD/" class="machineBroadwellEP_E5-2697_CoD">BroadwellEP_E5-2697_CoD - Cluster on Die</a></li>
+                <li><a href="/stempel_data_collection/stencils/3D/1r/heterogeneous/star/constant/double/HaswellEP_E5-2695v3_CoD/" class="machineHaswellEP_E5-2695v3_CoD">HaswellEP_E5-2695v3_CoD - Cluster on Die</a></li>
+                <li><a href="/stempel_data_collection/stencils/3D/1r/heterogeneous/star/constant/double/IvyBridgeEP_E5-2660v2/" class="machineIvyBridgeEP_E5-2660v2">IvyBridgeEP_E5-2660v2</a></li>
+                <li><a href="/stempel_data_collection/stencils/3D/1r/heterogeneous/star/constant/double/SkylakeSP_Gold-6148_variant_avx512/" class="machineSkylakeSP_Gold-6148">SkylakeSP_Gold-6148 - AVX 512</a></li>
+                <li><a href="/stempel_data_collection/stencils/3D/1r/heterogeneous/star/constant/double/SkylakeSP_Gold-6148/" class="machineSkylakeSP_Gold-6148">SkylakeSP_Gold-6148</a></li>
+              </ul>
+            </details>
+</details>
+
+<details class="coeffvariable" open="">
+<summary>variable</summary>
+
+<details class="dtdouble" open="">
+              <summary>double</summary>
+              <ul>
+                <li><a href="/stempel_data_collection/stencils/3D/1r/heterogeneous/star/variable/double/BroadwellEP_E5-2697_CoD/" class="machineBroadwellEP_E5-2697_CoD">BroadwellEP_E5-2697_CoD - Cluster on Die</a></li>
+                <li><a href="/stempel_data_collection/stencils/3D/1r/heterogeneous/star/variable/double/HaswellEP_E5-2695v3_CoD/" class="machineHaswellEP_E5-2695v3_CoD">HaswellEP_E5-2695v3_CoD - Cluster on Die</a></li>
+                <li><a href="/stempel_data_collection/stencils/3D/1r/heterogeneous/star/variable/double/SkylakeSP_Gold-6148/" class="machineSkylakeSP_Gold-6148">SkylakeSP_Gold-6148</a></li>
+              </ul>
+            </details>
+</details></details></details>
+
+<details class="weighthomogeneous" open="">
+<summary>homogeneous</summary>
+
+<details class="kindbox" open="">
+<summary>box</summary>
+
+
+<details class="coeffvariable" open="">
+<summary>variable</summary>
+
+<details class="dtdouble" open="">
+              <summary>double</summary>
+              <ul>
+                <li><a href="/stempel_data_collection/stencils/3D/1r/homogeneous/box/variable/double/BroadwellEP_E5-2697_CoD/" class="machineBroadwellEP_E5-2697_CoD">BroadwellEP_E5-2697_CoD - Cluster on Die</a></li>
+                <li><a href="/stempel_data_collection/stencils/3D/1r/homogeneous/box/variable/double/HaswellEP_E5-2695v3_CoD/" class="machineHaswellEP_E5-2695v3_CoD">HaswellEP_E5-2695v3_CoD - Cluster on Die</a></li>
+                <li><a href="/stempel_data_collection/stencils/3D/1r/homogeneous/box/variable/double/SkylakeSP_Gold-6148_512/" class="machineSkylakeSP_Gold-6148">SkylakeSP_Gold-6148 - AVX 512</a></li>
+                <li><a href="/stempel_data_collection/stencils/3D/1r/homogeneous/box/variable/double/SkylakeSP_Gold-6148_512/" class="machineSkylakeSP_Gold-6148_512">SkylakeSP_Gold-6148_512 - AVX 512</a></li>
+              </ul>
+            </details>
+</details></details>
+
+<details class="kindstar" open="">
+<summary>star</summary>
+
+<details class="coeffconstant" open="">
+<summary>constant</summary>
+
+<details class="dtdouble" open="">
+              <summary>double</summary>
+              <ul>
+                <li><a href="/stempel_data_collection/stencils/3D/1r/homogeneous/star/constant/double/BroadwellEP_E5-2697_CoD/" class="machineBroadwellEP_E5-2697_CoD">BroadwellEP_E5-2697_CoD - Cluster on Die</a></li>
+                <li><a href="/stempel_data_collection/stencils/3D/1r/homogeneous/star/constant/double/HaswellEP_E5-2695v3_CoD/" class="machineHaswellEP_E5-2695v3_CoD">HaswellEP_E5-2695v3_CoD - Cluster on Die</a></li>
+                <li><a href="/stempel_data_collection/stencils/3D/1r/homogeneous/star/constant/double/IvyBridgeEP_E5-2660v2/" class="machineIvyBridgeEP_E5-2660v2">IvyBridgeEP_E5-2660v2</a></li>
+                <li><a href="/stempel_data_collection/stencils/3D/1r/homogeneous/star/constant/double/SkylakeSP_Gold-6148_variant_avx512/" class="machineSkylakeSP_Gold-6148">SkylakeSP_Gold-6148 - AVX 512</a></li>
+                <li><a href="/stempel_data_collection/stencils/3D/1r/homogeneous/star/constant/double/SkylakeSP_Gold-6148/" class="machineSkylakeSP_Gold-6148">SkylakeSP_Gold-6148</a></li>
+              </ul>
+            </details>
+</details>
+</details></details>
+
+<details class="weightisotropic" open="">
+<summary>isotropic</summary>
+
+<details class="kindbox" open="">
+<summary>box</summary>
+
+<details class="coeffconstant" open="">
+<summary>constant</summary>
+
+<details class="dtdouble" open="">
+              <summary>double</summary>
+              <ul>
+                <li><a href="/stempel_data_collection/stencils/3D/1r/isotropic/box/constant/double/BroadwellEP_E5-2697_CoD/" class="machineBroadwellEP_E5-2697_CoD">BroadwellEP_E5-2697_CoD - Cluster on Die</a></li>
+                <li><a href="/stempel_data_collection/stencils/3D/1r/isotropic/box/constant/double/HaswellEP_E5-2695v3_CoD/" class="machineHaswellEP_E5-2695v3_CoD">HaswellEP_E5-2695v3_CoD - Cluster on Die</a></li>
+                <li><a href="/stempel_data_collection/stencils/3D/1r/isotropic/box/constant/double/IvyBridgeEP_E5-2660v2/" class="machineIvyBridgeEP_E5-2660v2">IvyBridgeEP_E5-2660v2</a></li>
+                <li><a href="/stempel_data_collection/stencils/3D/1r/isotropic/box/constant/double/SkylakeSP_Gold-6148_variant_avx512/" class="machineSkylakeSP_Gold-6148">SkylakeSP_Gold-6148 - AVX 512</a></li>
+                <li><a href="/stempel_data_collection/stencils/3D/1r/isotropic/box/constant/double/SkylakeSP_Gold-6148/" class="machineSkylakeSP_Gold-6148">SkylakeSP_Gold-6148</a></li>
+              </ul>
+            </details>
+</details>
+</details>
+
+<details class="kindstar" open="">
+<summary>star</summary>
+
+<details class="coeffconstant" open="">
+<summary>constant</summary>
+
+<details class="dtdouble" open="">
+              <summary>double</summary>
+              <ul>
+                <li><a href="/stempel_data_collection/stencils/3D/1r/isotropic/star/constant/double/BroadwellEP_E5-2697_CoD/" class="machineBroadwellEP_E5-2697_CoD">BroadwellEP_E5-2697_CoD - Cluster on Die</a></li>
+                <li><a href="/stempel_data_collection/stencils/3D/1r/isotropic/star/constant/double/HaswellEP_E5-2695v3_CoD/" class="machineHaswellEP_E5-2695v3_CoD">HaswellEP_E5-2695v3_CoD - Cluster on Die</a></li>
+                <li><a href="/stempel_data_collection/stencils/3D/1r/isotropic/star/constant/double/IvyBridgeEP_E5-2660v2/" class="machineIvyBridgeEP_E5-2660v2">IvyBridgeEP_E5-2660v2</a></li>
+                <li><a href="/stempel_data_collection/stencils/3D/1r/isotropic/star/constant/double/IvyBridgeEP_E5-2660v2_variant_vector_aligned/" class="machineIvyBridgeEP_E5-2660v2">IvyBridgeEP_E5-2660v2 - with pragma vector aligned</a></li>
+                <li><a href="/stempel_data_collection/stencils/3D/1r/isotropic/star/constant/double/SkylakeSP_Gold-6148_variant_avx512/" class="machineSkylakeSP_Gold-6148">SkylakeSP_Gold-6148 - AVX 512</a></li>
+                <li><a href="/stempel_data_collection/stencils/3D/1r/isotropic/star/constant/double/SkylakeSP_Gold-6148/" class="machineSkylakeSP_Gold-6148">SkylakeSP_Gold-6148</a></li>
+              </ul>
+            </details>
+</details>
+
+<details class="coeffvariable" open="">
+<summary>variable</summary>
+
+<details class="dtdouble" open="">
+              <summary>double</summary>
+              <ul>
+                <li><a href="/stempel_data_collection/stencils/3D/1r/isotropic/star/variable/double/HaswellEP_E5-2695v3_CoD/" class="machineHaswellEP_E5-2695v3_CoD">HaswellEP_E5-2695v3_CoD - Cluster on Die</a></li>
+              </ul>
+            </details>
+</details></details></details>
+
+<details class="weightpoint-symmetric" open="">
+<summary>point-symmetric</summary>
+
+<details class="kindbox" open="">
+<summary>box</summary>
+
+<details class="coeffconstant" open="">
+<summary>constant</summary>
+
+<details class="dtdouble" open="">
+              <summary>double</summary>
+              <ul>
+                <li><a href="/stempel_data_collection/stencils/3D/1r/point-symmetric/box/constant/double/BroadwellEP_E5-2697_CoD/" class="machineBroadwellEP_E5-2697_CoD">BroadwellEP_E5-2697_CoD - Cluster on Die</a></li>
+                <li><a href="/stempel_data_collection/stencils/3D/1r/point-symmetric/box/constant/double/HaswellEP_E5-2695v3_CoD/" class="machineHaswellEP_E5-2695v3_CoD">HaswellEP_E5-2695v3_CoD - Cluster on Die</a></li>
+                <li><a href="/stempel_data_collection/stencils/3D/1r/point-symmetric/box/constant/double/SkylakeSP_Gold-6148/" class="machineSkylakeSP_Gold-6148">SkylakeSP_Gold-6148</a></li>
+              </ul>
+            </details>
+</details>
+</details>
+
+<details class="kindstar" open="">
+<summary>star</summary>
+
+<details class="coeffconstant" open="">
+<summary>constant</summary>
+
+<details class="dtdouble" open="">
+              <summary>double</summary>
+              <ul>
+                <li><a href="/stempel_data_collection/stencils/3D/1r/point-symmetric/star/constant/double/BroadwellEP_E5-2697_CoD/" class="machineBroadwellEP_E5-2697_CoD">BroadwellEP_E5-2697_CoD - Cluster on Die</a></li>
+                <li><a href="/stempel_data_collection/stencils/3D/1r/point-symmetric/star/constant/double/HaswellEP_E5-2695v3_CoD/" class="machineHaswellEP_E5-2695v3_CoD">HaswellEP_E5-2695v3_CoD - Cluster on Die</a></li>
+                <li><a href="/stempel_data_collection/stencils/3D/1r/point-symmetric/star/constant/double/SkylakeSP_Gold-6148/" class="machineSkylakeSP_Gold-6148">SkylakeSP_Gold-6148</a></li>
+              </ul>
+            </details>
+</details>
+
+<details class="coeffvariable" open="">
+<summary>variable</summary>
+
+<details class="dtdouble" open="">
+              <summary>double</summary>
+              <ul>
+                <li><a href="/stempel_data_collection/stencils/3D/1r/point-symmetric/star/variable/double/BroadwellEP_E5-2697_CoD/" class="machineBroadwellEP_E5-2697_CoD">BroadwellEP_E5-2697_CoD - Cluster on Die</a></li>
+                <li><a href="/stempel_data_collection/stencils/3D/1r/point-symmetric/star/variable/double/HaswellEP_E5-2695v3_CoD/" class="machineHaswellEP_E5-2695v3_CoD">HaswellEP_E5-2695v3_CoD - Cluster on Die</a></li>
+              </ul>
+            </details>
+</details></details></details></details>
+
+<details class="rad2r" open="">
+<summary>2r</summary>
+
+<details class="weightheterogeneous" open="">
+<summary>heterogeneous</summary>
+
+
+<details class="kindstar" open="">
+<summary>star</summary>
+
+<details class="coeffconstant" open="">
+<summary>constant</summary>
+
+<details class="dtdouble" open="">
+              <summary>double</summary>
+              <ul>
+                <li><a href="/stempel_data_collection/stencils/3D/2r/heterogeneous/star/constant/double/BroadwellEP_E5-2697_CoD/" class="machineBroadwellEP_E5-2697_CoD">BroadwellEP_E5-2697_CoD - Cluster on Die</a></li>
+                <li><a href="/stempel_data_collection/stencils/3D/2r/heterogeneous/star/constant/double/HaswellEP_E5-2695v3_CoD/" class="machineHaswellEP_E5-2695v3_CoD">HaswellEP_E5-2695v3_CoD - Cluster on Die</a></li>
+                <li><a href="/stempel_data_collection/stencils/3D/2r/heterogeneous/star/constant/double/SkylakeSP_Gold-6148_variant_avx512/" class="machineSkylakeSP_Gold-6148">SkylakeSP_Gold-6148 - AVX 512</a></li>
+                <li><a href="/stempel_data_collection/stencils/3D/2r/heterogeneous/star/constant/double/SkylakeSP_Gold-6148/" class="machineSkylakeSP_Gold-6148">SkylakeSP_Gold-6148</a></li>
+              </ul>
+            </details>
+
+<details class="dtfloat" open="">
+              <summary>float</summary>
+              <ul>
+                <li><a href="/stempel_data_collection/stencils/3D/2r/heterogeneous/star/constant/float/HaswellEP_E5-2695v3_CoD/" class="machineHaswellEP_E5-2695v3_CoD">HaswellEP_E5-2695v3_CoD - Cluster on Die</a></li>
+                <li><a href="/stempel_data_collection/stencils/3D/2r/heterogeneous/star/constant/float/SkylakeSP_Gold-6148/" class="machineSkylakeSP_Gold-6148">SkylakeSP_Gold-6148</a></li>
+              </ul>
+            </details></details>
+
+<details class="coeffvariable" open="">
+<summary>variable</summary>
+
+<details class="dtdouble" open="">
+              <summary>double</summary>
+              <ul>
+                <li><a href="/stempel_data_collection/stencils/3D/2r/heterogeneous/star/variable/double/BroadwellEP_E5-2697_CoD/" class="machineBroadwellEP_E5-2697_CoD">BroadwellEP_E5-2697_CoD - Cluster on Die</a></li>
+                <li><a href="/stempel_data_collection/stencils/3D/2r/heterogeneous/star/variable/double/HaswellEP_E5-2695v3_CoD/" class="machineHaswellEP_E5-2695v3_CoD">HaswellEP_E5-2695v3_CoD - Cluster on Die</a></li>
+                <li><a href="/stempel_data_collection/stencils/3D/2r/heterogeneous/star/variable/double/SkylakeSP_Gold-6148/" class="machineSkylakeSP_Gold-6148">SkylakeSP_Gold-6148</a></li>
+              </ul>
+            </details>
+
+<details class="dtfloat" open="">
+              <summary>float</summary>
+              <ul>
+                <li><a href="/stempel_data_collection/stencils/3D/2r/heterogeneous/star/variable/float/HaswellEP_E5-2695v3_CoD/" class="machineHaswellEP_E5-2695v3_CoD">HaswellEP_E5-2695v3_CoD - Cluster on Die</a></li>
+              </ul>
+            </details></details></details></details>
+
+<details class="weighthomogeneous" open="">
+<summary>homogeneous</summary>
+
+
+<details class="kindstar" open="">
+<summary>star</summary>
+
+<details class="coeffconstant" open="">
+<summary>constant</summary>
+
+<details class="dtdouble" open="">
+              <summary>double</summary>
+              <ul>
+                <li><a href="/stempel_data_collection/stencils/3D/2r/homogeneous/star/constant/double/BroadwellEP_E5-2697_CoD/" class="machineBroadwellEP_E5-2697_CoD">BroadwellEP_E5-2697_CoD - Cluster on Die</a></li>
+                <li><a href="/stempel_data_collection/stencils/3D/2r/homogeneous/star/constant/double/HaswellEP_E5-2695v3_CoD/" class="machineHaswellEP_E5-2695v3_CoD">HaswellEP_E5-2695v3_CoD - Cluster on Die</a></li>
+                <li><a href="/stempel_data_collection/stencils/3D/2r/homogeneous/star/constant/double/SkylakeSP_Gold-6148_variant_avx512/" class="machineSkylakeSP_Gold-6148">SkylakeSP_Gold-6148 - AVX 512</a></li>
+                <li><a href="/stempel_data_collection/stencils/3D/2r/homogeneous/star/constant/double/SkylakeSP_Gold-6148/" class="machineSkylakeSP_Gold-6148">SkylakeSP_Gold-6148</a></li>
+              </ul>
+            </details>
+
+<details class="dtfloat" open="">
+              <summary>float</summary>
+              <ul>
+                <li><a href="/stempel_data_collection/stencils/3D/2r/homogeneous/star/constant/float/HaswellEP_E5-2695v3_CoD/" class="machineHaswellEP_E5-2695v3_CoD">HaswellEP_E5-2695v3_CoD - Cluster on Die</a></li>
+                <li><a href="/stempel_data_collection/stencils/3D/2r/homogeneous/star/constant/float/SkylakeSP_Gold-6148/" class="machineSkylakeSP_Gold-6148">SkylakeSP_Gold-6148</a></li>
+              </ul>
+            </details></details>
+
+<details class="coeffvariable" open="">
+<summary>variable</summary>
+
+<details class="dtdouble" open="">
+              <summary>double</summary>
+              <ul>
+                <li><a href="/stempel_data_collection/stencils/3D/2r/homogeneous/star/variable/double/HaswellEP_E5-2695v3_CoD/" class="machineHaswellEP_E5-2695v3_CoD">HaswellEP_E5-2695v3_CoD - Cluster on Die</a></li>
+                <li><a href="/stempel_data_collection/stencils/3D/2r/homogeneous/star/variable/double/SkylakeSP_Gold-6148/" class="machineSkylakeSP_Gold-6148">SkylakeSP_Gold-6148</a></li>
+              </ul>
+            </details>
+
+<details class="dtfloat" open="">
+              <summary>float</summary>
+              <ul>
+                <li><a href="/stempel_data_collection/stencils/3D/2r/homogeneous/star/variable/float/HaswellEP_E5-2695v3_CoD/" class="machineHaswellEP_E5-2695v3_CoD">HaswellEP_E5-2695v3_CoD - Cluster on Die</a></li>
+              </ul>
+            </details></details></details></details>
+
+<details class="weightisotropic" open="">
+<summary>isotropic</summary>
+
+<details class="kindbox" open="">
+<summary>box</summary>
+
+<details class="coeffconstant" open="">
+<summary>constant</summary>
+
+<details class="dtdouble" open="">
+              <summary>double</summary>
+              <ul>
+                <li><a href="/stempel_data_collection/stencils/3D/2r/isotropic/box/constant/double/BroadwellEP_E5-2697_CoD/" class="machineBroadwellEP_E5-2697_CoD">BroadwellEP_E5-2697_CoD</a></li>
+                <li><a href="/stempel_data_collection/stencils/3D/2r/isotropic/box/constant/double/HaswellEP_E5-2695v3_CoD/" class="machineHaswellEP_E5-2695v3_CoD">HaswellEP_E5-2695v3_CoD</a></li>
+                <li><a href="/stempel_data_collection/stencils/3D/2r/isotropic/box/constant/double/IvyBridgeEP_E5-2660v2/" class="machineIvyBridgeEP_E5-2660v2">IvyBridgeEP_E5-2660v2</a></li>
+                <li><a href="/stempel_data_collection/stencils/3D/2r/isotropic/box/constant/double/SkylakeSP_Gold-6148_variant_avx512/" class="machineSkylakeSP_Gold-6148">SkylakeSP_Gold-6148 - AVX 512</a></li>
+                <li><a href="/stempel_data_collection/stencils/3D/2r/isotropic/box/constant/double/SkylakeSP_Gold-6148/" class="machineSkylakeSP_Gold-6148">SkylakeSP_Gold-6148</a></li>
+              </ul>
+            </details>
+</details>
+</details>
+
+<details class="kindstar" open="">
+<summary>star</summary>
+
+<details class="coeffconstant" open="">
+<summary>constant</summary>
+
+<details class="dtdouble" open="">
+              <summary>double</summary>
+              <ul>
+                <li><a href="/stempel_data_collection/stencils/3D/2r/isotropic/star/constant/double/BroadwellEP_E5-2697_CoD/" class="machineBroadwellEP_E5-2697_CoD">BroadwellEP_E5-2697_CoD - Cluster on Die</a></li>
+                <li><a href="/stempel_data_collection/stencils/3D/2r/isotropic/star/constant/double/HaswellEP_E5-2695v3_CoD/" class="machineHaswellEP_E5-2695v3_CoD">HaswellEP_E5-2695v3_CoD - Cluster on Die</a></li>
+                <li><a href="/stempel_data_collection/stencils/3D/2r/isotropic/star/constant/double/IvyBridgeEP_E5-2660v2/" class="machineIvyBridgeEP_E5-2660v2">IvyBridgeEP_E5-2660v2</a></li>
+                <li><a href="/stempel_data_collection/stencils/3D/2r/isotropic/star/constant/double/IvyBridgeEP_E5-2660v2_variant_vector_aligned/" class="machineIvyBridgeEP_E5-2660v2">IvyBridgeEP_E5-2660v2 - with pragma vector aligned</a></li>
+                <li><a href="/stempel_data_collection/stencils/3D/2r/isotropic/star/constant/double/SkylakeSP_Gold-6148_variant_avx512/" class="machineSkylakeSP_Gold-6148">SkylakeSP_Gold-6148 - AVX 512</a></li>
+                <li><a href="/stempel_data_collection/stencils/3D/2r/isotropic/star/constant/double/SkylakeSP_Gold-6148/" class="machineSkylakeSP_Gold-6148">SkylakeSP_Gold-6148</a></li>
+              </ul>
+            </details>
+
+<details class="dtfloat" open="">
+              <summary>float</summary>
+              <ul>
+                <li><a href="/stempel_data_collection/stencils/3D/2r/isotropic/star/constant/float/HaswellEP_E5-2695v3_CoD/" class="machineHaswellEP_E5-2695v3_CoD">HaswellEP_E5-2695v3_CoD - Cluster on Die</a></li>
+                <li><a href="/stempel_data_collection/stencils/3D/2r/isotropic/star/constant/float/SkylakeSP_Gold-6148/" class="machineSkylakeSP_Gold-6148">SkylakeSP_Gold-6148</a></li>
+              </ul>
+            </details></details>
+
+<details class="coeffvariable" open="">
+<summary>variable</summary>
+
+<details class="dtdouble" open="">
+              <summary>double</summary>
+              <ul>
+                <li><a href="/stempel_data_collection/stencils/3D/2r/isotropic/star/variable/double/BroadwellEP_E5-2697_CoD/" class="machineBroadwellEP_E5-2697_CoD">BroadwellEP_E5-2697_CoD - Cluster on Die</a></li>
+                <li><a href="/stempel_data_collection/stencils/3D/2r/isotropic/star/variable/double/HaswellEP_E5-2695v3_CoD/" class="machineHaswellEP_E5-2695v3_CoD">HaswellEP_E5-2695v3_CoD - Cluster on Die</a></li>
+                <li><a href="/stempel_data_collection/stencils/3D/2r/isotropic/star/variable/double/SkylakeSP_Gold-6148/" class="machineSkylakeSP_Gold-6148">SkylakeSP_Gold-6148</a></li>
+              </ul>
+            </details>
+
+<details class="dtfloat" open="">
+              <summary>float</summary>
+              <ul>
+                <li><a href="/stempel_data_collection/stencils/3D/2r/isotropic/star/variable/float/HaswellEP_E5-2695v3_CoD/" class="machineHaswellEP_E5-2695v3_CoD">HaswellEP_E5-2695v3_CoD - Cluster on Die</a></li>
+              </ul>
+            </details></details></details></details>
+
+<details class="weightpoint-symmetric" open="">
+<summary>point-symmetric</summary>
+
+
+<details class="kindstar" open="">
+<summary>star</summary>
+
+<details class="coeffconstant" open="">
+<summary>constant</summary>
+
+<details class="dtdouble" open="">
+              <summary>double</summary>
+              <ul>
+                <li><a href="/stempel_data_collection/stencils/3D/2r/point-symmetric/star/constant/double/BroadwellEP_E5-2697_CoD/" class="machineBroadwellEP_E5-2697_CoD">BroadwellEP_E5-2697_CoD - Cluster on Die</a></li>
+                <li><a href="/stempel_data_collection/stencils/3D/2r/point-symmetric/star/constant/double/HaswellEP_E5-2695v3_CoD/" class="machineHaswellEP_E5-2695v3_CoD">HaswellEP_E5-2695v3_CoD - Cluster on Die</a></li>
+                <li><a href="/stempel_data_collection/stencils/3D/2r/point-symmetric/star/constant/double/SkylakeSP_Gold-6148/" class="machineSkylakeSP_Gold-6148">SkylakeSP_Gold-6148</a></li>
+              </ul>
+            </details>
+
+<details class="dtfloat" open="">
+              <summary>float</summary>
+              <ul>
+                <li><a href="/stempel_data_collection/stencils/3D/2r/point-symmetric/star/constant/float/HaswellEP_E5-2695v3_CoD/" class="machineHaswellEP_E5-2695v3_CoD">HaswellEP_E5-2695v3_CoD - Cluster on Die</a></li>
+                <li><a href="/stempel_data_collection/stencils/3D/2r/point-symmetric/star/constant/float/SkylakeSP_Gold-6148/" class="machineSkylakeSP_Gold-6148">SkylakeSP_Gold-6148</a></li>
+              </ul>
+            </details></details>
+
+<details class="coeffvariable" open="">
+<summary>variable</summary>
+
+<details class="dtdouble" open="">
+              <summary>double</summary>
+              <ul>
+                <li><a href="/stempel_data_collection/stencils/3D/2r/point-symmetric/star/variable/double/BroadwellEP_E5-2697_CoD/" class="machineBroadwellEP_E5-2697_CoD">BroadwellEP_E5-2697_CoD - Cluster on Die</a></li>
+                <li><a href="/stempel_data_collection/stencils/3D/2r/point-symmetric/star/variable/double/HaswellEP_E5-2695v3_CoD/" class="machineHaswellEP_E5-2695v3_CoD">HaswellEP_E5-2695v3_CoD - Cluster on Die</a></li>
+                <li><a href="/stempel_data_collection/stencils/3D/2r/point-symmetric/star/variable/double/SkylakeSP_Gold-6148/" class="machineSkylakeSP_Gold-6148">SkylakeSP_Gold-6148</a></li>
+              </ul>
+            </details>
+
+<details class="dtfloat" open="">
+              <summary>float</summary>
+              <ul>
+                <li><a href="/stempel_data_collection/stencils/3D/2r/point-symmetric/star/variable/float/HaswellEP_E5-2695v3_CoD/" class="machineHaswellEP_E5-2695v3_CoD">HaswellEP_E5-2695v3_CoD - Cluster on Die</a></li>
+              </ul>
+            </details></details></details></details></details>
+
+<details class="rad3r" open="">
+<summary>3r</summary>
+
+<details class="weightheterogeneous" open="">
+<summary>heterogeneous</summary>
+
+
+<details class="kindstar" open="">
+<summary>star</summary>
+
+<details class="coeffconstant" open="">
+<summary>constant</summary>
+
+<details class="dtdouble" open="">
+              <summary>double</summary>
+              <ul>
+                <li><a href="/stempel_data_collection/stencils/3D/3r/heterogeneous/star/constant/double/BroadwellEP_E5-2697_CoD/" class="machineBroadwellEP_E5-2697_CoD">BroadwellEP_E5-2697_CoD</a></li>
+                <li><a href="/stempel_data_collection/stencils/3D/3r/heterogeneous/star/constant/double/HaswellEP_E5-2695v3_CoD/" class="machineHaswellEP_E5-2695v3_CoD">HaswellEP_E5-2695v3_CoD</a></li>
+                <li><a href="/stempel_data_collection/stencils/3D/3r/heterogeneous/star/constant/double/IvyBridgeEP_E5-2660v2/" class="machineIvyBridgeEP_E5-2660v2">IvyBridgeEP_E5-2660v2</a></li>
+                <li><a href="/stempel_data_collection/stencils/3D/3r/heterogeneous/star/constant/double/SkylakeSP_Gold-6148_variant_avx512/" class="machineSkylakeSP_Gold-6148">SkylakeSP_Gold-6148 - AVX512</a></li>
+                <li><a href="/stempel_data_collection/stencils/3D/3r/heterogeneous/star/constant/double/SkylakeSP_Gold-6148/" class="machineSkylakeSP_Gold-6148">SkylakeSP_Gold-6148</a></li>
+              </ul>
+            </details>
+</details>
+</details></details>
+
+
+<details class="weightisotropic" open="">
+<summary>isotropic</summary>
+
+
+<details class="kindstar" open="">
+<summary>star</summary>
+
+<details class="coeffconstant" open="">
+<summary>constant</summary>
+
+<details class="dtdouble" open="">
+              <summary>double</summary>
+              <ul>
+                <li><a href="/stempel_data_collection/stencils/3D/3r/isotropic/star/constant/double/BroadwellEP_E5-2697_CoD/" class="machineBroadwellEP_E5-2697_CoD">BroadwellEP_E5-2697_CoD</a></li>
+                <li><a href="/stempel_data_collection/stencils/3D/3r/isotropic/star/constant/double/HaswellEP_E5-2695v3_CoD/" class="machineHaswellEP_E5-2695v3_CoD">HaswellEP_E5-2695v3_CoD</a></li>
+                <li><a href="/stempel_data_collection/stencils/3D/3r/isotropic/star/constant/double/IvyBridgeEP_E5-2660v2/" class="machineIvyBridgeEP_E5-2660v2">IvyBridgeEP_E5-2660v2</a></li>
+                <li><a href="/stempel_data_collection/stencils/3D/3r/isotropic/star/constant/double/IvyBridgeEP_E5-2660v2_variant_vector_aligned/" class="machineIvyBridgeEP_E5-2660v2">IvyBridgeEP_E5-2660v2 - vector aligned</a></li>
+                <li><a href="/stempel_data_collection/stencils/3D/3r/isotropic/star/constant/double/SkylakeSP_Gold-6148/" class="machineSkylakeSP_Gold-6148">SkylakeSP_Gold-6148 - AVX 512</a></li>
+              </ul>
+            </details>
+</details>
+</details></details>
+</details></details>
+</div>
+
+<p>You can also view the <a href="sitemap">complete stencil Sitemap here</a>.</p>
