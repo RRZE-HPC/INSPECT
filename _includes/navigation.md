@@ -27,7 +27,7 @@
 Filter available stencil data by categories or by collapsing levels:
 
 <span class="nav-selection">Dimension:<br/>
-<select class="select_dims">
+<select class="select_dims nav-selection-dropdowns">
 <option value="all" selected="selected">All</option>
 {%- for dim in dims %}
 <option value="dim{{dim}}">{{dim}}</option>
@@ -35,7 +35,7 @@ Filter available stencil data by categories or by collapsing levels:
 </select>
 </span>
 <span class="nav-selection">Radius:<br/>
-<select class="select_rads" onchange="toggle_visibility(this.options[this.selectedIndex].value)">
+<select class="select_rads nav-selection-dropdowns" onchange="toggle_visibility(this.options[this.selectedIndex].value)">
 <option value="radall" selected="selected">All</option>
 {%- for rad in rads %}
 <option value="rad{{rad}}">{{rad}}</option>
@@ -43,7 +43,7 @@ Filter available stencil data by categories or by collapsing levels:
 </select>
 </span>
 <span class="nav-selection">Weight:<br/>
-<select class="select_weights" onchange="toggle_visibility(this.options[this.selectedIndex].value)">
+<select class="select_weights nav-selection-dropdowns" onchange="toggle_visibility(this.options[this.selectedIndex].value)">
 <option value="weightall" selected="selected">All</option>
 {%- for weight in weights %}
 <option value="weight{{weight}}">{{weight}}</option>
@@ -51,7 +51,7 @@ Filter available stencil data by categories or by collapsing levels:
 </select>
 </span>
 <span class="nav-selection">Kind:<br/>
-<select class="select_kinds" onchange="toggle_visibility(this.options[this.selectedIndex].value)">
+<select class="select_kinds nav-selection-dropdowns" onchange="toggle_visibility(this.options[this.selectedIndex].value)">
 <option value="kindall" selected="selected">All</option>
 {%- for kind in kinds %}
 <option value="kind{{kind}}">{{kind}}</option>
@@ -59,7 +59,7 @@ Filter available stencil data by categories or by collapsing levels:
 </select>
 </span>
 <span class="nav-selection">Coefficients:<br/>
-<select class="select_coeffs" onchange="toggle_visibility(this.options[this.selectedIndex].value)">
+<select class="select_coeffs nav-selection-dropdowns" onchange="toggle_visibility(this.options[this.selectedIndex].value)">
 <option value="coeffall" selected="selected">All</option>
 {%- for coeff in coeffs %}
 <option value="coeff{{coeff}}">{{coeff}}</option>
@@ -67,7 +67,7 @@ Filter available stencil data by categories or by collapsing levels:
 </select>
 </span>
 <span class="nav-selection">Datatype:<br/>
-<select class="select_dts" onchange="toggle_visibility(this.options[this.selectedIndex].value)">
+<select class="select_dts nav-selection-dropdowns" onchange="toggle_visibility(this.options[this.selectedIndex].value)">
 <option value="dtall" selected="selected">All</option>
 {%- for dt in dts %}
 <option value="dt{{dt}}">{{dt}}</option>

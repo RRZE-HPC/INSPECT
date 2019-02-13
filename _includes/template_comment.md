@@ -7,7 +7,7 @@
   {% assign avatar_img = 'cod3monk.png' %}
 {% elsif include.author == 'vivaeltopo' or include.author == 'Julian Hornich' or include.author == 'JuHo' %}
 	{% assign author_name = 'Julian Hornich' %}
-  {% assign avatar_img = 'cod3monk.png' %}
+  {% assign avatar_img = 'vivaeltopo.png' %}
 {% else %}
 	{% assign author_name = include.author %}
   {% assign avatar_img = 'male-avatar.svg' %}
