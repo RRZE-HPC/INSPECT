@@ -6,7 +6,7 @@ before_install:
 - sudo apt-get install python3-pip python3-setuptools
 install:
 - pip3 install pyyaml
-- bundle install --jobs=3 --retry=3 --path=${BUNDLE_PATH:-vendor/bundle}
+- bundle install --jobs=3 --retry=3 --path=vendor/bundle
 script: "./scripts/cibuild"
 deploy:
   provider: pages
@@ -18,5 +18,7 @@ deploy:
   on:
     branch: master
 cache:
-  - bundler
-  - pip
+  directories:
+    - /home/travis/.rvm/
+    - vendor/bundle
+    - $HOME/.cache/pip
