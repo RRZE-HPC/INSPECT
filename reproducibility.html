@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+<!-- Begin Jekyll SEO tag v2.5.0 -->
+<title>stempel data collection | collection of all benchmark data obtained by using the stempel tool chain</title>
+<meta name="generator" content="Jekyll v3.7.4" />
+<meta property="og:title" content="stempel data collection" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="collection of all benchmark data obtained by using the stempel tool chain" />
+<meta property="og:description" content="collection of all benchmark data obtained by using the stempel tool chain" />
+<meta property="og:site_name" content="stempel data collection" />
+<script type="application/ld+json">
+{"description":"collection of all benchmark data obtained by using the stempel tool chain","headline":"stempel data collection","@type":"WebPage","url":"/stempel_data_collection/reproducibility.html","@context":"http://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+    <link rel="stylesheet" href="/stempel_data_collection/assets/css/style.css?v=885aafce339bef1e7adda4431ae0645acd01144d">
+    <script src="https://code.jquery.com/jquery-3.3.0.min.js" integrity="sha256-RTQy8VOmNlT6b2PIRur37p6JEBZUE7o8wPgMvu18MC4=" crossorigin="anonymous"></script>
+    <script src="/stempel_data_collection/assets/js/main.js"></script>
+    <!--[if lt IE 9]>
+      <script src="https://cdn!js.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js" integrity="sha256-3Jy/GbSLrg0o9y5Z5n1uw0qxZECH7C6OQpVBgNFYa0g=" crossorigin="anonymous"></script>
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+  <script>
+  function apply_options() {
+      var elems = document.getElementsByClassName('nav-selection-dropdowns');
+      var i;
+      for (i = 0; i < elems.length; i++) {
+        var val = elems[i].options[elems[i].selectedIndex].value
+        if (!String(val).endsWith("all"))
+          toggle_visibility(val);
+      }
+      return true;
+  }
+  window.addEventListener('beforeunload', function (e) {
+  // Cancel the event
+  e.preventDefault();
+  // Chrome requires returnValue to be set
+  e.returnValue = '';
+
+  var elems = document.getElementsByClassName('nav-selection-dropdowns');
+  var i;
+  for (i = 0; i < elems.length; i++) {
+    var val = elems[i].options[elems[i].selectedIndex].value
+    if (!String(val).endsWith("all"))
+      toggle_visibility(val);
+    }
+  });
+  </script>
+  </head>
+  <body>
+
+      <header>
+        <h1>stempel data collection</h1>
+        <p>collection of all benchmark data obtained by using the stempel tool chain</p>
+      </header>
+
+      <div id="banner">
+        <a href="https://github.com/RRZE-HPC/stempel_data_collection" class="button fork"><strong>View this repository On GitHub</strong></a>
+        <a href="https://github.com/RRZE-HPC/stempel" class="button fork stempel"><strong>View the stempel repository On GitHub</strong></a>
+        <a id="logo" class="fork" href="/stempel_data_collection/">⌂</a>
+        
+      </div><!-- end banner -->
+
+    <div class="wrapper">
+      <nav>
+        <ul></ul>
+      </nav>
+      <section>
+        
+<p><a href="index">« go home</a></p>
+
+<h2 id="why-is-benchmarking-complicated">Why is benchmarking complicated?</h2>
+
+<ul>
+  <li>anything has to be documented</li>
+  <li>Reduce influences</li>
+  <li>anything has to be controlled</li>
+  <li>How to make your benchmark reproducable?</li>
+</ul>
+
+<h2 id="benchmark-impact-factors">Benchmark Impact Factors</h2>
+
+<h3 id="hardware">Hardware</h3>
+
+<ul>
+  <li>CPU: type, name, model, frequencies, CoD/SNCm…</li>
+  <li>Memory</li>
+  <li>Vendors</li>
+  <li>IO subsystem</li>
+  <li>pinning</li>
+</ul>
+
+<h3 id="software">Software</h3>
+
+<ul>
+  <li>OS
+    <ul>
+      <li>relevant OS settings (<code class="highlighter-rouge">numa_balancing</code>)</li>
+      <li>Environment Variables</li>
+    </ul>
+  </li>
+  <li>Compiler</li>
+  <li>Version with all options specified</li>
+  <li>Libraries</li>
+  <li>Version / DL source (original, patched)</li>
+  <li>Bios settings</li>
+</ul>
+
+<h2 id="how-to-obtain-information">How to obtain Information</h2>
+
+<ul>
+  <li><code class="highlighter-rouge">likwid-topology</code></li>
+  <li><code class="highlighter-rouge">likwid-powermeter</code></li>
+  <li><code class="highlighter-rouge">likwid-setFrequencies</code></li>
+</ul>
+
+<h2 id="benchmark-preparation">Benchmark preparation</h2>
+
+<ul>
+  <li>Reliable timer/timing granularity</li>
+  <li>if possible: Establish a (basic) performance model (roofline, ECM, …)</li>
+  <li>get some reference numbers to decide if your results are reasonable
+    <ul>
+      <li>micro benchmarks: <code class="highlighter-rouge">likwid-bench</code></li>
+      <li>documentation of the hardware vendor</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="good-performance-metrics">Good Performance Metrics</h2>
+
+<ul>
+  <li>simple performance metric: time to solution, 1/walltime</li>
+</ul>
+
+<h2 id="lets-do-it">Let’s do it!</h2>
+
+<p>…</p>
+
+<h2 id="why-does-my-runtime-vary">Why does my runtime vary?</h2>
+
+<ul>
+  <li>no/wrong task placement (-&gt; pinning)
+    <ul>
+      <li>eliminate performance variation</li>
+      <li>making use of architectural features</li>
+      <li>avoid resource contention</li>
+      <li><code class="highlighter-rouge">likwid-pin</code>, <code class="highlighter-rouge">numactl</code>, <code class="highlighter-rouge">sched.h</code>, <code class="highlighter-rouge">taskset</code>, OPENMP/MPI-specific settings</li>
+    </ul>
+  </li>
+  <li>Did you set the correct thread count?</li>
+  <li>Too short runtime
+    <ul>
+      <li>depends on the workingset size</li>
+      <li>should be atleast a second</li>
+      <li>timer granularity problems</li>
+      <li>too few repetition</li>
+    </ul>
+  </li>
+</ul>
+
+<!-- ## Reproducibility
+
+- Anzahl der eingeloggten User auf dem System (users, w, ...)
+- Aktuelles CPUset (procfs oder likwid-pin -p)
+- CPU Frequenz auf eine bestimmte Frequenz gepinnt? Turbo? (likwid-setFrequencies)
+- Uncore Frequenzgrenzen oder gepinnt? (likwid-setFrequencies)
+- Prefetcher (likwid-features)
+- Topologie (likwid-topology, lscpu, numactl, ...)
+- Numa Balancing? (procfs)
+- Huge pages (procfs)
+- Aktuelle Load (falls noch andere Prozesse laufen)
+- Energielimits (sysfs)
+- Performance energy bias (likwid-powermeter -i) -->
+
+
+      </section>
+      <footer>
+        
+          <p>Project maintained by <a href="https://github.com/RRZE-HPC">RRZE-HPC</a></p>
+        
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></small></p>
+      </footer>
+    </div>
+  </body>
+</html>
