@@ -1,5 +1,7 @@
 dist: xenial
 language: ruby
+rvm:
+    - 2.6
 before_install:
 - sudo apt-get install python3-pip python3-setuptools
 install:
@@ -16,5 +18,5 @@ deploy:
   on:
     branch: master
 cache:
-- bundler
-- pip
+  - bundler
+  - pip
