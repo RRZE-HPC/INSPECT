@@ -13,5 +13,3 @@ Machine descriptions can be found [here](machinefiles).
 Information on how to perform reproducible performance benchmarks, can be found on [this page](reproducibility).
 
 {% include navigation.md %}
-
-You can also view the [complete stencil Sitemap here](sitemap).
