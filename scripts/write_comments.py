@@ -96,10 +96,6 @@ def main():
         if latest_commit_hash == '':
             print('has not been commited. Commit first and than comment.')
             continue
-        if comment['commithash']:
-            if latest_commit_hash.startswith(comment['commithash']):
-                print('comment and review is up-to-date. You may update it manually.')
-                continue
 
         # Ask user to update comment and review
         print('needs review and (optional) comment')
@@ -133,7 +129,7 @@ def main():
 
         # Skip if:
         # comment and review are empty
-        if not (comment['comment'] or orig_comment['review']):
+        if not (comment['comment'] or comment['review']) or orig_comment == comment:
             print('nothing changed. Not saving.\n')
             continue
 
