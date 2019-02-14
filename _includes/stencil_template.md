@@ -5,6 +5,8 @@
 <div markdown="1" class="section-block-half">
 ## Stencil Properties
 
+{% capture machinefile_link %}[{{page.machine}}](https://github.com/RRZE-HPC/stempel_data_collection/blob/master/_data/machine_files/{{page.machine}}.yml){% endcapture %}
+
 |--------------|----------------------:|
 | dimension    | {{page.dimension}}    |
 | radius       | {{page.radius}}       |
@@ -12,7 +14,7 @@
 | kind         | {{page.kind}}         |
 | coefficients | {{page.coefficients}} |
 | datatype     | {{page.datatype}}     |
-| machine      | [{{page.machine}}](https://github.com/RRZE-HPC/stempel_data_collection/blob/master/_data/machine_files/{{page.machine}}.yml) |
+| machine      | {{machinefile_link}}  |
 {% assign flop_size = {{page.flop | size}} %}{% if flop_size != 0 %}| FLOP per LUP       | {{page.flop}}       |{% endif %}
 {% assign flavor_size = {{page.flavor | size}} %}{% if flavor_size != 0 %}| flavor       | {{page.flavor}}       |{% endif %}
 
@@ -21,9 +23,9 @@
 {% include template_comment.md comment=com.comment author=com.author review=com.review uptodate=com.uptodate %}
 {% endif %}
 
-Benchmark raw data can be found [in the git repository](https://github.com/RRZE-HPC/stempel_data_collection/tree/master/stencils/{{page.dimension}}/{{page.radius}}/{{page.weighting}}/{{page.kind}}/{{page.coefficients}}/{{page.datatype}}/{{page.machine}}/).
+Benchmark raw data shown on this page can be found in the [according folder of the git repository](https://github.com/RRZE-HPC/stempel_data_collection/tree/master/stencils/{{page.dimension}}/{{page.radius}}/{{page.weighting}}/{{page.kind}}/{{page.coefficients}}/{{page.datatype}}/{{page.machine}}/).
 
-If you have feedback, issues or found errors on this page: please [submit an issue on the github page](
+If you have feedback, issues or found errors on this page, please [submit an issue on the github page](
 https://github.com/RRZE-HPC/stempel_data_collection/issues/new?labels[]=Stencil%20Comment%20Management&labels[]=[Type]%20Bug&title=Stencil%20Comment&milestone=People%20Management:%20m6&assignee=ebinnion&body=Stencil:%20{{page.dimension}}%20{{page.radius}}%20{{page.weighting}}%20{{page.kind}}%20{{page.coefficients}}%20{{page.datatype}}%20{{page.machine}}{% assign flavor_size = {{page.flavor | size}} %}{% if flavor_size != 0 %}%20{{page.flavor}}{% endif %}).
 
 </div>
@@ -31,7 +33,6 @@ https://github.com/RRZE-HPC/stempel_data_collection/issues/new?labels[]=Stencil%
 <div markdown="1" class="section-block-half">
 ## Kernel Source Code
 
-Show:
 <input class="code-button" type="button" onclick="document.getElementById('c_source').style.display = 'block';document.getElementById('asm_source').style.display = 'none'" value="C Source Code" />
 <input class="code-button" type="button" onclick="document.getElementById('asm_source').style.display = 'block';document.getElementById('c_source').style.display = 'none';" value="Assembly Code" />
 
@@ -117,7 +118,6 @@ stempel bench stencil.c -m {{ page.machine }}.yml --store
 <div markdown="1" class="section-block-half">
 ### ECM Prediction vs. Performance
 
-View data for:
 <input class="plot-button" type="button" value="Layer Condition"
   onclick="document.getElementById('ecm_LC').style.display = 'block';
            document.getElementById('ecm_CS').style.display = 'none';
@@ -140,7 +140,6 @@ View data for:
 <div markdown="1" class="section-block-half">
 ### Stencil Performance
 
-View data for:
 <input class="plot-button" type="button" value="Layer Condition"
   onclick="document.getElementById('rfl_LC').style.display = 'block';
            document.getElementById('rfl_CS').style.display = 'none';" />
@@ -159,7 +158,6 @@ View data for:
 <div markdown="1" class="section-block-half">
 ### Data Transfers between Caches
 
-View data for:
 <input class="plot-button" type="button" value="Layer Condition"
   onclick="document.getElementById('mem_LC').style.display = 'block';
            document.getElementById('mem_CS').style.display = 'none';" />
