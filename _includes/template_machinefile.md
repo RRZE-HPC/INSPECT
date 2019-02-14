@@ -1,5 +1,9 @@
 
 {% assign file = include.file %}
+
+<div markdown="1" class="section-block-full">
+<div markdown="1" class="section-block-half">
+
 # {{file["model name"]}}
 
 ## General
@@ -99,5 +103,7 @@ This machine file was generated for kerncraft version {{file["kerncraft version"
 
 {% endfor %}
 
+</div>
+</div>
 
 

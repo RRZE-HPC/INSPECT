@@ -5,7 +5,7 @@
 <div markdown="1" class="section-block-half">
 ## Stencil Properties
 
-{% capture machinefile_link %}[{{page.machine}}](https://github.com/RRZE-HPC/stempel_data_collection/blob/master/_data/machine_files/{{page.machine}}.yml){% endcapture %}
+{% capture machinefile_link %}[{{page.machine}}]({{site.baseurl}}/machines/{{page.machine}}){% endcapture %}
 
 |--------------|----------------------:|
 | dimension    | {{page.dimension}}    |
