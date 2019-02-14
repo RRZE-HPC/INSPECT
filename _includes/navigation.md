@@ -39,7 +39,6 @@ Filter available stencil data by categories or by collapsing levels:
 
 <br /><br /><br />
 
-
 {%- for dim in dims %}
 <details class="dim{{dim}}" open>
 <summary>{{dim}}</summary>
