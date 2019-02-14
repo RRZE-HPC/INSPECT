@@ -16,7 +16,7 @@
 {"description":"collection of all benchmark data obtained by using the stempel tool chain","@type":"WebPage","url":"/stempel_data_collection/stencils/3D/1r/homogeneous/box/variable/double/SkylakeSP_Gold-6148_512/","headline":"Stencil 3D r1 box variable homogeneous double SkylakeSP_Gold-6148_512","@context":"http://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
-    <link rel="stylesheet" href="/stempel_data_collection/assets/css/style.css?v=1158acf3c83b97fa991ea672d086605eb603fe05">
+    <link rel="stylesheet" href="/stempel_data_collection/assets/css/style.css?v=60b63af73996af9d3383f3d2094b91548fe4d741">
     <script src="https://code.jquery.com/jquery-3.3.0.min.js" integrity="sha256-RTQy8VOmNlT6b2PIRur37p6JEBZUE7o8wPgMvu18MC4=" crossorigin="anonymous"></script>
     <script src="/stempel_data_collection/assets/js/main.js"></script>
     <!--[if lt IE 9]>
@@ -45,7 +45,7 @@
       <section>
         
 <div id="navbar">
-<a href="">3D / 1r / homogeneous / box / variable / double / SkylakeSP_Gold-6148_512 / AVX 512</a>
+<a href="">3D / 1r / homogeneous / box / variable / double / SkylakeSP_Gold-6148_avx512 / AVX 512</a>
 </div>
 
 <div class="section-block-full">
@@ -81,7 +81,7 @@
         </tr>
         <tr>
           <td>machine</td>
-          <td><a href="/stempel_data_collection/machines/SkylakeSP_Gold-6148_512">SkylakeSP_Gold-6148_512</a></td>
+          <td><a href="/stempel_data_collection/machines/SkylakeSP_Gold-6148_avx512">SkylakeSP_Gold-6148_avx512</a></td>
         </tr>
         <tr>
           <td>FLOP per LUP</td>
@@ -94,9 +94,9 @@
       </tbody>
     </table>
 
-    <p>Benchmark raw data shown on this page can be found in the <a href="https://github.com/RRZE-HPC/stempel_data_collection/tree/master/stencils/3D/1r/homogeneous/box/variable/double/SkylakeSP_Gold-6148_512/">according folder of the git repository</a>.</p>
+    <p>Benchmark raw data shown on this page can be found in the <a href="https://github.com/RRZE-HPC/stempel_data_collection/tree/master/stencils/3D/1r/homogeneous/box/variable/double/SkylakeSP_Gold-6148_avx512/">according folder of the git repository</a>.</p>
 
-    <p>If you have feedback, issues or found errors on this page, please <a href="https://github.com/RRZE-HPC/stempel_data_collection/issues/new?labels[]=Stencil%20Comment%20Management&amp;labels[]=[Type]%20Bug&amp;title=Stencil%20Comment&amp;milestone=People%20Management:%20m6&amp;assignee=ebinnion&amp;body=Stencil:%203D%201r%20homogeneous%20box%20variable%20double%20SkylakeSP_Gold-6148_512%20AVX 512">submit an issue on the github page</a>.</p>
+    <p>If you have feedback, issues or found errors on this page, please <a href="https://github.com/RRZE-HPC/stempel_data_collection/issues/new?labels[]=Stencil%20Comment%20Management&amp;labels[]=[Type]%20Bug&amp;title=Stencil%20Comment&amp;milestone=People%20Management:%20m6&amp;assignee=ebinnion&amp;body=Stencil:%203D%201r%20homogeneous%20box%20variable%20double%20SkylakeSP_Gold-6148_avx512%20AVX 512">submit an issue on the github page</a>.</p>
 
   </div>
 
@@ -259,7 +259,7 @@ return "https://rrze-hpc.github.io/layer-condition/#calculator%23!"+encodeURICom
 </code></pre></div>    </div>
 
     <p>and generate the compilable benchmark code with:</p>
-    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>stempel bench stencil.c <span class="nt">-m</span> SkylakeSP_Gold-6148_512.yml <span class="nt">--store</span>
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>stempel bench stencil.c <span class="nt">-m</span> SkylakeSP_Gold-6148_avx512.yml <span class="nt">--store</span>
 </code></pre></div>    </div>
 
     <h2 id="compiler-flags">Compiler flags</h2>
@@ -284,22 +284,6 @@ return "https://rrze-hpc.github.io/layer-condition/#calculator%23!"+encodeURICom
 
       <p><em>Comparison of the measured stencil performance (in cycles per cache line) and the (stacked) contributions of the <a href="https://hpc.fau.de/research/ecm/">ECM Performance Model</a> predicted by <a href="https://github.com/RRZE-HPC/kerncraft">kerncraft</a> using <a href="https://rrze-hpc.github.io/layer-condition/">Layer Conditions</a> to model the cache behavior. The calculated <a href="#layer-conditions">layer conditions</a> shown above correspond to the jumps in the ECM prediction in this plot.</em></p>
 
-      <div>
-
-        <p><img src="/stempel_data_collection/assets/img/cod3monk.png" class="comment_bubble_img" /></p>
-        <blockquote class="comment_bubble">
-
-          <svg class="svg" height="18" width="18">
-	<title>Data has been reviewed</title>
-	<circle cx="9" cy="9" r="8" stroke="black" stroke-width="1" fill="green" />
-</svg>
-
-          <p class="comment_author">Julian Hammer says:</p>
-          <p class="comment"><i></i></p>
-
-        </blockquote>
-      </div>
-
     </div>
 
     <div class="ecm" id="ecm_CS" style="display:none;">
@@ -307,44 +291,12 @@ return "https://rrze-hpc.github.io/layer-condition/#calculator%23!"+encodeURICom
 
       <p><em>Comparison of the measured stencil performance (in cycles per cache line) and the (stacked) contributions of the <a href="https://hpc.fau.de/research/ecm/">ECM Performance Model</a> predicted by <a href="https://github.com/RRZE-HPC/kerncraft">kerncraft</a> using <a href="https://github.com/RRZE-HPC/pycachesim">Cache Simulation</a> to model the cache behavior.</em></p>
 
-      <div>
-
-        <p><img src="/stempel_data_collection/assets/img/cod3monk.png" class="comment_bubble_img" /></p>
-        <blockquote class="comment_bubble">
-
-          <svg class="svg" height="18" width="18">
-	<title>might be okay...</title>
-	<circle cx="9" cy="9" r="8" stroke="black" stroke-width="1" fill="orange" />
-</svg>
-
-          <p class="comment_author">Julian Hammer says:</p>
-          <p class="comment"><i>The Skylake cache architecture is not well documented, which make cache predictions inacurate. Nonetheless, the general trend is followed by the measurements.</i></p>
-
-        </blockquote>
-      </div>
-
     </div>
 
     <div class="ecm" id="ecm_Pheno" style="display:none;">
       <object data="./ecm_Pheno.svg" type="image/svg+xml"></object>
 
       <p><em>Comparison of the measured stencil performance (in cycles per cache line) and the (stacked) contributions of the <a href="https://hpc.fau.de/research/ecm/">ECM Performance Model</a> predicted by <a href="https://github.com/RRZE-HPC/kerncraft">kerncraft</a> using <a href="https://github.com/RRZE-HPC/pycachesim">Cache Simulation</a> to model the cache behavior.</em></p>
-
-      <div>
-
-        <p><img src="/stempel_data_collection/assets/img/cod3monk.png" class="comment_bubble_img" /></p>
-        <blockquote class="comment_bubble">
-
-          <svg class="svg" height="18" width="18">
-	<title>might be okay...</title>
-	<circle cx="9" cy="9" r="8" stroke="black" stroke-width="1" fill="orange" />
-</svg>
-
-          <p class="comment_author">Julian Hammer says:</p>
-          <p class="comment"><i>The Skylake cache architecture is not well documented, which make cache predictions inacurate. Nonetheless, the general trend is followed by the measurements.</i></p>
-
-        </blockquote>
-      </div>
 
     </div>
 
@@ -431,11 +383,11 @@ return "https://rrze-hpc.github.io/layer-condition/#calculator%23!"+encodeURICom
     <p>Using the <a href="#how-to-test-this-stencil">generated stencil</a> and <a href="https://github.com/RRZE-HPC/kerncraft">kerncraft</a>, all single core performance data shown on this page can be reproduced by:</p>
 
     <h4 id="layer-condition-data">Layer Condition Data</h4>
-    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kerncraft <span class="nt">-p</span> ECM <span class="nt">-p</span> RooflineIACA <span class="nt">-p</span> Benchmark <span class="nt">-p</span> LC <span class="nt">-P</span> LC <span class="nt">-m</span> SkylakeSP_Gold-6148_512.yml stencil.c <span class="nt">-D</span> N <span class="nv">$GRID_SIZE</span> <span class="nt">-D</span> M <span class="nv">$GRID_SIZE</span> <span class="nt">-D</span> P <span class="nv">$GRID_SIZE</span> <span class="nt">-vvv</span> <span class="nt">--cores</span> 1 <span class="nt">--compiler</span> icc
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kerncraft <span class="nt">-p</span> ECM <span class="nt">-p</span> RooflineIACA <span class="nt">-p</span> Benchmark <span class="nt">-p</span> LC <span class="nt">-P</span> LC <span class="nt">-m</span> SkylakeSP_Gold-6148_avx512.yml stencil.c <span class="nt">-D</span> N <span class="nv">$GRID_SIZE</span> <span class="nt">-D</span> M <span class="nv">$GRID_SIZE</span> <span class="nt">-D</span> P <span class="nv">$GRID_SIZE</span> <span class="nt">-vvv</span> <span class="nt">--cores</span> 1 <span class="nt">--compiler</span> icc
 </code></pre></div>    </div>
 
     <h4 id="cache-simulator-data">Cache Simulator Data</h4>
-    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kerncraft <span class="nt">-p</span> ECM <span class="nt">-p</span> RooflineIACA <span class="nt">-p</span> Benchmark <span class="nt">-p</span> LC <span class="nt">-P</span> CS <span class="nt">-m</span> SkylakeSP_Gold-6148_512.yml stencil.c <span class="nt">-D</span> N <span class="nv">$GRID_SIZE</span> <span class="nt">-D</span> M <span class="nv">$GRID_SIZE</span> <span class="nt">-D</span> P <span class="nv">$GRID_SIZE</span> <span class="nt">-vvv</span> <span class="nt">--cores</span> 1 <span class="nt">--compiler</span> icc
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kerncraft <span class="nt">-p</span> ECM <span class="nt">-p</span> RooflineIACA <span class="nt">-p</span> Benchmark <span class="nt">-p</span> LC <span class="nt">-P</span> CS <span class="nt">-m</span> SkylakeSP_Gold-6148_avx512.yml stencil.c <span class="nt">-D</span> N <span class="nv">$GRID_SIZE</span> <span class="nt">-D</span> M <span class="nv">$GRID_SIZE</span> <span class="nt">-D</span> P <span class="nv">$GRID_SIZE</span> <span class="nt">-vvv</span> <span class="nt">--cores</span> 1 <span class="nt">--compiler</span> icc
 </code></pre></div>    </div>
   </div>
 
@@ -443,11 +395,11 @@ return "https://rrze-hpc.github.io/layer-condition/#calculator%23!"+encodeURICom
     <h3 id="thread-scaling-measurements">Thread Scaling Measurements</h3>
 
     <p>The <a href="#how-to-test-this-stencil">generated benchmark code</a> can be used to reproduce the thread scaling data shown on this page by:</p>
-    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kerncraft <span class="nt">-p</span> ECM <span class="nt">-p</span> RooflineIACA <span class="nt">-p</span> Benchmark <span class="nt">-P</span> LC <span class="nt">-m</span> SkylakeSP_Gold-6148_512.yml stencil.c <span class="nt">-D</span> N <span class="nv">$GRID_SIZE</span> <span class="nt">-D</span> M <span class="nv">$GRID_SIZE</span> <span class="nt">-D</span> P <span class="nv">$GRID_SIZE</span> <span class="nt">-vvv</span> <span class="nt">--cores</span> <span class="nv">$CORES</span> <span class="nt">--compiler</span> icc
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kerncraft <span class="nt">-p</span> ECM <span class="nt">-p</span> RooflineIACA <span class="nt">-p</span> Benchmark <span class="nt">-P</span> LC <span class="nt">-m</span> SkylakeSP_Gold-6148_avx512.yml stencil.c <span class="nt">-D</span> N <span class="nv">$GRID_SIZE</span> <span class="nt">-D</span> M <span class="nv">$GRID_SIZE</span> <span class="nt">-D</span> P <span class="nv">$GRID_SIZE</span> <span class="nt">-vvv</span> <span class="nt">--cores</span> <span class="nv">$CORES</span> <span class="nt">--compiler</span> icc
 </code></pre></div>    </div>
 
     <p>The roofline prediction can be obtained with <a href="https://github.com/RRZE-HPC/kerncraft">kerncraft</a> and the <a href="#how-to-test-this-stencil">generated stencil</a>:</p>
-    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kerncraft <span class="nt">-p</span> RooflineIACA <span class="nt">-P</span> LC <span class="nt">-m</span> SkylakeSP_Gold-6148_512.yml stencil.c <span class="nt">-D</span> N <span class="nv">$GRID_SIZE</span> <span class="nt">-D</span> M <span class="nv">$GRID_SIZE</span> <span class="nt">-D</span> P <span class="nv">$GRID_SIZE</span> <span class="nt">-vvv</span> <span class="nt">--cores</span> <span class="k">${</span><span class="nv">threads</span><span class="k">}</span> <span class="nt">--compiler</span> icc
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kerncraft <span class="nt">-p</span> RooflineIACA <span class="nt">-P</span> LC <span class="nt">-m</span> SkylakeSP_Gold-6148_avx512.yml stencil.c <span class="nt">-D</span> N <span class="nv">$GRID_SIZE</span> <span class="nt">-D</span> M <span class="nv">$GRID_SIZE</span> <span class="nt">-D</span> P <span class="nv">$GRID_SIZE</span> <span class="nt">-vvv</span> <span class="nt">--cores</span> <span class="k">${</span><span class="nv">threads</span><span class="k">}</span> <span class="nt">--compiler</span> icc
 </code></pre></div>    </div>
   </div>
 
@@ -455,7 +407,7 @@ return "https://rrze-hpc.github.io/layer-condition/#calculator%23!"+encodeURICom
     <h3 id="spatial-blocking-measurements">Spatial Blocking Measurements</h3>
 
     <p>Generate benchmark code from the <a href="#how-to-test-this-stencil">stencil</a> with blocking and compile it as shown before:</p>
-    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>stempel bench stencil.c <span class="nt">-m</span> SkylakeSP_Gold-6148_512.yml <span class="nt">-b</span> 2 <span class="nt">--store</span>
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>stempel bench stencil.c <span class="nt">-m</span> SkylakeSP_Gold-6148_avx512.yml <span class="nt">-b</span> 2 <span class="nt">--store</span>
 </code></pre></div>    </div>
 
     <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">OMP_NUM_THREADS</span><span class="o">=</span>1 likwid-pin <span class="nt">-C</span> S0:0 ./stencil <span class="nv">$GRID_SIZE</span> <span class="nv">$GRID_SIZE</span> <span class="nv">$GRID_SIZE</span> <span class="nv">$BLOCKING_M</span> <span class="nv">$BLOCKING_N</span> <span class="nv">$BLOCKING_P</span>
