@@ -1,0 +1,580 @@
+<!doctype html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+<!-- Begin Jekyll SEO tag v2.5.0 -->
+<title>stempel data collection | collection of all benchmark data obtained by using the stempel tool chain</title>
+<meta name="generator" content="Jekyll v3.7.4" />
+<meta property="og:title" content="stempel data collection" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="collection of all benchmark data obtained by using the stempel tool chain" />
+<meta property="og:description" content="collection of all benchmark data obtained by using the stempel tool chain" />
+<meta property="og:site_name" content="stempel data collection" />
+<script type="application/ld+json">
+{"description":"collection of all benchmark data obtained by using the stempel tool chain","@type":"WebPage","url":"/stempel_data_collection/machines/HaswellEP_E5-2695v3.html","headline":"stempel data collection","@context":"http://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+    <link rel="stylesheet" href="/stempel_data_collection/assets/css/style.css?v=c92e9eea6500960da5a6e7ee39b92be61570e8a3">
+    <script src="https://code.jquery.com/jquery-3.3.0.min.js" integrity="sha256-RTQy8VOmNlT6b2PIRur37p6JEBZUE7o8wPgMvu18MC4=" crossorigin="anonymous"></script>
+    <script src="/stempel_data_collection/assets/js/main.js"></script>
+    <!--[if lt IE 9]>
+      <script src="https://cdn!js.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js" integrity="sha256-3Jy/GbSLrg0o9y5Z5n1uw0qxZECH7C6OQpVBgNFYa0g=" crossorigin="anonymous"></script>
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+  <script>
+  function apply_options() {
+      var elems = document.getElementsByClassName('nav-selection-dropdowns');
+      var i;
+      for (i = 0; i < elems.length; i++) {
+        var val = elems[i].options[elems[i].selectedIndex].value
+        if (!String(val).endsWith("all"))
+          toggle_visibility(val);
+      }
+      return true;
+  }
+  window.addEventListener('beforeunload', function (e) {
+  // Cancel the event
+  e.preventDefault();
+  // Chrome requires returnValue to be set
+  e.returnValue = '';
+
+  var elems = document.getElementsByClassName('nav-selection-dropdowns');
+  var i;
+  for (i = 0; i < elems.length; i++) {
+    var val = elems[i].options[elems[i].selectedIndex].value
+    if (!String(val).endsWith("all"))
+      toggle_visibility(val);
+    }
+  });
+  </script>
+  </head>
+  <body>
+
+      <header>
+        <h1>stempel data collection</h1>
+        <p>collection of all benchmark data obtained by using the stempel tool chain</p>
+      </header>
+
+      <div id="banner">
+        <a href="https://github.com/RRZE-HPC/stempel_data_collection" class="button fork"><strong>View this repository On GitHub</strong></a>
+        <a href="https://github.com/RRZE-HPC/stempel" class="button fork stempel"><strong>View the stempel repository On GitHub</strong></a>
+        <a id="logo" class="fork" href="/stempel_data_collection/">⌂</a>
+        
+      </div><!-- end banner -->
+
+    <div class="wrapper">
+      <nav>
+        <ul></ul>
+      </nav>
+      <section>
+        
+<div class="section-block-full">
+  <div class="section-block-half">
+
+    <h1 id="intelr-xeonr-cpu-e5-2695-v3--230ghz">Intel(R) Xeon(R) CPU E5-2695 v3 @ 2.30GHz</h1>
+
+    <h2 id="general">General</h2>
+
+    <table>
+      <tbody>
+        <tr>
+          <td>model type</td>
+          <td>Intel Core Haswell EX processor</td>
+        </tr>
+        <tr>
+          <td>model name</td>
+          <td>Intel(R) Xeon(R) CPU E5-2695 v3 @ 2.30GHz</td>
+        </tr>
+        <tr>
+          <td>micro-architecture</td>
+          <td>HSW</td>
+        </tr>
+        <tr>
+          <td>cores per socket</td>
+          <td>14</td>
+        </tr>
+        <tr>
+          <td>cores per NUMA domain</td>
+          <td>14</td>
+        </tr>
+        <tr>
+          <td>cacheline size</td>
+          <td>64 B</td>
+        </tr>
+        <tr>
+          <td>clock</td>
+          <td>2.3 GHz</td>
+        </tr>
+        <tr>
+          <td>NUMA domains per socket</td>
+          <td>1</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p>This machine file was generated for kerncraft version 0.6.6.</p>
+
+    <h2 id="compiler-flags">Compiler Flags</h2>
+
+    <table>
+      <tbody>
+        <tr>
+          <td>icc</td>
+          <td><code class="highlighter-rouge">-O3 -xCORE-AVX2 -fno-alias</code></td>
+        </tr>
+        <tr>
+          <td>gcc</td>
+          <td><code class="highlighter-rouge">-O3 -march=core-avx2 -D_POSIX_C_SOURCE=200112L</code></td>
+        </tr>
+        <tr>
+          <td>clang</td>
+          <td><code class="highlighter-rouge">-03 -mavx2 -D_POSIX_C_SOURCE=200112L</code></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2 id="flops-per-cycle">Flops per Cycle</h2>
+
+    <table>
+      <tbody>
+        <tr>
+          <td> </td>
+          <td>total</td>
+          <td>FMA</td>
+          <td>ADD</td>
+          <td>MUL</td>
+        </tr>
+        <tr>
+          <td>Single Precission</td>
+          <td>32</td>
+          <td>16</td>
+          <td>8</td>
+          <td>8</td>
+        </tr>
+        <tr>
+          <td>Double Precission</td>
+          <td>16</td>
+          <td>8</td>
+          <td>4</td>
+          <td>4</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2 id="memory-hierarchy">Memory Hierarchy</h2>
+
+    <h3 id="l1">L1</h3>
+
+    <table>
+      <tbody>
+        <tr>
+          <td>groups</td>
+          <td>28</td>
+        </tr>
+        <tr>
+          <td>cores per group</td>
+          <td>1</td>
+        </tr>
+        <tr>
+          <td>threads per group</td>
+          <td>2</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h4 id="cache-per-group">Cache Per Group</h4>
+
+    <table>
+      <tbody>
+        <tr>
+          <td>sets</td>
+          <td>64</td>
+        </tr>
+        <tr>
+          <td>ways</td>
+          <td>8</td>
+        </tr>
+        <tr>
+          <td>cl_size</td>
+          <td>64</td>
+        </tr>
+        <tr>
+          <td>replacement_policy</td>
+          <td>LRU</td>
+        </tr>
+        <tr>
+          <td>write_allocate</td>
+          <td>true</td>
+        </tr>
+        <tr>
+          <td>write_back</td>
+          <td>true</td>
+        </tr>
+        <tr>
+          <td>load_from</td>
+          <td>L2</td>
+        </tr>
+        <tr>
+          <td>store_to</td>
+          <td>L2</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h4 id="performance-counter-metrics">Performance Counter Metrics</h4>
+
+    <table>
+      <tbody>
+        <tr>
+          <td>accesses</td>
+          <td><code class="highlighter-rouge">MEM_UOPS_RETIRED_LOADS:PMC[0-3]</code></td>
+        </tr>
+        <tr>
+          <td>misses</td>
+          <td><code class="highlighter-rouge">L1D_REPLACEMENT:PMC[0-3]</code></td>
+        </tr>
+        <tr>
+          <td>evicts</td>
+          <td><code class="highlighter-rouge">L1D_M_EVICT:PMC[0-3]</code></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3 id="l2">L2</h3>
+
+    <table>
+      <tbody>
+        <tr>
+          <td>groups</td>
+          <td>28</td>
+        </tr>
+        <tr>
+          <td>cores per group</td>
+          <td>1</td>
+        </tr>
+        <tr>
+          <td>threads per group</td>
+          <td>2</td>
+        </tr>
+        <tr>
+          <td>non-overlap upstream throughput</td>
+          <td>32 B/cy, half-duplex</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h4 id="cache-per-group-1">Cache Per Group</h4>
+
+    <table>
+      <tbody>
+        <tr>
+          <td>sets</td>
+          <td>512</td>
+        </tr>
+        <tr>
+          <td>ways</td>
+          <td>8</td>
+        </tr>
+        <tr>
+          <td>cl_size</td>
+          <td>64</td>
+        </tr>
+        <tr>
+          <td>replacement_policy</td>
+          <td>LRU</td>
+        </tr>
+        <tr>
+          <td>write_allocate</td>
+          <td>true</td>
+        </tr>
+        <tr>
+          <td>write_back</td>
+          <td>true</td>
+        </tr>
+        <tr>
+          <td>load_from</td>
+          <td>L3</td>
+        </tr>
+        <tr>
+          <td>store_to</td>
+          <td>L3</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h4 id="performance-counter-metrics-1">Performance Counter Metrics</h4>
+
+    <table>
+      <tbody>
+        <tr>
+          <td>accesses</td>
+          <td><code class="highlighter-rouge">L1D_REPLACEMENT:PMC[0-3]</code></td>
+        </tr>
+        <tr>
+          <td>misses</td>
+          <td><code class="highlighter-rouge">L2_LINES_IN_ALL:PMC[0-3]</code></td>
+        </tr>
+        <tr>
+          <td>evicts</td>
+          <td><code class="highlighter-rouge">L2_TRANS_L2_WB:PMC[0-3]</code></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3 id="l3">L3</h3>
+
+    <table>
+      <tbody>
+        <tr>
+          <td>groups</td>
+          <td>2</td>
+        </tr>
+        <tr>
+          <td>cores per group</td>
+          <td>14</td>
+        </tr>
+        <tr>
+          <td>threads per group</td>
+          <td>28</td>
+        </tr>
+        <tr>
+          <td>non-overlap upstream throughput</td>
+          <td>32 B/cy, half-duplex</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h4 id="cache-per-group-2">Cache Per Group</h4>
+
+    <table>
+      <tbody>
+        <tr>
+          <td>sets</td>
+          <td>35840</td>
+        </tr>
+        <tr>
+          <td>ways</td>
+          <td>16</td>
+        </tr>
+        <tr>
+          <td>cl_size</td>
+          <td>64</td>
+        </tr>
+        <tr>
+          <td>replacement_policy</td>
+          <td>LRU</td>
+        </tr>
+        <tr>
+          <td>write_allocate</td>
+          <td>true</td>
+        </tr>
+        <tr>
+          <td>write_back</td>
+          <td>true</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h4 id="performance-counter-metrics-2">Performance Counter Metrics</h4>
+
+    <table>
+      <tbody>
+        <tr>
+          <td>accesses</td>
+          <td><code class="highlighter-rouge">L2_LINES_IN_ALL:PMC[0-3]</code></td>
+        </tr>
+        <tr>
+          <td>misses</td>
+          <td><code class="highlighter-rouge">(CAS_COUNT_RD:MBOX0C[01] + CAS_COUNT_RD:MBOX1C[01] + CAS_COUNT_RD:MBOX2C[01] + CAS_COUNT_RD:MBOX3C[01] + CAS_COUNT_RD:MBOX4C[01] + CAS_COUNT_RD:MBOX5C[01] + CAS_COUNT_RD:MBOX6C[01] + CAS_COUNT_RD:MBOX7C[01])</code></td>
+        </tr>
+        <tr>
+          <td>evicts</td>
+          <td><code class="highlighter-rouge">(CAS_COUNT_WR:MBOX0C[01] + CAS_COUNT_WR:MBOX1C[01] + CAS_COUNT_WR:MBOX2C[01] + CAS_COUNT_WR:MBOX3C[01] + CAS_COUNT_WR:MBOX4C[01] + CAS_COUNT_WR:MBOX5C[01] + CAS_COUNT_WR:MBOX6C[01] + CAS_COUNT_WR:MBOX7C[01])</code></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3 id="mem">MEM</h3>
+
+    <p>|——————-|——————————-:|</p>
+
+    <table>
+      <tbody>
+        <tr>
+          <td>cores per group</td>
+          <td>14</td>
+        </tr>
+        <tr>
+          <td>threads per group</td>
+          <td>28</td>
+        </tr>
+        <tr>
+          <td>non-overlap upstream throughput</td>
+          <td>full socket memory bandwidth, half-duplex</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2 id="overlapping-model">Overlapping Model</h2>
+
+    <h3 id="ports">Ports:</h3>
+    <p>0,
+0DV,
+1,
+2,
+3,
+4,
+5,
+6,
+7</p>
+
+    <h3 id="performance-counter-metric">Performance Counter Metric</h3>
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Max(UOPS_EXECUTED_PORT_PORT_0:PMC[0-3], UOPS_EXECUTED_PORT_PORT_1:PMC[0-3], UOPS_EXECUTED_PORT_PORT_4:PMC[0-3], UOPS_EXECUTED_PORT_PORT_5:PMC[0-3], UOPS_EXECUTED_PORT_PORT_6:PMC[0-3], UOPS_EXECUTED_PORT_PORT_7:PMC[0-3])
+</code></pre></div>    </div>
+
+    <h2 id="non-overlapping-model">Non-Overlapping Model</h2>
+
+    <h3 id="ports-1">Ports:</h3>
+    <p>2D,
+3D</p>
+
+    <h3 id="performance-counter-metric-1">Performance Counter Metric</h3>
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>T_OL + T_L1L2 + T_L2L3 + T_L3MEM
+</code></pre></div>    </div>
+
+    <h2 id="benchmarks">Benchmarks</h2>
+
+    <h3 id="kernels">Kernels</h3>
+
+    <h4 id="copy">copy</h4>
+
+    <table>
+      <tbody>
+        <tr>
+          <td>FLOPs per iteration</td>
+          <td>0</td>
+        </tr>
+        <tr>
+          <td>read streams</td>
+          <td>1 Streams with 8.00 B</td>
+        </tr>
+        <tr>
+          <td>write streams</td>
+          <td>1 Streams with 8.00 B</td>
+        </tr>
+        <tr>
+          <td>read+write streams</td>
+          <td>0 Streams with 0.00 B</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h4 id="daxpy">daxpy</h4>
+
+    <table>
+      <tbody>
+        <tr>
+          <td>FLOPs per iteration</td>
+          <td>2</td>
+        </tr>
+        <tr>
+          <td>read streams</td>
+          <td>2 Streams with 16.00 B</td>
+        </tr>
+        <tr>
+          <td>write streams</td>
+          <td>1 Streams with 8.00 B</td>
+        </tr>
+        <tr>
+          <td>read+write streams</td>
+          <td>1 Streams with 8.00 B</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h4 id="load">load</h4>
+
+    <table>
+      <tbody>
+        <tr>
+          <td>FLOPs per iteration</td>
+          <td>0</td>
+        </tr>
+        <tr>
+          <td>read streams</td>
+          <td>1 Streams with 8.00 B</td>
+        </tr>
+        <tr>
+          <td>write streams</td>
+          <td>0 Streams with 0.00 B</td>
+        </tr>
+        <tr>
+          <td>read+write streams</td>
+          <td>0 Streams with 0.00 B</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h4 id="triad">triad</h4>
+
+    <table>
+      <tbody>
+        <tr>
+          <td>FLOPs per iteration</td>
+          <td>2</td>
+        </tr>
+        <tr>
+          <td>read streams</td>
+          <td>3 Streams with 24.00 B</td>
+        </tr>
+        <tr>
+          <td>write streams</td>
+          <td>1 Streams with 8.00 B</td>
+        </tr>
+        <tr>
+          <td>read+write streams</td>
+          <td>0 Streams with 0.00 B</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h4 id="update">update</h4>
+
+    <table>
+      <tbody>
+        <tr>
+          <td>FLOPs per iteration</td>
+          <td>0</td>
+        </tr>
+        <tr>
+          <td>read streams</td>
+          <td>1 Streams with 8.00 B</td>
+        </tr>
+        <tr>
+          <td>write streams</td>
+          <td>1 Streams with 8.00 B</td>
+        </tr>
+        <tr>
+          <td>read+write streams</td>
+          <td>1 Streams with 8.00 B</td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+</div>
+
+
+
+      </section>
+      <footer>
+        
+          <p>Project maintained by <a href="https://github.com/RRZE-HPC">RRZE-HPC</a></p>
+        
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></small></p>
+      </footer>
+    </div>
+  </body>
+</html>
