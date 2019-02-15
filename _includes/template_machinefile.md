@@ -103,6 +103,73 @@ This machine file was generated for kerncraft version {{file["kerncraft version"
 
 {% endfor %}
 
+<script src="{{site.baseurl}}/assets/js/plotly-latest.min.js"></script>
+<div id="tester" style="width:100%;height:400px;"></div>
+
+{% capture cores1 %}{% for data in file.benchmarks.measurements.L1[1].cores%}{{data}},{%endfor%}{% endcapture %}
+{% capture load1 %}{% for data in file.benchmarks.measurements.L1[1].results.load%}{{data | replace: ' GB/s', ''}},{%endfor%}{% endcapture %}
+{% capture update1 %}{% for data in file.benchmarks.measurements.L1[1].results.update%}{{data | replace: ' GB/s', ''}},{%endfor%}{% endcapture %}
+{% capture daxpy1 %}{% for data in file.benchmarks.measurements.L1[1].results.daxpy%}{{data | replace: ' GB/s', ''}},{%endfor%}{% endcapture %}
+{% capture copy1 %}{% for data in file.benchmarks.measurements.L1[1].results.copy%}{{data | replace: ' GB/s', ''}},{%endfor%}{% endcapture %}
+{% capture triad1 %}{% for data in file.benchmarks.measurements.L1[1].results.triad%}{{data | replace: ' GB/s', ''}},{%endfor%}{% endcapture %}
+
+<script>
+var trace1 = {
+  type: "scatter",
+  mode: "lines",
+  x: [{{cores1}}],
+  y: [{{load1}}],
+  line: {color: 'orange'},
+  name: "load"
+};
+
+var trace2 = {
+  type: "scatter",
+  mode: "lines",
+  x: [{{cores1}}],
+  y: [{{update1}}],
+  line: {color: 'red'},
+  name: "update"
+};
+
+var trace3 = {
+  type: "scatter",
+  mode: "lines",
+  x: [{{cores1}}],
+  y: [{{daxpy1}}],
+  line: {color: 'blue'},
+  name: "daxpy"
+};
+
+var trace4 = {
+  type: "scatter",
+  mode: "lines",
+  x: [{{cores1}}],
+  y: [{{copy1}}],
+  line: {color: 'green'},
+  name: "copy"
+};
+
+var trace5 = {
+  type: "scatter",
+  mode: "lines",
+  x: [{{cores1}}],
+  y: [{{triad1}}],
+  line: {color: 'yellow'},
+  name: "triad"
+};
+
+var data = [trace1,trace2,trace3,trace4,trace5];
+
+var layout = {
+	title: 'L1 Benchmarks',
+	xaxis: {title: 'Cores'},
+	yaxis: {title: 'Bandwidth [GB/s]'},
+};
+
+var config = {locale: 'en'};
+Plotly.newPlot('tester', data, layout, config);
+</script>
 </div>
 </div>
 
