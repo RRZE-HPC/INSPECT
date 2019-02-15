@@ -103,6 +103,39 @@ This machine file was generated for kerncraft version {{file["kerncraft version"
 
 {% endfor %}
 
+<script src="{{site.baseurl}}/assets/js/plotly-latest.min.js"></script>
+
+<div id="l1_1" style="width:100%;height:400px;"></div>
+{% assign data = file.benchmarks.measurements.L1[1] %}
+{% include template_machinefile_plots.md dataset=data div='l1_1' title='L1 Benchmarks1' xaxis='Cores' yaxis='Bandwidth [GB/s]' %}
+
+<div id="l1_2" style="width:100%;height:400px;"></div>
+{% assign data = file.benchmarks.measurements.L1[2] %}
+{% include template_machinefile_plots.md dataset=data div='l1_2' title='L1 Benchmarks2' xaxis='Cores' yaxis='Bandwidth [GB/s]' %}
+
+<div id="l2_1" style="width:100%;height:400px;"></div>
+{% assign data = file.benchmarks.measurements.L2[1] %}
+{% include template_machinefile_plots.md dataset=data div='l2_1' title='L2 Benchmarks1' xaxis='Cores' yaxis='Bandwidth [GB/s]' %}
+
+<div id="l2_2" style="width:100%;height:400px;"></div>
+{% assign data = file.benchmarks.measurements.L2[2] %}
+{% include template_machinefile_plots.md dataset=data div='l2_2' title='L2 Benchmarks2' xaxis='Cores' yaxis='Bandwidth [GB/s]' %}
+
+<div id="l3_1" style="width:100%;height:400px;"></div>
+{% assign data = file.benchmarks.measurements.L3[1] %}
+{% include template_machinefile_plots.md dataset=data div='l3_1' title='L3 Benchmarks1' xaxis='Cores' yaxis='Bandwidth [GB/s]' %}
+
+<div id="l3_2" style="width:100%;height:400px;"></div>
+{% assign data = file.benchmarks.measurements.L3[2] %}
+{% include template_machinefile_plots.md dataset=data div='l3_2' title='L3 Benchmarks2' xaxis='Cores' yaxis='Bandwidth [GB/s]' %}
+
+<div id="mem_1" style="width:100%;height:400px;"></div>
+{% assign data = file.benchmarks.measurements.MEM[1] %}
+{% include template_machinefile_plots.md dataset=data div='mem_1' title='MEM Benchmarks1' xaxis='Cores' yaxis='Bandwidth [GB/s]' %}
+
+<div id="mem_2" style="width:100%;height:400px;"></div>
+{% assign data = file.benchmarks.measurements.MEM[2] %}
+{% include template_machinefile_plots.md dataset=data div='mem_2' title='MEM Benchmarks2' xaxis='Cores' yaxis='Bandwidth [GB/s]' %}
 </div>
 </div>
 
