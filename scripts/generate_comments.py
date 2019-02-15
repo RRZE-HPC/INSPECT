@@ -10,6 +10,23 @@ import re
 import yaml
 
 
+def find_uncommented_files(base_path, comment_extension=".comment.yml"):
+    """Return list of files which were not commented, but could have been."""
+    patterns_to_comment = ["machine_files/**/*[!.][!c][!o][!m][!m][!e][!n][!t].yml",
+                           "stencils/**/*.c",
+                           "stencils/**/*.svg"]
+
+    commented_files = set([f.replace(comment_extension, '')
+                           for f in glob(os.path.join(base_path, '**/*'+comment_extension),
+                                         recursive=True)])
+    uncommented_files = []
+    for pattern in patterns_to_comment:
+        files_to_comment = set(glob(os.path.join(base_path, pattern), recursive=True))
+        uncommented_files += files_to_comment - commented_files
+
+    return uncommented_files
+
+
 def find_commented_files(base_path, comment_extension=".comment.yml"):
     """Return list of tuple with base and comment file pairs."""
     commented_files = []
@@ -63,7 +80,16 @@ def main():
         d.update(comment)
         d['uptodate'] = uptodate
         d['latest_commithash'] = latest_commit_hash
-    # 4. export csv
+    # 4. add empty placeholders for non-existent comments
+    for uncommented_file in find_uncommented_files(base_path):
+        d = data
+        # Recursivly get to leaf for insertion
+        for sub in uncommented_file[len(base_path):].split('/'):
+            if sub not in d:
+                d[sub] = {}
+            d = d[sub]
+        d = {}
+    # 5. export csv
     print(yaml.dump(data))
 
 
