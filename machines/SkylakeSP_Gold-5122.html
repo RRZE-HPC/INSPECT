@@ -16,7 +16,7 @@
 {"description":"collection of all benchmark data obtained by using the stempel tool chain","@type":"WebPage","url":"/stempel_data_collection/machines/SkylakeSP_Gold-5122.html","headline":"stempel data collection","@context":"http://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
-    <link rel="stylesheet" href="/stempel_data_collection/assets/css/style.css?v=babdabdc01ce4c4db298b574af772d83329069d4">
+    <link rel="stylesheet" href="/stempel_data_collection/assets/css/style.css?v=6f44added322965aebb7faa5491e43104e8dce06">
     <script src="https://code.jquery.com/jquery-3.3.0.min.js" integrity="sha256-RTQy8VOmNlT6b2PIRur37p6JEBZUE7o8wPgMvu18MC4=" crossorigin="anonymous"></script>
     <script src="/stempel_data_collection/assets/js/main.js"></script>
     <!--[if lt IE 9]>
@@ -543,10 +543,10 @@
 
     <script src="/stempel_data_collection/assets/js/plotly-latest.min.js"></script>
 
-    <div id="tester" style="width:100%;height:400px;"></div>
+    <div id="l1_1" style="width:100%;height:400px;"></div>
 
     <script>
-var trace1 = {
+var trace_load = {
   type: "scatter",
   mode: "lines",
   x: [1,2,3,4,],
@@ -555,7 +555,7 @@ var trace1 = {
   name: "load"
 };
 
-var trace2 = {
+var trace_update = {
   type: "scatter",
   mode: "lines",
   x: [1,2,3,4,],
@@ -564,7 +564,7 @@ var trace2 = {
   name: "update"
 };
 
-var trace3 = {
+var trace_daxpy = {
   type: "scatter",
   mode: "lines",
   x: [1,2,3,4,],
@@ -573,7 +573,7 @@ var trace3 = {
   name: "daxpy"
 };
 
-var trace4 = {
+var trace_copy = {
   type: "scatter",
   mode: "lines",
   x: [1,2,3,4,],
@@ -582,7 +582,7 @@ var trace4 = {
   name: "copy"
 };
 
-var trace5 = {
+var trace_triad = {
   type: "scatter",
   mode: "lines",
   x: [1,2,3,4,],
@@ -591,16 +591,444 @@ var trace5 = {
   name: "triad"
 };
 
-var data = [trace1,trace2,trace3,trace4,trace5];
+var data = [trace_load,trace_update,trace_daxpy,trace_copy,trace_triad];
 
 var layout = {
-	title: 'L1 Benchmarks',
-	xaxis: {title: 'Cores'},
+	title: 'L1 Benchmarks1',
+	xaxis: {title: 'Cores',
+          nticks: 4},
 	yaxis: {title: 'Bandwidth [GB/s]'},
 };
 
 var config = {locale: 'en'};
-Plotly.newPlot('tester', data, layout, config);
+Plotly.newPlot(l1_1, data, layout, config);
+</script>
+
+    <div id="l1_2" style="width:100%;height:400px;"></div>
+
+    <script>
+var trace_load = {
+  type: "scatter",
+  mode: "lines",
+  x: [1,2,3,4,],
+  y: [49.61,98.80,147.98,198.22,],
+  line: {color: 'orange'},
+  name: "load"
+};
+
+var trace_update = {
+  type: "scatter",
+  mode: "lines",
+  x: [1,2,3,4,],
+  y: [56.53,112.72,168.95,225.31,],
+  line: {color: 'red'},
+  name: "update"
+};
+
+var trace_daxpy = {
+  type: "scatter",
+  mode: "lines",
+  x: [1,2,3,4,],
+  y: [41.11,80.28,115.71,152.81,],
+  line: {color: 'blue'},
+  name: "daxpy"
+};
+
+var trace_copy = {
+  type: "scatter",
+  mode: "lines",
+  x: [1,2,3,4,],
+  y: [55.98,111.56,167.08,220.42,],
+  line: {color: 'green'},
+  name: "copy"
+};
+
+var trace_triad = {
+  type: "scatter",
+  mode: "lines",
+  x: [1,2,3,4,],
+  y: [54.01,104.58,153.02,200.93,],
+  line: {color: 'yellow'},
+  name: "triad"
+};
+
+var data = [trace_load,trace_update,trace_daxpy,trace_copy,trace_triad];
+
+var layout = {
+	title: 'L1 Benchmarks2',
+	xaxis: {title: 'Cores',
+          nticks: 4},
+	yaxis: {title: 'Bandwidth [GB/s]'},
+};
+
+var config = {locale: 'en'};
+Plotly.newPlot(l1_2, data, layout, config);
+</script>
+
+    <div id="l2_1" style="width:100%;height:400px;"></div>
+
+    <script>
+var trace_load = {
+  type: "scatter",
+  mode: "lines",
+  x: [1,2,3,4,],
+  y: [27.15,54.09,80.61,106.41,],
+  line: {color: 'orange'},
+  name: "load"
+};
+
+var trace_update = {
+  type: "scatter",
+  mode: "lines",
+  x: [1,2,3,4,],
+  y: [50.38,98.47,147.91,197.20,],
+  line: {color: 'red'},
+  name: "update"
+};
+
+var trace_daxpy = {
+  type: "scatter",
+  mode: "lines",
+  x: [1,2,3,4,],
+  y: [36.29,71.29,103.33,136.48,],
+  line: {color: 'blue'},
+  name: "daxpy"
+};
+
+var trace_copy = {
+  type: "scatter",
+  mode: "lines",
+  x: [1,2,3,4,],
+  y: [43.53,90.07,127.73,171.81,],
+  line: {color: 'green'},
+  name: "copy"
+};
+
+var trace_triad = {
+  type: "scatter",
+  mode: "lines",
+  x: [1,2,3,4,],
+  y: [43.38,83.72,124.83,166.04,],
+  line: {color: 'yellow'},
+  name: "triad"
+};
+
+var data = [trace_load,trace_update,trace_daxpy,trace_copy,trace_triad];
+
+var layout = {
+	title: 'L2 Benchmarks1',
+	xaxis: {title: 'Cores',
+          nticks: 4},
+	yaxis: {title: 'Bandwidth [GB/s]'},
+};
+
+var config = {locale: 'en'};
+Plotly.newPlot(l2_1, data, layout, config);
+</script>
+
+    <div id="l2_2" style="width:100%;height:400px;"></div>
+
+    <script>
+var trace_load = {
+  type: "scatter",
+  mode: "lines",
+  x: [1,2,3,4,],
+  y: [35.29,70.28,104.67,139.63,],
+  line: {color: 'orange'},
+  name: "load"
+};
+
+var trace_update = {
+  type: "scatter",
+  mode: "lines",
+  x: [1,2,3,4,],
+  y: [50.09,99.77,149.87,198.82,],
+  line: {color: 'red'},
+  name: "update"
+};
+
+var trace_daxpy = {
+  type: "scatter",
+  mode: "lines",
+  x: [1,2,3,4,],
+  y: [41.14,80.22,116.23,155.08,],
+  line: {color: 'blue'},
+  name: "daxpy"
+};
+
+var trace_copy = {
+  type: "scatter",
+  mode: "lines",
+  x: [1,2,3,4,],
+  y: [42.23,83.70,124.33,167.50,],
+  line: {color: 'green'},
+  name: "copy"
+};
+
+var trace_triad = {
+  type: "scatter",
+  mode: "lines",
+  x: [1,2,3,4,],
+  y: [52.38,100.00,147.40,193.31,],
+  line: {color: 'yellow'},
+  name: "triad"
+};
+
+var data = [trace_load,trace_update,trace_daxpy,trace_copy,trace_triad];
+
+var layout = {
+	title: 'L2 Benchmarks2',
+	xaxis: {title: 'Cores',
+          nticks: 4},
+	yaxis: {title: 'Bandwidth [GB/s]'},
+};
+
+var config = {locale: 'en'};
+Plotly.newPlot(l2_2, data, layout, config);
+</script>
+
+    <div id="l3_1" style="width:100%;height:400px;"></div>
+
+    <script>
+var trace_load = {
+  type: "scatter",
+  mode: "lines",
+  x: [1,2,3,4,],
+  y: [22.40,44.77,65.71,89.26,],
+  line: {color: 'orange'},
+  name: "load"
+};
+
+var trace_update = {
+  type: "scatter",
+  mode: "lines",
+  x: [1,2,3,4,],
+  y: [41.24,81.14,122.22,166.44,],
+  line: {color: 'red'},
+  name: "update"
+};
+
+var trace_daxpy = {
+  type: "scatter",
+  mode: "lines",
+  x: [1,2,3,4,],
+  y: [32.07,62.65,89.91,120.65,],
+  line: {color: 'blue'},
+  name: "daxpy"
+};
+
+var trace_copy = {
+  type: "scatter",
+  mode: "lines",
+  x: [1,2,3,4,],
+  y: [25.32,49.70,72.89,98.62,],
+  line: {color: 'green'},
+  name: "copy"
+};
+
+var trace_triad = {
+  type: "scatter",
+  mode: "lines",
+  x: [1,2,3,4,],
+  y: [25.61,50.02,73.23,98.95,],
+  line: {color: 'yellow'},
+  name: "triad"
+};
+
+var data = [trace_load,trace_update,trace_daxpy,trace_copy,trace_triad];
+
+var layout = {
+	title: 'L3 Benchmarks1',
+	xaxis: {title: 'Cores',
+          nticks: 4},
+	yaxis: {title: 'Bandwidth [GB/s]'},
+};
+
+var config = {locale: 'en'};
+Plotly.newPlot(l3_1, data, layout, config);
+</script>
+
+    <div id="l3_2" style="width:100%;height:400px;"></div>
+
+    <script>
+var trace_load = {
+  type: "scatter",
+  mode: "lines",
+  x: [1,2,3,4,],
+  y: [26.18,51.85,75.82,101.39,],
+  line: {color: 'orange'},
+  name: "load"
+};
+
+var trace_update = {
+  type: "scatter",
+  mode: "lines",
+  x: [1,2,3,4,],
+  y: [43.51,86.75,129.86,174.54,],
+  line: {color: 'red'},
+  name: "update"
+};
+
+var trace_daxpy = {
+  type: "scatter",
+  mode: "lines",
+  x: [1,2,3,4,],
+  y: [37.43,73.16,106.53,142.76,],
+  line: {color: 'blue'},
+  name: "daxpy"
+};
+
+var trace_copy = {
+  type: "scatter",
+  mode: "lines",
+  x: [1,2,3,4,],
+  y: [26.22,51.83,76.40,102.84,],
+  line: {color: 'green'},
+  name: "copy"
+};
+
+var trace_triad = {
+  type: "scatter",
+  mode: "lines",
+  x: [1,2,3,4,],
+  y: [26.39,51.80,76.27,102.66,],
+  line: {color: 'yellow'},
+  name: "triad"
+};
+
+var data = [trace_load,trace_update,trace_daxpy,trace_copy,trace_triad];
+
+var layout = {
+	title: 'L3 Benchmarks2',
+	xaxis: {title: 'Cores',
+          nticks: 4},
+	yaxis: {title: 'Bandwidth [GB/s]'},
+};
+
+var config = {locale: 'en'};
+Plotly.newPlot(l3_2, data, layout, config);
+</script>
+
+    <div id="mem_1" style="width:100%;height:400px;"></div>
+
+    <script>
+var trace_load = {
+  type: "scatter",
+  mode: "lines",
+  x: [1,2,3,4,],
+  y: [12.03,24.38,34.83,45.05,],
+  line: {color: 'orange'},
+  name: "load"
+};
+
+var trace_update = {
+  type: "scatter",
+  mode: "lines",
+  x: [1,2,3,4,],
+  y: [20.83,40.25,48.81,54.84,],
+  line: {color: 'red'},
+  name: "update"
+};
+
+var trace_daxpy = {
+  type: "scatter",
+  mode: "lines",
+  x: [1,2,3,4,],
+  y: [17.69,34.02,48.12,55.73,],
+  line: {color: 'blue'},
+  name: "daxpy"
+};
+
+var trace_copy = {
+  type: "scatter",
+  mode: "lines",
+  x: [1,2,3,4,],
+  y: [12.32,24.40,32.82,37.00,],
+  line: {color: 'green'},
+  name: "copy"
+};
+
+var trace_triad = {
+  type: "scatter",
+  mode: "lines",
+  x: [1,2,3,4,],
+  y: [11.64,23.17,34.78,42.97,],
+  line: {color: 'yellow'},
+  name: "triad"
+};
+
+var data = [trace_load,trace_update,trace_daxpy,trace_copy,trace_triad];
+
+var layout = {
+	title: 'MEM Benchmarks1',
+	xaxis: {title: 'Cores',
+          nticks: 4},
+	yaxis: {title: 'Bandwidth [GB/s]'},
+};
+
+var config = {locale: 'en'};
+Plotly.newPlot(mem_1, data, layout, config);
+</script>
+
+    <div id="mem_2" style="width:100%;height:400px;"></div>
+
+    <script>
+var trace_load = {
+  type: "scatter",
+  mode: "lines",
+  x: [1,2,3,4,],
+  y: [15.33,28.32,41.34,53.02,],
+  line: {color: 'orange'},
+  name: "load"
+};
+
+var trace_update = {
+  type: "scatter",
+  mode: "lines",
+  x: [1,2,3,4,],
+  y: [26.47,47.82,56.70,62.78,],
+  line: {color: 'red'},
+  name: "update"
+};
+
+var trace_daxpy = {
+  type: "scatter",
+  mode: "lines",
+  x: [1,2,3,4,],
+  y: [20.96,39.12,51.55,58.37,],
+  line: {color: 'blue'},
+  name: "daxpy"
+};
+
+var trace_copy = {
+  type: "scatter",
+  mode: "lines",
+  x: [1,2,3,4,],
+  y: [13.96,26.61,34.39,38.96,],
+  line: {color: 'green'},
+  name: "copy"
+};
+
+var trace_triad = {
+  type: "scatter",
+  mode: "lines",
+  x: [1,2,3,4,],
+  y: [14.42,26.66,36.94,44.01,],
+  line: {color: 'yellow'},
+  name: "triad"
+};
+
+var data = [trace_load,trace_update,trace_daxpy,trace_copy,trace_triad];
+
+var layout = {
+	title: 'MEM Benchmarks2',
+	xaxis: {title: 'Cores',
+          nticks: 4},
+	yaxis: {title: 'Bandwidth [GB/s]'},
+};
+
+var config = {locale: 'en'};
+Plotly.newPlot(mem_2, data, layout, config);
 </script>
 
   </div>
