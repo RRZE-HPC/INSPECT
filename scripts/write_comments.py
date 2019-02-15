@@ -146,7 +146,9 @@ def main():
                     print('Valid inputs are: {}'.format(', '.join(valid_inputs.keys())))
                 else:
                     first = False
-                save = input('Save? [y/n] ')
+                save = input('Save? [y] ')
+                if not save:
+                    save = 'y'
         except EOFError:
             print(' [skipped]\n')
             continue
