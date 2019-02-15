@@ -31,15 +31,26 @@ def input_with_prefill(prompt, text):
     return result
 
 
+def find_and_remove(e, l):
+    if e in l:
+        l.remove(e)
+        return True
+    return False
+
+
 def main():
     print(textwrap.dedent("""
         Usage:
-            {} "Author's Name" [path/filter]
+            {} "Author's Name" [path/filter] [--outdated|--new]
             When asked to input review, options are: green, orange, red and "nothing".
             Comments may be any markdown formatted string.
 
             To skip comment AND review (or leave unchanged) hit Ctrl-D.
         """.format(sys.argv[0])))
+    # Extract selection criterion
+    outdated = find_and_remove('--outdated', sys.argv)
+    new = find_and_remove('--new', sys.argv)
+    
     if len(sys.argv) < 2:
         sys.exit(1)
 
@@ -79,6 +90,9 @@ def main():
 
         # Load already existing comment
         comment_file = file_to_comment+'.comment.yml'
+        if new and os.path.isfile(comment_file):
+            print('skipping due to selection argument --new.')
+            continue
         try:
             comment.update(load_comment(comment_file))
         except FileNotFoundError:
@@ -95,6 +109,9 @@ def main():
             continue
         if latest_commit_hash == '':
             print('has not been commited. Commit first and than comment.')
+            continue
+        if outdated and (not comment['commithash'] or latest_commit_hash == comment['commithash']):
+            print('skipping due to selection argument --outdated. ')
             continue
 
         # Ask user to update comment and review
@@ -146,7 +163,9 @@ def main():
                     print('Valid inputs are: {}'.format(', '.join(valid_inputs.keys())))
                 else:
                     first = False
-                save = input('Save? [y/n] ')
+                save = input('Save? [y] ')
+                if not save:
+                    save = 'y'
         except EOFError:
             print(' [skipped]\n')
             continue
