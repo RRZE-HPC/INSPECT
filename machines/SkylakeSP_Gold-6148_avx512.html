@@ -16,7 +16,7 @@
 {"description":"collection of all benchmark data obtained by using the stempel tool chain","@type":"WebPage","url":"/stempel_data_collection/machines/SkylakeSP_Gold-6148_avx512.html","headline":"stempel data collection","@context":"http://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
-    <link rel="stylesheet" href="/stempel_data_collection/assets/css/style.css?v=4e18d5eabd908bddf25d7c55be001a27b8f77cbb">
+    <link rel="stylesheet" href="/stempel_data_collection/assets/css/style.css?v=babdabdc01ce4c4db298b574af772d83329069d4">
     <script src="https://code.jquery.com/jquery-3.3.0.min.js" integrity="sha256-RTQy8VOmNlT6b2PIRur37p6JEBZUE7o8wPgMvu18MC4=" crossorigin="anonymous"></script>
     <script src="/stempel_data_collection/assets/js/main.js"></script>
     <!--[if lt IE 9]>
@@ -540,6 +540,68 @@
         </tr>
       </tbody>
     </table>
+
+    <script src="/stempel_data_collection/assets/js/plotly-latest.min.js"></script>
+
+    <div id="tester" style="width:100%;height:400px;"></div>
+
+    <script>
+var trace1 = {
+  type: "scatter",
+  mode: "lines",
+  x: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,],
+  y: [28.72,57.34,86.26,114.96,143.68,172.39,201.05,229.74,250.00,285.13,315.12,343.60,372.26,401.85,429.44,430.40,437.86,500.94,541.61,572.51,],
+  line: {color: 'orange'},
+  name: "load"
+};
+
+var trace2 = {
+  type: "scatter",
+  mode: "lines",
+  x: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,],
+  y: [37.93,75.58,111.53,151.53,189.44,225.61,256.29,278.90,284.31,327.88,364.47,446.18,482.94,501.59,540.84,565.67,538.80,534.89,612.20,618.37,],
+  line: {color: 'red'},
+  name: "update"
+};
+
+var trace3 = {
+  type: "scatter",
+  mode: "lines",
+  x: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,],
+  y: [25.41,50.65,75.85,101.34,125.94,146.99,171.65,196.48,212.64,234.85,257.67,271.35,291.32,312.21,334.45,352.67,339.14,389.38,411.72,425.68,],
+  line: {color: 'blue'},
+  name: "daxpy"
+};
+
+var trace4 = {
+  type: "scatter",
+  mode: "lines",
+  x: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,],
+  y: [37.53,74.69,112.40,150.06,187.63,225.07,262.59,300.08,290.13,322.48,347.56,377.68,400.64,430.28,467.60,509.20,534.80,565.91,580.95,631.69,],
+  line: {color: 'green'},
+  name: "copy"
+};
+
+var trace5 = {
+  type: "scatter",
+  mode: "lines",
+  x: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,],
+  y: [32.08,62.17,92.03,122.77,155.92,185.99,218.10,249.66,281.26,311.46,340.28,361.27,384.10,418.83,444.39,463.77,475.25,508.81,532.42,568.51,],
+  line: {color: 'yellow'},
+  name: "triad"
+};
+
+var data = [trace1,trace2,trace3,trace4,trace5];
+
+var layout = {
+	title: 'L1 Benchmarks',
+	xaxis: {title: 'Cores'},
+	yaxis: {title: 'Bandwidth [GB/s]'},
+};
+
+var config = {locale: 'en'};
+Plotly.newPlot('tester', data, layout, config);
+</script>
 
   </div>
 </div>

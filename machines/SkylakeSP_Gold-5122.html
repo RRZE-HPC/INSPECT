@@ -16,7 +16,7 @@
 {"description":"collection of all benchmark data obtained by using the stempel tool chain","@type":"WebPage","url":"/stempel_data_collection/machines/SkylakeSP_Gold-5122.html","headline":"stempel data collection","@context":"http://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
-    <link rel="stylesheet" href="/stempel_data_collection/assets/css/style.css?v=4e18d5eabd908bddf25d7c55be001a27b8f77cbb">
+    <link rel="stylesheet" href="/stempel_data_collection/assets/css/style.css?v=babdabdc01ce4c4db298b574af772d83329069d4">
     <script src="https://code.jquery.com/jquery-3.3.0.min.js" integrity="sha256-RTQy8VOmNlT6b2PIRur37p6JEBZUE7o8wPgMvu18MC4=" crossorigin="anonymous"></script>
     <script src="/stempel_data_collection/assets/js/main.js"></script>
     <!--[if lt IE 9]>
@@ -540,6 +540,68 @@
         </tr>
       </tbody>
     </table>
+
+    <script src="/stempel_data_collection/assets/js/plotly-latest.min.js"></script>
+
+    <div id="tester" style="width:100%;height:400px;"></div>
+
+    <script>
+var trace1 = {
+  type: "scatter",
+  mode: "lines",
+  x: [1,2,3,4,],
+  y: [42.98,85.08,127.45,169.92,],
+  line: {color: 'orange'},
+  name: "load"
+};
+
+var trace2 = {
+  type: "scatter",
+  mode: "lines",
+  x: [1,2,3,4,],
+  y: [56.54,112.25,168.50,224.75,],
+  line: {color: 'red'},
+  name: "update"
+};
+
+var trace3 = {
+  type: "scatter",
+  mode: "lines",
+  x: [1,2,3,4,],
+  y: [36.62,71.30,103.52,135.26,],
+  line: {color: 'blue'},
+  name: "daxpy"
+};
+
+var trace4 = {
+  type: "scatter",
+  mode: "lines",
+  x: [1,2,3,4,],
+  y: [56.07,111.50,164.90,221.50,],
+  line: {color: 'green'},
+  name: "copy"
+};
+
+var trace5 = {
+  type: "scatter",
+  mode: "lines",
+  x: [1,2,3,4,],
+  y: [45.90,89.81,127.29,169.57,],
+  line: {color: 'yellow'},
+  name: "triad"
+};
+
+var data = [trace1,trace2,trace3,trace4,trace5];
+
+var layout = {
+	title: 'L1 Benchmarks',
+	xaxis: {title: 'Cores'},
+	yaxis: {title: 'Bandwidth [GB/s]'},
+};
+
+var config = {locale: 'en'};
+Plotly.newPlot('tester', data, layout, config);
+</script>
 
   </div>
 </div>

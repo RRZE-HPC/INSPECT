@@ -16,7 +16,7 @@
 {"description":"collection of all benchmark data obtained by using the stempel tool chain","@type":"WebPage","url":"/stempel_data_collection/machines/IvyBridgeEP-E5-2690v2.html","headline":"stempel data collection","@context":"http://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
-    <link rel="stylesheet" href="/stempel_data_collection/assets/css/style.css?v=4e18d5eabd908bddf25d7c55be001a27b8f77cbb">
+    <link rel="stylesheet" href="/stempel_data_collection/assets/css/style.css?v=babdabdc01ce4c4db298b574af772d83329069d4">
     <script src="https://code.jquery.com/jquery-3.3.0.min.js" integrity="sha256-RTQy8VOmNlT6b2PIRur37p6JEBZUE7o8wPgMvu18MC4=" crossorigin="anonymous"></script>
     <script src="/stempel_data_collection/assets/js/main.js"></script>
     <!--[if lt IE 9]>
@@ -534,6 +534,68 @@
         </tr>
       </tbody>
     </table>
+
+    <script src="/stempel_data_collection/assets/js/plotly-latest.min.js"></script>
+
+    <div id="tester" style="width:100%;height:400px;"></div>
+
+    <script>
+var trace1 = {
+  type: "scatter",
+  mode: "lines",
+  x: [1,2,3,4,5,6,7,8,9,10,],
+  y: [64.10,127.55,191.98,254.13,318.74,380.62,446.38,509.42,567.20,634.05,],
+  line: {color: 'orange'},
+  name: "load"
+};
+
+var trace2 = {
+  type: "scatter",
+  mode: "lines",
+  x: [1,2,3,4,5,6,7,8,9,10,],
+  y: [93.58,179.61,276.93,356.28,449.74,530.73,626.93,710.54,807.41,889.44,],
+  line: {color: 'red'},
+  name: "update"
+};
+
+var trace3 = {
+  type: "scatter",
+  mode: "lines",
+  x: [1,2,3,4,5,6,7,8,9,10,],
+  y: [79.57,159.18,238.68,318.00,397.64,477.14,556.81,636.15,715.94,795.34,],
+  line: {color: 'blue'},
+  name: "daxpy"
+};
+
+var trace4 = {
+  type: "scatter",
+  mode: "lines",
+  x: [1,2,3,4,5,6,7,8,9,10,],
+  y: [91.42,182.69,273.86,365.25,439.27,547.94,639.37,730.75,822.26,913.11,],
+  line: {color: 'green'},
+  name: "copy"
+};
+
+var trace5 = {
+  type: "scatter",
+  mode: "lines",
+  x: [1,2,3,4,5,6,7,8,9,10,],
+  y: [90.88,181.11,272.27,361.58,454.41,544.92,635.98,727.14,817.59,906.77,],
+  line: {color: 'yellow'},
+  name: "triad"
+};
+
+var data = [trace1,trace2,trace3,trace4,trace5];
+
+var layout = {
+	title: 'L1 Benchmarks',
+	xaxis: {title: 'Cores'},
+	yaxis: {title: 'Bandwidth [GB/s]'},
+};
+
+var config = {locale: 'en'};
+Plotly.newPlot('tester', data, layout, config);
+</script>
 
   </div>
 </div>
