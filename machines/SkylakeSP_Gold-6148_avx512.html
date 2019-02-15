@@ -16,7 +16,7 @@
 {"description":"collection of all benchmark data obtained by using the stempel tool chain","@type":"WebPage","url":"/stempel_data_collection/machines/SkylakeSP_Gold-6148_avx512.html","headline":"stempel data collection","@context":"http://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
-    <link rel="stylesheet" href="/stempel_data_collection/assets/css/style.css?v=d617709abe03889d2eb857142bf53d6953e06e53">
+    <link rel="stylesheet" href="/stempel_data_collection/assets/css/style.css?v=387b934342e08b73d34a47af6174a99d0fb04cac">
     <script src="https://code.jquery.com/jquery-3.3.0.min.js" integrity="sha256-RTQy8VOmNlT6b2PIRur37p6JEBZUE7o8wPgMvu18MC4=" crossorigin="anonymous"></script>
     <script src="/stempel_data_collection/assets/js/main.js"></script>
     <!--[if lt IE 9]>
@@ -44,10 +44,10 @@
       </nav>
       <section>
         
+<h1 id="intelr-xeonr-gold-6148-cpu--240ghz">Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz</h1>
+
 <div class="section-block-full">
   <div class="section-block-half">
-
-    <h1 id="intelr-xeonr-gold-6148-cpu--240ghz">Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz</h1>
 
     <h2 id="general">General</h2>
 
@@ -90,6 +90,9 @@
 
     <p>This machine file was generated for kerncraft version 0.6.6.</p>
 
+  </div>
+  <div class="section-block-half">
+
     <h2 id="compiler-flags">Compiler Flags</h2>
 
     <table>
@@ -115,30 +118,36 @@
       <tbody>
         <tr>
           <td> </td>
-          <td>total</td>
-          <td>FMA</td>
           <td>ADD</td>
           <td>MUL</td>
+          <td>FMA</td>
+          <td>total</td>
         </tr>
         <tr>
           <td>Single Precission</td>
-          <td>64</td>
-          <td>64</td>
           <td>32</td>
           <td>32</td>
+          <td>64</td>
+          <td>64</td>
         </tr>
         <tr>
           <td>Double Precission</td>
-          <td>32</td>
-          <td>32</td>
           <td>16</td>
           <td>16</td>
+          <td>32</td>
+          <td>32</td>
         </tr>
       </tbody>
     </table>
 
-    <h2 id="memory-hierarchy">Memory Hierarchy</h2>
+  </div>
+</div>
 
+<div class="section-block-full">
+
+  <h2 id="memory-hierarchy">Memory Hierarchy</h2>
+
+  <div class="section-block-half">
     <h3 id="l1">L1</h3>
 
     <table>
@@ -216,6 +225,9 @@
       </tbody>
     </table>
 
+  </div>
+
+  <div class="section-block-half">
     <h3 id="l2">L2</h3>
 
     <table>
@@ -301,6 +313,9 @@
       </tbody>
     </table>
 
+  </div>
+
+  <div class="section-block-half">
     <h3 id="l3">L3</h3>
 
     <table>
@@ -374,9 +389,10 @@
       </tbody>
     </table>
 
-    <h3 id="mem">MEM</h3>
+  </div>
 
-    <p>|——————-|——————————-:|</p>
+  <div class="section-block-half">
+    <h3 id="mem">MEM</h3>
 
     <table>
       <tbody>
@@ -395,6 +411,13 @@
       </tbody>
     </table>
 
+  </div>
+
+</div>
+
+<div class="section-block-full">
+  <div class="section-block-half">
+
     <h2 id="overlapping-model">Overlapping Model</h2>
 
     <h3 id="ports">Ports:</h3>
@@ -412,6 +435,9 @@
     <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Max(UOPS_DISPATCHED_PORT_PORT_0:PMC[0-3], UOPS_DISPATCHED_PORT_PORT_1:PMC[0-3], UOPS_DISPATCHED_PORT_PORT_4:PMC[0-3], UOPS_DISPATCHED_PORT_PORT_5:PMC[0-3], UOPS_DISPATCHED_PORT_PORT_6:PMC[0-3], UOPS_DISPATCHED_PORT_PORT_7:PMC[0-3])
 </code></pre></div>    </div>
 
+  </div>
+  <div class="section-block-half">
+
     <h2 id="non-overlapping-model">Non-Overlapping Model</h2>
 
     <h3 id="ports-1">Ports:</h3>
@@ -422,126 +448,17 @@
     <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>T_OL + T_L2 + T_L3 + T_MEM
 </code></pre></div>    </div>
 
-    <h2 id="benchmarks">Benchmarks</h2>
+  </div>
+</div>
 
-    <h3 id="kernels">Kernels</h3>
+<div class="section-block-full">
+  <h2 id="benchmarks">Benchmarks</h2>
+</div>
 
-    <h4 id="load">load</h4>
+<script src="/stempel_data_collection/assets/js/plotly-latest.min.js"></script>
 
-    <table>
-      <tbody>
-        <tr>
-          <td>FLOPs per iteration</td>
-          <td>0</td>
-        </tr>
-        <tr>
-          <td>read streams</td>
-          <td>1 Streams with 8.00 B</td>
-        </tr>
-        <tr>
-          <td>write streams</td>
-          <td>0 Streams with 0.00 B</td>
-        </tr>
-        <tr>
-          <td>read+write streams</td>
-          <td>0 Streams with 0.00 B</td>
-        </tr>
-      </tbody>
-    </table>
-
-    <h4 id="daxpy">daxpy</h4>
-
-    <table>
-      <tbody>
-        <tr>
-          <td>FLOPs per iteration</td>
-          <td>2</td>
-        </tr>
-        <tr>
-          <td>read streams</td>
-          <td>2 Streams with 16.00 B</td>
-        </tr>
-        <tr>
-          <td>write streams</td>
-          <td>1 Streams with 8.00 B</td>
-        </tr>
-        <tr>
-          <td>read+write streams</td>
-          <td>1 Streams with 8.00 B</td>
-        </tr>
-      </tbody>
-    </table>
-
-    <h4 id="update">update</h4>
-
-    <table>
-      <tbody>
-        <tr>
-          <td>FLOPs per iteration</td>
-          <td>0</td>
-        </tr>
-        <tr>
-          <td>read streams</td>
-          <td>1 Streams with 8.00 B</td>
-        </tr>
-        <tr>
-          <td>write streams</td>
-          <td>1 Streams with 8.00 B</td>
-        </tr>
-        <tr>
-          <td>read+write streams</td>
-          <td>1 Streams with 8.00 B</td>
-        </tr>
-      </tbody>
-    </table>
-
-    <h4 id="copy">copy</h4>
-
-    <table>
-      <tbody>
-        <tr>
-          <td>FLOPs per iteration</td>
-          <td>0</td>
-        </tr>
-        <tr>
-          <td>read streams</td>
-          <td>1 Streams with 8.00 B</td>
-        </tr>
-        <tr>
-          <td>write streams</td>
-          <td>1 Streams with 8.00 B</td>
-        </tr>
-        <tr>
-          <td>read+write streams</td>
-          <td>0 Streams with 0.00 B</td>
-        </tr>
-      </tbody>
-    </table>
-
-    <h4 id="triad">triad</h4>
-
-    <table>
-      <tbody>
-        <tr>
-          <td>FLOPs per iteration</td>
-          <td>2</td>
-        </tr>
-        <tr>
-          <td>read streams</td>
-          <td>3 Streams with 24.00 B</td>
-        </tr>
-        <tr>
-          <td>write streams</td>
-          <td>1 Streams with 8.00 B</td>
-        </tr>
-        <tr>
-          <td>read+write streams</td>
-          <td>0 Streams with 0.00 B</td>
-        </tr>
-      </tbody>
-    </table>
-
-    <script src="/stempel_data_collection/assets/js/plotly-latest.min.js"></script>
+<div class="section-block-full">
+  <div class="section-block-half">
 
     <div id="l1_1" style="width:100%;height:400px;"></div>
 
@@ -594,7 +511,7 @@ var trace_triad = {
 var data = [trace_load,trace_update,trace_daxpy,trace_copy,trace_triad];
 
 var layout = {
-	title: 'L1 Benchmarks1',
+	title: 'L1 Cache (Threads per core: 1)',
 	xaxis: {title: 'Cores',
           nticks: 20},
 	yaxis: {title: 'Bandwidth [GB/s]'},
@@ -603,6 +520,9 @@ var layout = {
 var config = {locale: 'en'};
 Plotly.newPlot(l1_1, data, layout, config);
 </script>
+
+  </div>
+  <div class="section-block-half">
 
     <div id="l1_2" style="width:100%;height:400px;"></div>
 
@@ -655,7 +575,7 @@ var trace_triad = {
 var data = [trace_load,trace_update,trace_daxpy,trace_copy,trace_triad];
 
 var layout = {
-	title: 'L1 Benchmarks2',
+	title: 'L1 Cache (Threads per core: 2)',
 	xaxis: {title: 'Cores',
           nticks: 20},
 	yaxis: {title: 'Bandwidth [GB/s]'},
@@ -664,6 +584,11 @@ var layout = {
 var config = {locale: 'en'};
 Plotly.newPlot(l1_2, data, layout, config);
 </script>
+
+  </div>
+</div>
+<div class="section-block-full">
+  <div class="section-block-half">
 
     <div id="l2_1" style="width:100%;height:400px;"></div>
 
@@ -716,7 +641,7 @@ var trace_triad = {
 var data = [trace_load,trace_update,trace_daxpy,trace_copy,trace_triad];
 
 var layout = {
-	title: 'L2 Benchmarks1',
+	title: 'L2 Cache (Threads per core: 1)',
 	xaxis: {title: 'Cores',
           nticks: 20},
 	yaxis: {title: 'Bandwidth [GB/s]'},
@@ -725,6 +650,9 @@ var layout = {
 var config = {locale: 'en'};
 Plotly.newPlot(l2_1, data, layout, config);
 </script>
+
+  </div>
+  <div class="section-block-half">
 
     <div id="l2_2" style="width:100%;height:400px;"></div>
 
@@ -777,7 +705,7 @@ var trace_triad = {
 var data = [trace_load,trace_update,trace_daxpy,trace_copy,trace_triad];
 
 var layout = {
-	title: 'L2 Benchmarks2',
+	title: 'L2 Cache (Threads per core: 2)',
 	xaxis: {title: 'Cores',
           nticks: 20},
 	yaxis: {title: 'Bandwidth [GB/s]'},
@@ -786,6 +714,11 @@ var layout = {
 var config = {locale: 'en'};
 Plotly.newPlot(l2_2, data, layout, config);
 </script>
+
+  </div>
+</div>
+<div class="section-block-full">
+  <div class="section-block-half">
 
     <div id="l3_1" style="width:100%;height:400px;"></div>
 
@@ -838,7 +771,7 @@ var trace_triad = {
 var data = [trace_load,trace_update,trace_daxpy,trace_copy,trace_triad];
 
 var layout = {
-	title: 'L3 Benchmarks1',
+	title: 'L3 Cache (Threads per core: 1)',
 	xaxis: {title: 'Cores',
           nticks: 20},
 	yaxis: {title: 'Bandwidth [GB/s]'},
@@ -847,6 +780,9 @@ var layout = {
 var config = {locale: 'en'};
 Plotly.newPlot(l3_1, data, layout, config);
 </script>
+
+  </div>
+  <div class="section-block-half">
 
     <div id="l3_2" style="width:100%;height:400px;"></div>
 
@@ -899,7 +835,7 @@ var trace_triad = {
 var data = [trace_load,trace_update,trace_daxpy,trace_copy,trace_triad];
 
 var layout = {
-	title: 'L3 Benchmarks2',
+	title: 'L3 Cache (Threads per core: 2)',
 	xaxis: {title: 'Cores',
           nticks: 20},
 	yaxis: {title: 'Bandwidth [GB/s]'},
@@ -908,6 +844,11 @@ var layout = {
 var config = {locale: 'en'};
 Plotly.newPlot(l3_2, data, layout, config);
 </script>
+
+  </div>
+</div>
+<div class="section-block-full">
+  <div class="section-block-half">
 
     <div id="mem_1" style="width:100%;height:400px;"></div>
 
@@ -960,7 +901,7 @@ var trace_triad = {
 var data = [trace_load,trace_update,trace_daxpy,trace_copy,trace_triad];
 
 var layout = {
-	title: 'MEM Benchmarks1',
+	title: 'Memory (Threads per core: 1)',
 	xaxis: {title: 'Cores',
           nticks: 20},
 	yaxis: {title: 'Bandwidth [GB/s]'},
@@ -969,6 +910,9 @@ var layout = {
 var config = {locale: 'en'};
 Plotly.newPlot(mem_1, data, layout, config);
 </script>
+
+  </div>
+  <div class="section-block-half">
 
     <div id="mem_2" style="width:100%;height:400px;"></div>
 
@@ -1021,7 +965,7 @@ var trace_triad = {
 var data = [trace_load,trace_update,trace_daxpy,trace_copy,trace_triad];
 
 var layout = {
-	title: 'MEM Benchmarks2',
+	title: 'Memory (Threads per core: 2)',
 	xaxis: {title: 'Cores',
           nticks: 20},
 	yaxis: {title: 'Bandwidth [GB/s]'},
@@ -1032,6 +976,146 @@ Plotly.newPlot(mem_2, data, layout, config);
 </script>
 
   </div>
+</div>
+
+<div class="section-block-full">
+  <h3 id="kernels">Kernels</h3>
+
+  <div class="section-block-half">
+
+    <h4 id="load">load</h4>
+
+    <table>
+      <tbody>
+        <tr>
+          <td>FLOPs per iteration</td>
+          <td>0</td>
+        </tr>
+        <tr>
+          <td>read streams</td>
+          <td>1 Streams with 8.00 B</td>
+        </tr>
+        <tr>
+          <td>write streams</td>
+          <td>0 Streams with 0.00 B</td>
+        </tr>
+        <tr>
+          <td>read+write streams</td>
+          <td>0 Streams with 0.00 B</td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+
+  <div class="section-block-half">
+
+    <h4 id="daxpy">daxpy</h4>
+
+    <table>
+      <tbody>
+        <tr>
+          <td>FLOPs per iteration</td>
+          <td>2</td>
+        </tr>
+        <tr>
+          <td>read streams</td>
+          <td>2 Streams with 16.00 B</td>
+        </tr>
+        <tr>
+          <td>write streams</td>
+          <td>1 Streams with 8.00 B</td>
+        </tr>
+        <tr>
+          <td>read+write streams</td>
+          <td>1 Streams with 8.00 B</td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+
+  <div class="section-block-half">
+
+    <h4 id="update">update</h4>
+
+    <table>
+      <tbody>
+        <tr>
+          <td>FLOPs per iteration</td>
+          <td>0</td>
+        </tr>
+        <tr>
+          <td>read streams</td>
+          <td>1 Streams with 8.00 B</td>
+        </tr>
+        <tr>
+          <td>write streams</td>
+          <td>1 Streams with 8.00 B</td>
+        </tr>
+        <tr>
+          <td>read+write streams</td>
+          <td>1 Streams with 8.00 B</td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+
+  <div class="section-block-half">
+
+    <h4 id="copy">copy</h4>
+
+    <table>
+      <tbody>
+        <tr>
+          <td>FLOPs per iteration</td>
+          <td>0</td>
+        </tr>
+        <tr>
+          <td>read streams</td>
+          <td>1 Streams with 8.00 B</td>
+        </tr>
+        <tr>
+          <td>write streams</td>
+          <td>1 Streams with 8.00 B</td>
+        </tr>
+        <tr>
+          <td>read+write streams</td>
+          <td>0 Streams with 0.00 B</td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+
+  <div class="section-block-half">
+
+    <h4 id="triad">triad</h4>
+
+    <table>
+      <tbody>
+        <tr>
+          <td>FLOPs per iteration</td>
+          <td>2</td>
+        </tr>
+        <tr>
+          <td>read streams</td>
+          <td>3 Streams with 24.00 B</td>
+        </tr>
+        <tr>
+          <td>write streams</td>
+          <td>1 Streams with 8.00 B</td>
+        </tr>
+        <tr>
+          <td>read+write streams</td>
+          <td>0 Streams with 0.00 B</td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+
 </div>
 
 
