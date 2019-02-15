@@ -50,6 +50,12 @@ Comment was submitted for a previous version of the shown data.
 </span>
 {% endif %}
 
+{% capture issue_title %}Stencil:%20{{page.dimension}}%20{{page.radius}}%20{{page.weighting}}%20{{page.kind}}%20{{page.coefficients}}%20{{page.datatype}}%20{{page.machine}}{% assign flavor_size = {{page.flavor | size}} %}{% if flavor_size != 0 %}%20{{page.flavor}}{% endif %}{% endcapture %}
+{% capture issue_info %}{{include.comment}}{% endcapture %}
+{% capture link %}https://github.com/RRZE-HPC/stempel_data_collection/issues/new?labels[]=Stencil%20Comment%20Management&labels[]=[Type]%20Bug&title={{issue_title}}&milestone=People%20Management:%20m6&assignee=ebinnion&body={{issue_info}}{% endcapture %}
+
+<a href="{{link}}"><img src="{{site.baseurl}}/assets/img/edit.svg" style="position:absolute;right:5px;bottom:5px;height:18px;width:18px" /></a>
+
 </blockquote>
 </div>
 {% endif %}
