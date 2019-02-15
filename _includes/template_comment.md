@@ -1,3 +1,4 @@
+{% if include.comment or include.author or include.review %}
 <div markdown="1">
 {% if include.author == 'rrzeschorscherl' or include.author == 'Georg Hager' %}
 	{% assign author_name = 'Georg Hager' %}
@@ -51,3 +52,4 @@ Comment was submitted for a previous version of the shown data.
 
 </blockquote>
 </div>
+{% endif %}
