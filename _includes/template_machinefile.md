@@ -1,10 +1,10 @@
 
 {% assign file = include.file %}
 
+# {{file["model name"]}}
+
 <div markdown="1" class="section-block-full">
 <div markdown="1" class="section-block-half">
-
-# {{file["model name"]}}
 
 ## General
 
@@ -20,6 +20,9 @@
 
 This machine file was generated for kerncraft version {{file["kerncraft version"]}}.
 
+</div>
+<div markdown="1" class="section-block-half">
+
 ## Compiler Flags
 
 |-------------------|------------------:|
@@ -30,20 +33,35 @@ This machine file was generated for kerncraft version {{file["kerncraft version"
 ## Flops per Cycle
 
 {% assign flops = file["FLOPs per cycle"] %}
-|---|------:|----:|----:|----:|
-|   | total | FMA | ADD | MUL |
-| Single Precission | {{flops.SP.total}} | {{flops.SP.FMA}} | {{flops.SP.ADD}} | {{flops.SP.MUL}} |
-| Double Precission | {{flops.DP.total}} | {{flops.DP.FMA}} | {{flops.DP.ADD}} | {{flops.DP.MUL}} |
+|-------------------|-----------------:|-----------------:|-----------------:|-------------------:|
+|                   | ADD              | MUL              | FMA              | total              |
+| Single Precission | {{flops.SP.ADD}} | {{flops.SP.MUL}} | {{flops.SP.FMA}} | {{flops.SP.total}} |
+| Double Precission | {{flops.DP.ADD}} | {{flops.DP.MUL}} | {{flops.DP.FMA}} | {{flops.DP.total}} |
+
+</div>
+</div>
+
+
+<div markdown="1" class="section-block-full">
 
 ## Memory Hierarchy
 {% for level in file["memory hierarchy"] %}
+
+<div markdown="1" class="section-block-half">
 ### {{level.level}}
 
+{% if level.level == 'MEM' %}
 |-------------------|-------------------------------:|
-{% if level.level != 'MEM' %}| groups            | {{level["groups"]}}            |{% endif %}
 | cores per group   | {{level["cores per group"]}}   |
 | threads per group | {{level["threads per group"]}} |
 {% if level["non-overlap upstream throughput"] %}|non-overlap upstream throughput|{{level["non-overlap upstream throughput"][0]}}, {{level["non-overlap upstream throughput"][1]}}|{% endif %}
+{% else %}
+|-------------------|-------------------------------:|
+| groups            | {{level["groups"]}}            |
+| cores per group   | {{level["cores per group"]}}   |
+| threads per group | {{level["threads per group"]}} |
+{% if level["non-overlap upstream throughput"] %}|non-overlap upstream throughput|{{level["non-overlap upstream throughput"][0]}}, {{level["non-overlap upstream throughput"][1]}}|{% endif %}
+{% endif %}
 
 {% unless level.level == 'MEM' %}
 
@@ -63,7 +81,14 @@ This machine file was generated for kerncraft version {{file["kerncraft version"
 
 {% endunless %}
 
+</div>
+
 {% endfor %}
+
+</div>
+
+<div markdown="1" class="section-block-full">
+<div markdown="1" class="section-block-half">
 
 ## Overlapping Model
 
@@ -77,6 +102,9 @@ This machine file was generated for kerncraft version {{file["kerncraft version"
 {{file["overlapping model"]["performance counter metric"]}}
 ```
 
+</div>
+<div markdown="1" class="section-block-half">
+
 ## Non-Overlapping Model
 
 ### Ports:
@@ -89,10 +117,95 @@ This machine file was generated for kerncraft version {{file["kerncraft version"
 {{file["non-overlapping model"]["performance counter metric"]}}
 ```
 
-## Benchmarks
+</div>
+</div>
 
+
+<div markdown="1" class="section-block-full">
+## Benchmarks
+</div>
+
+<script src="{{site.baseurl}}/assets/js/plotly-latest.min.js"></script>
+
+<div markdown="1" class="section-block-full">
+<div markdown="1" class="section-block-half">
+
+<div id="l1_1" style="width:100%;height:400px;"></div>
+{% assign data = file.benchmarks.measurements.L1[1] %}
+{% capture l1_title %}L1 Cache (Threads per core: {{data["threads per core"]}}){% endcapture %}
+{% include template_machinefile_plots.md dataset=data div='l1_1' title=l1_title xaxis='Cores' yaxis='Bandwidth [GB/s]' %}
+
+</div>
+<div markdown="1" class="section-block-half">
+
+<div id="l1_2" style="width:100%;height:400px;"></div>
+{% assign data = file.benchmarks.measurements.L1[2] %}
+{% capture l1_title %}L1 Cache (Threads per core: {{data["threads per core"]}}){% endcapture %}
+{% include template_machinefile_plots.md dataset=data div='l1_2' title=l1_title xaxis='Cores' yaxis='Bandwidth [GB/s]' %}
+
+</div>
+</div>
+<div markdown="1" class="section-block-full">
+<div markdown="1" class="section-block-half">
+
+<div id="l2_1" style="width:100%;height:400px;"></div>
+{% assign data = file.benchmarks.measurements.L2[1] %}
+{% capture l2_title %}L2 Cache (Threads per core: {{data["threads per core"]}}){% endcapture %}
+{% include template_machinefile_plots.md dataset=data div='l2_1' title=l2_title xaxis='Cores' yaxis='Bandwidth [GB/s]' %}
+
+</div>
+<div markdown="1" class="section-block-half">
+
+<div id="l2_2" style="width:100%;height:400px;"></div>
+{% assign data = file.benchmarks.measurements.L2[2] %}
+{% capture l2_title %}L2 Cache (Threads per core: {{data["threads per core"]}}){% endcapture %}
+{% include template_machinefile_plots.md dataset=data div='l2_2' title=l2_title xaxis='Cores' yaxis='Bandwidth [GB/s]' %}
+
+</div>
+</div>
+<div markdown="1" class="section-block-full">
+<div markdown="1" class="section-block-half">
+
+<div id="l3_1" style="width:100%;height:400px;"></div>
+{% assign data = file.benchmarks.measurements.L3[1] %}
+{% capture l3_title %}L3 Cache (Threads per core: {{data["threads per core"]}}){% endcapture %}
+{% include template_machinefile_plots.md dataset=data div='l3_1' title=l3_title xaxis='Cores' yaxis='Bandwidth [GB/s]' %}
+
+</div>
+<div markdown="1" class="section-block-half">
+
+<div id="l3_2" style="width:100%;height:400px;"></div>
+{% assign data = file.benchmarks.measurements.L3[2] %}
+{% capture l3_title %}L3 Cache (Threads per core: {{data["threads per core"]}}){% endcapture %}
+{% include template_machinefile_plots.md dataset=data div='l3_2' title=l3_title xaxis='Cores' yaxis='Bandwidth [GB/s]' %}
+
+</div>
+</div>
+<div markdown="1" class="section-block-full">
+<div markdown="1" class="section-block-half">
+
+<div id="mem_1" style="width:100%;height:400px;"></div>
+{% assign data = file.benchmarks.measurements.MEM[1] %}
+{% capture mem_title %}Memory (Threads per core: {{data["threads per core"]}}){% endcapture %}
+{% include template_machinefile_plots.md dataset=data div='mem_1' title=mem_title xaxis='Cores' yaxis='Bandwidth [GB/s]' %}
+
+</div>
+<div markdown="1" class="section-block-half">
+
+<div id="mem_2" style="width:100%;height:400px;"></div>
+{% assign data = file.benchmarks.measurements.MEM[2] %}
+{% capture mem_title %}Memory (Threads per core: {{data["threads per core"]}}){% endcapture %}
+{% include template_machinefile_plots.md dataset=data div='mem_2' title=mem_title xaxis='Cores' yaxis='Bandwidth [GB/s]' %}
+</div>
+</div>
+
+
+<div markdown="1" class="section-block-full">
 ### Kernels
 {% for kernel in file.benchmarks.kernels %}
+
+<div markdown="1" class="section-block-half">
+
 #### {{kernel[0]}}
 
 |-------------------|-----------------------------------:|
@@ -101,42 +214,8 @@ This machine file was generated for kerncraft version {{file["kerncraft version"
 |write streams      |{{kernel[1]["write streams"].streams}} Streams with {{kernel[1]["write streams"].bytes}}      |
 |read+write streams |{{kernel[1]["read+write streams"].streams}} Streams with {{kernel[1]["read+write streams"].bytes}} |
 
+</div>
+
 {% endfor %}
-
-<script src="{{site.baseurl}}/assets/js/plotly-latest.min.js"></script>
-
-<div id="l1_1" style="width:100%;height:400px;"></div>
-{% assign data = file.benchmarks.measurements.L1[1] %}
-{% include template_machinefile_plots.md dataset=data div='l1_1' title='L1 Benchmarks1' xaxis='Cores' yaxis='Bandwidth [GB/s]' %}
-
-<div id="l1_2" style="width:100%;height:400px;"></div>
-{% assign data = file.benchmarks.measurements.L1[2] %}
-{% include template_machinefile_plots.md dataset=data div='l1_2' title='L1 Benchmarks2' xaxis='Cores' yaxis='Bandwidth [GB/s]' %}
-
-<div id="l2_1" style="width:100%;height:400px;"></div>
-{% assign data = file.benchmarks.measurements.L2[1] %}
-{% include template_machinefile_plots.md dataset=data div='l2_1' title='L2 Benchmarks1' xaxis='Cores' yaxis='Bandwidth [GB/s]' %}
-
-<div id="l2_2" style="width:100%;height:400px;"></div>
-{% assign data = file.benchmarks.measurements.L2[2] %}
-{% include template_machinefile_plots.md dataset=data div='l2_2' title='L2 Benchmarks2' xaxis='Cores' yaxis='Bandwidth [GB/s]' %}
-
-<div id="l3_1" style="width:100%;height:400px;"></div>
-{% assign data = file.benchmarks.measurements.L3[1] %}
-{% include template_machinefile_plots.md dataset=data div='l3_1' title='L3 Benchmarks1' xaxis='Cores' yaxis='Bandwidth [GB/s]' %}
-
-<div id="l3_2" style="width:100%;height:400px;"></div>
-{% assign data = file.benchmarks.measurements.L3[2] %}
-{% include template_machinefile_plots.md dataset=data div='l3_2' title='L3 Benchmarks2' xaxis='Cores' yaxis='Bandwidth [GB/s]' %}
-
-<div id="mem_1" style="width:100%;height:400px;"></div>
-{% assign data = file.benchmarks.measurements.MEM[1] %}
-{% include template_machinefile_plots.md dataset=data div='mem_1' title='MEM Benchmarks1' xaxis='Cores' yaxis='Bandwidth [GB/s]' %}
-
-<div id="mem_2" style="width:100%;height:400px;"></div>
-{% assign data = file.benchmarks.measurements.MEM[2] %}
-{% include template_machinefile_plots.md dataset=data div='mem_2' title='MEM Benchmarks2' xaxis='Cores' yaxis='Bandwidth [GB/s]' %}
 </div>
-</div>
-
 
