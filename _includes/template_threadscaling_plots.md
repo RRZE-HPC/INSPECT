@@ -8,7 +8,7 @@
 {% capture csv_filename %}{{page.dimension}}_{{page.radius}}_{{page.weighting}}_{{page.kind}}_{{page.coefficients}}_{{page.datatype}}_{{page.machine}}_scaling{% endcapture %}
 {% assign csv_file = site.data.stencils[{{csv_filename}}] %}
 
-<div id="scaling" style="width:545px;"></div>
+<div id="scaling" style="width:600px;"></div>
 
 {% capture cores %}{% for data in csv_file %}{{data.threads}},{%endfor%}{% endcapture %}
 {% capture bench %}{% for data in csv_file %}{{data["Mlup/s"]}},{%endfor%}{% endcapture %}

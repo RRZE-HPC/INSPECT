@@ -491,14 +491,14 @@ footer {
 
 .section-block-full {
   overflow: hidden;
+  width: 1240px;
 }
 
 .section-block-half {
   float: left;
   display: block;
-  width: 45%;
-  min-width: 450px;
-  margin: 10px;
+  width: 600px;
+  margin: 5px 10px;
 }
 
 #navigationbar {
@@ -532,7 +532,8 @@ footer {
 
 #navbar {
   overflow: hidden;
-  max-width: 90%;
+  width: 600px;
+  padding: 5px 10px
 }
 
 #navigation {
@@ -555,45 +556,6 @@ footer {
   object {
     width: 100%;
     margin-bottom: 10px;
-  }
-
-}
-
-@media print, screen and (max-width:1225px) {
-  .wrapper {
-    width: auto;
-    max-width: 1210px;
-    min-width: 470px;
-  }
-
-  section {
-    border: none;
-    width: auto;
-    min-width: 470px;
-    width: auto;
-    position: initial;
-    display: block;
-    background-color: transparent;
-    box-shadow: none;
-    padding: 0 20px;
-    overflow: hidden;
-  }
-
-  nav {
-    width: 260px;
-    float: left;
-    position: initial;
-    margin-left: 0px;
-    text-align: right;
-  }
-
-  .section-block-half {
-    float: left;
-    display: block;
-    width: 95%;
-    max-width: 675px;
-    min-width: 450px;
-    margin: 10px;
   }
 
 }
@@ -645,9 +607,29 @@ footer {
   margin-top: -16px;
 }
 
-@media print, screen and (max-width:755px) {
+@media print, screen and (max-width:1519px) {
+  .wrapper {
+    width: 860px;
+  }
+
+  .section-block-full {
+    width: 620px;
+  }
+
+  .section-block-half {
+    float: none;
+  }
+
+  section {
+    width: 620px;
+    min-width: auto;
+  }
+
+}
+
+@media print, screen and (max-width:859px) {
   nav {
-    width: 450px;
+    width: 260px;
     float: none;
     position: initial;
     margin-left: 0px;
@@ -656,20 +638,14 @@ footer {
   }
 
   section {
+    width: auto;
+    min-width: auto;
     margin-top: 10px;
   }
 
   footer {
     width: 400px;
     position: relative;
-  }
-
-  .section-block-half {
-    float: left;
-    display: block;
-    width: 95%;
-    min-width: 450px;
-    margin: 10px;
   }
 
 }
