@@ -3,7 +3,7 @@
 {% else %}
 	{% assign hide_if_hidden = '' %}
 {% endif %}
-<div  markdown="1" class="memory" id="mem_{{include.type}}" style="width:600px;" {{hide_if_hidden}} >
+<div  markdown="1" class="memory" id="mem_{{include.type}}" {{hide_if_hidden}} >
 
 {% capture csv_filename %}{{page.dimension}}_{{page.radius}}_{{page.weighting}}_{{page.kind}}_{{page.coefficients}}_{{page.datatype}}_{{page.machine}}_results{% endcapture %}
 {% assign csv_file = site.data.stencils[{{csv_filename}}] %}
@@ -84,6 +84,8 @@ var layout = {
           rangemode: "tozero"},
   margin: { l: 50, r: 35, t: 10, b: 40},
   legend: { orientation: "h",y:1.3},
+  width: 600,
+  height: 450,
 };
 
 var config = {locale: 'en'};

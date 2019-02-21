@@ -13,7 +13,7 @@
 {% capture csv_results_filename %}{{page.dimension}}_{{page.radius}}_{{page.weighting}}_{{page.kind}}_{{page.coefficients}}_{{page.datatype}}_{{page.machine}}_results{% endcapture %}
 {% assign csv_results_file = site.data.stencils[{{csv_results_filename}}] %}
 
-<div id="blocking_{{case}}" style="width:600px;"></div>
+<div id="blocking_{{case}}"></div>
 
 {% capture N %}{% for data in csv_file %}{{data.N}},{%endfor%}{% endcapture %}
 {% capture bench_block %}{% for data in csv_file %}{{data["Mlup/s"]}},{%endfor%}{% endcapture %}
@@ -68,6 +68,8 @@ var layout = {
           rangemode: "tozero"},
   margin: { l: 50, r: 35, t: 10, b: 40},
   legend: { orientation: "h",y:1.1},
+  width: 600,
+  height: 450,
 };
 
 var config = {locale: 'en'};
