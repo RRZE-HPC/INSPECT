@@ -16,7 +16,7 @@
 {"description":"collection of all benchmark data obtained by using the stempel tool chain","@type":"WebPage","url":"/stempel_data_collection/stencils/3D/1r/point-symmetric/box/constant/double/HaswellEP_E5-2695v3_CoD/","headline":"Stencil 3D r1 box constant point-symmetric double HaswellEP_E5-2695v3_CoD","@context":"http://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
-    <link rel="stylesheet" href="/stempel_data_collection/assets/css/style.css?v=0f0cd8f4740fc0a9c4fe8484c38d694fe2b3eea0">
+    <link rel="stylesheet" href="/stempel_data_collection/assets/css/style.css?v=013b7fdd54022df8a8f8b51d129dd571bfd92068">
     <script src="https://code.jquery.com/jquery-3.3.0.min.js" integrity="sha256-RTQy8VOmNlT6b2PIRur37p6JEBZUE7o8wPgMvu18MC4=" crossorigin="anonymous"></script>
     <script src="/stempel_data_collection/assets/js/main.js"></script>
     <!--[if lt IE 9]>
@@ -282,7 +282,7 @@ return "https://rrze-hpc.github.io/layer-condition/#calculator%23!"+encodeURICom
 <input class="plot-button" type="button" value="Cache Simulation" onclick="document.getElementById('ecm_CS').style.display = 'block';            document.getElementById('ecm_LC').style.display = 'none';            document.getElementById('ecm_Pheno').style.display = 'none';" />
 <input class="plot-button" type="button" value="Phenomenological" onclick="document.getElementById('ecm_Pheno').style.display = 'block';            document.getElementById('ecm_CS').style.display = 'none';            document.getElementById('ecm_LC').style.display = 'none';" /></p>
 
-    <div class="ecm" id="ecm_LC" style="width:100%;">
+    <div class="ecm" id="ecm_LC">
 
       <script>
 var trace_benchmark = {
@@ -351,6 +351,8 @@ var layout = {
           tick0: 0},
   barmode: 'stack',
   legend: { orientation: "h",y:1.1},
+  width: 600,
+  height: 450,
 };
 
 var config = {locale: 'en'};
@@ -430,6 +432,8 @@ var layout = {
           tick0: 0},
   barmode: 'stack',
   legend: { orientation: "h",y:1.1},
+  width: 600,
+  height: 450,
 };
 
 var config = {locale: 'en'};
@@ -509,6 +513,8 @@ var layout = {
           tick0: 0},
   barmode: 'stack',
   legend: { orientation: "h",y:1.1},
+  width: 600,
+  height: 450,
 };
 
 var config = {locale: 'en'};
@@ -527,7 +533,7 @@ Plotly.newPlot('ecm_Pheno', data, layout, config);
     <p><input class="plot-button" type="button" value="Layer Condition" onclick="document.getElementById('rfl_LC').style.display = 'block';            document.getElementById('rfl_CS').style.display = 'none';" />
 <input class="plot-button" type="button" value="Cache Simulation" onclick="document.getElementById('rfl_CS').style.display = 'block';            document.getElementById('rfl_LC').style.display = 'none';" /></p>
 
-    <div class="roofline" id="rfl_LC" style="width:100%;">
+    <div class="roofline" id="rfl_LC">
 
       <script>
 var trace_benchmark = {
@@ -565,6 +571,8 @@ var layout = {
           rangemode: "tozero"},
   margin: { l: 50, r: 35, t: 10, b: 40},
   legend: { orientation: "h",y:1.1},
+  width: 600,
+  height: 450,
 };
 
 var config = {locale: 'en'};
@@ -613,6 +621,8 @@ var layout = {
           rangemode: "tozero"},
   margin: { l: 50, r: 35, t: 10, b: 40},
   legend: { orientation: "h",y:1.1},
+  width: 600,
+  height: 450,
 };
 
 var config = {locale: 'en'};
@@ -635,7 +645,7 @@ Plotly.newPlot('rfl_CS', data, layout, config);
     <p><input class="plot-button" type="button" value="Layer Condition" onclick="document.getElementById('mem_LC').style.display = 'block';            document.getElementById('mem_CS').style.display = 'none';" />
 <input class="plot-button" type="button" value="Cache Simulation" onclick="document.getElementById('mem_CS').style.display = 'block';            document.getElementById('mem_LC').style.display = 'none';" /></p>
 
-    <div class="memory" id="mem_LC" style="width:100%;min-height:400px;">
+    <div class="memory" id="mem_LC">
 
       <script>
 var benchmark_l1l2 = {
@@ -700,6 +710,8 @@ var layout = {
           rangemode: "tozero"},
   margin: { l: 50, r: 35, t: 10, b: 40},
   legend: { orientation: "h",y:1.3},
+  width: 600,
+  height: 450,
 };
 
 var config = {locale: 'en'};
@@ -775,6 +787,8 @@ var layout = {
           rangemode: "tozero"},
   margin: { l: 50, r: 35, t: 10, b: 40},
   legend: { orientation: "h",y:1.3},
+  width: 600,
+  height: 450,
 };
 
 var config = {locale: 'en'};
@@ -797,7 +811,7 @@ Plotly.newPlot('mem_CS', data, layout, config);
 
     <div class="scaling">
 
-      <div id="scaling" style="width:545px;"></div>
+      <div id="scaling"></div>
 
       <script>
 var trace_benchmark = {
@@ -830,12 +844,15 @@ var data = [trace_benchmark,trace_ecm,trace_roofline];
 
 var layout = {
 	xaxis: {title: 'Number of Threads',
+          range: [0.5,14.5],
           nticks: 14},
 	yaxis: {title: 'Performance [MLUP/s]',
           rangemode: "tozero"},
   margin: { l: 50, r: 35, t: 10, b: 40},
   legend: { orientation: "h",
             y:1.1 },
+  width: 600,
+  height: 450,
 };
 
 var config = {locale: 'en'};
@@ -852,7 +869,7 @@ Plotly.newPlot('scaling', data, layout, config);
 
     <div class="blocking">
 
-      <div id="blocking_L3-3D" style="width:100%;height:400px;"></div>
+      <div id="blocking_L3-3D"></div>
 
       <script>
 var trace_benchmark = {
@@ -899,6 +916,8 @@ var layout = {
           rangemode: "tozero"},
   margin: { l: 50, r: 35, t: 10, b: 40},
   legend: { orientation: "h",y:1.1},
+  width: 600,
+  height: 450,
 };
 
 var config = {locale: 'en'};

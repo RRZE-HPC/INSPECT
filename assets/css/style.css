@@ -310,9 +310,9 @@ nav ul a:hover { color: #999; }
 
 footer { width: 180px; padding-left: 50px; position: sticky; left: 0; bottom: 20px; text-align: right; line-height: 16px; text-align: right; float: left; }
 
-.section-block-full { overflow: hidden; }
+.section-block-full { overflow: hidden; width: 1240px; }
 
-.section-block-half { float: left; display: block; width: 45%; min-width: 450px; margin: 10px; }
+.section-block-half { float: left; display: block; width: 600px; margin: 5px 10px; }
 
 #navigationbar { overflow: hidden; }
 
@@ -322,7 +322,7 @@ footer { width: 180px; padding-left: 50px; position: sticky; left: 0; bottom: 20
 
 .nav-selection { float: left; padding: 2px 5px; }
 
-#navbar { overflow: hidden; max-width: 90%; }
+#navbar { overflow: hidden; width: 600px; padding: 5px 10px; }
 
 #navigation { overflow: hidden; }
 
@@ -334,10 +334,6 @@ footer { width: 180px; padding-left: 50px; position: sticky; left: 0; bottom: 20
 
 .ecm object, .roofline object, .memory object, .blocking object, .scaling object { width: 100%; margin-bottom: 10px; }
 
-@media print, screen and (max-width: 1225px) { .wrapper { width: auto; max-width: 1210px; min-width: 470px; }
-  section { border: none; width: auto; min-width: 470px; width: auto; position: initial; display: block; background-color: transparent; box-shadow: none; padding: 0 20px; overflow: hidden; }
-  nav { width: 260px; float: left; position: initial; margin-left: 0px; text-align: right; }
-  .section-block-half { float: left; display: block; width: 95%; max-width: 675px; min-width: 450px; margin: 10px; } }
 .comment_bubble_img { float: left; width: 15%; padding: 5px 0; }
 
 .comment_bubble { position: relative; width: 75%; border: 1px solid #bbb; border-radius: 2px; box-shadow: inset 0px 1px 0px rgba(255, 255, 255, 0.4), 0px 1px 1px rgba(0, 0, 0, 0.1); padding: 10px 12px; margin: 6px 0 10px calc(10% - 28px); line-height: 14px; font-size: 14px; background-color: #ddd; color: #333; font-weight: bold; display: inline-block; }
@@ -348,8 +344,11 @@ footer { width: 180px; padding-left: 50px; position: sticky; left: 0; bottom: 20
 
 .comment_bubble:before { border-color: rgba(0, 0, 0, 0); border-right-color: #bbb; border-width: 16px; margin-top: -16px; }
 
-@media print, screen and (max-width: 755px) { nav { width: 450px; float: none; position: initial; margin-left: 0px; text-align: right; margin-top: 200px; }
-  section { margin-top: 10px; }
-  footer { width: 400px; position: relative; }
-  .section-block-half { float: left; display: block; width: 95%; min-width: 450px; margin: 10px; } }
+@media print, screen and (max-width: 1519px) { .wrapper { width: 860px; }
+  .section-block-full { width: 620px; }
+  .section-block-half { float: none; }
+  section { width: 620px; min-width: auto; } }
+@media print, screen and (max-width: 859px) { nav { width: 260px; float: none; position: initial; margin-left: 0px; text-align: right; margin-top: 200px; }
+  section { width: auto; min-width: auto; margin-top: 10px; }
+  footer { width: 400px; position: relative; } }
 @media print { body { padding: 0.4in; font-size: 12pt; color: #444; } }
