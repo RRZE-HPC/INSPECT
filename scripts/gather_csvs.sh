@@ -15,7 +15,7 @@ for DIM in ./stencils/*; do
 					for DATATYPE in ${CONST}/*; do
 						for MACHINE in ${DATATYPE}/*; do
 							for file in ${MACHINE}/*csv; do
-								newfilename=$(echo ${file} | sed 's/\.\/stencils\///g;s/\//_/g;')
+								newfilename=$(echo ${file} | sed 's/\.\/stencils\///g;s/\//_/g;s/_512/_avx512/')
 								filename=$(echo ${newfilename} | sed 's/.*_//')
 								case ${filename} in
 								"results.csv")
