@@ -16,7 +16,7 @@
 {"description":"collection of all benchmark data obtained by using the stempel tool chain","@type":"WebPage","url":"/stempel_data_collection/stencils/3D/3r/heterogeneous/star/constant/double/IvyBridgeEP_E5-2660v2/","headline":"Stencil detail","@context":"http://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
-    <link rel="stylesheet" href="/stempel_data_collection/assets/css/style.css?v=7df85f80b03dfed9d363263b0c64e6b7ac373260">
+    <link rel="stylesheet" href="/stempel_data_collection/assets/css/style.css?v=f45ba0a859f2cba64d28191618285833d08fa341">
     <script src="https://code.jquery.com/jquery-3.3.0.min.js" integrity="sha256-RTQy8VOmNlT6b2PIRur37p6JEBZUE7o8wPgMvu18MC4=" crossorigin="anonymous"></script>
     <script src="/stempel_data_collection/assets/js/main.js"></script>
     <!--[if lt IE 9]>
@@ -370,9 +370,18 @@ var trace_Tl3mem = {
   marker: {color: '#ffbb78'},
   name: "T<sub>L3-MEM</sub>"
 };
+var trace_Ttotal = {
+  type: "scatter",
+  mode: "lines",
+  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,480,490,500,510,520,530,540,550,560,570,580,590,600,610,620,630,640,650,660,670,680,690,700,710,720,730,740,750,760,770,780,790,800,810,820,830,840,850,860,870,880,890,900,910,920,930,940,950,960,970,980,990,1000,1010,1020,1030,1040,1050,1060,1070,1080,1090,1100,1110,1120,1130,1140,1150,1160,1170,1180,1190,1200,],
+  y: [53.4 ,57.0 ,75.0 ,75.0 ,75.0 ,75.0 ,87.0 ,87.0 ,87.0 ,87.0 ,87.0 ,97.8 ,97.8 ,97.8 ,97.8 ,97.8 ,97.8 ,97.8 ,97.8 ,97.8 ,97.8 ,97.8 ,97.8 ,97.8 ,97.8 ,97.8 ,97.8 ,97.8 ,97.8 ,109.8 ,109.8 ,109.8 ,109.8 ,109.8 ,109.8 ,109.8 ,109.8 ,109.8 ,109.8 ,109.8 ,109.8 ,109.8 ,109.8 ,109.8 ,109.8 ,109.8 ,109.8 ,109.8 ,109.8 ,109.8 ,109.8 ,109.8 ,109.8 ,109.8 ,109.8 ,109.8 ,109.8 ,109.8 ,109.8 ,109.8 ,109.8 ,109.8 ,109.8 ,109.8 ,131.1 ,131.1 ,131.1 ,131.1 ,131.1 ,131.1 ,131.1 ,131.1 ,131.1 ,131.1 ,131.1 ,131.1 ,131.1 ,131.1 ,131.1 ,131.1 ,131.1 ,131.1 ,131.1 ,131.1 ,131.1 ,131.1 ,131.1 ,131.1 ,131.1 ,131.1 ,131.1 ,131.1 ,131.1 ,131.1 ,131.1 ,131.1 ,131.1 ,131.1 ,131.1 ,131.1 ,131.1 ,131.1 ,131.1 ,131.1 ,131.1 ,131.1 ,131.1 ,131.1 ,131.1 ,131.1 ,131.1 ,131.1 ,131.1 ,131.1 ,131.1 ,131.1 ,131.1 ,131.1 ,131.1 ,131.1 ,],
+  line: {color: 'rgba(0,0,0,0)'},
+  showlegend: false,
+  name: "T<sub>ECM total</sub>"
+};
 
 
-var data = [trace_Tnol,trace_Tl1l2,trace_Tl2l3,trace_Tl3mem,trace_Tol,trace_benchmark];
+var data = [trace_Tnol,trace_Tl1l2,trace_Tl2l3,trace_Tl3mem,trace_Tol,trace_Ttotal,trace_benchmark];
 
 var layout = {
   margin: { l: 40, r: 35, t: 10, b: 40},
@@ -469,9 +478,18 @@ var trace_Tl3mem = {
   marker: {color: '#ffbb78'},
   name: "T<sub>L3-MEM</sub>"
 };
+var trace_Ttotal = {
+  type: "scatter",
+  mode: "lines",
+  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,480,490,500,510,520,530,540,550,560,570,580,590,600,610,620,630,640,650,660,670,680,690,700,710,720,730,740,750,760,770,780,790,800,810,820,830,840,850,860,870,880,890,900,910,920,930,940,950,960,970,980,990,1000,1010,1020,1030,1040,1050,1060,1070,1080,1090,1100,1110,1120,1130,1140,1150,1160,1170,1180,1190,1200,],
+  y: [53.4 ,62.1 ,81.8 ,80.5 ,79.2 ,78.6 ,86.7 ,90.3 ,89.7 ,89.6 ,89.3 ,94.3 ,100.4 ,100.3 ,100.2 ,100.0 ,99.9 ,99.7 ,99.6 ,99.5 ,99.4 ,99.3 ,99.3 ,99.3 ,99.2 ,99.3 ,98.9 ,99.2 ,103.0 ,105.2 ,107.0 ,102.9 ,107.1 ,107.0 ,110.8 ,111.0 ,110.9 ,108.7 ,110.8 ,106.8 ,110.6 ,110.5 ,111.0 ,110.5 ,110.6 ,111.3 ,110.4 ,106.1 ,110.5 ,110.5 ,110.7 ,110.4 ,110.2 ,110.5 ,110.7 ,110.6 ,110.7 ,110.5 ,110.6 ,110.1 ,110.5 ,110.4 ,110.2 ,110.4 ,130.4 ,129.7 ,130.9 ,132.2 ,132.1 ,132.2 ,132.2 ,132.0 ,132.0 ,131.8 ,131.8 ,131.7 ,131.7 ,131.7 ,131.7 ,131.7 ,131.7 ,131.7 ,131.7 ,131.7 ,131.7 ,131.7 ,131.7 ,131.7 ,131.7 ,131.6 ,131.6 ,131.6 ,131.6 ,131.6 ,131.6 ,131.6 ,131.6 ,131.6 ,131.6 ,131.6 ,131.6 ,131.6 ,131.6 ,131.6 ,131.6 ,131.6 ,131.6 ,131.6 ,131.6 ,131.6 ,131.5 ,131.5 ,131.5 ,131.5 ,131.5 ,131.5 ,131.5 ,131.5 ,131.5 ,131.5 ,],
+  line: {color: 'rgba(0,0,0,0)'},
+  showlegend: false,
+  name: "T<sub>ECM total</sub>"
+};
 
 
-var data = [trace_Tnol,trace_Tl1l2,trace_Tl2l3,trace_Tl3mem,trace_Tol,trace_benchmark];
+var data = [trace_Tnol,trace_Tl1l2,trace_Tl2l3,trace_Tl3mem,trace_Tol,trace_Ttotal,trace_benchmark];
 
 var layout = {
   margin: { l: 40, r: 35, t: 10, b: 40},
@@ -568,9 +586,18 @@ var trace_Tl3mem = {
   marker: {color: '#ffbb78'},
   name: "T<sub>L3-MEM</sub>"
 };
+var trace_Ttotal = {
+  type: "scatter",
+  mode: "lines",
+  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,480,490,500,510,520,530,540,550,560,570,580,590,600,610,620,630,640,650,660,670,680,690,700,710,720,730,740,750,760,770,780,790,800,810,820,830,840,850,860,870,880,890,900,910,920,930,940,950,960,970,980,990,1000,1010,1020,1030,1040,1050,1060,1070,1080,1090,1100,1110,1120,1130,1140,1150,1160,1170,1180,1190,1200,],
+  y: [],
+  line: {color: 'rgba(0,0,0,0)'},
+  showlegend: false,
+  name: "T<sub>ECM total</sub>"
+};
 
 
-var data = [trace_Tnol,trace_Tl1l2,trace_Tl2l3,trace_Tl3mem,trace_Tol,trace_benchmark];
+var data = [trace_Tnol,trace_Tl1l2,trace_Tl2l3,trace_Tl3mem,trace_Tol,trace_Ttotal,trace_benchmark];
 
 var layout = {
   margin: { l: 40, r: 35, t: 10, b: 40},
@@ -621,6 +648,8 @@ Plotly.newPlot('ecm_Pheno', data, layout, config);
 
     <div class="roofline" id="rfl_LC">
 
+      <p>3D_3r_heterogeneous_star_constant_double_IvyBridgeEP_E5-2660v2_results</p>
+
       <script>
 var trace_benchmark = {
   type: "scatter",
@@ -670,6 +699,8 @@ Plotly.newPlot('rfl_LC', data, layout, config);
     </div>
 
     <div class="roofline" id="rfl_CS" style="display:none;">
+
+      <p>3D_3r_heterogeneous_star_constant_double_IvyBridgeEP_E5-2660v2_results</p>
 
       <script>
 var trace_benchmark = {

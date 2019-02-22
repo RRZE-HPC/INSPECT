@@ -16,7 +16,7 @@
 {"description":"collection of all benchmark data obtained by using the stempel tool chain","@type":"WebPage","url":"/stempel_data_collection/stencils/3D/1r/heterogeneous/box/constant/double/HaswellEP_E5-2695v3_CoD/","headline":"Stencil 3D r1 box constant heterogeneous double HaswellEP_E5-2695v3_CoD","@context":"http://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
-    <link rel="stylesheet" href="/stempel_data_collection/assets/css/style.css?v=7df85f80b03dfed9d363263b0c64e6b7ac373260">
+    <link rel="stylesheet" href="/stempel_data_collection/assets/css/style.css?v=f45ba0a859f2cba64d28191618285833d08fa341">
     <script src="https://code.jquery.com/jquery-3.3.0.min.js" integrity="sha256-RTQy8VOmNlT6b2PIRur37p6JEBZUE7o8wPgMvu18MC4=" crossorigin="anonymous"></script>
     <script src="/stempel_data_collection/assets/js/main.js"></script>
     <!--[if lt IE 9]>
@@ -362,9 +362,18 @@ var trace_Tl3mem = {
   marker: {color: '#ffbb78'},
   name: "T<sub>L3-MEM</sub>"
 };
+var trace_Ttotal = {
+  type: "scatter",
+  mode: "lines",
+  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,480,490,500,510,520,530,540,550,560,570,580,590,600,610,620,630,640,650,660,670,680,690,700,710,720,730,740,750,760,770,780,790,800,810,820,830,840,850,860,870,880,890,900,910,920,930,940,950,960,970,980,990,1000,1010,1020,],
+  y: [44.0 ,50.0 ,56.0 ,60.0 ,60.0 ,60.0 ,60.0 ,60.0 ,60.0 ,64.0 ,80.5 ,80.5 ,80.5 ,80.5 ,80.5 ,80.5 ,80.5 ,80.5 ,80.5 ,80.5 ,80.5 ,80.5 ,80.5 ,80.5 ,80.5 ,80.5 ,80.5 ,80.5 ,80.5 ,80.5 ,80.5 ,80.5 ,80.5 ,80.5 ,80.5 ,80.5 ,80.5 ,80.5 ,80.5 ,80.5 ,92.5 ,92.5 ,92.5 ,92.5 ,92.5 ,92.5 ,92.5 ,92.5 ,92.5 ,92.5 ,92.5 ,92.5 ,92.5 ,92.5 ,92.5 ,92.5 ,92.5 ,92.5 ,92.5 ,92.5 ,92.5 ,92.5 ,92.5 ,92.5 ,92.5 ,92.5 ,92.5 ,92.5 ,92.5 ,92.5 ,92.5 ,92.5 ,92.5 ,92.5 ,92.5 ,92.5 ,102.2 ,102.2 ,102.2 ,102.2 ,102.2 ,102.2 ,102.2 ,102.2 ,102.2 ,102.2 ,102.2 ,102.2 ,102.2 ,102.2 ,102.2 ,102.2 ,102.2 ,102.2 ,102.2 ,102.2 ,102.2 ,102.2 ,102.2 ,102.2 ,102.2 ,102.2 ,],
+  line: {color: 'rgba(0,0,0,0)'},
+  showlegend: false,
+  name: "T<sub>ECM total</sub>"
+};
 
 
-var data = [trace_Tnol,trace_Tl1l2,trace_Tl2l3,trace_Tl3mem,trace_Tol,trace_benchmark];
+var data = [trace_Tnol,trace_Tl1l2,trace_Tl2l3,trace_Tl3mem,trace_Tol,trace_Ttotal,trace_benchmark];
 
 var layout = {
   margin: { l: 40, r: 35, t: 10, b: 40},
@@ -443,9 +452,18 @@ var trace_Tl3mem = {
   marker: {color: '#ffbb78'},
   name: "T<sub>L3-MEM</sub>"
 };
+var trace_Ttotal = {
+  type: "scatter",
+  mode: "lines",
+  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,480,490,500,510,520,530,540,550,560,570,580,590,600,610,620,630,640,650,660,670,680,690,700,710,720,730,740,750,760,770,780,790,800,810,820,830,840,850,860,870,880,890,900,910,920,930,940,950,960,970,980,990,1000,1010,1020,],
+  y: [44.0 ,51.2 ,57.5 ,61.4 ,61.1 ,61.0 ,60.9 ,60.9 ,60.9 ,64.6 ,83.0 ,81.5 ,81.4 ,81.3 ,81.3 ,81.2 ,81.1 ,81.1 ,81.1 ,81.0 ,81.0 ,81.1 ,81.0 ,80.9 ,80.9 ,81.0 ,80.9 ,80.9 ,80.9 ,81.0 ,80.9 ,80.9 ,80.9 ,80.9 ,80.9 ,80.8 ,80.6 ,80.8 ,81.0 ,80.8 ,80.8 ,82.8 ,80.6 ,80.8 ,84.8 ,90.8 ,88.7 ,80.7 ,84.7 ,92.9 ,82.9 ,92.9 ,92.5 ,92.5 ,92.9 ,92.9 ,92.9 ,93.0 ,92.8 ,92.7 ,92.7 ,92.6 ,92.7 ,92.7 ,92.8 ,92.7 ,92.7 ,92.7 ,92.7 ,92.7 ,92.7 ,92.6 ,92.6 ,92.6 ,92.6 ,92.6 ,102.2 ,102.6 ,102.7 ,102.7 ,102.8 ,102.7 ,102.7 ,102.3 ,102.3 ,102.3 ,102.3 ,102.3 ,102.3 ,102.3 ,102.3 ,102.3 ,102.3 ,102.3 ,102.3 ,102.3 ,102.3 ,102.3 ,102.3 ,102.3 ,102.3 ,102.3 ,],
+  line: {color: 'rgba(0,0,0,0)'},
+  showlegend: false,
+  name: "T<sub>ECM total</sub>"
+};
 
 
-var data = [trace_Tnol,trace_Tl1l2,trace_Tl2l3,trace_Tl3mem,trace_Tol,trace_benchmark];
+var data = [trace_Tnol,trace_Tl1l2,trace_Tl2l3,trace_Tl3mem,trace_Tol,trace_Ttotal,trace_benchmark];
 
 var layout = {
   margin: { l: 40, r: 35, t: 10, b: 40},
@@ -524,9 +542,18 @@ var trace_Tl3mem = {
   marker: {color: '#ffbb78'},
   name: "T<sub>L3-MEM</sub>"
 };
+var trace_Ttotal = {
+  type: "scatter",
+  mode: "lines",
+  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,480,490,500,510,520,530,540,550,560,570,580,590,600,610,620,630,640,650,660,670,680,690,700,710,720,730,740,750,760,770,780,790,800,810,820,830,840,850,860,870,880,890,900,910,920,930,940,950,960,970,980,990,1000,1010,1020,],
+  y: [],
+  line: {color: 'rgba(0,0,0,0)'},
+  showlegend: false,
+  name: "T<sub>ECM total</sub>"
+};
 
 
-var data = [trace_Tnol,trace_Tl1l2,trace_Tl2l3,trace_Tl3mem,trace_Tol,trace_benchmark];
+var data = [trace_Tnol,trace_Tl1l2,trace_Tl2l3,trace_Tl3mem,trace_Tol,trace_Ttotal,trace_benchmark];
 
 var layout = {
   margin: { l: 40, r: 35, t: 10, b: 40},
@@ -558,6 +585,8 @@ Plotly.newPlot('ecm_Pheno', data, layout, config);
 <input class="plot-button" type="button" value="Cache Simulation" onclick="document.getElementById('rfl_CS').style.display = 'block';            document.getElementById('rfl_LC').style.display = 'none';" /></p>
 
     <div class="roofline" id="rfl_LC">
+
+      <p>3D_1r_heterogeneous_box_constant_double_HaswellEP_E5-2695v3_CoD_results</p>
 
       <script>
 var trace_benchmark = {
@@ -608,6 +637,8 @@ Plotly.newPlot('rfl_LC', data, layout, config);
     </div>
 
     <div class="roofline" id="rfl_CS" style="display:none;">
+
+      <p>3D_1r_heterogeneous_box_constant_double_HaswellEP_E5-2695v3_CoD_results</p>
 
       <script>
 var trace_benchmark = {

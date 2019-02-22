@@ -16,7 +16,7 @@
 {"description":"collection of all benchmark data obtained by using the stempel tool chain","@type":"WebPage","url":"/stempel_data_collection/stencils/3D/3r/isotropic/star/constant/double/SkylakeSP_Gold-6148/","headline":"Stencil detail","@context":"http://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
-    <link rel="stylesheet" href="/stempel_data_collection/assets/css/style.css?v=7df85f80b03dfed9d363263b0c64e6b7ac373260">
+    <link rel="stylesheet" href="/stempel_data_collection/assets/css/style.css?v=f45ba0a859f2cba64d28191618285833d08fa341">
     <script src="https://code.jquery.com/jquery-3.3.0.min.js" integrity="sha256-RTQy8VOmNlT6b2PIRur37p6JEBZUE7o8wPgMvu18MC4=" crossorigin="anonymous"></script>
     <script src="/stempel_data_collection/assets/js/main.js"></script>
     <!--[if lt IE 9]>
@@ -322,9 +322,18 @@ var trace_Tl3mem = {
   marker: {color: '#ffbb78'},
   name: "T<sub>L3-MEM</sub>"
 };
+var trace_Ttotal = {
+  type: "scatter",
+  mode: "lines",
+  x: [],
+  y: [],
+  line: {color: 'rgba(0,0,0,0)'},
+  showlegend: false,
+  name: "T<sub>ECM total</sub>"
+};
 
 
-var data = [trace_Tnol,trace_Tl1l2,trace_Tl2l3,trace_Tl3mem,trace_Tol,trace_benchmark];
+var data = [trace_Tnol,trace_Tl1l2,trace_Tl2l3,trace_Tl3mem,trace_Tol,trace_Ttotal,trace_benchmark];
 
 var layout = {
   margin: { l: 40, r: 35, t: 10, b: 40},
@@ -403,9 +412,18 @@ var trace_Tl3mem = {
   marker: {color: '#ffbb78'},
   name: "T<sub>L3-MEM</sub>"
 };
+var trace_Ttotal = {
+  type: "scatter",
+  mode: "lines",
+  x: [],
+  y: [],
+  line: {color: 'rgba(0,0,0,0)'},
+  showlegend: false,
+  name: "T<sub>ECM total</sub>"
+};
 
 
-var data = [trace_Tnol,trace_Tl1l2,trace_Tl2l3,trace_Tl3mem,trace_Tol,trace_benchmark];
+var data = [trace_Tnol,trace_Tl1l2,trace_Tl2l3,trace_Tl3mem,trace_Tol,trace_Ttotal,trace_benchmark];
 
 var layout = {
   margin: { l: 40, r: 35, t: 10, b: 40},
@@ -484,9 +502,18 @@ var trace_Tl3mem = {
   marker: {color: '#ffbb78'},
   name: "T<sub>L3-MEM</sub>"
 };
+var trace_Ttotal = {
+  type: "scatter",
+  mode: "lines",
+  x: [],
+  y: [],
+  line: {color: 'rgba(0,0,0,0)'},
+  showlegend: false,
+  name: "T<sub>ECM total</sub>"
+};
 
 
-var data = [trace_Tnol,trace_Tl1l2,trace_Tl2l3,trace_Tl3mem,trace_Tol,trace_benchmark];
+var data = [trace_Tnol,trace_Tl1l2,trace_Tl2l3,trace_Tl3mem,trace_Tol,trace_Ttotal,trace_benchmark];
 
 var layout = {
   margin: { l: 40, r: 35, t: 10, b: 40},
@@ -518,6 +545,8 @@ Plotly.newPlot('ecm_Pheno', data, layout, config);
 <input class="plot-button" type="button" value="Cache Simulation" onclick="document.getElementById('rfl_CS').style.display = 'block';            document.getElementById('rfl_LC').style.display = 'none';" /></p>
 
     <div class="roofline" id="rfl_LC">
+
+      <p>3D_3r_isotropic_star_constant_double_SkylakeSP_Gold-6148_avx512_results</p>
 
       <script>
 var trace_benchmark = {
@@ -568,6 +597,8 @@ Plotly.newPlot('rfl_LC', data, layout, config);
     </div>
 
     <div class="roofline" id="rfl_CS" style="display:none;">
+
+      <p>3D_3r_isotropic_star_constant_double_SkylakeSP_Gold-6148_avx512_results</p>
 
       <script>
 var trace_benchmark = {

@@ -16,7 +16,7 @@
 {"description":"collection of all benchmark data obtained by using the stempel tool chain","@type":"WebPage","url":"/stempel_data_collection/stencils/3D/1r/heterogeneous/box/variable/double/HaswellEP_E5-2695v3_CoD/","headline":"Stencil 3D r1 box variable heterogeneous double HaswellEP_E5-2695v3_CoD","@context":"http://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
-    <link rel="stylesheet" href="/stempel_data_collection/assets/css/style.css?v=7df85f80b03dfed9d363263b0c64e6b7ac373260">
+    <link rel="stylesheet" href="/stempel_data_collection/assets/css/style.css?v=f45ba0a859f2cba64d28191618285833d08fa341">
     <script src="https://code.jquery.com/jquery-3.3.0.min.js" integrity="sha256-RTQy8VOmNlT6b2PIRur37p6JEBZUE7o8wPgMvu18MC4=" crossorigin="anonymous"></script>
     <script src="/stempel_data_collection/assets/js/main.js"></script>
     <!--[if lt IE 9]>
@@ -389,9 +389,18 @@ var trace_Tl3mem = {
   marker: {color: '#ffbb78'},
   name: "T<sub>L3-MEM</sub>"
 };
+var trace_Ttotal = {
+  type: "scatter",
+  mode: "lines",
+  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,],
+  y: [140.2 ,204.2 ,204.2 ,208.2 ,365.2 ,365.2 ,365.2 ,365.2 ,365.2 ,365.2 ,365.2 ,377.2 ,377.2 ,377.2 ,377.2 ,377.2 ,377.2 ,377.2 ,377.2 ,377.2 ,377.2 ,377.2 ,377.2 ,377.2 ,377.2 ,377.2 ,377.2 ,387.7 ,387.7 ,387.7 ,387.7 ,387.7 ,387.7 ,387.7 ,387.7 ,387.7 ,387.7 ,387.7 ,387.7 ,387.7 ,387.7 ,387.7 ,387.7 ,],
+  line: {color: 'rgba(0,0,0,0)'},
+  showlegend: false,
+  name: "T<sub>ECM total</sub>"
+};
 
 
-var data = [trace_Tnol,trace_Tl1l2,trace_Tl2l3,trace_Tl3mem,trace_Tol,trace_benchmark];
+var data = [trace_Tnol,trace_Tl1l2,trace_Tl2l3,trace_Tl3mem,trace_Tol,trace_Ttotal,trace_benchmark];
 
 var layout = {
   margin: { l: 40, r: 35, t: 10, b: 40},
@@ -470,9 +479,18 @@ var trace_Tl3mem = {
   marker: {color: '#ffbb78'},
   name: "T<sub>L3-MEM</sub>"
 };
+var trace_Ttotal = {
+  type: "scatter",
+  mode: "lines",
+  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,],
+  y: [162.0 ,221.9 ,215.0 ,634.1 ,379.0 ,376.6 ,374.6 ,1241.8 ,372.4 ,373.7 ,375.0 ,795.4 ,376.1 ,381.8 ,381.5 ,1243.6 ,380.9 ,380.7 ,380.6 ,793.7 ,380.2 ,380.1 ,380.0 ,1238.8 ,379.8 ,379.6 ,379.5 ,798.3 ,390.1 ,389.9 ,389.8 ,1312.9 ,389.7 ,389.7 ,389.7 ,803.3 ,389.6 ,389.5 ,389.5 ,1260.6 ,389.4 ,389.3 ,389.3 ,],
+  line: {color: 'rgba(0,0,0,0)'},
+  showlegend: false,
+  name: "T<sub>ECM total</sub>"
+};
 
 
-var data = [trace_Tnol,trace_Tl1l2,trace_Tl2l3,trace_Tl3mem,trace_Tol,trace_benchmark];
+var data = [trace_Tnol,trace_Tl1l2,trace_Tl2l3,trace_Tl3mem,trace_Tol,trace_Ttotal,trace_benchmark];
 
 var layout = {
   margin: { l: 40, r: 35, t: 10, b: 40},
@@ -551,9 +569,18 @@ var trace_Tl3mem = {
   marker: {color: '#ffbb78'},
   name: "T<sub>L3-MEM</sub>"
 };
+var trace_Ttotal = {
+  type: "scatter",
+  mode: "lines",
+  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,],
+  y: [],
+  line: {color: 'rgba(0,0,0,0)'},
+  showlegend: false,
+  name: "T<sub>ECM total</sub>"
+};
 
 
-var data = [trace_Tnol,trace_Tl1l2,trace_Tl2l3,trace_Tl3mem,trace_Tol,trace_benchmark];
+var data = [trace_Tnol,trace_Tl1l2,trace_Tl2l3,trace_Tl3mem,trace_Tol,trace_Ttotal,trace_benchmark];
 
 var layout = {
   margin: { l: 40, r: 35, t: 10, b: 40},
@@ -585,6 +612,8 @@ Plotly.newPlot('ecm_Pheno', data, layout, config);
 <input class="plot-button" type="button" value="Cache Simulation" onclick="document.getElementById('rfl_CS').style.display = 'block';            document.getElementById('rfl_LC').style.display = 'none';" /></p>
 
     <div class="roofline" id="rfl_LC">
+
+      <p>3D_1r_heterogeneous_box_variable_double_HaswellEP_E5-2695v3_CoD_results</p>
 
       <script>
 var trace_benchmark = {
@@ -635,6 +664,8 @@ Plotly.newPlot('rfl_LC', data, layout, config);
     </div>
 
     <div class="roofline" id="rfl_CS" style="display:none;">
+
+      <p>3D_1r_heterogeneous_box_variable_double_HaswellEP_E5-2695v3_CoD_results</p>
 
       <script>
 var trace_benchmark = {
