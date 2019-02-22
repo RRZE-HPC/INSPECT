@@ -15,6 +15,8 @@
 {% capture roofline_CS %}{% for data in csv_file %}{{data["Roofline CS MLUPs"]}},{%endfor%}{% endcapture %}
 {% capture ecm %}{% for data in csv_file %}{{data["Roofline ECM MLUPs"]}},{%endfor%}{% endcapture %}
 
+{{csv_filename}}
+
 <script>
 var trace_benchmark = {
   type: "scatter",

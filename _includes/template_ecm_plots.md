@@ -16,12 +16,14 @@
 {% capture LC_Tl1l2 %}{% for data in csv_file %}{{data["ECM LC Tl1l2"]}},{%endfor%}{% endcapture %}
 {% capture LC_Tl2l3 %}{% for data in csv_file %}{{data["ECM LC Tl2l3"]}},{%endfor%}{% endcapture %}
 {% capture LC_Tl3mem %}{% for data in csv_file %}{{data["ECM LC Tl3mem"]}},{%endfor%}{% endcapture %}
+{% capture LC_total %}{% for data in csv_file %}{{data["ECM LC cycl"]}},{%endfor%}{% endcapture %}
 
 {% capture CS_Tol %}{% for data in csv_file %}{{data["ECM CS Tol"]}},{%endfor%}{% endcapture %}
 {% capture CS_Tnol %}{% for data in csv_file %}{{data["ECM CS Tnol"]}},{%endfor%}{% endcapture %}
 {% capture CS_Tl1l2 %}{% for data in csv_file %}{{data["ECM CS Tl1l2"]}},{%endfor%}{% endcapture %}
 {% capture CS_Tl2l3 %}{% for data in csv_file %}{{data["ECM CS Tl2l3"]}},{%endfor%}{% endcapture %}
 {% capture CS_Tl3mem %}{% for data in csv_file %}{{data["ECM CS Tl3mem"]}},{%endfor%}{% endcapture %}
+{% capture CS_total %}{% for data in csv_file %}{{data["ECM CS cycl"]}},{%endfor%}{% endcapture %}
 
 {% capture Pheno_Tol %}{% for data in csv_file %}{{data["Benchmark Pheno Tol"]}},{%endfor%}{% endcapture %}
 {% capture Pheno_Tnol %}{% for data in csv_file %}{{data["Benchmark Pheno Tnol"]}},{%endfor%}{% endcapture %}
@@ -83,9 +85,18 @@ var trace_Tl3mem = {
   marker: {color: '#ffbb78'},
   name: "T<sub>L3-MEM</sub>"
 };
+var trace_Ttotal = {
+  type: "scatter",
+  mode: "lines",
+  x: [{{N}}],
+  y: [{% if include.type == 'LC' %}{{LC_total}}{% elsif include.type == 'CS' %}{{CS_total}}{% elsif include.type == 'Pheno' %}{% endif %}],
+  line: {color: 'rgba(0,0,0,0)'},
+  showlegend: false,
+  name: "T<sub>ECM total</sub>"
+};
 
 
-var data = [trace_Tnol,trace_Tl1l2,trace_Tl2l3,trace_Tl3mem,trace_Tol,trace_benchmark];
+var data = [trace_Tnol,trace_Tl1l2,trace_Tl2l3,trace_Tl3mem,trace_Tol,trace_Ttotal,trace_benchmark];
 
 var layout = {
   margin: { l: 40, r: 35, t: 10, b: 40},
