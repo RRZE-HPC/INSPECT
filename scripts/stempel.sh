@@ -68,6 +68,8 @@ likwid-setFrequencies -t 0 -f ${ghz} --umin ${ghz} --umax ${ghz}
 
 MACHINE=$(echo ${MACHINE_FILE} | sed -e 's/.*\///g' -e 's/.yml//')
 
+ICC_VERSION=$(icc --version | head -n 1)
+
 for fDIM in ${DIM}; do
 for fRADIUS in ${RADIUS}; do
 for fKIND in ${KIND}; do
@@ -101,6 +103,7 @@ for fDATATYPE in ${DATATYPE}; do
 	echo {\$,$}STEMPEL_DIR >> args.txt
 	echo {\$,$}MACHINE_FILE >> args.txt
 	echo {\$,$}DATE >> args.txt
+	echo {\$,$}ICC_VERSION >> args.txt
 	echo {\$,$}COMPILER >> args.txt
 	echo {\$,$}COMPILE_ARGS >> args.txt
 
@@ -117,23 +120,25 @@ for fDATATYPE in ${DATATYPE}; do
 
 	# L3 3D Layer Condition
 	LC_3D_L3=$(cat data/LC.txt | grep L3: | tail -n 1 | sed -e 's/.*: //' -e 's/<=/-/')
-	LC_3D_L3_N_orig=$(python -c "import sympy;N=sympy.Symbol('N',positive=True);print(sympy.solvers.solve($(echo ${LC_3D_L3} | sed 's/[A-Z]/N/g'), N))" | sed -e 's/\[//' -e 's/\]//')
-	LC_3D_L3_N_orig=$(bc -l <<< "scale=0;1.0*(${LC_3D_L3_N_orig})" | sed 's/\..*//')
-	LC_3D_L3_N=$(bc -l <<< "scale=0;1.5*(${LC_3D_L3_N_orig})")
-	LC_3D_L3_N=$(bc -l <<< "scale=0;${LC_3D_L3_N}-${LC_3D_L3_N}%10+10")
-	LC_3D_L3_N=$(echo ${LC_3D_L3_N} | sed 's/\..*//')
+	LC_3D_L3_N=$(python -c "import sympy;N=sympy.Symbol('N',positive=True);print(int(max(sympy.solvers.solve($(echo ${LC_3D_L3} | sed 's/[A-Z]/N/g'), N))*1.5/10)*10)")
 
 	echo ":: L3 3D Layer Condition * 1.5 = ${LC_3D_L3_N} (${LC_3D_L3})"
 
 	# get memory size per NUMA domain and adjust iteration size
 	MEM_PER_NUMA=$(likwid-topology | grep "Total memory" | head -n 1 | sed 's/.*://g; s/\..*MB//g;' | tr -d '[:space:]')
 
+	if [[ ${fDATATYPE} == "float" ]]; then
+		DT_SIZE=4
+	elif [[ ${fDATATYPE} == "double" ]]; then
+		DT_SIZE=8
+	fi
+
 	TMP_FACTOR=2
 	if [[ ${fCONST} == "variable" ]]; then
 		TMP_FACTOR=$(grep "W" stencil.c | head -n 1 | sed 's/\].*//; s/.*\[//')
 	fi
 
-	while [[ $((${LC_3D_L3_N}*${LC_3D_L3_N}*${LC_3D_L3_N}*${TMP_FACTOR}*8/1024/1024)) -gt ${MEM_PER_NUMA} ]]; do
+	while [[ $((${LC_3D_L3_N}*${LC_3D_L3_N}*${LC_3D_L3_N}*${TMP_FACTOR}*${DT_SIZE}/1024/1024)) -gt ${MEM_PER_NUMA} ]]; do
 		LC_3D_L3_N=$((${LC_3D_L3_N}-10))
 	done
 
@@ -199,10 +204,6 @@ for fDATATYPE in ${DATATYPE}; do
 	echo ":: GENERATING BENCHMARK CODE WITH BLOCKING"
 	${STEMPEL_BINARY} bench stencil.c -m ${MACHINE_FILE} -b 2 --store
 
-	# fix compilation
-	sed -ri 's/#include <math.h>//' stencil_compilable.c
-	sed -ri 's/ rand.*/ 1.;/' stencil_compilable.c
-
 	# compile
 	echo ":: COMPILING"
 	${COMPILER} ${COMPILE_ARGS}
@@ -214,13 +215,12 @@ for fDATATYPE in ${DATATYPE}; do
 	for (( size=10; size<=${LC_3D_L3_N}+10; size=size+10)); do
 
 		# blocking factor  x direction 100 or size_x if it is smaller
-		PB=$(python -c "import sympy;P=sympy.Symbol('P',positive=True);print(sympy.solvers.solve($(echo ${LC_3D_L3} | sed 's/N/16/g'), P))" | sed -e 's/\[//' -e 's/\]//')
-		PB=$(bc -l <<< "scale=0;1.5*(${PB})/10*10")
+		PB=$(python -c "import sympy;P=sympy.Symbol('P',positive=True);print(int(sympy.solvers.solve($(echo ${LC_3D_L3} | sed 's/N/16/g'), P))/10)*10" | sed -e 's/\[//' -e 's/\]//')
 		PB=$(( ${PB} > ${size} ? ${size} : ${PB} ))
 
 		# y direction: LC
 		TMP=$(echo ${LC_3D_L3} | sed "s/P/${PB}/g")
-		NB=$(bc -l <<< "scale=0;$(python -c "import sympy;N=sympy.Symbol('N',positive=True);print(sympy.solvers.solve(${TMP}, N))" | sed -e 's/\[//' -e 's/\]//')")
+		NB=$(python -c "import sympy;N=sympy.Symbol('N',positive=True);print(int(sympy.solvers.solve(${TMP}, N)))")
 
 		# blocking factor z direction, fixed factor: 16
 		MB=16
