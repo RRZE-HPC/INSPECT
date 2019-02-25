@@ -1,4 +1,4 @@
-# INSPECT: Intra Node Stencil Performance Evaluation Collection
+# INSPECT: Intranode Stencil Performance Evaluation Collection
 
 This repository contains benchmark results of stencil codes generated with the [
 Stencil TEMPlate Engineering Library](https://github.com/RRZE-HPC/stempel "stempel") using [kerncraft](https://github.com/RRZE-HPC/kerncraft) and [LIKWID](https://github.com/RRZE-HPC/likwid).
