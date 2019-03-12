@@ -16,7 +16,7 @@
 {"description":"Intra Node Stencil Performance Evaluation Collection","@type":"WebPage","url":"/INSPECT/stencils/3D/1r/heterogeneous/box/variable/double/BroadwellEP_E5-2697_CoD/","headline":"Stencil 3D r1 box variable heterogeneous double BroadwellEP_E5-2697_CoD","@context":"http://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
-    <link rel="stylesheet" href="/INSPECT/assets/css/style.css?v=49c0768509626d6a98f6ab43bf5748c29454af4e">
+    <link rel="stylesheet" href="/INSPECT/assets/css/style.css?v=eab2cfc1404870b25392431be315145174080a20">
     <script src="https://code.jquery.com/jquery-3.3.0.min.js" integrity="sha256-RTQy8VOmNlT6b2PIRur37p6JEBZUE7o8wPgMvu18MC4=" crossorigin="anonymous"></script>
     <script src="/INSPECT/assets/js/main.js"></script>
     <!--[if lt IE 9]>
@@ -45,7 +45,7 @@
       <section>
         
 <div id="navbar">
-<a href="">3D / 1r / heterogeneous / box / variable / double / BroadwellEP_E5-2697_CoD / Cluster on Die</a>
+<a href="">3D / 1r / heterogeneous / box / variable / double / BroadwellEP_E5-2697_CoD</a>
 </div>
 
 <script src="/INSPECT/assets/js/plotly-latest.min.js"></script>
@@ -89,16 +89,12 @@
           <td>FLOP per LUP</td>
           <td>53</td>
         </tr>
-        <tr>
-          <td>flavor</td>
-          <td>Cluster on Die</td>
-        </tr>
       </tbody>
     </table>
 
     <p>Benchmark raw data shown on this page can be found in the <a href="https://github.com/RRZE-HPC/stempel_data_collection/tree/master/stencils/3D/1r/heterogeneous/box/variable/double/BroadwellEP_E5-2697_CoD/">according folder of the git repository</a>.</p>
 
-    <p>If you have feedback, issues or found errors on this page, please <a href="https://github.com/RRZE-HPC/stempel_data_collection/issues/new?labels[]=Stencil%20Comment%20Management&amp;labels[]=[Type]%20Bug&amp;title=Stencil%20Comment&amp;milestone=People%20Management:%20m6&amp;assignee=ebinnion&amp;body=Stencil:%203D%201r%20heterogeneous%20box%20variable%20double%20BroadwellEP_E5-2697_CoD%20Cluster on Die">submit an issue on the github page</a>.</p>
+    <p>If you have feedback, issues or found errors on this page, please <a href="https://github.com/RRZE-HPC/stempel_data_collection/issues/new?labels[]=Stencil%20Comment%20Management&amp;labels[]=[Type]%20Bug&amp;title=Stencil%20Comment&amp;milestone=People%20Management:%20m6&amp;assignee=ebinnion&amp;body=Stencil:%203D%201r%20heterogeneous%20box%20variable%20double%20BroadwellEP_E5-2697_CoD">submit an issue on the github page</a>.</p>
 
   </div>
 
@@ -113,36 +109,36 @@
 <span class="kt">double</span> <span class="n">b</span><span class="p">[</span><span class="n">M</span><span class="p">][</span><span class="n">N</span><span class="p">][</span><span class="n">P</span><span class="p">];</span>
 <span class="kt">double</span> <span class="n">W</span><span class="p">[</span><span class="mi">27</span><span class="p">][</span><span class="n">M</span><span class="p">][</span><span class="n">N</span><span class="p">][</span><span class="n">P</span><span class="p">];</span>
 
-<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">k</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">k</span> <span class="o">&lt;</span> <span class="n">M</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span> <span class="o">++</span><span class="n">k</span><span class="p">)</span> <span class="p">{</span>
-  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">N</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span> <span class="o">++</span><span class="n">j</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">P</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
-      <span class="n">b</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">W</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">a</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span>
-                   <span class="n">W</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">a</span><span class="p">[</span><span class="n">k</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">+</span>
-                   <span class="n">W</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">a</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">+</span>
-                   <span class="n">W</span><span class="p">[</span><span class="mi">3</span><span class="p">][</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">a</span><span class="p">[</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">][</span><span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">+</span>
-                   <span class="n">W</span><span class="p">[</span><span class="mi">4</span><span class="p">][</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">a</span><span class="p">[</span><span class="n">k</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">+</span>
-                   <span class="n">W</span><span class="p">[</span><span class="mi">5</span><span class="p">][</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">a</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">+</span>
-                   <span class="n">W</span><span class="p">[</span><span class="mi">6</span><span class="p">][</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">a</span><span class="p">[</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">+</span>
-                   <span class="n">W</span><span class="p">[</span><span class="mi">7</span><span class="p">][</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">a</span><span class="p">[</span><span class="n">k</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">][</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">+</span>
-                   <span class="n">W</span><span class="p">[</span><span class="mi">8</span><span class="p">][</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">a</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">][</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">+</span>
-                   <span class="n">W</span><span class="p">[</span><span class="mi">9</span><span class="p">][</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">a</span><span class="p">[</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">][</span><span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">][</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">+</span>
-                   <span class="n">W</span><span class="p">[</span><span class="mi">10</span><span class="p">][</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">a</span><span class="p">[</span><span class="n">k</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span>
-                   <span class="n">W</span><span class="p">[</span><span class="mi">11</span><span class="p">][</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">a</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span>
-                   <span class="n">W</span><span class="p">[</span><span class="mi">12</span><span class="p">][</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">a</span><span class="p">[</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">][</span><span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span>
-                   <span class="n">W</span><span class="p">[</span><span class="mi">13</span><span class="p">][</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">a</span><span class="p">[</span><span class="n">k</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span>
-                   <span class="n">W</span><span class="p">[</span><span class="mi">14</span><span class="p">][</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">a</span><span class="p">[</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span>
-                   <span class="n">W</span><span class="p">[</span><span class="mi">15</span><span class="p">][</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">a</span><span class="p">[</span><span class="n">k</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span>
-                   <span class="n">W</span><span class="p">[</span><span class="mi">16</span><span class="p">][</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">a</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span>
-                   <span class="n">W</span><span class="p">[</span><span class="mi">17</span><span class="p">][</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">a</span><span class="p">[</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">][</span><span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span>
-                   <span class="n">W</span><span class="p">[</span><span class="mi">18</span><span class="p">][</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">a</span><span class="p">[</span><span class="n">k</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">+</span>
-                   <span class="n">W</span><span class="p">[</span><span class="mi">19</span><span class="p">][</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">a</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">+</span>
-                   <span class="n">W</span><span class="p">[</span><span class="mi">20</span><span class="p">][</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">a</span><span class="p">[</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">][</span><span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">+</span>
-                   <span class="n">W</span><span class="p">[</span><span class="mi">21</span><span class="p">][</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">a</span><span class="p">[</span><span class="n">k</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">+</span>
-                   <span class="n">W</span><span class="p">[</span><span class="mi">22</span><span class="p">][</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">a</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">+</span>
-                   <span class="n">W</span><span class="p">[</span><span class="mi">23</span><span class="p">][</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">a</span><span class="p">[</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">+</span>
-                   <span class="n">W</span><span class="p">[</span><span class="mi">24</span><span class="p">][</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">a</span><span class="p">[</span><span class="n">k</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">][</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">+</span>
-                   <span class="n">W</span><span class="p">[</span><span class="mi">25</span><span class="p">][</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">a</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">][</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">+</span>
-                   <span class="n">W</span><span class="p">[</span><span class="mi">26</span><span class="p">][</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">a</span><span class="p">[</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">][</span><span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">][</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">];</span>
+<span class="k">for</span><span class="p">(</span><span class="kt">long</span> <span class="n">k</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span> <span class="n">k</span> <span class="o">&lt;</span> <span class="n">M</span><span class="o">-</span><span class="mi">1</span><span class="p">;</span> <span class="o">++</span><span class="n">k</span><span class="p">){</span>
+  <span class="k">for</span><span class="p">(</span><span class="kt">long</span> <span class="n">j</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">N</span><span class="o">-</span><span class="mi">1</span><span class="p">;</span> <span class="o">++</span><span class="n">j</span><span class="p">){</span>
+    <span class="k">for</span><span class="p">(</span><span class="kt">long</span> <span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">P</span><span class="o">-</span><span class="mi">1</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">){</span>
+      <span class="n">b</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">W</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">a</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span>
+                  <span class="o">+</span> <span class="n">W</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">a</span><span class="p">[</span><span class="n">k</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+                  <span class="o">+</span> <span class="n">W</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">a</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+                  <span class="o">+</span> <span class="n">W</span><span class="p">[</span><span class="mi">3</span><span class="p">][</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">a</span><span class="p">[</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+                  <span class="o">+</span> <span class="n">W</span><span class="p">[</span><span class="mi">4</span><span class="p">][</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">a</span><span class="p">[</span><span class="n">k</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+                  <span class="o">+</span> <span class="n">W</span><span class="p">[</span><span class="mi">5</span><span class="p">][</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">a</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+                  <span class="o">+</span> <span class="n">W</span><span class="p">[</span><span class="mi">6</span><span class="p">][</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">a</span><span class="p">[</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+                  <span class="o">+</span> <span class="n">W</span><span class="p">[</span><span class="mi">7</span><span class="p">][</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">a</span><span class="p">[</span><span class="n">k</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">][</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+                  <span class="o">+</span> <span class="n">W</span><span class="p">[</span><span class="mi">8</span><span class="p">][</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">a</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">][</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+                  <span class="o">+</span> <span class="n">W</span><span class="p">[</span><span class="mi">9</span><span class="p">][</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">a</span><span class="p">[</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">][</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+                  <span class="o">+</span> <span class="n">W</span><span class="p">[</span><span class="mi">10</span><span class="p">][</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">a</span><span class="p">[</span><span class="n">k</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="n">i</span><span class="p">]</span>
+                  <span class="o">+</span> <span class="n">W</span><span class="p">[</span><span class="mi">11</span><span class="p">][</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">a</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="n">i</span><span class="p">]</span>
+                  <span class="o">+</span> <span class="n">W</span><span class="p">[</span><span class="mi">12</span><span class="p">][</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">a</span><span class="p">[</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="n">i</span><span class="p">]</span>
+                  <span class="o">+</span> <span class="n">W</span><span class="p">[</span><span class="mi">13</span><span class="p">][</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">a</span><span class="p">[</span><span class="n">k</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span>
+                  <span class="o">+</span> <span class="n">W</span><span class="p">[</span><span class="mi">14</span><span class="p">][</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">a</span><span class="p">[</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span>
+                  <span class="o">+</span> <span class="n">W</span><span class="p">[</span><span class="mi">15</span><span class="p">][</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">a</span><span class="p">[</span><span class="n">k</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">][</span><span class="n">i</span><span class="p">]</span>
+                  <span class="o">+</span> <span class="n">W</span><span class="p">[</span><span class="mi">16</span><span class="p">][</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">a</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">][</span><span class="n">i</span><span class="p">]</span>
+                  <span class="o">+</span> <span class="n">W</span><span class="p">[</span><span class="mi">17</span><span class="p">][</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">a</span><span class="p">[</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">][</span><span class="n">i</span><span class="p">]</span>
+                  <span class="o">+</span> <span class="n">W</span><span class="p">[</span><span class="mi">18</span><span class="p">][</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">a</span><span class="p">[</span><span class="n">k</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
+                  <span class="o">+</span> <span class="n">W</span><span class="p">[</span><span class="mi">19</span><span class="p">][</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">a</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
+                  <span class="o">+</span> <span class="n">W</span><span class="p">[</span><span class="mi">20</span><span class="p">][</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">a</span><span class="p">[</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
+                  <span class="o">+</span> <span class="n">W</span><span class="p">[</span><span class="mi">21</span><span class="p">][</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">a</span><span class="p">[</span><span class="n">k</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
+                  <span class="o">+</span> <span class="n">W</span><span class="p">[</span><span class="mi">22</span><span class="p">][</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">a</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
+                  <span class="o">+</span> <span class="n">W</span><span class="p">[</span><span class="mi">23</span><span class="p">][</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">a</span><span class="p">[</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
+                  <span class="o">+</span> <span class="n">W</span><span class="p">[</span><span class="mi">24</span><span class="p">][</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">a</span><span class="p">[</span><span class="n">k</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">][</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
+                  <span class="o">+</span> <span class="n">W</span><span class="p">[</span><span class="mi">25</span><span class="p">][</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">a</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">][</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
+                  <span class="o">+</span> <span class="n">W</span><span class="p">[</span><span class="mi">26</span><span class="p">][</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">a</span><span class="p">[</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">][</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">];</span>
     <span class="p">}</span>
   <span class="p">}</span>
 <span class="p">}</span>
@@ -151,107 +147,104 @@
     </div>
 
     <div id="asm_source" style="display:none;">
-      <div class="language-nasm highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">mov</span> <span class="n">r15</span><span class="p">,</span> <span class="n">qword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">rsp</span><span class="o">+</span><span class="mh">0x338</span><span class="err">]</span>
-<span class="n">vmovupd</span> <span class="n">ymm12</span><span class="p">,</span> <span class="n">ymmword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">r10</span><span class="o">+</span><span class="n">r14</span><span class="o">*</span><span class="mi">8</span><span class="o">+</span><span class="mh">0x8</span><span class="err">]</span>
-<span class="n">vmovupd</span> <span class="n">ymm6</span><span class="p">,</span> <span class="n">ymmword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">r11</span><span class="o">+</span><span class="n">r14</span><span class="o">*</span><span class="mi">8</span><span class="err">]</span>
-<span class="n">vmovupd</span> <span class="n">ymm14</span><span class="p">,</span> <span class="n">ymmword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">r15</span><span class="o">+</span><span class="n">r14</span><span class="o">*</span><span class="mi">8</span><span class="o">+</span><span class="mh">0x8</span><span class="err">]</span>
-<span class="n">vmovupd</span> <span class="n">ymm7</span><span class="p">,</span> <span class="n">ymmword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">rbx</span><span class="o">+</span><span class="n">r14</span><span class="o">*</span><span class="mi">8</span><span class="err">]</span>
-<span class="n">vmovupd</span> <span class="n">ymm0</span><span class="p">,</span> <span class="n">ymmword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">rax</span><span class="o">+</span><span class="n">r14</span><span class="o">*</span><span class="mi">8</span><span class="err">]</span>
-<span class="n">vmulpd</span> <span class="n">ymm12</span><span class="p">,</span> <span class="n">ymm12</span><span class="p">,</span> <span class="n">ymmword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">rdx</span><span class="o">+</span><span class="n">r14</span><span class="o">*</span><span class="mi">8</span><span class="err">]</span>
-<span class="n">vmovupd</span> <span class="n">ymm1</span><span class="p">,</span> <span class="n">ymmword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">r12</span><span class="o">+</span><span class="n">r14</span><span class="o">*</span><span class="mi">8</span><span class="o">+</span><span class="mh">0x8</span><span class="err">]</span>
-<span class="n">vmovupd</span> <span class="n">ymm15</span><span class="p">,</span> <span class="n">ymmword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">r11</span><span class="o">+</span><span class="n">r14</span><span class="o">*</span><span class="mi">8</span><span class="o">+</span><span class="mh">0x8</span><span class="err">]</span>
-<span class="n">vmovupd</span> <span class="n">ymm11</span><span class="p">,</span> <span class="n">ymmword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">rax</span><span class="o">+</span><span class="n">r14</span><span class="o">*</span><span class="mi">8</span><span class="o">+</span><span class="mh">0x8</span><span class="err">]</span>
-<span class="n">vmovupd</span> <span class="n">ymm5</span><span class="p">,</span> <span class="n">ymmword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">r12</span><span class="o">+</span><span class="n">r14</span><span class="o">*</span><span class="mi">8</span><span class="o">+</span><span class="mh">0x10</span><span class="err">]</span>
-<span class="n">vmovupd</span> <span class="n">ymm3</span><span class="p">,</span> <span class="n">ymmword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">r11</span><span class="o">+</span><span class="n">r14</span><span class="o">*</span><span class="mi">8</span><span class="o">+</span><span class="mh">0x10</span><span class="err">]</span>
-<span class="n">vmovupd</span> <span class="n">ymm10</span><span class="p">,</span> <span class="n">ymmword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">rdx</span><span class="o">+</span><span class="n">r14</span><span class="o">*</span><span class="mi">8</span><span class="o">+</span><span class="mh">0x10</span><span class="err">]</span>
-<span class="n">vmovupd</span> <span class="n">ymm2</span><span class="p">,</span> <span class="n">ymmword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">rax</span><span class="o">+</span><span class="n">r14</span><span class="o">*</span><span class="mi">8</span><span class="o">+</span><span class="mh">0x10</span><span class="err">]</span>
-<span class="n">vmovupd</span> <span class="n">ymm4</span><span class="p">,</span> <span class="n">ymmword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">rcx</span><span class="o">+</span><span class="n">r14</span><span class="o">*</span><span class="mi">8</span><span class="o">+</span><span class="mh">0x8</span><span class="err">]</span>
-<span class="n">vmovupd</span> <span class="n">ymm8</span><span class="p">,</span> <span class="n">ymmword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">r13</span><span class="o">+</span><span class="n">r14</span><span class="o">*</span><span class="mi">8</span><span class="err">]</span>
-<span class="n">vmovupd</span> <span class="n">ymm9</span><span class="p">,</span> <span class="n">ymmword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">r9</span><span class="o">+</span><span class="n">r14</span><span class="o">*</span><span class="mi">8</span><span class="o">+</span><span class="mh">0x8</span><span class="err">]</span>
-<span class="k">mov</span> <span class="n">r15</span><span class="p">,</span> <span class="n">qword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">rsp</span><span class="o">+</span><span class="mh">0x368</span><span class="err">]</span>
-<span class="n">vmovupd</span> <span class="n">ymm13</span><span class="p">,</span> <span class="n">ymmword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">r15</span><span class="o">+</span><span class="n">r14</span><span class="o">*</span><span class="mi">8</span><span class="o">+</span><span class="mh">0x8</span><span class="err">]</span>
-<span class="n">vmulpd</span> <span class="n">ymm13</span><span class="p">,</span> <span class="n">ymm13</span><span class="p">,</span> <span class="n">ymmword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">r9</span><span class="o">+</span><span class="n">r14</span><span class="o">*</span><span class="mi">8</span><span class="err">]</span>
-<span class="k">mov</span> <span class="n">r15</span><span class="p">,</span> <span class="n">qword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">rsp</span><span class="o">+</span><span class="mh">0x348</span><span class="err">]</span>
-<span class="n">vfmadd231pd</span> <span class="n">ymm13</span><span class="p">,</span> <span class="n">ymm6</span><span class="p">,</span> <span class="n">ymmword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">r15</span><span class="o">+</span><span class="n">r14</span><span class="o">*</span><span class="mi">8</span><span class="o">+</span><span class="mh">0x8</span><span class="err">]</span>
-<span class="n">vmovupd</span> <span class="n">ymm6</span><span class="p">,</span> <span class="n">ymmword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">rcx</span><span class="o">+</span><span class="n">r14</span><span class="o">*</span><span class="mi">8</span><span class="err">]</span>
-<span class="k">mov</span> <span class="n">r15</span><span class="p">,</span> <span class="n">qword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">rsp</span><span class="o">+</span><span class="mh">0x360</span><span class="err">]</span>
-<span class="n">vfmadd231pd</span> <span class="n">ymm12</span><span class="p">,</span> <span class="n">ymm7</span><span class="p">,</span> <span class="n">ymmword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">r15</span><span class="o">+</span><span class="n">r14</span><span class="o">*</span><span class="mi">8</span><span class="o">+</span><span class="mh">0x8</span><span class="err">]</span>
-<span class="k">mov</span> <span class="n">r15</span><span class="p">,</span> <span class="n">qword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">rsp</span><span class="o">+</span><span class="mh">0x3b0</span><span class="err">]</span>
-<span class="n">vaddpd</span> <span class="n">ymm13</span><span class="p">,</span> <span class="n">ymm13</span><span class="p">,</span> <span class="n">ymm12</span>
-<span class="n">vmovupd</span> <span class="n">ymm7</span><span class="p">,</span> <span class="n">ymmword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">r15</span><span class="o">+</span><span class="n">r14</span><span class="o">*</span><span class="mi">8</span><span class="o">+</span><span class="mh">0x8</span><span class="err">]</span>
-<span class="k">mov</span> <span class="n">r15</span><span class="p">,</span> <span class="n">qword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">rsp</span><span class="o">+</span><span class="mh">0x3a0</span><span class="err">]</span>
-<span class="n">vmulpd</span> <span class="n">ymm7</span><span class="p">,</span> <span class="n">ymm7</span><span class="p">,</span> <span class="n">ymmword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">rdi</span><span class="o">+</span><span class="n">r14</span><span class="o">*</span><span class="mi">8</span><span class="err">]</span>
-<span class="n">vmovupd</span> <span class="n">ymm12</span><span class="p">,</span> <span class="n">ymmword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">r15</span><span class="o">+</span><span class="n">r14</span><span class="o">*</span><span class="mi">8</span><span class="o">+</span><span class="mh">0x8</span><span class="err">]</span>
-<span class="k">mov</span> <span class="n">r15</span><span class="p">,</span> <span class="n">qword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">rsp</span><span class="o">+</span><span class="mh">0x3a8</span><span class="err">]</span>
-<span class="n">vfmadd231pd</span> <span class="n">ymm7</span><span class="p">,</span> <span class="n">ymm0</span><span class="p">,</span> <span class="n">ymmword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">r15</span><span class="o">+</span><span class="n">r14</span><span class="o">*</span><span class="mi">8</span><span class="o">+</span><span class="mh">0x8</span><span class="err">]</span>
-<span class="k">mov</span> <span class="n">r15</span><span class="p">,</span> <span class="n">qword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">rsp</span><span class="o">+</span><span class="mh">0x3e0</span><span class="err">]</span>
-<span class="n">vmovupd</span> <span class="n">ymm0</span><span class="p">,</span> <span class="n">ymmword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">r15</span><span class="o">+</span><span class="n">r14</span><span class="o">*</span><span class="mi">8</span><span class="o">+</span><span class="mh">0x8</span><span class="err">]</span>
-<span class="n">vmulpd</span> <span class="n">ymm0</span><span class="p">,</span> <span class="n">ymm0</span><span class="p">,</span> <span class="n">ymmword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">rbx</span><span class="o">+</span><span class="n">r14</span><span class="o">*</span><span class="mi">8</span><span class="o">+</span><span class="mh">0x8</span><span class="err">]</span>
-<span class="k">mov</span> <span class="n">r15</span><span class="p">,</span> <span class="n">qword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">rsp</span><span class="o">+</span><span class="mh">0x398</span><span class="err">]</span>
-<span class="n">vfmadd231pd</span> <span class="n">ymm0</span><span class="p">,</span> <span class="n">ymm1</span><span class="p">,</span> <span class="n">ymmword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">r15</span><span class="o">+</span><span class="n">r14</span><span class="o">*</span><span class="mi">8</span><span class="o">+</span><span class="mh">0x8</span><span class="err">]</span>
-<span class="k">mov</span> <span class="n">r15</span><span class="p">,</span> <span class="n">qword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">rsp</span><span class="o">+</span><span class="mh">0x380</span><span class="err">]</span>
-<span class="n">vmovupd</span> <span class="n">ymm1</span><span class="p">,</span> <span class="n">ymmword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">r15</span><span class="o">+</span><span class="n">r14</span><span class="o">*</span><span class="mi">8</span><span class="o">+</span><span class="mh">0x8</span><span class="err">]</span>
-<span class="n">vmulpd</span> <span class="n">ymm1</span><span class="p">,</span> <span class="n">ymm1</span><span class="p">,</span> <span class="n">ymmword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">rdx</span><span class="o">+</span><span class="n">r14</span><span class="o">*</span><span class="mi">8</span><span class="o">+</span><span class="mh">0x8</span><span class="err">]</span>
-<span class="k">mov</span> <span class="n">r15</span><span class="p">,</span> <span class="n">qword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">rsp</span><span class="o">+</span><span class="mh">0x390</span><span class="err">]</span>
-<span class="k">nop</span>
-<span class="n">vfmadd231pd</span> <span class="n">ymm1</span><span class="p">,</span> <span class="n">ymm15</span><span class="p">,</span> <span class="n">ymmword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">r15</span><span class="o">+</span><span class="n">r14</span><span class="o">*</span><span class="mi">8</span><span class="o">+</span><span class="mh">0x8</span><span class="err">]</span>
-<span class="k">mov</span> <span class="n">r15</span><span class="p">,</span> <span class="n">qword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">rsp</span><span class="o">+</span><span class="mh">0x3f0</span><span class="err">]</span>
-<span class="n">vaddpd</span> <span class="n">ymm0</span><span class="p">,</span> <span class="n">ymm0</span><span class="p">,</span> <span class="n">ymm1</span>
-<span class="k">nop</span>
-<span class="n">vmovupd</span> <span class="n">ymm15</span><span class="p">,</span> <span class="n">ymmword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">r15</span><span class="o">+</span><span class="n">r14</span><span class="o">*</span><span class="mi">8</span><span class="o">+</span><span class="mh">0x8</span><span class="err">]</span>
-<span class="k">mov</span> <span class="n">r15</span><span class="p">,</span> <span class="n">qword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">rsp</span><span class="o">+</span><span class="mh">0x3f8</span><span class="err">]</span>
-<span class="n">vmulpd</span> <span class="n">ymm15</span><span class="p">,</span> <span class="n">ymm15</span><span class="p">,</span> <span class="n">ymmword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">rdi</span><span class="o">+</span><span class="n">r14</span><span class="o">*</span><span class="mi">8</span><span class="o">+</span><span class="mh">0x8</span><span class="err">]</span>
-<span class="n">vmovupd</span> <span class="n">ymm1</span><span class="p">,</span> <span class="n">ymmword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">r15</span><span class="o">+</span><span class="n">r14</span><span class="o">*</span><span class="mi">8</span><span class="o">+</span><span class="mh">0x8</span><span class="err">]</span>
-<span class="k">mov</span> <span class="n">r15</span><span class="p">,</span> <span class="n">qword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">rsp</span><span class="o">+</span><span class="mh">0x378</span><span class="err">]</span>
-<span class="n">vmulpd</span> <span class="n">ymm1</span><span class="p">,</span> <span class="n">ymm1</span><span class="p">,</span> <span class="n">ymmword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">r13</span><span class="o">+</span><span class="n">r14</span><span class="o">*</span><span class="mi">8</span><span class="o">+</span><span class="mh">0x10</span><span class="err">]</span>
-<span class="n">vfmadd231pd</span> <span class="n">ymm15</span><span class="p">,</span> <span class="n">ymm11</span><span class="p">,</span> <span class="n">ymmword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">r15</span><span class="o">+</span><span class="n">r14</span><span class="o">*</span><span class="mi">8</span><span class="o">+</span><span class="mh">0x8</span><span class="err">]</span>
-<span class="k">mov</span> <span class="n">r15</span><span class="p">,</span> <span class="n">qword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">rsp</span><span class="o">+</span><span class="mh">0x400</span><span class="err">]</span>
-<span class="n">vmovupd</span> <span class="n">ymm11</span><span class="p">,</span> <span class="n">ymmword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">r15</span><span class="o">+</span><span class="n">r14</span><span class="o">*</span><span class="mi">8</span><span class="o">+</span><span class="mh">0x8</span><span class="err">]</span>
-<span class="n">vmulpd</span> <span class="n">ymm11</span><span class="p">,</span> <span class="n">ymm11</span><span class="p">,</span> <span class="n">ymmword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">rbx</span><span class="o">+</span><span class="n">r14</span><span class="o">*</span><span class="mi">8</span><span class="o">+</span><span class="mh">0x10</span><span class="err">]</span>
+      <div class="language-nasm highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">mov</span> <span class="n">r15</span><span class="p">,</span> <span class="n">qword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">rsp</span><span class="o">+</span><span class="mh">0x3f0</span><span class="err">]</span>
+<span class="n">vmovupd</span> <span class="n">ymm12</span><span class="p">,</span> <span class="n">ymmword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">r9</span><span class="o">+</span><span class="n">rdi</span><span class="o">*</span><span class="mi">8</span><span class="o">+</span><span class="mh">0x8</span><span class="err">]</span>
+<span class="n">vmovupd</span> <span class="n">ymm6</span><span class="p">,</span> <span class="n">ymmword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">r10</span><span class="o">+</span><span class="n">rdi</span><span class="o">*</span><span class="mi">8</span><span class="err">]</span>
+<span class="n">vmovupd</span> <span class="n">ymm14</span><span class="p">,</span> <span class="n">ymmword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">r15</span><span class="o">+</span><span class="n">rdi</span><span class="o">*</span><span class="mi">8</span><span class="o">+</span><span class="mh">0x8</span><span class="err">]</span>
+<span class="n">vmovupd</span> <span class="n">ymm7</span><span class="p">,</span> <span class="n">ymmword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">r14</span><span class="o">+</span><span class="n">rdi</span><span class="o">*</span><span class="mi">8</span><span class="err">]</span>
+<span class="n">vmovupd</span> <span class="n">ymm0</span><span class="p">,</span> <span class="n">ymmword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">rax</span><span class="o">+</span><span class="n">rdi</span><span class="o">*</span><span class="mi">8</span><span class="err">]</span>
+<span class="n">vmulpd</span> <span class="n">ymm12</span><span class="p">,</span> <span class="n">ymm12</span><span class="p">,</span> <span class="n">ymmword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">r13</span><span class="o">+</span><span class="n">rdi</span><span class="o">*</span><span class="mi">8</span><span class="err">]</span>
+<span class="n">vmovupd</span> <span class="n">ymm1</span><span class="p">,</span> <span class="n">ymmword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">r11</span><span class="o">+</span><span class="n">rdi</span><span class="o">*</span><span class="mi">8</span><span class="o">+</span><span class="mh">0x8</span><span class="err">]</span>
+<span class="n">vmovupd</span> <span class="n">ymm15</span><span class="p">,</span> <span class="n">ymmword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">r10</span><span class="o">+</span><span class="n">rdi</span><span class="o">*</span><span class="mi">8</span><span class="o">+</span><span class="mh">0x8</span><span class="err">]</span>
+<span class="n">vmovupd</span> <span class="n">ymm11</span><span class="p">,</span> <span class="n">ymmword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">rax</span><span class="o">+</span><span class="n">rdi</span><span class="o">*</span><span class="mi">8</span><span class="o">+</span><span class="mh">0x8</span><span class="err">]</span>
+<span class="n">vmovupd</span> <span class="n">ymm5</span><span class="p">,</span> <span class="n">ymmword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">r11</span><span class="o">+</span><span class="n">rdi</span><span class="o">*</span><span class="mi">8</span><span class="o">+</span><span class="mh">0x10</span><span class="err">]</span>
+<span class="n">vmovupd</span> <span class="n">ymm3</span><span class="p">,</span> <span class="n">ymmword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">r10</span><span class="o">+</span><span class="n">rdi</span><span class="o">*</span><span class="mi">8</span><span class="o">+</span><span class="mh">0x10</span><span class="err">]</span>
+<span class="n">vmovupd</span> <span class="n">ymm10</span><span class="p">,</span> <span class="n">ymmword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">r13</span><span class="o">+</span><span class="n">rdi</span><span class="o">*</span><span class="mi">8</span><span class="o">+</span><span class="mh">0x10</span><span class="err">]</span>
+<span class="n">vmovupd</span> <span class="n">ymm2</span><span class="p">,</span> <span class="n">ymmword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">rax</span><span class="o">+</span><span class="n">rdi</span><span class="o">*</span><span class="mi">8</span><span class="o">+</span><span class="mh">0x10</span><span class="err">]</span>
+<span class="n">vmovupd</span> <span class="n">ymm4</span><span class="p">,</span> <span class="n">ymmword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">rdx</span><span class="o">+</span><span class="n">rdi</span><span class="o">*</span><span class="mi">8</span><span class="o">+</span><span class="mh">0x8</span><span class="err">]</span>
+<span class="n">vmovupd</span> <span class="n">ymm8</span><span class="p">,</span> <span class="n">ymmword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">r12</span><span class="o">+</span><span class="n">rdi</span><span class="o">*</span><span class="mi">8</span><span class="err">]</span>
+<span class="n">vmovupd</span> <span class="n">ymm9</span><span class="p">,</span> <span class="n">ymmword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">r8</span><span class="o">+</span><span class="n">rdi</span><span class="o">*</span><span class="mi">8</span><span class="o">+</span><span class="mh">0x8</span><span class="err">]</span>
 <span class="k">mov</span> <span class="n">r15</span><span class="p">,</span> <span class="n">qword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">rsp</span><span class="o">+</span><span class="mh">0x358</span><span class="err">]</span>
-<span class="n">vfmadd231pd</span> <span class="n">ymm11</span><span class="p">,</span> <span class="n">ymm5</span><span class="p">,</span> <span class="n">ymmword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">r15</span><span class="o">+</span><span class="n">r14</span><span class="o">*</span><span class="mi">8</span><span class="o">+</span><span class="mh">0x8</span><span class="err">]</span>
-<span class="k">mov</span> <span class="n">r15</span><span class="p">,</span> <span class="n">qword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">rsp</span><span class="o">+</span><span class="mh">0x340</span><span class="err">]</span>
-<span class="n">vmovupd</span> <span class="n">ymm5</span><span class="p">,</span> <span class="n">ymmword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">r15</span><span class="o">+</span><span class="n">r14</span><span class="o">*</span><span class="mi">8</span><span class="o">+</span><span class="mh">0x8</span><span class="err">]</span>
-<span class="n">vmulpd</span> <span class="n">ymm5</span><span class="p">,</span> <span class="n">ymm5</span><span class="p">,</span> <span class="n">ymmword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">r9</span><span class="o">+</span><span class="n">r14</span><span class="o">*</span><span class="mi">8</span><span class="o">+</span><span class="mh">0x10</span><span class="err">]</span>
-<span class="k">mov</span> <span class="n">r15</span><span class="p">,</span> <span class="n">qword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">rsp</span><span class="o">+</span><span class="mh">0x418</span><span class="err">]</span>
-<span class="n">vfmadd231pd</span> <span class="n">ymm5</span><span class="p">,</span> <span class="n">ymm3</span><span class="p">,</span> <span class="n">ymmword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">r8</span><span class="o">+</span><span class="n">r14</span><span class="o">*</span><span class="mi">8</span><span class="o">+</span><span class="mh">0x8</span><span class="err">]</span>
-<span class="n">data16</span> <span class="k">nop</span>
-<span class="n">vmovupd</span> <span class="n">ymm3</span><span class="p">,</span> <span class="n">ymmword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">r15</span><span class="o">+</span><span class="n">r14</span><span class="o">*</span><span class="mi">8</span><span class="o">+</span><span class="mh">0x8</span><span class="err">]</span>
-<span class="n">vaddpd</span> <span class="n">ymm5</span><span class="p">,</span> <span class="n">ymm11</span><span class="p">,</span> <span class="n">ymm5</span>
-<span class="n">vmulpd</span> <span class="n">ymm3</span><span class="p">,</span> <span class="n">ymm3</span><span class="p">,</span> <span class="n">ymmword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">rcx</span><span class="o">+</span><span class="n">r14</span><span class="o">*</span><span class="mi">8</span><span class="o">+</span><span class="mh">0x10</span><span class="err">]</span>
-<span class="k">mov</span> <span class="n">r15</span><span class="p">,</span> <span class="n">qword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">rsp</span><span class="o">+</span><span class="mh">0x410</span><span class="err">]</span>
-<span class="k">nop</span> <span class="n">dword</span> <span class="n">ptr</span> <span class="p">[rax],</span> <span class="n">eax</span>
-<span class="n">vmovupd</span> <span class="n">ymm11</span><span class="p">,</span> <span class="n">ymmword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">r15</span><span class="o">+</span><span class="n">r14</span><span class="o">*</span><span class="mi">8</span><span class="o">+</span><span class="mh">0x8</span><span class="err">]</span>
-<span class="k">mov</span> <span class="n">r15</span><span class="p">,</span> <span class="n">qword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">rsp</span><span class="o">+</span><span class="mh">0x420</span><span class="err">]</span>
-<span class="n">vfmadd231pd</span> <span class="n">ymm3</span><span class="p">,</span> <span class="n">ymm10</span><span class="p">,</span> <span class="n">ymmword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">r15</span><span class="o">+</span><span class="n">r14</span><span class="o">*</span><span class="mi">8</span><span class="o">+</span><span class="mh">0x8</span><span class="err">]</span>
-<span class="n">vmulpd</span> <span class="n">ymm10</span><span class="p">,</span> <span class="n">ymm11</span><span class="p">,</span> <span class="n">ymmword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">rdi</span><span class="o">+</span><span class="n">r14</span><span class="o">*</span><span class="mi">8</span><span class="o">+</span><span class="mh">0x10</span><span class="err">]</span>
+<span class="n">vmovupd</span> <span class="n">ymm13</span><span class="p">,</span> <span class="n">ymmword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">r15</span><span class="o">+</span><span class="n">rdi</span><span class="o">*</span><span class="mi">8</span><span class="o">+</span><span class="mh">0x8</span><span class="err">]</span>
+<span class="n">vmulpd</span> <span class="n">ymm13</span><span class="p">,</span> <span class="n">ymm13</span><span class="p">,</span> <span class="n">ymmword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">r8</span><span class="o">+</span><span class="n">rdi</span><span class="o">*</span><span class="mi">8</span><span class="err">]</span>
+<span class="k">mov</span> <span class="n">r15</span><span class="p">,</span> <span class="n">qword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">rsp</span><span class="o">+</span><span class="mh">0x400</span><span class="err">]</span>
+<span class="n">vfmadd231pd</span> <span class="n">ymm13</span><span class="p">,</span> <span class="n">ymm6</span><span class="p">,</span> <span class="n">ymmword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">r15</span><span class="o">+</span><span class="n">rdi</span><span class="o">*</span><span class="mi">8</span><span class="o">+</span><span class="mh">0x8</span><span class="err">]</span>
+<span class="n">vmovupd</span> <span class="n">ymm6</span><span class="p">,</span> <span class="n">ymmword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">rdx</span><span class="o">+</span><span class="n">rdi</span><span class="o">*</span><span class="mi">8</span><span class="err">]</span>
 <span class="k">mov</span> <span class="n">r15</span><span class="p">,</span> <span class="n">qword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">rsp</span><span class="o">+</span><span class="mh">0x3e8</span><span class="err">]</span>
-<span class="n">vfmadd231pd</span> <span class="n">ymm10</span><span class="p">,</span> <span class="n">ymm2</span><span class="p">,</span> <span class="n">ymmword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">r15</span><span class="o">+</span><span class="n">r14</span><span class="o">*</span><span class="mi">8</span><span class="o">+</span><span class="mh">0x8</span><span class="err">]</span>
+<span class="n">vfmadd231pd</span> <span class="n">ymm12</span><span class="p">,</span> <span class="n">ymm7</span><span class="p">,</span> <span class="n">ymmword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">r15</span><span class="o">+</span><span class="n">rdi</span><span class="o">*</span><span class="mi">8</span><span class="o">+</span><span class="mh">0x8</span><span class="err">]</span>
+<span class="k">mov</span> <span class="n">r15</span><span class="p">,</span> <span class="n">qword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">rsp</span><span class="o">+</span><span class="mh">0x420</span><span class="err">]</span>
+<span class="n">vaddpd</span> <span class="n">ymm13</span><span class="p">,</span> <span class="n">ymm13</span><span class="p">,</span> <span class="n">ymm12</span>
+<span class="n">vmovupd</span> <span class="n">ymm7</span><span class="p">,</span> <span class="n">ymmword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">r15</span><span class="o">+</span><span class="n">rdi</span><span class="o">*</span><span class="mi">8</span><span class="o">+</span><span class="mh">0x8</span><span class="err">]</span>
+<span class="k">mov</span> <span class="n">r15</span><span class="p">,</span> <span class="n">qword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">rsp</span><span class="o">+</span><span class="mh">0x428</span><span class="err">]</span>
+<span class="n">vmulpd</span> <span class="n">ymm7</span><span class="p">,</span> <span class="n">ymm7</span><span class="p">,</span> <span class="n">ymmword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">rcx</span><span class="o">+</span><span class="n">rdi</span><span class="o">*</span><span class="mi">8</span><span class="err">]</span>
+<span class="n">vmovupd</span> <span class="n">ymm12</span><span class="p">,</span> <span class="n">ymmword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">r15</span><span class="o">+</span><span class="n">rdi</span><span class="o">*</span><span class="mi">8</span><span class="o">+</span><span class="mh">0x8</span><span class="err">]</span>
+<span class="k">mov</span> <span class="n">r15</span><span class="p">,</span> <span class="n">qword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">rsp</span><span class="o">+</span><span class="mh">0x390</span><span class="err">]</span>
+<span class="n">vfmadd231pd</span> <span class="n">ymm7</span><span class="p">,</span> <span class="n">ymm0</span><span class="p">,</span> <span class="n">ymmword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">r15</span><span class="o">+</span><span class="n">rdi</span><span class="o">*</span><span class="mi">8</span><span class="o">+</span><span class="mh">0x8</span><span class="err">]</span>
+<span class="k">mov</span> <span class="n">r15</span><span class="p">,</span> <span class="n">qword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">rsp</span><span class="o">+</span><span class="mh">0x388</span><span class="err">]</span>
+<span class="n">vmovupd</span> <span class="n">ymm0</span><span class="p">,</span> <span class="n">ymmword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">r15</span><span class="o">+</span><span class="n">rdi</span><span class="o">*</span><span class="mi">8</span><span class="o">+</span><span class="mh">0x8</span><span class="err">]</span>
+<span class="n">vmulpd</span> <span class="n">ymm0</span><span class="p">,</span> <span class="n">ymm0</span><span class="p">,</span> <span class="n">ymmword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">r14</span><span class="o">+</span><span class="n">rdi</span><span class="o">*</span><span class="mi">8</span><span class="o">+</span><span class="mh">0x8</span><span class="err">]</span>
+<span class="k">mov</span> <span class="n">r15</span><span class="p">,</span> <span class="n">qword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">rsp</span><span class="o">+</span><span class="mh">0x398</span><span class="err">]</span>
+<span class="n">vfmadd231pd</span> <span class="n">ymm0</span><span class="p">,</span> <span class="n">ymm1</span><span class="p">,</span> <span class="n">ymmword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">r15</span><span class="o">+</span><span class="n">rdi</span><span class="o">*</span><span class="mi">8</span><span class="o">+</span><span class="mh">0x8</span><span class="err">]</span>
+<span class="k">mov</span> <span class="n">r15</span><span class="p">,</span> <span class="n">qword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">rsp</span><span class="o">+</span><span class="mh">0x380</span><span class="err">]</span>
+<span class="n">vmovupd</span> <span class="n">ymm1</span><span class="p">,</span> <span class="n">ymmword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">r15</span><span class="o">+</span><span class="n">rdi</span><span class="o">*</span><span class="mi">8</span><span class="o">+</span><span class="mh">0x8</span><span class="err">]</span>
+<span class="n">vmulpd</span> <span class="n">ymm1</span><span class="p">,</span> <span class="n">ymm1</span><span class="p">,</span> <span class="n">ymmword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">r13</span><span class="o">+</span><span class="n">rdi</span><span class="o">*</span><span class="mi">8</span><span class="o">+</span><span class="mh">0x8</span><span class="err">]</span>
+<span class="k">mov</span> <span class="n">r15</span><span class="p">,</span> <span class="n">qword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">rsp</span><span class="o">+</span><span class="mh">0x438</span><span class="err">]</span>
+<span class="k">nop</span>
+<span class="n">vfmadd231pd</span> <span class="n">ymm1</span><span class="p">,</span> <span class="n">ymm15</span><span class="p">,</span> <span class="n">ymmword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">r15</span><span class="o">+</span><span class="n">rdi</span><span class="o">*</span><span class="mi">8</span><span class="o">+</span><span class="mh">0x8</span><span class="err">]</span>
+<span class="k">mov</span> <span class="n">r15</span><span class="p">,</span> <span class="n">qword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">rsp</span><span class="o">+</span><span class="mh">0x430</span><span class="err">]</span>
+<span class="n">vaddpd</span> <span class="n">ymm0</span><span class="p">,</span> <span class="n">ymm0</span><span class="p">,</span> <span class="n">ymm1</span>
+<span class="n">vmovupd</span> <span class="n">ymm15</span><span class="p">,</span> <span class="n">ymmword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">r15</span><span class="o">+</span><span class="n">rdi</span><span class="o">*</span><span class="mi">8</span><span class="o">+</span><span class="mh">0x8</span><span class="err">]</span>
+<span class="k">mov</span> <span class="n">r15</span><span class="p">,</span> <span class="n">qword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">rsp</span><span class="o">+</span><span class="mh">0x360</span><span class="err">]</span>
+<span class="n">vmulpd</span> <span class="n">ymm15</span><span class="p">,</span> <span class="n">ymm15</span><span class="p">,</span> <span class="n">ymmword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">rcx</span><span class="o">+</span><span class="n">rdi</span><span class="o">*</span><span class="mi">8</span><span class="o">+</span><span class="mh">0x8</span><span class="err">]</span>
+<span class="n">vmovupd</span> <span class="n">ymm1</span><span class="p">,</span> <span class="n">ymmword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">r15</span><span class="o">+</span><span class="n">rdi</span><span class="o">*</span><span class="mi">8</span><span class="o">+</span><span class="mh">0x8</span><span class="err">]</span>
+<span class="k">mov</span> <span class="n">r15</span><span class="p">,</span> <span class="n">qword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">rsp</span><span class="o">+</span><span class="mh">0x378</span><span class="err">]</span>
+<span class="n">vmulpd</span> <span class="n">ymm1</span><span class="p">,</span> <span class="n">ymm1</span><span class="p">,</span> <span class="n">ymmword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">r12</span><span class="o">+</span><span class="n">rdi</span><span class="o">*</span><span class="mi">8</span><span class="o">+</span><span class="mh">0x10</span><span class="err">]</span>
+<span class="n">vfmadd231pd</span> <span class="n">ymm15</span><span class="p">,</span> <span class="n">ymm11</span><span class="p">,</span> <span class="n">ymmword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">r15</span><span class="o">+</span><span class="n">rdi</span><span class="o">*</span><span class="mi">8</span><span class="o">+</span><span class="mh">0x8</span><span class="err">]</span>
+<span class="k">mov</span> <span class="n">r15</span><span class="p">,</span> <span class="n">qword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">rsp</span><span class="o">+</span><span class="mh">0x348</span><span class="err">]</span>
+<span class="k">nop</span> <span class="n">dword</span> <span class="n">ptr</span> <span class="p">[rax],</span> <span class="n">eax</span>
+<span class="n">vmovupd</span> <span class="n">ymm11</span><span class="p">,</span> <span class="n">ymmword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">r15</span><span class="o">+</span><span class="n">rdi</span><span class="o">*</span><span class="mi">8</span><span class="o">+</span><span class="mh">0x8</span><span class="err">]</span>
+<span class="n">vmulpd</span> <span class="n">ymm11</span><span class="p">,</span> <span class="n">ymm11</span><span class="p">,</span> <span class="n">ymmword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">r14</span><span class="o">+</span><span class="n">rdi</span><span class="o">*</span><span class="mi">8</span><span class="o">+</span><span class="mh">0x10</span><span class="err">]</span>
+<span class="k">mov</span> <span class="n">r15</span><span class="p">,</span> <span class="n">qword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">rsp</span><span class="o">+</span><span class="mh">0x418</span><span class="err">]</span>
+<span class="n">vfmadd231pd</span> <span class="n">ymm11</span><span class="p">,</span> <span class="n">ymm5</span><span class="p">,</span> <span class="n">ymmword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">r15</span><span class="o">+</span><span class="n">rdi</span><span class="o">*</span><span class="mi">8</span><span class="o">+</span><span class="mh">0x8</span><span class="err">]</span>
+<span class="k">mov</span> <span class="n">r15</span><span class="p">,</span> <span class="n">qword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">rsp</span><span class="o">+</span><span class="mh">0x340</span><span class="err">]</span>
+<span class="k">nop</span> <span class="n">dword</span> <span class="n">ptr</span> <span class="p">[rax],</span> <span class="n">eax</span>
+<span class="n">vmovupd</span> <span class="n">ymm5</span><span class="p">,</span> <span class="n">ymmword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">r15</span><span class="o">+</span><span class="n">rdi</span><span class="o">*</span><span class="mi">8</span><span class="o">+</span><span class="mh">0x8</span><span class="err">]</span>
+<span class="n">vmulpd</span> <span class="n">ymm5</span><span class="p">,</span> <span class="n">ymm5</span><span class="p">,</span> <span class="n">ymmword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">r8</span><span class="o">+</span><span class="n">rdi</span><span class="o">*</span><span class="mi">8</span><span class="o">+</span><span class="mh">0x10</span><span class="err">]</span>
+<span class="k">mov</span> <span class="n">r15</span><span class="p">,</span> <span class="n">qword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">rsp</span><span class="o">+</span><span class="mh">0x330</span><span class="err">]</span>
+<span class="n">vfmadd231pd</span> <span class="n">ymm5</span><span class="p">,</span> <span class="n">ymm3</span><span class="p">,</span> <span class="n">ymmword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">rsi</span><span class="o">+</span><span class="n">rdi</span><span class="o">*</span><span class="mi">8</span><span class="o">+</span><span class="mh">0x8</span><span class="err">]</span>
+<span class="n">vmovupd</span> <span class="n">ymm3</span><span class="p">,</span> <span class="n">ymmword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">r15</span><span class="o">+</span><span class="n">rdi</span><span class="o">*</span><span class="mi">8</span><span class="o">+</span><span class="mh">0x8</span><span class="err">]</span>
+<span class="n">vaddpd</span> <span class="n">ymm5</span><span class="p">,</span> <span class="n">ymm11</span><span class="p">,</span> <span class="n">ymm5</span>
+<span class="n">vmulpd</span> <span class="n">ymm3</span><span class="p">,</span> <span class="n">ymm3</span><span class="p">,</span> <span class="n">ymmword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">rdx</span><span class="o">+</span><span class="n">rdi</span><span class="o">*</span><span class="mi">8</span><span class="o">+</span><span class="mh">0x10</span><span class="err">]</span>
+<span class="k">mov</span> <span class="n">r15</span><span class="p">,</span> <span class="n">qword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">rsp</span><span class="o">+</span><span class="mh">0x328</span><span class="err">]</span>
+<span class="n">vmovupd</span> <span class="n">ymm11</span><span class="p">,</span> <span class="n">ymmword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">r15</span><span class="o">+</span><span class="n">rdi</span><span class="o">*</span><span class="mi">8</span><span class="o">+</span><span class="mh">0x8</span><span class="err">]</span>
+<span class="k">mov</span> <span class="n">r15</span><span class="p">,</span> <span class="n">qword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">rsp</span><span class="o">+</span><span class="mh">0x338</span><span class="err">]</span>
+<span class="n">vfmadd231pd</span> <span class="n">ymm3</span><span class="p">,</span> <span class="n">ymm10</span><span class="p">,</span> <span class="n">ymmword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">r15</span><span class="o">+</span><span class="n">rdi</span><span class="o">*</span><span class="mi">8</span><span class="o">+</span><span class="mh">0x8</span><span class="err">]</span>
+<span class="n">vmulpd</span> <span class="n">ymm10</span><span class="p">,</span> <span class="n">ymm11</span><span class="p">,</span> <span class="n">ymmword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">rcx</span><span class="o">+</span><span class="n">rdi</span><span class="o">*</span><span class="mi">8</span><span class="o">+</span><span class="mh">0x10</span><span class="err">]</span>
+<span class="k">mov</span> <span class="n">r15</span><span class="p">,</span> <span class="n">qword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">rsp</span><span class="o">+</span><span class="mh">0x318</span><span class="err">]</span>
+<span class="n">vfmadd231pd</span> <span class="n">ymm10</span><span class="p">,</span> <span class="n">ymm2</span><span class="p">,</span> <span class="n">ymmword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">r15</span><span class="o">+</span><span class="n">rdi</span><span class="o">*</span><span class="mi">8</span><span class="o">+</span><span class="mh">0x8</span><span class="err">]</span>
 <span class="k">mov</span> <span class="n">r15</span><span class="p">,</span> <span class="n">qword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">rsp</span><span class="o">+</span><span class="mh">0x370</span><span class="err">]</span>
 <span class="n">vaddpd</span> <span class="n">ymm2</span><span class="p">,</span> <span class="n">ymm3</span><span class="p">,</span> <span class="n">ymm10</span>
-<span class="n">vfmadd231pd</span> <span class="n">ymm1</span><span class="p">,</span> <span class="n">ymm4</span><span class="p">,</span> <span class="n">ymmword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">r15</span><span class="o">+</span><span class="n">r14</span><span class="o">*</span><span class="mi">8</span><span class="o">+</span><span class="mh">0x8</span><span class="err">]</span>
-<span class="n">vmulpd</span> <span class="n">ymm4</span><span class="p">,</span> <span class="n">ymm12</span><span class="p">,</span> <span class="n">ymmword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">r13</span><span class="o">+</span><span class="n">r14</span><span class="o">*</span><span class="mi">8</span><span class="o">+</span><span class="mh">0x8</span><span class="err">]</span>
+<span class="n">vfmadd231pd</span> <span class="n">ymm1</span><span class="p">,</span> <span class="n">ymm4</span><span class="p">,</span> <span class="n">ymmword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">r15</span><span class="o">+</span><span class="n">rdi</span><span class="o">*</span><span class="mi">8</span><span class="o">+</span><span class="mh">0x8</span><span class="err">]</span>
+<span class="n">vmulpd</span> <span class="n">ymm4</span><span class="p">,</span> <span class="n">ymm12</span><span class="p">,</span> <span class="n">ymmword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">r12</span><span class="o">+</span><span class="n">rdi</span><span class="o">*</span><span class="mi">8</span><span class="o">+</span><span class="mh">0x8</span><span class="err">]</span>
 <span class="n">vaddpd</span> <span class="n">ymm1</span><span class="p">,</span> <span class="n">ymm15</span><span class="p">,</span> <span class="n">ymm1</span>
-<span class="n">vfmadd231pd</span> <span class="n">ymm4</span><span class="p">,</span> <span class="n">ymm6</span><span class="p">,</span> <span class="n">ymmword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">rsi</span><span class="o">+</span><span class="n">r14</span><span class="o">*</span><span class="mi">8</span><span class="o">+</span><span class="mh">0x8</span><span class="err">]</span>
+<span class="n">vfmadd231pd</span> <span class="n">ymm4</span><span class="p">,</span> <span class="n">ymm6</span><span class="p">,</span> <span class="n">ymmword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">rbx</span><span class="o">+</span><span class="n">rdi</span><span class="o">*</span><span class="mi">8</span><span class="o">+</span><span class="mh">0x8</span><span class="err">]</span>
 <span class="n">vaddpd</span> <span class="n">ymm3</span><span class="p">,</span> <span class="n">ymm7</span><span class="p">,</span> <span class="n">ymm4</span>
-<span class="k">nop</span> <span class="n">dword</span> <span class="n">ptr</span> <span class="p">[rax],</span> <span class="n">eax</span>
-<span class="n">vmulpd</span> <span class="n">ymm4</span><span class="p">,</span> <span class="n">ymm14</span><span class="p">,</span> <span class="n">ymmword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">r12</span><span class="o">+</span><span class="n">r14</span><span class="o">*</span><span class="mi">8</span><span class="err">]</span>
+<span class="n">vmulpd</span> <span class="n">ymm4</span><span class="p">,</span> <span class="n">ymm14</span><span class="p">,</span> <span class="n">ymmword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">r11</span><span class="o">+</span><span class="n">rdi</span><span class="o">*</span><span class="mi">8</span><span class="err">]</span>
 <span class="n">vaddpd</span> <span class="n">ymm14</span><span class="p">,</span> <span class="n">ymm3</span><span class="p">,</span> <span class="n">ymm13</span>
-<span class="k">mov</span> <span class="n">r15</span><span class="p">,</span> <span class="n">qword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">rsp</span><span class="o">+</span><span class="mh">0x330</span><span class="err">]</span>
-<span class="n">vfmadd231pd</span> <span class="n">ymm4</span><span class="p">,</span> <span class="n">ymm8</span><span class="p">,</span> <span class="n">ymmword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">r15</span><span class="o">+</span><span class="n">r14</span><span class="o">*</span><span class="mi">8</span><span class="o">+</span><span class="mh">0x8</span><span class="err">]</span>
+<span class="k">mov</span> <span class="n">r15</span><span class="p">,</span> <span class="n">qword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">rsp</span><span class="o">+</span><span class="mh">0x3f8</span><span class="err">]</span>
+<span class="n">vfmadd231pd</span> <span class="n">ymm4</span><span class="p">,</span> <span class="n">ymm8</span><span class="p">,</span> <span class="n">ymmword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">r15</span><span class="o">+</span><span class="n">rdi</span><span class="o">*</span><span class="mi">8</span><span class="o">+</span><span class="mh">0x8</span><span class="err">]</span>
 <span class="n">vaddpd</span> <span class="n">ymm8</span><span class="p">,</span> <span class="n">ymm2</span><span class="p">,</span> <span class="n">ymm5</span>
-<span class="k">nop</span> <span class="n">dword</span> <span class="n">ptr</span> <span class="p">[rax],</span> <span class="n">eax</span>
-<span class="k">mov</span> <span class="n">r15</span><span class="p">,</span> <span class="n">qword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">rsp</span><span class="o">+</span><span class="mh">0x328</span><span class="err">]</span>
-<span class="n">vfmadd231pd</span> <span class="n">ymm4</span><span class="p">,</span> <span class="n">ymm9</span><span class="p">,</span> <span class="n">ymmword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">r15</span><span class="o">+</span><span class="n">r14</span><span class="o">*</span><span class="mi">8</span><span class="o">+</span><span class="mh">0x8</span><span class="err">]</span>
+<span class="k">mov</span> <span class="n">r15</span><span class="p">,</span> <span class="n">qword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">rsp</span><span class="o">+</span><span class="mh">0x350</span><span class="err">]</span>
+<span class="n">vfmadd231pd</span> <span class="n">ymm4</span><span class="p">,</span> <span class="n">ymm9</span><span class="p">,</span> <span class="n">ymmword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">r15</span><span class="o">+</span><span class="n">rdi</span><span class="o">*</span><span class="mi">8</span><span class="o">+</span><span class="mh">0x8</span><span class="err">]</span>
 <span class="n">vaddpd</span> <span class="n">ymm9</span><span class="p">,</span> <span class="n">ymm1</span><span class="p">,</span> <span class="n">ymm0</span>
 <span class="n">vaddpd</span> <span class="n">ymm1</span><span class="p">,</span> <span class="n">ymm14</span><span class="p">,</span> <span class="n">ymm4</span>
 <span class="n">vaddpd</span> <span class="n">ymm0</span><span class="p">,</span> <span class="n">ymm8</span><span class="p">,</span> <span class="n">ymm9</span>
 <span class="n">vaddpd</span> <span class="n">ymm2</span><span class="p">,</span> <span class="n">ymm0</span><span class="p">,</span> <span class="n">ymm1</span>
 <span class="k">mov</span> <span class="n">r15</span><span class="p">,</span> <span class="n">qword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">rsp</span><span class="o">+</span><span class="mh">0x320</span><span class="err">]</span>
-<span class="n">vmovupd</span> <span class="n">ymmword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">r15</span><span class="o">+</span><span class="n">r14</span><span class="o">*</span><span class="mi">8</span><span class="o">+</span><span class="mh">0x8</span><span class="err">]</span><span class="p">,</span> <span class="n">ymm2</span>
-<span class="k">add</span> <span class="n">r14</span><span class="p">,</span> <span class="mh">0x4</span>
-<span class="k">cmp</span> <span class="n">r14</span><span class="p">,</span> <span class="n">qword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">rsp</span><span class="o">+</span><span class="mh">0x308</span><span class="err">]</span>
-<span class="k">jb</span> <span class="mh">0xfffffffffffffd71</span>
+<span class="n">vmovupd</span> <span class="n">ymmword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">r15</span><span class="o">+</span><span class="n">rdi</span><span class="o">*</span><span class="mi">8</span><span class="o">+</span><span class="mh">0x8</span><span class="err">]</span><span class="p">,</span> <span class="n">ymm2</span>
+<span class="k">add</span> <span class="n">rdi</span><span class="p">,</span> <span class="mh">0x4</span>
+<span class="k">cmp</span> <span class="n">rdi</span><span class="p">,</span> <span class="n">qword</span> <span class="n">ptr</span> <span class="err">[</span><span class="n">rsp</span><span class="o">+</span><span class="mh">0x310</span><span class="err">]</span>
+<span class="k">jb</span> <span class="mh">0xfffffffffffffd7f</span>
 </code></pre></div>      </div>
     </div>
   </div>
@@ -317,7 +310,7 @@ return "https://rrze-hpc.github.io/layer-condition/#calculator%23!"+encodeURICom
 </code></pre></div>    </div>
 
     <h2 id="compiler-flags">Compiler flags</h2>
-    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>icc <span class="nt">-O3</span> <span class="nt">-xCORE-AVX2</span> <span class="nt">-fno-alias</span> <span class="nt">-qopenmp</span> <span class="nt">-DLIKWID_PERFMON</span> <span class="nt">-Ilikwid-4</span>.3.2/include <span class="nt">-Llikwid-4</span>.3.2/lib <span class="nt">-Iheaders</span>/dummy.c stencil_compilable.c <span class="nt">-o</span> stencil <span class="nt">-llikwid</span>
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>icc <span class="nt">-O3</span> <span class="nt">-xCORE-AVX2</span> <span class="nt">-fno-alias</span> <span class="nt">-qopenmp</span> <span class="nt">-qopenmp</span> <span class="nt">-DLIKWID_PERFMON</span> <span class="nt">-Ilikwid-4</span>.3.3/include <span class="nt">-Llikwid-4</span>.3.3/lib <span class="nt">-Iheaders</span>/dummy.c stencil_compilable.c <span class="nt">-o</span> stencil <span class="nt">-llikwid</span>
 </code></pre></div>    </div>
   </div>
 
@@ -340,16 +333,16 @@ var trace_benchmark = {
   type: "scatter",
   mode: "markers",
   marker: { symbol: "cross-thin-open" },
-  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,],
-  y: [276.64,276.71,213.25,443.43,499.39,589.49,683.45,649.63,902.73,628.49,667.82,641.07,618.90,582.20,826.19,663.26,672.58,580.01,606.35,647.01,752.40,618.77,637.71,645.49,657.59,573.36,588.55,525.96,604.77,560.83,588.89,520.87,592.09,598.55,621.27,530.23,629.46,612.24,616.89,519.02,650.58,666.36,647.42,,,,,],
+  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,],
+  y: [251.34,256.56,210.08,435.32,401.90,586.05,668.07,636.81,844.06,562.65,614.50,616.40,582.41,546.16,792.23,652.89,649.38,587.91,604.19,648.04,751.38,613.08,632.81,646.46,662.07,582.01,595.31,522.99,604.86,581.92,594.32,522.16,585.46,598.63,612.49,529.26,625.34,610.80,627.14,516.59,632.97,678.68,659.37,537.25,637.80,672.62,],
   line: {color: 'black'},
   name: "Benchmark"
 };
 var trace_Tol = {
   type: "scatter",
   mode: "lines",
-  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,],
-  y: [80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,],
+  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,],
+  y: [80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,],
   line: {color: '#d62728'},
   name: "T<sub>OL</sub>"
 };
@@ -357,8 +350,8 @@ var trace_Tnol = {
   type: "histogram",
   xbins: {size:10},
   histfunc: "sum",
-  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,],
-  y: [80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,],
+  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,],
+  y: [80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,],
   marker: {color: '#1f77b4'},
   name: "T<sub>nOL</sub>"
 };
@@ -366,8 +359,8 @@ var trace_Tl1l2 = {
   type: "histogram",
   xbins: {size:10},
   histfunc: "sum",
-  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,],
-  y: [60.0,64.0,64.0,64.0,64.0,64.0,64.0,64.0,64.0,64.0,64.0,76.0,76.0,76.0,76.0,76.0,76.0,76.0,76.0,76.0,76.0,76.0,76.0,76.0,76.0,76.0,76.0,76.0,76.0,76.0,76.0,76.0,76.0,76.0,76.0,76.0,76.0,76.0,76.0,76.0,76.0,76.0,76.0,76.0,76.0,76.0,76.0,],
+  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,],
+  y: [60.0,64.0,64.0,64.0,64.0,64.0,64.0,64.0,64.0,64.0,64.0,76.0,76.0,76.0,76.0,76.0,76.0,76.0,76.0,76.0,76.0,76.0,76.0,76.0,76.0,76.0,76.0,76.0,76.0,76.0,76.0,76.0,76.0,76.0,76.0,76.0,76.0,76.0,76.0,76.0,76.0,76.0,76.0,76.0,76.0,76.0,],
   marker: {color: '#aec7e8'},
   name: "T<sub>L1-L2</sub>"
 };
@@ -375,8 +368,8 @@ var trace_Tl2l3 = {
   type: "histogram",
   xbins: {size:10},
   histfunc: "sum",
-  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,],
-  y: [0.0,60.0,60.0,64.0,64.0,64.0,64.0,64.0,64.0,64.0,64.0,64.0,64.0,64.0,64.0,64.0,64.0,64.0,64.0,64.0,64.0,64.0,64.0,64.0,64.0,64.0,64.0,64.0,64.0,64.0,64.0,64.0,64.0,64.0,64.0,64.0,64.0,64.0,64.0,64.0,64.0,64.0,64.0,64.0,64.0,64.0,64.0,],
+  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,],
+  y: [0.0,60.0,60.0,64.0,64.0,64.0,64.0,64.0,64.0,64.0,64.0,64.0,64.0,64.0,64.0,64.0,64.0,64.0,64.0,64.0,64.0,64.0,64.0,64.0,64.0,64.0,64.0,64.0,64.0,64.0,64.0,64.0,64.0,64.0,64.0,64.0,64.0,64.0,64.0,64.0,64.0,64.0,64.0,64.0,64.0,64.0,],
   marker: {color: '#ff7f0e'},
   name: "T<sub>L2-L3</sub>"
 };
@@ -384,16 +377,16 @@ var trace_Tl3mem = {
   type: "histogram",
   xbins: {size:10},
   histfunc: "sum",
-  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,],
-  y: [0.0,0.0,0.0,0.0,137.9,137.9,137.9,137.9,137.9,137.9,137.9,137.9,137.9,137.9,137.9,137.9,137.9,137.9,137.9,137.9,137.9,137.9,137.9,137.9,137.9,137.9,137.9,137.9,137.9,137.9,147.1,147.1,147.1,147.1,147.1,147.1,147.1,147.1,147.1,147.1,147.1,147.1,147.1,147.1,147.1,147.1,147.1,],
+  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,],
+  y: [0.0,0.0,0.0,0.0,137.9,137.9,137.9,137.9,137.9,137.9,137.9,137.9,137.9,137.9,137.9,137.9,137.9,137.9,137.9,137.9,137.9,137.9,137.9,137.9,137.9,137.9,137.9,137.9,137.9,137.9,147.1,147.1,147.1,147.1,147.1,147.1,147.1,147.1,147.1,147.1,147.1,147.1,147.1,147.1,147.1,147.1,],
   marker: {color: '#ffbb78'},
   name: "T<sub>L3-MEM</sub>"
 };
 var trace_Ttotal = {
   type: "scatter",
   mode: "lines",
-  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,],
-  y: [140.2 ,204.2 ,204.2 ,208.2 ,346.1 ,346.1 ,346.1 ,346.1 ,346.1 ,346.1 ,346.1 ,358.1 ,358.1 ,358.1 ,358.1 ,358.1 ,358.1 ,358.1 ,358.1 ,358.1 ,358.1 ,358.1 ,358.1 ,358.1 ,358.1 ,358.1 ,358.1 ,358.1 ,358.1 ,358.1 ,367.3 ,367.3 ,367.3 ,367.3 ,367.3 ,367.3 ,367.3 ,367.3 ,367.3 ,367.3 ,367.3 ,367.3 ,367.3 ,367.3 ,367.3 ,367.3 ,367.3 ,],
+  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,],
+  y: [140.2 ,204.2 ,204.2 ,208.2 ,346.1 ,346.1 ,346.1 ,346.1 ,346.1 ,346.1 ,346.1 ,358.1 ,358.1 ,358.1 ,358.1 ,358.1 ,358.1 ,358.1 ,358.1 ,358.1 ,358.1 ,358.1 ,358.1 ,358.1 ,358.1 ,358.1 ,358.1 ,358.1 ,358.1 ,358.1 ,367.3 ,367.3 ,367.3 ,367.3 ,367.3 ,367.3 ,367.3 ,367.3 ,367.3 ,367.3 ,367.3 ,367.3 ,367.3 ,367.3 ,367.3 ,367.3 ,],
   line: {color: 'rgba(0,0,0,0)'},
   showlegend: false,
   name: "T<sub>ECM total</sub>"
@@ -430,16 +423,16 @@ var trace_benchmark = {
   type: "scatter",
   mode: "markers",
   marker: { symbol: "cross-thin-open" },
-  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,],
-  y: [276.64,276.71,213.25,443.43,499.39,589.49,683.45,649.63,902.73,628.49,667.82,641.07,618.90,582.20,826.19,663.26,672.58,580.01,606.35,647.01,752.40,618.77,637.71,645.49,657.59,573.36,588.55,525.96,604.77,560.83,588.89,520.87,592.09,598.55,621.27,530.23,629.46,612.24,616.89,519.02,650.58,666.36,647.42,,,,,],
+  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,],
+  y: [251.34,256.56,210.08,435.32,401.90,586.05,668.07,636.81,844.06,562.65,614.50,616.40,582.41,546.16,792.23,652.89,649.38,587.91,604.19,648.04,751.38,613.08,632.81,646.46,662.07,582.01,595.31,522.99,604.86,581.92,594.32,522.16,585.46,598.63,612.49,529.26,625.34,610.80,627.14,516.59,632.97,678.68,659.37,537.25,637.80,672.62,],
   line: {color: 'black'},
   name: "Benchmark"
 };
 var trace_Tol = {
   type: "scatter",
   mode: "lines",
-  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,],
-  y: [80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,],
+  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,],
+  y: [80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,80.9,],
   line: {color: '#d62728'},
   name: "T<sub>OL</sub>"
 };
@@ -447,8 +440,8 @@ var trace_Tnol = {
   type: "histogram",
   xbins: {size:10},
   histfunc: "sum",
-  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,],
-  y: [80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,],
+  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,],
+  y: [80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,80.2,],
   marker: {color: '#1f77b4'},
   name: "T<sub>nOL</sub>"
 };
@@ -456,8 +449,8 @@ var trace_Tl1l2 = {
   type: "histogram",
   xbins: {size:10},
   histfunc: "sum",
-  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,],
-  y: [81.8,73.2,69.6,486.6,67.1,66.6,66.2,500.3,65.7,67.5,69.3,490.2,71.2,77.1,77.0,518.2,76.9,76.9,76.8,490.1,76.7,76.7,76.7,500.1,76.6,76.6,76.6,490.1,76.5,76.5,76.5,532.1,76.5,76.4,76.4,490.1,76.4,76.4,76.4,508.1,76.4,76.4,76.4,492.1,76.3,76.3,76.3,],
+  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,],
+  y: [81.8,73.2,69.6,486.6,67.1,66.6,66.2,500.3,65.7,67.5,69.3,490.2,71.2,77.1,77.0,518.2,76.9,76.9,76.8,490.1,76.7,76.7,76.7,500.1,76.6,76.6,76.6,490.1,76.5,76.5,76.5,532.1,76.5,76.4,76.4,490.1,76.4,76.4,76.4,508.1,76.4,76.4,76.4,492.1,76.3,76.3,],
   marker: {color: '#aec7e8'},
   name: "T<sub>L1-L2</sub>"
 };
@@ -465,8 +458,8 @@ var trace_Tl2l3 = {
   type: "histogram",
   xbins: {size:10},
   histfunc: "sum",
-  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,],
-  y: [0.0,68.5,65.2,67.3,67.1,66.6,66.2,500.1,65.7,65.5,65.3,65.2,65.1,65.0,65.0,486.2,64.8,64.8,64.8,64.7,64.7,64.6,64.6,500.1,64.6,64.6,64.6,64.5,64.5,64.5,64.5,532.1,64.4,64.4,64.4,64.4,64.4,64.4,64.4,504.1,64.4,64.4,64.4,64.3,64.3,64.3,64.3,],
+  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,],
+  y: [0.0,68.5,65.2,67.3,67.1,66.6,66.2,500.1,65.7,65.5,65.3,65.2,65.1,65.0,65.0,486.2,64.8,64.8,64.8,64.7,64.7,64.6,64.6,500.1,64.6,64.6,64.6,64.5,64.5,64.5,64.5,532.1,64.4,64.4,64.4,64.4,64.4,64.4,64.4,504.1,64.4,64.4,64.4,64.3,64.3,64.3,],
   marker: {color: '#ff7f0e'},
   name: "T<sub>L2-L3</sub>"
 };
@@ -474,16 +467,16 @@ var trace_Tl3mem = {
   type: "histogram",
   xbins: {size:10},
   histfunc: "sum",
-  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,],
-  y: [0.0,0.0,0.0,0.0,144.6,143.5,142.4,141.6,141.3,140.9,140.7,140.4,140.2,140.1,139.9,139.7,139.7,139.6,139.5,139.4,139.3,139.2,139.2,139.1,139.1,139.1,139.0,139.0,138.9,138.9,143.0,148.0,148.2,148.0,148.1,148.1,148.1,148.1,148.1,148.0,148.0,148.0,148.0,148.0,148.0,148.0,147.8,],
+  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,],
+  y: [0.0,0.0,0.0,0.0,144.6,143.5,142.4,141.6,141.3,140.9,140.7,140.4,140.2,140.1,139.9,139.7,139.7,139.6,139.5,139.4,139.3,139.2,139.2,139.1,139.1,139.1,139.0,139.0,138.9,138.9,143.0,148.0,148.2,148.0,148.1,148.1,148.1,148.1,148.1,148.0,148.0,148.0,148.0,148.0,148.0,148.0,],
   marker: {color: '#ffbb78'},
   name: "T<sub>L3-MEM</sub>"
 };
 var trace_Ttotal = {
   type: "scatter",
   mode: "lines",
-  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,],
-  y: [162.0 ,221.9 ,215.0 ,634.1 ,359.0 ,356.8 ,354.9 ,1222.2 ,352.8 ,354.1 ,355.5 ,776.0 ,356.7 ,362.4 ,362.1 ,1224.2 ,361.6 ,361.5 ,361.3 ,774.5 ,361.0 ,360.8 ,360.7 ,1219.5 ,360.5 ,360.5 ,360.4 ,773.7 ,360.1 ,360.1 ,364.1 ,1292.4 ,369.3 ,369.0 ,369.2 ,782.8 ,369.1 ,369.1 ,369.0 ,1240.4 ,368.9 ,368.9 ,368.9 ,784.6 ,368.9 ,368.8 ,368.6 ,],
+  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,],
+  y: [162.0 ,221.9 ,215.0 ,634.1 ,359.0 ,356.8 ,354.9 ,1222.2 ,352.8 ,354.1 ,355.5 ,776.0 ,356.7 ,362.4 ,362.1 ,1224.2 ,361.6 ,361.5 ,361.3 ,774.5 ,361.0 ,360.8 ,360.7 ,1219.5 ,360.5 ,360.5 ,360.4 ,773.7 ,360.1 ,360.1 ,364.1 ,1292.4 ,369.3 ,369.0 ,369.2 ,782.8 ,369.1 ,369.1 ,369.0 ,1240.4 ,368.9 ,368.9 ,368.9 ,784.6 ,368.9 ,368.8 ,],
   line: {color: 'rgba(0,0,0,0)'},
   showlegend: false,
   name: "T<sub>ECM total</sub>"
@@ -520,16 +513,16 @@ var trace_benchmark = {
   type: "scatter",
   mode: "markers",
   marker: { symbol: "cross-thin-open" },
-  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,],
-  y: [276.64,276.71,213.25,443.43,499.39,589.49,683.45,649.63,902.73,628.49,667.82,641.07,618.90,582.20,826.19,663.26,672.58,580.01,606.35,647.01,752.40,618.77,637.71,645.49,657.59,573.36,588.55,525.96,604.77,560.83,588.89,520.87,592.09,598.55,621.27,530.23,629.46,612.24,616.89,519.02,650.58,666.36,647.42,,,,,],
+  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,],
+  y: [251.34,256.56,210.08,435.32,401.90,586.05,668.07,636.81,844.06,562.65,614.50,616.40,582.41,546.16,792.23,652.89,649.38,587.91,604.19,648.04,751.38,613.08,632.81,646.46,662.07,582.01,595.31,522.99,604.86,581.92,594.32,522.16,585.46,598.63,612.49,529.26,625.34,610.80,627.14,516.59,632.97,678.68,659.37,537.25,637.80,672.62,],
   line: {color: 'black'},
   name: "Benchmark"
 };
 var trace_Tol = {
   type: "scatter",
   mode: "lines",
-  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,],
-  y: [75.7,81.7,52.0,63.1,47.4,54.9,45.5,53.0,45.0,50.0,45.1,49.1,45.0,47.7,44.5,48.7,44.0,46.3,43.9,46.4,43.6,45.4,43.7,45.5,43.5,47.7,46.1,48.7,45.2,46.5,45.8,49.4,45.2,46.2,45.3,47.4,45.0,45.5,45.4,47.3,44.7,45.3,45.1,,,,,],
+  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,],
+  y: [57.4,66.7,48.6,57.5,46.7,51.5,45.5,50.6,44.7,48.4,45.4,48.6,45.6,47.4,44.4,49.0,45.0,46.6,45.0,46.9,44.1,45.9,44.8,46.3,44.7,47.6,46.7,48.9,46.2,47.2,46.4,49.9,45.9,46.8,46.1,48.0,45.7,46.2,46.1,47.8,45.7,46.2,46.0,47.4,45.3,46.0,],
   line: {color: '#d62728'},
   name: "T<sub>OL</sub>"
 };
@@ -537,8 +530,8 @@ var trace_Tnol = {
   type: "histogram",
   xbins: {size:10},
   histfunc: "sum",
-  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,],
-  y: [112.4,131.6,91.6,106.4,88.4,98.7,87.1,94.9,86.4,92.7,85.9,91.2,85.6,90.2,85.4,89.4,85.2,88.8,85.1,88.3,85.0,87.9,84.9,87.6,84.8,91.5,89.3,90.9,89.0,90.5,88.6,90.1,88.4,89.7,88.1,89.4,87.9,89.1,87.7,88.8,87.5,88.6,87.3,,,,,],
+  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,],
+  y: [112.7,131.9,93.1,107.6,90.1,100.1,88.9,96.5,88.2,94.3,87.8,92.9,87.5,91.9,87.3,91.2,87.1,90.6,87.0,90.1,86.9,89.7,86.8,89.4,86.8,93.2,91.1,92.7,90.8,92.3,90.5,91.9,90.2,91.5,89.9,91.2,89.7,90.9,89.5,90.7,89.4,90.5,89.2,90.3,89.1,90.1,],
   marker: {color: '#1f77b4'},
   name: "T<sub>nOL</sub>"
 };
@@ -546,8 +539,8 @@ var trace_Tl1l2 = {
   type: "histogram",
   xbins: {size:10},
   histfunc: "sum",
-  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,],
-  y: [85.2,74.8,71.5,217.7,70.3,74.1,68.9,199.2,69.9,72.3,72.9,211.1,74.6,77.8,78.5,213.8,79.6,80.8,79.5,209.9,79.4,80.5,79.3,194.8,79.0,80.5,79.2,136.9,78.9,79.2,78.8,142.8,78.8,79.1,78.9,135.9,78.8,79.7,78.7,137.0,78.6,79.4,78.7,,,,,],
+  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,],
+  y: [84.4,74.7,71.5,218.0,70.5,74.2,68.9,198.7,69.9,72.1,72.8,212.0,74.7,78.1,78.5,213.7,79.5,80.7,79.6,211.2,79.3,80.7,79.3,194.9,79.0,80.6,79.3,137.1,79.0,79.4,79.0,143.6,78.9,79.2,78.9,137.0,78.8,79.5,78.7,138.2,78.6,79.5,78.7,139.9,78.6,78.7,],
   marker: {color: '#aec7e8'},
   name: "T<sub>L1-L2</sub>"
 };
@@ -555,8 +548,8 @@ var trace_Tl2l3 = {
   type: "histogram",
   xbins: {size:10},
   histfunc: "sum",
-  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,],
-  y: [41.5,74.9,70.7,71.8,68.0,67.2,66.6,67.4,65.9,65.8,65.7,66.4,65.4,65.4,65.3,66.2,65.2,65.1,65.0,65.6,64.9,64.9,64.9,65.4,64.8,64.9,64.8,65.2,64.9,64.9,64.8,65.2,64.8,64.8,64.7,65.2,64.7,64.7,64.7,65.8,64.9,64.9,64.8,,,,,],
+  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,],
+  y: [5.5,74.7,71.2,71.8,68.5,67.2,66.6,67.4,65.9,65.8,65.7,66.4,65.4,65.4,65.3,66.2,65.1,65.1,65.0,65.6,64.9,64.9,64.9,65.4,64.8,64.9,64.8,65.2,64.9,64.9,64.8,65.2,64.8,64.9,64.7,65.1,64.7,64.7,64.7,65.3,64.9,64.9,64.7,65.0,64.7,65.0,],
   marker: {color: '#ff7f0e'},
   name: "T<sub>L2-L3</sub>"
 };
@@ -564,15 +557,15 @@ var trace_Tl3mem = {
   type: "histogram",
   xbins: {size:10},
   histfunc: "sum",
-  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,],
-  y: [0.2,0.3,0.2,0.7,85.6,142.8,144.2,145.3,142.9,142.5,142.3,142.9,142.0,142.0,142.0,142.4,142.5,142.3,142.3,142.1,142.6,142.4,141.9,142.4,142.9,143.3,144.0,144.6,145.0,145.5,145.8,146.4,146.9,146.9,147.5,148.1,148.4,149.1,149.5,149.1,150.3,150.4,150.5,,,,,],
+  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,],
+  y: [0.2,0.2,0.2,2.0,58.6,134.8,143.6,145.4,142.9,142.5,142.2,142.9,141.8,141.8,142.2,142.5,141.9,142.1,142.5,142.2,142.6,142.7,142.4,142.6,143.5,143.7,143.8,144.5,144.7,145.3,146.0,147.0,146.5,147.0,147.5,147.9,148.2,149.1,149.5,149.1,150.3,150.5,150.5,150.0,150.7,150.8,],
   marker: {color: '#ffbb78'},
   name: "T<sub>L3-MEM</sub>"
 };
 var trace_Ttotal = {
   type: "scatter",
   mode: "lines",
-  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,],
+  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,],
   y: [],
   line: {color: 'rgba(0,0,0,0)'},
   showlegend: false,
@@ -618,24 +611,24 @@ var trace_benchmark = {
   type: "scatter",
   mode: "markers",
   marker: { symbol: "cross-thin-open" },
-  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,],
-  y: [66.51,66.50,86.28,41.49,36.84,31.21,26.92,28.32,20.38,29.28,27.55,28.70,29.73,31.60,22.27,27.74,27.36,31.72,30.35,28.44,24.46,29.74,28.85,28.51,27.98,32.09,31.26,34.98,30.42,32.81,31.25,35.33,31.08,30.74,29.62,34.70,29.23,30.05,29.83,35.45,28.28,27.61,28.42,,,,,],
+  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,],
+  y: [73.21,71.72,87.58,42.27,45.78,31.40,27.54,28.89,21.80,32.70,29.94,29.85,31.59,33.69,23.23,28.18,28.33,31.30,30.45,28.39,24.49,30.01,29.08,28.46,27.79,31.61,30.91,35.18,30.42,31.62,30.96,35.24,31.43,30.74,30.04,34.77,29.42,30.12,29.34,35.62,29.07,27.11,27.91,34.25,28.85,27.36,],
   line: {color: 'black'},
   name: "Benchmark"
 };
 var trace_roofline = {
   type: "scatter",
   mode: "lines",
-  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,],
-  y: [150.94,127.35,127.35,119.43,56.03,56.03,56.03,56.03,56.03,56.03,56.03,56.03,56.03,56.03,56.03,56.03,56.03,56.03,56.03,56.03,56.03,56.03,56.03,56.03,56.03,56.03,56.03,56.03,56.03,56.03,52.45,52.45,52.45,52.45,52.45,52.45,52.45,52.45,52.45,52.45,52.45,52.45,52.45,52.45,52.45,52.45,52.45,],
+  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,],
+  y: [150.94,127.35,127.35,119.43,56.03,56.03,56.03,56.03,56.03,56.03,56.03,56.03,56.03,56.03,56.03,56.03,56.03,56.03,56.03,56.03,56.03,56.03,56.03,56.03,56.03,56.03,56.03,56.03,56.03,56.03,52.45,52.45,52.45,52.45,52.45,52.45,52.45,52.45,52.45,52.45,52.45,52.45,52.45,52.45,52.45,52.45,],
   line: {color: '#1f77b4'},
   name: "Roofline prediction with LC"
 };
 var trace_ecm = {
   type: "scatter",
   mode: "lines",
-  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,],
-  y: [131.06,89.99,89.99,88.26,53.09,53.09,53.09,53.09,53.09,53.09,53.09,51.31,51.31,51.31,51.31,51.31,51.31,51.31,51.31,51.31,51.31,51.31,51.31,51.31,51.31,51.31,51.31,51.31,51.31,51.31,50.02,50.02,50.02,50.02,50.02,50.02,50.02,50.02,50.02,50.02,50.02,50.02,50.02,,,,,],
+  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,],
+  y: [131.06,89.99,89.99,88.26,53.09,53.09,53.09,53.09,53.09,53.09,53.09,51.31,51.31,51.31,51.31,51.31,51.31,51.31,51.31,51.31,51.31,51.31,51.31,51.31,51.31,51.31,51.31,51.31,51.31,51.31,50.02,50.02,50.02,50.02,50.02,50.02,50.02,50.02,50.02,50.02,50.02,50.02,50.02,50.02,50.02,50.02,],
   line: {color: '#ff7f0e'},
   name: "ECM prediction with LC"
 };
@@ -668,24 +661,24 @@ var trace_benchmark = {
   type: "scatter",
   mode: "markers",
   marker: { symbol: "cross-thin-open" },
-  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,],
-  y: [66.51,66.50,86.28,41.49,36.84,31.21,26.92,28.32,20.38,29.28,27.55,28.70,29.73,31.60,22.27,27.74,27.36,31.72,30.35,28.44,24.46,29.74,28.85,28.51,27.98,32.09,31.26,34.98,30.42,32.81,31.25,35.33,31.08,30.74,29.62,34.70,29.23,30.05,29.83,35.45,28.28,27.61,28.42,,,,,],
+  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,],
+  y: [73.21,71.72,87.58,42.27,45.78,31.40,27.54,28.89,21.80,32.70,29.94,29.85,31.59,33.69,23.23,28.18,28.33,31.30,30.45,28.39,24.49,30.01,29.08,28.46,27.79,31.61,30.91,35.18,30.42,31.62,30.96,35.24,31.43,30.74,30.04,34.77,29.42,30.12,29.34,35.62,29.07,27.11,27.91,34.25,28.85,27.36,],
   line: {color: 'black'},
   name: "Benchmark"
 };
 var trace_roofline = {
   type: "scatter",
   mode: "lines",
-  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,],
-  y: [110.75,111.50,117.16,18.67,53.39,53.96,54.33,,54.71,54.90,54.90,18.49,55.09,55.28,55.28,,55.28,55.47,55.47,18.49,55.47,55.47,55.47,,55.66,55.66,55.66,18.49,55.66,55.66,54.15,,52.26,52.26,52.26,18.49,52.26,52.26,52.26,,52.26,52.26,52.26,18.49,52.26,52.26,52.26,],
+  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,],
+  y: [110.75,111.50,117.16,18.67,53.39,53.96,54.33,,54.71,54.90,54.90,18.49,55.09,55.28,55.28,,55.28,55.47,55.47,18.49,55.47,55.47,55.47,,55.66,55.66,55.66,18.49,55.66,55.66,54.15,,52.26,52.26,52.26,18.49,52.26,52.26,52.26,,52.26,52.26,52.26,18.49,52.26,52.26,],
   line: {color: '#1f77b4'},
   name: "Roofline prediction with CS"
 };
 var trace_ecm = {
   type: "scatter",
   mode: "lines",
-  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,],
-  y: [131.06,89.99,89.99,88.26,53.09,53.09,53.09,53.09,53.09,53.09,53.09,51.31,51.31,51.31,51.31,51.31,51.31,51.31,51.31,51.31,51.31,51.31,51.31,51.31,51.31,51.31,51.31,51.31,51.31,51.31,50.02,50.02,50.02,50.02,50.02,50.02,50.02,50.02,50.02,50.02,50.02,50.02,50.02,,,,,],
+  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,],
+  y: [131.06,89.99,89.99,88.26,53.09,53.09,53.09,53.09,53.09,53.09,53.09,51.31,51.31,51.31,51.31,51.31,51.31,51.31,51.31,51.31,51.31,51.31,51.31,51.31,51.31,51.31,51.31,51.31,51.31,51.31,50.02,50.02,50.02,50.02,50.02,50.02,50.02,50.02,50.02,50.02,50.02,50.02,50.02,50.02,50.02,50.02,],
   line: {color: '#ff7f0e'},
   name: "ECM prediction with CS"
 };
@@ -730,8 +723,8 @@ var benchmark_l1l2 = {
   type: "scatter",
   mode: "markers",
   marker: { symbol: "cross-thin-open" },
-  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,],
-  y: [340.56,299.20,286.08,870.96,281.28,296.24,275.60,796.72,279.68,289.28,291.52,844.64,298.48,311.04,314.08,855.36,318.48,323.04,318.16,839.60,317.68,322.16,317.28,779.20,316.16,321.92,316.72,547.44,315.76,316.96,315.36,571.36,315.36,316.56,315.52,543.60,315.04,318.72,314.64,548.16,314.56,317.68,314.72,,,,,],
+  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,],
+  y: [337.44,298.80,286.08,872.24,282.08,296.64,275.60,794.64,279.52,288.56,291.04,848.16,298.72,312.64,314.16,854.64,318.08,322.80,318.24,844.64,317.36,322.72,317.44,779.44,316.00,322.48,316.96,548.24,316.00,317.68,315.76,574.56,315.36,316.80,315.60,548.00,315.12,318.16,314.96,552.88,314.48,317.92,314.72,559.44,314.48,314.88,],
   line: {color: '#d62728'},
   name: "L1-L2 Benchmark"
 };
@@ -739,8 +732,8 @@ var benchmark_l2l3 = {
   type: "scatter",
   mode: "markers",
   marker: { symbol: "cross-thin-open" },
-  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,],
-  y: [166.16,299.60,282.96,287.20,271.76,268.80,266.40,269.44,263.52,263.28,262.64,265.44,261.76,261.52,261.28,264.96,260.64,260.40,260.08,262.32,259.60,259.76,259.60,261.68,259.20,259.52,259.28,260.80,259.52,259.36,259.12,260.88,259.12,259.28,258.96,260.96,258.96,258.96,258.80,263.36,259.68,259.52,259.12,1904.25,297.37,297.25,297.25,],
+  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,],
+  y: [22.08,298.64,284.64,286.96,274.00,268.72,266.40,269.68,263.60,263.20,262.64,265.84,261.76,261.52,261.12,264.80,260.64,260.48,260.00,262.48,259.60,259.76,259.60,261.60,259.20,259.52,259.28,260.56,259.44,259.44,259.20,261.04,259.04,259.44,258.96,260.64,258.96,258.96,258.80,261.28,259.68,259.44,258.96,260.08,258.72,259.84,],
   line: {color: '#1f77b4'},
   name: "L2-L3 Benchmark"
 };
@@ -748,8 +741,8 @@ var benchmark_l3mem = {
   type: "scatter",
   mode: "markers",
   marker: { symbol: "cross-thin-open" },
-  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,],
-  y: [.48,.48,.32,1.28,148.96,248.48,250.88,252.88,248.64,248.00,247.52,248.64,247.04,247.04,247.12,247.84,247.92,247.52,247.52,247.12,248.08,247.68,246.88,247.76,248.56,249.36,250.56,251.52,252.24,253.20,253.68,254.64,255.52,255.52,256.64,257.68,258.24,259.36,260.08,259.36,261.60,261.68,261.92,249.37,249.37,249.37,249.00,],
+  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,],
+  y: [.48,.48,.32,3.52,101.92,234.48,249.84,252.96,248.56,247.84,247.44,248.56,246.80,246.64,247.44,247.92,246.96,247.28,247.84,247.44,248.08,248.24,247.84,248.16,249.60,250.08,250.24,251.44,251.76,252.88,254.08,255.68,254.88,255.76,256.64,257.28,257.84,259.36,260.16,259.44,261.44,261.92,261.92,261.04,262.16,262.40,],
   line: {color: '#ff7f0e'},
   name: "L3-MEM Benchmark"
 };
@@ -757,24 +750,24 @@ var benchmark_l3mem = {
 var L1L2 = {
   type: "scatter",
   mode: "lines",
-  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,],
-  y: [240.00,256.00,256.00,256.00,256.00,256.00,256.00,256.00,256.00,256.00,256.00,304.00,304.00,304.00,304.00,304.00,304.00,304.00,304.00,304.00,304.00,304.00,304.00,304.00,304.00,304.00,304.00,304.00,304.00,304.00,304.00,304.00,304.00,304.00,304.00,304.00,304.00,304.00,304.00,304.00,304.00,304.00,304.00,248.00,248.00,248.00,248.00,],
+  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,],
+  y: [240.00,256.00,256.00,256.00,256.00,256.00,256.00,256.00,256.00,256.00,256.00,304.00,304.00,304.00,304.00,304.00,304.00,304.00,304.00,304.00,304.00,304.00,304.00,304.00,304.00,304.00,304.00,304.00,304.00,304.00,304.00,304.00,304.00,304.00,304.00,304.00,304.00,304.00,304.00,304.00,304.00,304.00,304.00,304.00,304.00,304.00,],
   line: {color: '#d62728'},
   name: "L1-L2 with LC"
 };
 var L2L3= {
   type: "scatter",
   mode: "lines",
-  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,],
-  y: [0,240.00,240.00,256.00,256.00,256.00,256.00,256.00,256.00,256.00,256.00,256.00,256.00,256.00,256.00,256.00,256.00,256.00,256.00,256.00,256.00,256.00,256.00,256.00,256.00,256.00,256.00,256.00,256.00,256.00,256.00,256.00,256.00,256.00,256.00,256.00,256.00,256.00,256.00,256.00,256.00,256.00,256.00,,,,,],
+  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,],
+  y: [0,240.00,240.00,256.00,256.00,256.00,256.00,256.00,256.00,256.00,256.00,256.00,256.00,256.00,256.00,256.00,256.00,256.00,256.00,256.00,256.00,256.00,256.00,256.00,256.00,256.00,256.00,256.00,256.00,256.00,256.00,256.00,256.00,256.00,256.00,256.00,256.00,256.00,256.00,256.00,256.00,256.00,256.00,256.00,256.00,256.00,],
   line: {color: '#1f77b4'},
   name: "L2-L3 with LC"
 };
 var L3MEM = {
   type: "scatter",
   mode: "lines",
-  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,],
-  y: [0,0,0,0,240.00,240.00,240.00,240.00,240.00,240.00,240.00,240.00,240.00,240.00,240.00,240.00,240.00,240.00,240.00,240.00,240.00,240.00,240.00,240.00,240.00,240.00,240.00,240.00,240.00,240.00,256.00,256.00,256.00,256.00,256.00,256.00,256.00,256.00,256.00,256.00,256.00,256.00,256.00,,,,,],
+  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,],
+  y: [0,0,0,0,240.00,240.00,240.00,240.00,240.00,240.00,240.00,240.00,240.00,240.00,240.00,240.00,240.00,240.00,240.00,240.00,240.00,240.00,240.00,240.00,240.00,240.00,240.00,240.00,240.00,240.00,256.00,256.00,256.00,256.00,256.00,256.00,256.00,256.00,256.00,256.00,256.00,256.00,256.00,256.00,256.00,256.00,],
   line: {color: '#ff7f0e'},
   name: "L3-MEM with LC"
 };
@@ -807,8 +800,8 @@ var benchmark_l1l2 = {
   type: "scatter",
   mode: "markers",
   marker: { symbol: "cross-thin-open" },
-  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,],
-  y: [340.56,299.20,286.08,870.96,281.28,296.24,275.60,796.72,279.68,289.28,291.52,844.64,298.48,311.04,314.08,855.36,318.48,323.04,318.16,839.60,317.68,322.16,317.28,779.20,316.16,321.92,316.72,547.44,315.76,316.96,315.36,571.36,315.36,316.56,315.52,543.60,315.04,318.72,314.64,548.16,314.56,317.68,314.72,,,,,],
+  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,],
+  y: [337.44,298.80,286.08,872.24,282.08,296.64,275.60,794.64,279.52,288.56,291.04,848.16,298.72,312.64,314.16,854.64,318.08,322.80,318.24,844.64,317.36,322.72,317.44,779.44,316.00,322.48,316.96,548.24,316.00,317.68,315.76,574.56,315.36,316.80,315.60,548.00,315.12,318.16,314.96,552.88,314.48,317.92,314.72,559.44,314.48,314.88,],
   line: {color: '#d62728'},
   name: "L1-L2 Benchmark"
 };
@@ -816,8 +809,8 @@ var benchmark_l2l3 = {
   type: "scatter",
   mode: "markers",
   marker: { symbol: "cross-thin-open" },
-  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,],
-  y: [166.16,299.60,282.96,287.20,271.76,268.80,266.40,269.44,263.52,263.28,262.64,265.44,261.76,261.52,261.28,264.96,260.64,260.40,260.08,262.32,259.60,259.76,259.60,261.68,259.20,259.52,259.28,260.80,259.52,259.36,259.12,260.88,259.12,259.28,258.96,260.96,258.96,258.96,258.80,263.36,259.68,259.52,259.12,1904.25,297.37,297.25,297.25,],
+  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,],
+  y: [22.08,298.64,284.64,286.96,274.00,268.72,266.40,269.68,263.60,263.20,262.64,265.84,261.76,261.52,261.12,264.80,260.64,260.48,260.00,262.48,259.60,259.76,259.60,261.60,259.20,259.52,259.28,260.56,259.44,259.44,259.20,261.04,259.04,259.44,258.96,260.64,258.96,258.96,258.80,261.28,259.68,259.44,258.96,260.08,258.72,259.84,],
   line: {color: '#1f77b4'},
   name: "L2-L3 Benchmark"
 };
@@ -825,8 +818,8 @@ var benchmark_l3mem = {
   type: "scatter",
   mode: "markers",
   marker: { symbol: "cross-thin-open" },
-  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,],
-  y: [.48,.48,.32,1.28,148.96,248.48,250.88,252.88,248.64,248.00,247.52,248.64,247.04,247.04,247.12,247.84,247.92,247.52,247.52,247.12,248.08,247.68,246.88,247.76,248.56,249.36,250.56,251.52,252.24,253.20,253.68,254.64,255.52,255.52,256.64,257.68,258.24,259.36,260.08,259.36,261.60,261.68,261.92,249.37,249.37,249.37,249.00,],
+  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,],
+  y: [.48,.48,.32,3.52,101.92,234.48,249.84,252.96,248.56,247.84,247.44,248.56,246.80,246.64,247.44,247.92,246.96,247.28,247.84,247.44,248.08,248.24,247.84,248.16,249.60,250.08,250.24,251.44,251.76,252.88,254.08,255.68,254.88,255.76,256.64,257.28,257.84,259.36,260.16,259.44,261.44,261.92,261.92,261.04,262.16,262.40,],
   line: {color: '#ff7f0e'},
   name: "L3-MEM Benchmark"
 };
@@ -834,24 +827,24 @@ var benchmark_l3mem = {
 var L1L2 = {
   type: "scatter",
   mode: "lines",
-  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,],
-  y: [327.12,292.74,278.37,1946.50,268.49,266.12,264.62,2001.00,262.62,269.87,277.24,1961.00,284.62,308.49,308.24,2072.62,307.74,307.49,307.37,1960.62,306.99,306.87,306.74,2000.25,306.49,306.49,306.25,1960.37,306.12,306.00,305.87,2128.25,305.87,305.75,305.75,1960.37,305.62,305.62,305.50,2032.25,305.50,305.37,305.37,249.37,249.37,249.37,249.00,],
+  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,],
+  y: [327.12,292.74,278.37,1946.50,268.49,266.12,264.62,2001.00,262.62,269.87,277.24,1961.00,284.62,308.49,308.24,2072.62,307.74,307.49,307.37,1960.62,306.99,306.87,306.74,2000.25,306.49,306.49,306.25,1960.37,306.12,306.00,305.87,2128.25,305.87,305.75,305.75,1960.37,305.62,305.62,305.50,2032.25,305.50,305.37,305.37,1968.25,305.37,305.25,],
   line: {color: '#d62728'},
   name: "L1-L2 with CS"
 };
 var L2L3= {
   type: "scatter",
   mode: "lines",
-  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,],
-  y: [0,273.99,260.62,268.99,268.49,266.12,264.62,2000.62,262.62,261.87,261.24,260.74,260.49,260.12,259.87,1944.62,259.37,259.24,259.12,258.87,258.87,258.62,258.49,2000.25,258.37,258.37,258.12,257.87,257.87,257.87,257.75,2128.25,257.75,257.50,257.62,257.50,257.50,257.50,257.50,2016.25,257.37,257.37,257.37,296.00,296.00,296.00,296.00,],
+  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,],
+  y: [0,273.99,260.62,268.99,268.49,266.12,264.62,2000.62,262.62,261.87,261.24,260.74,260.49,260.12,259.87,1944.62,259.37,259.24,259.12,258.87,258.87,258.62,258.49,2000.25,258.37,258.37,258.12,257.87,257.87,257.87,257.75,2128.25,257.75,257.50,257.62,257.50,257.50,257.50,257.50,2016.25,257.37,257.37,257.37,257.37,257.37,257.37,],
   line: {color: '#1f77b4'},
   name: "L2-L3 with CS"
 };
 var L3MEM = {
   type: "scatter",
   mode: "lines",
-  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,],
-  y: [0,0,0,0,251.49,249.62,247.62,246.37,245.87,245.24,244.74,244.24,243.99,243.74,243.37,243.12,242.99,242.87,242.74,242.62,242.37,242.25,242.24,242.12,242.00,241.99,241.87,241.75,241.62,241.74,248.75,257.50,257.87,257.50,257.62,257.62,257.50,257.62,257.62,257.49,257.37,257.37,257.37,248.00,248.00,248.00,248.00,],
+  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,],
+  y: [0,0,0,0,251.49,249.62,247.62,246.37,245.87,245.24,244.74,244.24,243.99,243.74,243.37,243.12,242.99,242.87,242.74,242.62,242.37,242.25,242.24,242.12,242.00,241.99,241.87,241.75,241.62,241.74,248.75,257.50,257.87,257.50,257.62,257.62,257.50,257.62,257.62,257.49,257.37,257.37,257.37,257.49,257.49,257.49,],
   line: {color: '#ff7f0e'},
   name: "L3-MEM with CS"
 };
@@ -885,7 +878,7 @@ Plotly.newPlot('mem_CS', data, layout, config);
   <div class="section-block-half">
     <h2 id="multi-core-thread-scaling">Multi Core Thread Scaling</h2>
 
-    <p><input class="plot-button" type="button" onclick="document.getElementById('scaling_460').style.display = 'none';document.getElementById('scaling_460').style.display = 'block';" value="460³" /></p>
+    <p><input class="plot-button" type="button" onclick="document.getElementById('scaling_450').style.display = 'none';document.getElementById('scaling_450').style.display = 'block';" value="450³" /></p>
 
     <div class="scaling">
 
@@ -897,7 +890,7 @@ var trace_benchmark = {
   mode: "markers",
   marker: { symbol: "cross-thin-open" },
   x: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,],
-  y: [,,,,,,,,,,,,,,,,,,],
+  y: [28.64,39.56,57.08,74.13,88.5,96.99,107.99,114.68,118.9,132.3,145.63,158.45,171.5,187.25,199.87,214.07,223.84,240.19,],
   line: {color: 'black'},
   name: "Benchmark"
 };
@@ -905,7 +898,7 @@ var trace_ecm = {
   type: "scatter",
   mode: "lines",
   x: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,],
-  y: [52.45,94.15,112.64,121.32,124.33,124.71,124.90,124.71,125.09,140.56,153.77,168.49,182.26,197.73,210.75,221.32,229.43,242.07,],
+  y: [52.45,94.15,112.64,121.32,124.33,124.71,124.9,124.71,125.09,140.56,153.77,168.49,182.26,197.73,210.75,221.32,229.43,242.07,],
   line: {color: '#ff7f0e'},
   name: "ECM LC Prediction"
 };
@@ -913,7 +906,7 @@ var trace_roofline = {
   type: "scatter",
   mode: "lines",
   x: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,],
-  y: [50.09,100.17,125.05,125.05,125.05,125.05,125.05,125.05,125.05,138.94,152.83,166.72,180.62,194.52,208.40,222.30,236.20,250.10,],
+  y: [50.09,100.17,125.05,125.05,125.05,125.05,125.05,125.05,125.05,138.94,152.83,166.72,180.62,194.52,208.4,222.3,236.2,250.1,],
   line: {color: '#1f77b4'},
   name: "Roofline LC Prediction"
 };
@@ -955,7 +948,7 @@ var trace_benchmark = {
   mode: "markers",
   marker: { symbol: "cross-thin-open" },
   x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,],
-  y: [66.51,66.50,86.28,41.49,36.84,31.21,26.92,28.32,20.38,29.28,27.55,28.70,29.73,31.60,22.27,27.74,27.36,31.72,30.35,28.44,24.46,29.74,28.85,28.51,27.98,32.09,31.26,34.98,30.42,32.81,31.25,35.33,31.08,30.74,29.62,34.70,29.23,30.05,29.83,35.45,28.28,27.61,28.42,,,,,],
+  y: [73.21,71.72,87.58,42.27,45.78,31.40,27.54,28.89,21.80,32.70,29.94,29.85,31.59,33.69,23.23,28.18,28.33,31.30,30.45,28.39,24.49,30.01,29.08,28.46,27.79,31.61,30.91,35.18,30.42,31.62,30.96,35.24,31.43,30.74,30.04,34.77,29.42,30.12,29.34,35.62,29.07,27.11,27.91,34.25,28.85,27.36,],
   line: {color: 'black'},
   name: "Benchmark"
 };
@@ -972,7 +965,7 @@ var trace_roofline = {
   type: "scatter",
   mode: "lines",
   x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,],
-  y: [150.94,127.35,127.35,119.43,56.03,56.03,56.03,56.03,56.03,56.03,56.03,56.03,56.03,56.03,56.03,56.03,56.03,56.03,56.03,56.03,56.03,56.03,56.03,56.03,56.03,56.03,56.03,56.03,56.03,56.03,52.45,52.45,52.45,52.45,52.45,52.45,52.45,52.45,52.45,52.45,52.45,52.45,52.45,52.45,52.45,52.45,52.45,],
+  y: [150.94,127.35,127.35,119.43,56.03,56.03,56.03,56.03,56.03,56.03,56.03,56.03,56.03,56.03,56.03,56.03,56.03,56.03,56.03,56.03,56.03,56.03,56.03,56.03,56.03,56.03,56.03,56.03,56.03,56.03,52.45,52.45,52.45,52.45,52.45,52.45,52.45,52.45,52.45,52.45,52.45,52.45,52.45,52.45,52.45,52.45,],
   line: {color: '#1f77b4'},
   name: "Roofline LC"
 };
@@ -980,7 +973,7 @@ var trace_ecm = {
   type: "scatter",
   mode: "lines",
   x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,],
-  y: [131.06,89.99,89.99,88.26,53.09,53.09,53.09,53.09,53.09,53.09,53.09,51.31,51.31,51.31,51.31,51.31,51.31,51.31,51.31,51.31,51.31,51.31,51.31,51.31,51.31,51.31,51.31,51.31,51.31,51.31,50.02,50.02,50.02,50.02,50.02,50.02,50.02,50.02,50.02,50.02,50.02,50.02,50.02,,,,,],
+  y: [131.06,89.99,89.99,88.26,53.09,53.09,53.09,53.09,53.09,53.09,53.09,51.31,51.31,51.31,51.31,51.31,51.31,51.31,51.31,51.31,51.31,51.31,51.31,51.31,51.31,51.31,51.31,51.31,51.31,51.31,50.02,50.02,50.02,50.02,50.02,50.02,50.02,50.02,50.02,50.02,50.02,50.02,50.02,50.02,50.02,50.02,],
   line: {color: '#ff7f0e'},
   name: "ECM"
 };
