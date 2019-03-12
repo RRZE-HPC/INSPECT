@@ -215,7 +215,7 @@ for fDATATYPE in ${DATATYPE}; do
 	for (( size=10; size<=${LC_3D_L3_N}+10; size=size+10)); do
 
 		# blocking factor  x direction 100 or size_x if it is smaller
-		PB=$(python -c "import sympy;P=sympy.Symbol('P',positive=True);print(int(sympy.solvers.solve($(echo ${LC_3D_L3} | sed 's/N/16/g'), P))/10)*10" | sed -e 's/\[//' -e 's/\]//')
+		PB=$(python -c "import sympy;P=sympy.Symbol('P',positive=True);print(int(max(sympy.solvers.solve($(echo ${LC_3D_L3} | sed 's/N/16/g'), P))/10)*10)")
 		PB=$(( ${PB} > ${size} ? ${size} : ${PB} ))
 
 		# y direction: LC

@@ -9,7 +9,7 @@ kind         : "star"
 coefficients : "constant"
 datatype     : "double"
 machine      : "HaswellEP_E5-2695v3_CoD"
-flavor       : "Cluster on Die"
+comment      : "Cluster on Die"
 compile_flags: "icc -O3 -xCORE-AVX2 -fno-alias -qopenmp -qopenmp -DLIKWID_PERFMON -Ilikwid-4.3.3/include -Llikwid-4.3.3/lib -Iheaders/dummy.c stencil_compilable.c -o stencil -llikwid"
 flop         : "7"
 scaling      : [ "1010" ]
@@ -25,13 +25,13 @@ double a[M][N][P];
 double b[M][N][P];
 double c0;
 
-for (long k = 1; k < M - 1; ++k) {
-  for (long j = 1; j < N - 1; ++j) {
-    for (long i = 1; i < P - 1; ++i) {
-      b[k][j][i] =
-          c0 * (a[k][j][i] + a[k][j][i - 1] + a[k][j][i + 1] +
-                a[k - 1][j][i] + a[k + 1][j][i] + a[k][j - 1][i] +
-                a[k][j + 1][i]);
+for(long k=1; k < M-1; ++k) {
+  for(long j=1; j < N-1; ++j) {
+    for(long i=1; i < P-1; ++i) {
+      b[k][j][i] = c0 * (a[k][j][i]
+                   + a[k][j][i-1] + a[k][j][i+1]
+                   + a[k-1][j][i] + a[k+1][j][i]
+                   + a[k][j-1][i] + a[k][j+1][i]);
     }
   }
 }
