@@ -4,7 +4,7 @@ title:  "Stencil detail"
 
 dimension    : "3D"
 radius       : "1r"
-weighting    : "isotropic"
+weighting    : "homogeneous"
 kind         : "box"
 coefficients : "constant"
 datatype     : "double"
