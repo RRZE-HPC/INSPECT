@@ -9,12 +9,11 @@ kind         : "star"
 coefficients : "constant"
 datatype     : "double"
 machine      : "BroadwellEP_E5-2697_CoD"
-flavor       : "EDIT_ME"
-comment      : "EDIT_ME"
+flavor       : "Cluster on Die"
 compile_flags: "icc -O3 -xCORE-AVX2 -fno-alias -qopenmp -qopenmp -DLIKWID_PERFMON -Ilikwid-4.3.3/include -Llikwid-4.3.3/lib -Iheaders/dummy.c stencil_compilable.c -o stencil -llikwid"
 flop         : "22"
 scaling      : [ "900" ]
-blocking     : [ "L3-3D" ]
+blocking     : [ "L2-3D" ]
 ---
 
 {%- capture basename -%}
