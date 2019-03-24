@@ -13,7 +13,7 @@ comment      : "Cluster on Die"
 compile_flags: "icc -O3 -xCORE-AVX2 -fno-alias -qopenmp -qopenmp -DLIKWID_PERFMON -Ilikwid-4.3.3/include -Llikwid-4.3.3/lib -Iheaders/dummy.c stencil_compilable.c -o stencil -llikwid"
 flop         : "7"
 scaling      : [ "1010" ]
-blocking     : [ "L3-3D" ]
+blocking     : [ "L2-3D", "L3-3D" ]
 ---
 
 {%- capture basename -%}
