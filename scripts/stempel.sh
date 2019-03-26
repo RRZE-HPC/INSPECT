@@ -16,18 +16,18 @@ STEMPEL_BINARY=~/.local/bin/stempel
 KERNCRAFT_BINARY=~/.local/bin/kerncraft
 STEMPEL_DIR=~/stempel
 
-OUTPUT_FOLDER=~/stempel_data_collection
+OUTPUT_FOLDER=~/INSPECT
 
 # dimension: 2 or 3 (currently only 3D is supported)
 DIM=3
 # desired stencil radius: 1,2,3,...
-RADIUS=1
+RADIUS=3
 # stencil kind: 'star' or 'box'
 KIND=star
 # coefficients: 'constant' or 'variable'
-CONST=variable
+CONST="constant variable"
 # weighting: 'isotropic', 'heterogeneous', 'homogeneous', 'point-symmetric'
-WEIGHTING="heterogeneous point-symmetric isotropic homogeneous"
+WEIGHTING="isotropic heterogeneous"
 # datatype: 'double' or 'float'
 DATATYPE=double
 
@@ -36,6 +36,7 @@ MACHINE_FILE=${STEMPEL_DIR}/tests/testfiles/BroadwellEP_E5-2697_CoD.yml
 # MACHINE_FILE=${STEMPEL_DIR}/tests/testfiles/HaswellEP_E5-2695v3_CoD.yml
 #MACHINE_FILE=${STEMPEL_DIR}/tests/testfiles/SkylakeSP_Gold-6148.yml
 #MACHINE_FILE=${STEMPEL_DIR}/tests/testfiles/SkylakeSP_Gold-6148_512.yml
+# MACHINE_FILE=${STEMPEL_DIR}/tests/testfiles/SkylakeSP_Gold-6148_SNC.yml
 
 # counters for BroadEP2, HasEP1 and SkylapeSP1
 COUNTER="CAS_COUNT_RD:MBOX4C1,CAS_COUNT_RD:MBOX6C0,CAS_COUNT_RD:MBOX2C1,CAS_COUNT_RD:MBOX3C0,CAS_COUNT_WR:MBOX0C1,CAS_COUNT_RD:MBOX5C1,L1D_REPLACEMENT:PMC0,CAS_COUNT_WR:MBOX5C0,CAS_COUNT_RD:MBOX0C0,CAS_COUNT_WR:MBOX6C1,L1D_M_EVICT:PMC2,CAS_COUNT_RD:MBOX7C1,CAS_COUNT_RD:MBOX1C1,CAS_COUNT_WR:MBOX4C0,CAS_COUNT_WR:MBOX2C0,CAS_COUNT_WR:MBOX1C0,CAS_COUNT_WR:MBOX3C1,CAS_COUNT_WR:MBOX7C0,L2_LINES_IN_ALL:PMC3,L2_TRANS_L2_WB:PMC1"
@@ -50,7 +51,7 @@ COUNTER="CAS_COUNT_RD:MBOX4C1,CAS_COUNT_RD:MBOX6C0,CAS_COUNT_RD:MBOX2C1,CAS_COUN
 # **************************************************************************************************
 
 # load modules (this ist for the testcluster)
-module load likwid/4.3.2 intel64/17.0up05 python/3.6-anaconda
+module load likwid/4.3.3 intel64/19.0up02 python/3.6-anaconda
 
 likwid-topology -g
 
@@ -83,6 +84,9 @@ for fDATATYPE in ${DATATYPE}; do
 	mkdir data
 
 	echo ":: RUNNING: ${fDIM}D r${fRADIUS} ${fKIND} ${fCONST} ${fWEIGHTING} ${DATE} ${MACHINE}"
+
+	echo ":: GATHERING SYSTEM INFORMATION"
+	sh ~/INSPECT/likwid-sysinfo.sh >> data/system_info.txt
 
 	if [[ ${fWEIGHTING} == "isotropic" ]]; then
 		S_WEIGHTING=-i
@@ -121,6 +125,10 @@ for fDATATYPE in ${DATATYPE}; do
 	# L3 3D Layer Condition
 	LC_3D_L3=$(cat data/LC.txt | grep L3: | tail -n 1 | sed -e 's/.*: //' -e 's/<=/-/')
 	LC_3D_L3_N=$(python -c "import sympy;N=sympy.Symbol('N',positive=True);print(int(max(sympy.solvers.solve($(echo ${LC_3D_L3} | sed 's/[A-Z]/N/g'), N))*1.5/10)*10)")
+	LC_3D_L3_N_orig=${LC_3D_L3_N}
+
+	# L3 3D Layer Condition
+	LC_3D_L2=$(cat data/LC.txt | grep L2: | tail -n 1 | sed -e 's/.*: //' -e 's/<=/-/')
 
 	echo ":: L3 3D Layer Condition * 1.5 = ${LC_3D_L3_N} (${LC_3D_L3})"
 
@@ -148,6 +156,7 @@ for fDATATYPE in ${DATATYPE}; do
 
 	echo {\$,$}LC_3D_L3 >> args.txt
 	echo {\$,$}LC_3D_L3_N >> args.txt
+	echo {\$,$}LC_3D_L2 >> args.txt
 	echo {\$,$}MEM_PER_NUMA >> args.txt
 
 	mkdir data/singlecore
@@ -167,19 +176,6 @@ for fDATATYPE in ${DATATYPE}; do
 	# ************************************************************************************************
 	# Threads Scaling
 	# ************************************************************************************************
-
-	# create bench code
-	echo ":: GENERATING BENCHMARK CODE"
-	${STEMPEL_BINARY} bench stencil.c -m ${MACHINE_FILE} -b 0 --store
-
-	# fix compilation
-	sed -ri 's/#include <math.h>//' stencil_compilable.c
-	sed -ri 's/ rand.*/ 1.;/' stencil_compilable.c
-
-	# compile
-	echo ":: COMPILING"
-	${COMPILER} ${COMPILE_ARGS}
-	mv stencil stencil_scaling
 
 	cores=$(cat ${MACHINE_FILE} | grep "cores per socket" | sed 's/.*: //')
 
@@ -203,40 +199,58 @@ for fDATATYPE in ${DATATYPE}; do
 
 	echo ":: GENERATING BENCHMARK CODE WITH BLOCKING"
 	${STEMPEL_BINARY} bench stencil.c -m ${MACHINE_FILE} -b 2 --store
+	sed -i 's/#pragma/\/\/#pragma/g' kernel.c
+	sed -i 's/#pragma/\/\/#pragma/g' stencil_compilable.c
 
 	# compile
 	echo ":: COMPILING"
+	cp ~/kernel.c ./kernel.c
 	${COMPILER} ${COMPILE_ARGS}
 	mv stencil stencil_blocking
 
 	mkdir data/blocking
 
-	# run benchmark
-	for (( size=10; size<=${LC_3D_L3_N}+10; size=size+10)); do
+	# run spatial blocking benchmark
+	for blocking_case in L2 L3; do
 
-		# blocking factor  x direction 100 or size_x if it is smaller
-		PB=$(python -c "import sympy;P=sympy.Symbol('P',positive=True);print(int(max(sympy.solvers.solve($(echo ${LC_3D_L3} | sed 's/N/16/g'), P))/10)*10)")
-		PB=$(( ${PB} > ${size} ? ${size} : ${PB} ))
+		mkdir data/blocking/${blocking_case}_3D
 
-		# y direction: LC
-		TMP=$(echo ${LC_3D_L3} | sed "s/P/${PB}/g")
-		NB=$(python -c "import sympy;N=sympy.Symbol('N',positive=True);print(int(sympy.solvers.solve(${TMP}, N)))")
+		for (( size=10; size<=${LC_3D_L3_N}+10; size=size+10)); do
 
-		# blocking factor z direction, fixed factor: 16
-		MB=16
+			if [[ ${blocking_case} == "L2" ]]; then
+				# blocking factor  x direction 100 or size_x if it is smaller
+				PB=$(python -c "import sympy;P=sympy.Symbol('P',positive=True);print(int(max(sympy.solvers.solve($(echo ${LC_3D_L2} | sed 's/N/16/g'), P))/10)*10)")
+				PB=$(( ${PB} > ${size} ? ${size} : ${PB} ))
 
-		STEMPEL_BENCH_BLOCKING_value="${MB} ${NB} ${PB}"
-		args="${size} ${size} ${size} ${STEMPEL_BENCH_BLOCKING_value}"
-		echo ${args} >> args.txt
+				# y direction: LC
+				TMP=$(echo ${LC_3D_L2} | sed "s/P/${PB}/g")
+				NB=$(python -c "import sympy;N=sympy.Symbol('N',positive=True);print(int(max(sympy.solvers.solve(${TMP}, N))*0.75))")
+			elif [[ ${blocking_case} == "L3" ]]; then
+				# blocking factor  x direction 100 or size_x if it is smaller
+				PB=$(python -c "import sympy;P=sympy.Symbol('P',positive=True);print(int(max(sympy.solvers.solve($(echo ${LC_3D_L3} | sed 's/N/16/g'), P))/10)*10)")
+				PB=$(( ${PB} > ${size} ? ${size} : ${PB} ))
 
-		echo -ne "\033[0K\r:: RUNNIG BENCHMARK N=${args}"
+				# y direction: LC
+				TMP=$(echo ${LC_3D_L3} | sed "s/P/${PB}/g")
+				NB=$(python -c "import sympy;N=sympy.Symbol('N',positive=True);print(int(max(sympy.solvers.solve(${TMP}, N))*0.9))")
+			fi
 
-		likwid-perfctr -f -o data/blocking/likwid_${size}.txt -g ${COUNTER} -C S0:0 -m ./stencil_blocking ${args} >> data/blocking/likwid_${size}_out.txt
+			# blocking factor z direction, fixed factor: 16
+			MB=16
+
+			STEMPEL_BENCH_BLOCKING_value="${MB} ${NB} ${PB}"
+			args="${size} ${size} ${size} ${STEMPEL_BENCH_BLOCKING_value}"
+			echo ${blocking_case} ${args} >> args.txt
+
+			echo -ne "\033[0K\r:: RUNNIG BENCHMARK ${blocking_case}-3D N=${args}"
+
+			likwid-perfctr -f -o data/blocking/${blocking_case}_3D/likwid_${size}.txt -g ${COUNTER} -C S0:0 -m ./stencil_blocking ${args} >> data/blocking/${blocking_case}_3D/likwid_${size}_out.txt
+		done
+		echo
 	done
-	echo
 
 	echo ":: POSTPROCESSING DATA"
-	sh $(echo $(dirname $(realpath $0))"/postprocess.sh")
+	sh ~/INSPECT/postprocess.sh
 
 done
 done
