@@ -4,7 +4,7 @@
 # - python + python-sympy
 # - grep, sed, awk, bc
 
-OUTPUT_FOLDER=~/Uni/stempel/stempel_data_collection/stencils
+OUTPUT_FOLDER=~/INSPECT/collection/
 
 # variables
 MACHINE_FILE=$(grep MACHINE_FILE args.txt | sed 's/.* //')
@@ -111,6 +111,14 @@ while read -r line; do
 		echo ${line}";"$(echo ${line}|sed 's/.*: //; s/ .*//; s/[0-9]*\*//')" ~ "${APPROX}$"²" >> ${FILENAME}
 	fi
 done <<< $(tail -n 12 data/LC.txt | head -n 11 | sed '/layer condition/d')
+echo "{%- endcapture -%}" >> ${FILENAME}
+echo "{%- capture iaca -%}" >> ${FILENAME}
+START=$(cat data/singlecore/ECM_LC_10.txt | grep -n "IACA Output:" | sed 's/:.*//')
+END=$(cat data/singlecore/ECM_LC_10.txt | grep -n "Total Num Of Uops:" | sed 's/:.*//')
+cat data/singlecore/ECM_LC_10.txt | head -n $((${END})) | tail -n $((${END} - ${START}-2)) >> ${FILENAME}
+echo "{%- endcapture -%}" >> ${FILENAME}
+echo "{%- capture hostinfo -%}" >> ${FILENAME}
+cat data/system_info.txt >> ${FILENAME}
 echo "{%- endcapture -%}" >> ${FILENAME}
 echo "" >> ${FILENAME}
 echo "{% include stencil_template.md %}" >> ${FILENAME}
@@ -338,60 +346,61 @@ done
 
 echo ":: GENERATING blocking.csv"
 
-FILENAME=blocking_L3-3D.csv
-
 # write results file header
 echo "N,iterations,time,blocking options,flop,lup,Gflop/s,Mlup/s,cy/CL,l1-l2 miss,l1-l2 evict,l2-l3 miss,l2-l3 evict,l3-mem miss,l3-mem evict,l1-l2 total,l2-l3 total,l3-mem total" > ${FILENAME}
 
-# run benchmark
-for (( size=10; size<=${LC_3D_L3_N}+10; size=size+10)); do
-	args=$(grep "${size} ${size} ${size}" args.txt)
+# run spatial blocking benchmark
+for blocking_case in L2 L3; do
+	FILENAME=blocking_${blocking_case}-3D.csv
+	for (( size=10; size<=${LC_3D_L3_N}+10; size=size+10)); do
+		args=$(grep "${blocking_case} ${size} ${size} ${size}" args.txt)
 
-	#save results/metrics
-	iterations=$(head -n 1 data/blocking/likwid_${size}_out.txt | grep "iterations:" | sed 's/iterations: //')
-	time=$(grep "time:" data/blocking/likwid_${size}_out.txt | sed 's/time: //')
-	flop=$(grep "Total work" data/blocking/likwid_${size}_out.txt | sed 's/ FLOP//; s/Total work: //')
-	lup=$(grep "Total iterations: " data/blocking/likwid_${size}_out.txt | sed 's/Total iterations: //; s/ LUP//')
-	ghz=$(grep clock ${MACHINE_FILE} | sed 's/clock: //; s/ GHz//')
+		#save results/metrics
+		iterations=$(head -n 1 data/blocking/${blocking_case}_3D/likwid_${size}_out.txt | grep "iterations:" | sed 's/iterations: //')
+		time=$(grep "time:" data/blocking/${blocking_case}_3D/likwid_${size}_out.txt | sed 's/time: //')
+		flop=$(grep "Total work" data/blocking/${blocking_case}_3D/likwid_${size}_out.txt | sed 's/ FLOP//; s/Total work: //')
+		lup=$(grep "Total iterations: " data/blocking/${blocking_case}_3D/likwid_${size}_out.txt | sed 's/Total iterations: //; s/ LUP//')
+		ghz=$(grep clock ${MACHINE_FILE} | sed 's/clock: //; s/ GHz//')
 
-	if [ -f data/blocking/likwid_${size}.txt ]; then
-		L1D_M_EVICT=$(grep L1D_M_EVICT data/blocking/likwid_${size}.txt | sed 's/|[ ]*L1D_M_EVICT[ ]*|[ ]*PMC[0123][ ]*|[ ]*//; s/ |//')
-		L1D_REPLACEMENT=$(grep L1D_REPLACEMENT data/blocking/likwid_${size}.txt | sed 's/|[ ]*L1D_REPLACEMENT[ ]*|[ ]*PMC[0123][ ]*|[ ]*//; s/ |//')
+		if [ -f data/blocking/${blocking_case}_3D/likwid_${size}.txt ]; then
+			L1D_M_EVICT=$(grep L1D_M_EVICT data/blocking/${blocking_case}_3D/likwid_${size}.txt | sed 's/|[ ]*L1D_M_EVICT[ ]*|[ ]*PMC[0123][ ]*|[ ]*//; s/ |//')
+			L1D_REPLACEMENT=$(grep L1D_REPLACEMENT data/blocking/${blocking_case}_3D/likwid_${size}.txt | sed 's/|[ ]*L1D_REPLACEMENT[ ]*|[ ]*PMC[0123][ ]*|[ ]*//; s/ |//')
 
-		L2_LINES_IN_ALL=$(grep L2_LINES_IN_ALL data/blocking/likwid_${size}.txt | sed 's/|[ ]*L2_LINES_IN_ALL[ ]*|[ ]*PMC[0123][ ]*|[ ]*//; s/ |//')
-		L2_TRANS_L2_WB=$(grep L2_TRANS_L2_WB data/blocking/likwid_${size}.txt | sed 's/|[ ]*L2_TRANS_L2_WB[ ]*|[ ]*PMC[0123][ ]*|[ ]*//; s/ |//')
+			L2_LINES_IN_ALL=$(grep L2_LINES_IN_ALL data/blocking/${blocking_case}_3D/likwid_${size}.txt | sed 's/|[ ]*L2_LINES_IN_ALL[ ]*|[ ]*PMC[0123][ ]*|[ ]*//; s/ |//')
+			L2_TRANS_L2_WB=$(grep L2_TRANS_L2_WB data/blocking/${blocking_case}_3D/likwid_${size}.txt | sed 's/|[ ]*L2_TRANS_L2_WB[ ]*|[ ]*PMC[0123][ ]*|[ ]*//; s/ |//')
 
-		CAS_COUNT_RD=$(var=$(grep CAS_COUNT_RD data/blocking/likwid_${size}.txt | sed 's/|[ ]*CAS_COUNT_RD[ ]*|[ ]*MBOX[01234567]C[01][ ]*|[ ]*//; s/[ ]*|/+/; s/-/0/' | tr -d '\n') && echo ${var::-1})
-		CAS_COUNT_WR=$(var=$(grep CAS_COUNT_WR data/blocking/likwid_${size}.txt | sed 's/|[ ]*CAS_COUNT_WR[ ]*|[ ]*MBOX[01234567]C[01][ ]*|[ ]*//; s/[ ]*|/+/; s/-/0/' | tr -d '\n') && echo ${var::-1})
+			CAS_COUNT_RD=$(var=$(grep CAS_COUNT_RD data/blocking/${blocking_case}_3D/likwid_${size}.txt | sed 's/|[ ]*CAS_COUNT_RD[ ]*|[ ]*MBOX[01234567]C[01][ ]*|[ ]*//; s/[ ]*|/+/; s/-/0/' | tr -d '\n') && echo ${var::-1})
+			CAS_COUNT_WR=$(var=$(grep CAS_COUNT_WR data/blocking/${blocking_case}_3D/likwid_${size}.txt | sed 's/|[ ]*CAS_COUNT_WR[ ]*|[ ]*MBOX[01234567]C[01][ ]*|[ ]*//; s/[ ]*|/+/; s/-/0/' | tr -d '\n') && echo ${var::-1})
 
-		l2_load=$(bc -l <<< "scale=2;${L1D_REPLACEMENT} * 64 / ( ${iterations} * ( ${size} - 2 )^3 )")
-		l2_evict=$(bc -l <<< "scale=2;${L1D_M_EVICT} * 64 / ( ${iterations} * ( ${size} - 2 )^3 )")
-		l2_total=$(bc -l <<< "scale=2;${l2_load}+${l2_evict}")
+			l2_load=$(bc -l <<< "scale=2;${L1D_REPLACEMENT} * 64 / ( ${iterations} * ( ${size} - 2 )^3 )")
+			l2_evict=$(bc -l <<< "scale=2;${L1D_M_EVICT} * 64 / ( ${iterations} * ( ${size} - 2 )^3 )")
+			l2_total=$(bc -l <<< "scale=2;${l2_load}+${l2_evict}")
 
-		l3_load=$(bc -l <<< "scale=2;${L2_LINES_IN_ALL} * 64 / ( ${iterations} * ( ${size} - 2 )^3 )")
-		l3_evict=$(bc -l <<< "scale=2;${L2_TRANS_L2_WB} * 64 / ( ${iterations} * ( ${size} - 2 )^3 )")
-		l3_total=$(bc -l <<< "scale=2;${l3_load}+${l3_evict}")
+			l3_load=$(bc -l <<< "scale=2;${L2_LINES_IN_ALL} * 64 / ( ${iterations} * ( ${size} - 2 )^3 )")
+			l3_evict=$(bc -l <<< "scale=2;${L2_TRANS_L2_WB} * 64 / ( ${iterations} * ( ${size} - 2 )^3 )")
+			l3_total=$(bc -l <<< "scale=2;${l3_load}+${l3_evict}")
 
-		mem_read=$(bc -l <<< "scale=2;${CAS_COUNT_RD} * 64 / ( ${iterations} * ( ${size} - 2 )^3 )")
-		mem_write=$(bc -l <<< "scale=2;${CAS_COUNT_WR} * 64 / ( ${iterations} * ( ${size} - 2 )^3 )")
-		mem_total=$(bc -l <<< "scale=2;${mem_read}+${mem_write}")
-	else
-		l2_load=0
-		l2_evict=0
-		l2_total=0
-		l3_load=0
-		l3_evict=0
-		l3_total=0
-		mem_read=0
-		mem_write=0
-		mem_total=0
-	fi
+			mem_read=$(bc -l <<< "scale=2;${CAS_COUNT_RD} * 64 / ( ${iterations} * ( ${size} - 2 )^3 )")
+			mem_write=$(bc -l <<< "scale=2;${CAS_COUNT_WR} * 64 / ( ${iterations} * ( ${size} - 2 )^3 )")
+			mem_total=$(bc -l <<< "scale=2;${mem_read}+${mem_write}")
+		else
+			l2_load=0
+			l2_evict=0
+			l2_total=0
+			l3_load=0
+			l3_evict=0
+			l3_total=0
+			mem_read=0
+			mem_write=0
+			mem_total=0
+		fi
 
-	gflops=$(bc -l <<< "scale=2;${flop} / 10^9 / ${time}")
-	mlups=$(bc -l <<< "scale=2;${lup} / 10^6 / ${time}")
-	cyCL=$(bc -l <<< "scale=2;${ghz} / ( ${lup} / 10^9 / ${time} ) * ${LUPperCL}")
+		gflops=$(bc -l <<< "scale=2;${flop} / 10^9 / ${time}")
+		mlups=$(bc -l <<< "scale=2;${lup} / 10^6 / ${time}")
+		cyCL=$(bc -l <<< "scale=2;${ghz} / ( ${lup} / 10^9 / ${time} ) * ${LUPperCL}")
 
-	echo "${size},${iterations},${time},${args},${flop},${lup},${gflops},${mlups},${cyCL},${l2_load},${l2_evict},${l3_load},${l3_evict},${mem_read},${mem_write},${l2_total},${l3_total},${mem_total}" >> ${FILENAME}
+		echo "${size},${iterations},${time},${args},${flop},${lup},${gflops},${mlups},${cyCL},${l2_load},${l2_evict},${l3_load},${l3_evict},${mem_read},${mem_write},${l2_total},${l3_total},${mem_total}" >> ${FILENAME}
+	done
 done
 
 # ************************************************************************************************
@@ -402,15 +411,15 @@ echo ":: GENERATING PLOTS"
 gnuplot $(echo $(dirname $(realpath $0))"/plots.gnuplot")
 
 # ************************************************************************************************
-# compress data files
-# ************************************************************************************************
-
-tar czf data.tar.gz data && rm -rf data
-
-# ************************************************************************************************
 # copy results for stencil data collection
 # ************************************************************************************************
 
 FOLDER="${OUTPUT_FOLDER}/${DIM}D/${RADIUS}r/${WEIGHTING}/${KIND}/${CONST}/${DATATYPE}/${MACHINE}/"
 mkdir -p ${FOLDER}
-cp index.md *csv *svg stencil.c ${FOLDER}
+cp index.md *csv *svg stencil.c data/system_info.txt ${FOLDER}
+
+# ************************************************************************************************
+# compress data files
+# ************************************************************************************************
+
+tar czf data.tar.gz data && rm -rf data
