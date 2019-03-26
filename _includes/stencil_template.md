@@ -35,8 +35,8 @@ https://github.com/RRZE-HPC/stempel_data_collection/issues/new?labels[]=Stencil%
 <div markdown="1" class="section-block-half">
 ## Kernel Source Code
 
-<input class="code-button" type="button" onclick="document.getElementById('c_source').style.display = 'block';document.getElementById('asm_source').style.display = 'none'" value="C Source Code" />
-<input class="code-button" type="button" onclick="document.getElementById('asm_source').style.display = 'block';document.getElementById('c_source').style.display = 'none';" value="Assembly Code" />
+<input class="code-button" type="button" onclick="document.getElementById('c_source').style.display = 'block';document.getElementById('asm_source').style.display = 'none';document.getElementById('iaca').style.display = 'none'" value="C Source Code" />
+<input class="code-button" type="button" onclick="document.getElementById('asm_source').style.display = 'block';document.getElementById('c_source').style.display = 'none';document.getElementById('iaca').style.display = 'none'" value="Assembly Code" />
 
 <div markdown="1" id="c_source">
 ```c
@@ -268,5 +268,27 @@ stempel bench stencil.c -m {{ page.machine }}.yml -b 2 --store
 OMP_NUM_THREADS=1 likwid-pin -C S0:0 ./stencil $GRID_SIZE $GRID_SIZE $GRID_SIZE $BLOCKING_M $BLOCKING_N $BLOCKING_P
 ```
 </div>
+
+{% if iaca %}
+<div markdown="1" class="section-block-full">
+## IACA Output
+<div markdown="1" id="iaca">
+```
+{{iaca}}
+```
+</div>
+</div>
+{% endif %}
+
+{% if hostinfo %}
+<div markdown="1" class="section-block-full">
+## System Information
+<div markdown="1" id="iaca">
+```
+{{hostinfo}}
+```
+</div>
+</div>
+{% endif %}
 
 </div>
