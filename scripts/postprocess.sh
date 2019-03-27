@@ -346,12 +346,13 @@ done
 
 echo ":: GENERATING blocking.csv"
 
-# write results file header
-echo "N,iterations,time,blocking options,flop,lup,Gflop/s,Mlup/s,cy/CL,l1-l2 miss,l1-l2 evict,l2-l3 miss,l2-l3 evict,l3-mem miss,l3-mem evict,l1-l2 total,l2-l3 total,l3-mem total" > ${FILENAME}
-
 # run spatial blocking benchmark
 for blocking_case in L2 L3; do
 	FILENAME=blocking_${blocking_case}-3D.csv
+
+	# write results file header
+	echo "N,iterations,time,blocking options,flop,lup,Gflop/s,Mlup/s,cy/CL,l1-l2 miss,l1-l2 evict,l2-l3 miss,l2-l3 evict,l3-mem miss,l3-mem evict,l1-l2 total,l2-l3 total,l3-mem total" > ${FILENAME}
+
 	for (( size=10; size<=${LC_3D_L3_N}+10; size=size+10)); do
 		args=$(grep "${blocking_case} ${size} ${size} ${size}" args.txt)
 
