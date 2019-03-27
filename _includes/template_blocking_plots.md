@@ -13,7 +13,13 @@
 {% capture csv_results_filename %}{{page.dimension}}_{{page.radius}}_{{page.weighting}}_{{page.kind}}_{{page.coefficients}}_{{page.datatype}}_{{page.machine}}_results{% endcapture %}
 {% assign csv_results_file = site.data.stencils[{{csv_results_filename}}] %}
 
-<div id="blocking_{{case}}"></div>
+{% if forloop.first %}
+  {% assign hide_if_hidden_b = '' %}
+{% else %}
+  {% assign hide_if_hidden_b = 'style="display:none;"' %}
+{% endif %}
+
+<div id="blocking_{{case}}" {{hide_if_hidden_b}}></div>
 
 {% capture N %}{% for data in csv_file %}{{data.N}},{%endfor%}{% endcapture %}
 {% capture bench_block %}{% for data in csv_file %}{{data["Mlup/s"]}},{%endfor%}{% endcapture %}
