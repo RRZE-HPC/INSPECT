@@ -115,7 +115,7 @@ echo "{%- endcapture -%}" >> ${FILENAME}
 echo "{%- capture iaca -%}" >> ${FILENAME}
 START=$(cat data/singlecore/ECM_LC_10.txt | grep -n "IACA Output:" | sed 's/:.*//')
 END=$(cat data/singlecore/ECM_LC_10.txt | grep -n "Total Num Of Uops:" | sed 's/:.*//')
-cat data/singlecore/ECM_LC_10.txt | head -n $((${END})) | tail -n $((${END} - ${START}-2)) >> ${FILENAME}
+cat data/singlecore/ECM_LC_10.txt | head -n $((${END}+3)) | tail -n $((${END} - ${START}-2)) >> ${FILENAME}
 echo "{%- endcapture -%}" >> ${FILENAME}
 echo "{%- capture hostinfo -%}" >> ${FILENAME}
 cat data/system_info.txt >> ${FILENAME}
