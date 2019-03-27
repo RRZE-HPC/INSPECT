@@ -44,6 +44,11 @@ COUNTER="CAS_COUNT_RD:MBOX4C1,CAS_COUNT_RD:MBOX6C0,CAS_COUNT_RD:MBOX2C1,CAS_COUN
 # counters for IvyBridge
 #COUNTER="L1D_REPLACEMENT:PMC0,L2_LINES_OUT_DIRTY_ALL:PMC1,L1D_M_EVICT:PMC2,L2_LINES_IN_ALL:PMC3,CAS_COUNT_RD:MBOX4C1,CAS_COUNT_RD:MBOX6C0,CAS_COUNT_RD:MBOX2C1,CAS_COUNT_RD:MBOX3C0,CAS_COUNT_WR:MBOX0C1,CAS_COUNT_RD:MBOX5C1,CAS_COUNT_WR:MBOX5C0,CAS_COUNT_RD:MBOX0C0,CAS_COUNT_WR:MBOX6C1,CAS_COUNT_RD:MBOX7C1,CAS_COUNT_RD:MBOX1C1,CAS_COUNT_WR:MBOX4C0,CAS_COUNT_WR:MBOX2C0,CAS_COUNT_WR:MBOX1C0,CAS_COUNT_WR:MBOX3C1,CAS_COUNT_WR:MBOX7C0"
 
+# turn specific parts on or off
+DO_GRID_SCALING=1
+DO_THREAD_SCALING=1
+DO_SPACIAL_BLOCKING=1
+
 # **************************************************************************************************
 # **************************************************************************************************
 # ********** DONT CHANGE ANYTHING AFTER THIS LINE **************************************************
@@ -159,95 +164,105 @@ for fDATATYPE in ${DATATYPE}; do
 	echo {\$,$}LC_3D_L2 >> args.txt
 	echo {\$,$}MEM_PER_NUMA >> args.txt
 
-	mkdir data/singlecore
+	if [[ ${DO_GRID_SCALING} == 1 ]]; then
+		mkdir data/singlecore
 
-	for (( size=10; size<=${LC_3D_L3_N}+10; size=size+10)); do
-		echo -ne "\033[0K\r:: RUNNIG SINGLE CORE BENCHMARK N=${size}"
-		KERNCRAFT_ARGS="-m ${MACHINE_FILE} ./stencil.c -D N ${size} -D M ${size} -D P ${size} -vvv --cores 1 --compiler icc --ignore-warnings"
-		for cache_predictor in LC SIM; do
-			${KERNCRAFT_BINARY} -p RooflineIACA -P ${cache_predictor} ${KERNCRAFT_ARGS} > data/singlecore/Roofline_${cache_predictor}_${size}.txt
-			${KERNCRAFT_BINARY} -p ECM -P ${cache_predictor} ${KERNCRAFT_ARGS} > data/singlecore/ECM_${cache_predictor}_${size}.txt
+		for (( size=10; size<=${LC_3D_L3_N}+10; size=size+10)); do
+			echo -ne "\033[0K\r:: RUNNIG SINGLE CORE BENCHMARK N=${size}"
+			KERNCRAFT_ARGS="-m ${MACHINE_FILE} ./stencil.c -D N ${size} -D M ${size} -D P ${size} -vvv --cores 1 --compiler icc --ignore-warnings"
+			for cache_predictor in LC SIM; do
+				${KERNCRAFT_BINARY} -p RooflineIACA -P ${cache_predictor} ${KERNCRAFT_ARGS} > data/singlecore/Roofline_${cache_predictor}_${size}.txt
+				${KERNCRAFT_BINARY} -p ECM -P ${cache_predictor} ${KERNCRAFT_ARGS} > data/singlecore/ECM_${cache_predictor}_${size}.txt
+			done
+			${KERNCRAFT_BINARY} -p Benchmark -P LC ${KERNCRAFT_ARGS} > data/singlecore/Bench_${size}.txt
 		done
-		${KERNCRAFT_BINARY} -p Benchmark -P LC ${KERNCRAFT_ARGS} > data/singlecore/Bench_${size}.txt
-	done
 
-	echo
+		echo
+	done
 
 	# ************************************************************************************************
 	# Threads Scaling
 	# ************************************************************************************************
 
-	cores=$(cat ${MACHINE_FILE} | grep "cores per socket" | sed 's/.*: //')
+	if [[ ${DO_THREAD_SCALING} == 1 ]]; then
+		cores=$(cat ${MACHINE_FILE} | grep "cores per socket" | sed 's/.*: //')
 
-	mkdir data/scaling
+		mkdir data/scaling
 
-	for (( threads = 1; threads <= ${cores}; threads++ )); do
-		echo -ne "\033[0K\r:: RUNNIG THREAD SCALING BENCHMARK N=${LC_3D_L3_N} threads=${threads}"
+		for (( threads = 1; threads <= ${cores}; threads++ )); do
+			echo -ne "\033[0K\r:: RUNNIG THREAD SCALING BENCHMARK N=${LC_3D_L3_N} threads=${threads}"
 
-		KERNCRAFT_ARGS="-m ${MACHINE_FILE} ./stencil.c -D N ${LC_3D_L3_N} -D M ${LC_3D_L3_N} -D P ${LC_3D_L3_N} -vvv --cores ${threads} --compiler icc --ignore-warnings"
-		for pmodel in RooflineIACA ECM Benchmark; do
-			${KERNCRAFT_BINARY} -p ${pmodel} -P LC ${KERNCRAFT_ARGS} >> data/scaling/${pmodel}_${LC_3D_L3_N}_${threads}.txt
+			KERNCRAFT_ARGS="-m ${MACHINE_FILE} ./stencil.c -D N ${LC_3D_L3_N} -D M ${LC_3D_L3_N} -D P ${LC_3D_L3_N} -vvv --cores ${threads} --compiler icc --ignore-warnings"
+			for pmodel in RooflineIACA ECM Benchmark; do
+				${KERNCRAFT_BINARY} -p ${pmodel} -P LC ${KERNCRAFT_ARGS} >> data/scaling/${pmodel}_${LC_3D_L3_N}_${threads}.txt
+			done
 		done
-	done
 
-	echo
+		echo
+	done
 
 	# ************************************************************************************************
 	# Cache Blocking
 	# ************************************************************************************************
-	export OMP_NUM_THREADS=1
 
-	echo ":: GENERATING BENCHMARK CODE WITH BLOCKING"
-	${STEMPEL_BINARY} bench stencil.c -m ${MACHINE_FILE} -b 2 --store
-	sed -i 's/#pragma/\/\/#pragma/g' kernel.c
-	sed -i 's/#pragma/\/\/#pragma/g' stencil_compilable.c
+	if [[ ${DO_SPACIAL_BLOCKING} == 1 ]]; then
+		export OMP_NUM_THREADS=1
 
-	# compile
-	echo ":: COMPILING"
-	cp ~/kernel.c ./kernel.c
-	${COMPILER} ${COMPILE_ARGS}
-	mv stencil stencil_blocking
+		echo ":: GENERATING BENCHMARK CODE WITH BLOCKING"
+		${STEMPEL_BINARY} bench stencil.c -m ${MACHINE_FILE} -b 2 --store
+		sed -i 's/#pragma/\/\/#pragma/g' kernel.c
+		sed -i 's/#pragma/\/\/#pragma/g' stencil_compilable.c
 
-	mkdir data/blocking
+		# compile
+		echo ":: COMPILING"
+		${COMPILER} ${COMPILE_ARGS}
+		mv stencil stencil_blocking
 
-	# run spatial blocking benchmark
-	for blocking_case in L2 L3; do
+		mkdir data/blocking
 
-		mkdir data/blocking/${blocking_case}_3D
+		# run spatial blocking benchmark
+		for blocking_case in L2 L3; do
 
-		for (( size=10; size<=${LC_3D_L3_N}+10; size=size+10)); do
+			mkdir data/blocking/${blocking_case}_3D
 
-			if [[ ${blocking_case} == "L2" ]]; then
-				# blocking factor  x direction 100 or size_x if it is smaller
-				PB=$(python -c "import sympy;P=sympy.Symbol('P',positive=True);print(int(max(sympy.solvers.solve($(echo ${LC_3D_L2} | sed 's/N/16/g'), P))/10)*10)")
-				PB=$(( ${PB} > ${size} ? ${size} : ${PB} ))
+			for (( size=10; size<=${LC_3D_L3_N}+10; size=size+10)); do
 
-				# y direction: LC
-				TMP=$(echo ${LC_3D_L2} | sed "s/P/${PB}/g")
-				NB=$(python -c "import sympy;N=sympy.Symbol('N',positive=True);print(int(max(sympy.solvers.solve(${TMP}, N))*0.75))")
-			elif [[ ${blocking_case} == "L3" ]]; then
-				# blocking factor  x direction 100 or size_x if it is smaller
-				PB=$(python -c "import sympy;P=sympy.Symbol('P',positive=True);print(int(max(sympy.solvers.solve($(echo ${LC_3D_L3} | sed 's/N/16/g'), P))/10)*10)")
-				PB=$(( ${PB} > ${size} ? ${size} : ${PB} ))
+				if [[ ${blocking_case} == "L2" ]]; then
+					# blocking factor  x direction 100 or size_x if it is smaller
+					PB=$(python -c "import sympy;P=sympy.Symbol('P',positive=True);print(int(max(sympy.solvers.solve($(echo ${LC_3D_L2} | sed 's/N/16/g'), P))/10)*10)")
+					PB=$(( ${PB} > ${size} ? ${size} : ${PB} ))
 
-				# y direction: LC
-				TMP=$(echo ${LC_3D_L3} | sed "s/P/${PB}/g")
-				NB=$(python -c "import sympy;N=sympy.Symbol('N',positive=True);print(int(max(sympy.solvers.solve(${TMP}, N))*0.9))")
-			fi
+					# y direction: LC
+					TMP=$(echo ${LC_3D_L2} | sed "s/P/${PB}/g")
+					NB=$(python -c "import sympy;N=sympy.Symbol('N',positive=True);print(int(max(sympy.solvers.solve(${TMP}, N))*0.75))")
+				elif [[ ${blocking_case} == "L3" ]]; then
+					# blocking factor  x direction 100 or size_x if it is smaller
+					PB=$(python -c "import sympy;P=sympy.Symbol('P',positive=True);print(int(max(sympy.solvers.solve($(echo ${LC_3D_L3} | sed 's/N/16/g'), P))/10)*10)")
+					PB=$(( ${PB} > ${size} ? ${size} : ${PB} ))
 
-			# blocking factor z direction, fixed factor: 16
-			MB=16
+					# y direction: LC
+					TMP=$(echo ${LC_3D_L3} | sed "s/P/${PB}/g")
+					NB=$(python -c "import sympy;N=sympy.Symbol('N',positive=True);print(int(max(sympy.solvers.solve(${TMP}, N))*0.75))")
+				fi
 
-			STEMPEL_BENCH_BLOCKING_value="${MB} ${NB} ${PB}"
-			args="${size} ${size} ${size} ${STEMPEL_BENCH_BLOCKING_value}"
-			echo ${blocking_case} ${args} >> args.txt
+				# blocking factor z direction, fixed factor: 16
+				MB=16
 
-			echo -ne "\033[0K\r:: RUNNIG BENCHMARK ${blocking_case}-3D N=${args}"
+				STEMPEL_BENCH_BLOCKING_value="${MB} ${NB} ${PB}"
+				args="${size} ${size} ${size} ${STEMPEL_BENCH_BLOCKING_value}"
+				echo ${blocking_case} ${args} >> args.txt
 
-			likwid-perfctr -f -o data/blocking/${blocking_case}_3D/likwid_${size}.txt -g ${COUNTER} -C S0:0 -m ./stencil_blocking ${args} >> data/blocking/${blocking_case}_3D/likwid_${size}_out.txt
+				echo -ne "\033[0K\r:: RUNNIG BENCHMARK ${blocking_case}-3D N=${args}"
+
+				likwid-perfctr -f -o data/blocking/${blocking_case}_3D/likwid_${size}.txt -g ${COUNTER} -C S0:0 -m ./stencil_blocking ${args} >> data/blocking/${blocking_case}_3D/likwid_${size}_out.txt
+			done
+			echo
 		done
-		echo
 	done
+
+	# ************************************************************************************************
+	# Postprocessing
+	# ************************************************************************************************
 
 	echo ":: POSTPROCESSING DATA"
 	sh ~/INSPECT/postprocess.sh
