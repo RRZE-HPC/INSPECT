@@ -9,14 +9,14 @@
 
 {% capture machinefile_link %}[{{page.machine}}]({{site.baseurl}}/machines/{{page.machine}}){% endcapture %}
 
-|--------------|----------------------:|
-| dimension    | {{page.dimension}}    |
-| radius       | {{page.radius}}       |
-| weighting    | {{page.weighting}}    |
-| kind         | {{page.kind}}         |
-| coefficients | {{page.coefficients}} |
-| datatype     | {{page.datatype}}     |
-| machine      | {{machinefile_link}}  |
+|--------------|-------------------------------:|
+| dimension    | {{page.dimension}}             |
+| radius       | {{page.radius | remove: 'r' }} |
+| weighting    | {{page.weighting}}             |
+| kind         | {{page.kind}}                  |
+| coefficients | {{page.coefficients}}          |
+| datatype     | {{page.datatype}}              |
+| machine      | {{machinefile_link}}           |
 {% assign flop_size = {{page.flop | size}} %}{% if flop_size != 0 %}| FLOP per LUP       | {{page.flop}}       |{% endif %}
 {% assign flavor_size = {{page.flavor | size}} %}{% if flavor_size != 0 %}| flavor       | {{page.flavor}}       |{% endif %}
 
