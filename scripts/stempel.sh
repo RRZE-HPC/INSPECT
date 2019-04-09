@@ -4,9 +4,9 @@
 # stdout and stderr files
 
 # dependencies
-# - stempel
-# - kerncraft
-# - likwid
+# - stempel: https://github.com/RRZE-HPC/stempel
+# - Kerncraft: https://github.com/RRZE-HPC/kerncraft
+# - LIKWID: https://github.com/RRZE-HPC/likwid
 # - numactl
 # - (intel) compiler
 # - python + python-sympy
@@ -15,8 +15,9 @@
 STEMPEL_BINARY=~/.local/bin/stempel
 KERNCRAFT_BINARY=~/.local/bin/kerncraft
 STEMPEL_DIR=~/stempel
+INSPECT_PATH=~/INSPECT
 
-OUTPUT_FOLDER=~/INSPECT
+OUTPUT_FOLDER=${INSPECT_PATH}/stencils
 
 # dimension: 2 or 3 (currently only 3D is supported)
 DIM=3
@@ -31,6 +32,11 @@ WEIGHTING="isotropic heterogeneous"
 # datatype: 'double' or 'float'
 DATATYPE=double
 
+# turn specific parts on or off
+DO_GRID_SCALING=1
+DO_THREAD_SCALING=1
+DO_SPACIAL_BLOCKING=1
+
 # variables
 MACHINE_FILE=${STEMPEL_DIR}/tests/testfiles/BroadwellEP_E5-2697_CoD.yml
 # MACHINE_FILE=${STEMPEL_DIR}/tests/testfiles/HaswellEP_E5-2695v3_CoD.yml
@@ -38,25 +44,20 @@ MACHINE_FILE=${STEMPEL_DIR}/tests/testfiles/BroadwellEP_E5-2697_CoD.yml
 #MACHINE_FILE=${STEMPEL_DIR}/tests/testfiles/SkylakeSP_Gold-6148_512.yml
 # MACHINE_FILE=${STEMPEL_DIR}/tests/testfiles/SkylakeSP_Gold-6148_SNC.yml
 
-# counters for BroadEP2, HasEP1 and SkylapeSP1
+# needed for spatial blocking: counters for BroadEP2, HasEP1 and SkylapeSP1
 COUNTER="CAS_COUNT_RD:MBOX4C1,CAS_COUNT_RD:MBOX6C0,CAS_COUNT_RD:MBOX2C1,CAS_COUNT_RD:MBOX3C0,CAS_COUNT_WR:MBOX0C1,CAS_COUNT_RD:MBOX5C1,L1D_REPLACEMENT:PMC0,CAS_COUNT_WR:MBOX5C0,CAS_COUNT_RD:MBOX0C0,CAS_COUNT_WR:MBOX6C1,L1D_M_EVICT:PMC2,CAS_COUNT_RD:MBOX7C1,CAS_COUNT_RD:MBOX1C1,CAS_COUNT_WR:MBOX4C0,CAS_COUNT_WR:MBOX2C0,CAS_COUNT_WR:MBOX1C0,CAS_COUNT_WR:MBOX3C1,CAS_COUNT_WR:MBOX7C0,L2_LINES_IN_ALL:PMC3,L2_TRANS_L2_WB:PMC1"
 
-# counters for IvyBridge
+# needed for spatial blocking: counters for IvyBridge
 #COUNTER="L1D_REPLACEMENT:PMC0,L2_LINES_OUT_DIRTY_ALL:PMC1,L1D_M_EVICT:PMC2,L2_LINES_IN_ALL:PMC3,CAS_COUNT_RD:MBOX4C1,CAS_COUNT_RD:MBOX6C0,CAS_COUNT_RD:MBOX2C1,CAS_COUNT_RD:MBOX3C0,CAS_COUNT_WR:MBOX0C1,CAS_COUNT_RD:MBOX5C1,CAS_COUNT_WR:MBOX5C0,CAS_COUNT_RD:MBOX0C0,CAS_COUNT_WR:MBOX6C1,CAS_COUNT_RD:MBOX7C1,CAS_COUNT_RD:MBOX1C1,CAS_COUNT_WR:MBOX4C0,CAS_COUNT_WR:MBOX2C0,CAS_COUNT_WR:MBOX1C0,CAS_COUNT_WR:MBOX3C1,CAS_COUNT_WR:MBOX7C0"
 
-# turn specific parts on or off
-DO_GRID_SCALING=1
-DO_THREAD_SCALING=1
-DO_SPACIAL_BLOCKING=1
+# load modules (this is an example for the RRZE testcluster)
+module load likwid/4.3.3 intel64/19.0up02 python/3.6-anaconda
 
 # **************************************************************************************************
 # **************************************************************************************************
 # ********** DONT CHANGE ANYTHING AFTER THIS LINE **************************************************
 # **************************************************************************************************
 # **************************************************************************************************
-
-# load modules (this ist for the testcluster)
-module load likwid/4.3.3 intel64/19.0up02 python/3.6-anaconda
 
 likwid-topology -g
 
@@ -84,14 +85,14 @@ for fWEIGHTING in ${WEIGHTING}; do
 for fDATATYPE in ${DATATYPE}; do
 
 	DATE=$(date +'%Y%m%d_%H%M%S')
-	FOLDER="${OUTPUT_FOLDER}/${fDIM}D_r${fRADIUS}_${fKIND}_${fCONST}_${fWEIGHTING}/${DATE}_${MACHINE}"
+	FOLDER="${OUTPUT_FOLDER}/${fDIM}D_r${fRADIUS}_${fWEIGHTING}_${fKIND}_${fCONST}/${MACHINE}_${DATE}"
 	mkdir -p ${FOLDER} && cd ${FOLDER}
 	mkdir data
 
 	echo ":: RUNNING: ${fDIM}D r${fRADIUS} ${fKIND} ${fCONST} ${fWEIGHTING} ${DATE} ${MACHINE}"
 
 	echo ":: GATHERING SYSTEM INFORMATION"
-	sh ~/INSPECT/likwid-sysinfo.sh >> data/system_info.txt
+	sh ${INSPECT_PATH}/scripts/Artifact-description/likwid-sysinfo.sh >> data/system_info.txt
 
 	if [[ ${fWEIGHTING} == "isotropic" ]]; then
 		S_WEIGHTING=-i
@@ -178,7 +179,7 @@ for fDATATYPE in ${DATATYPE}; do
 		done
 
 		echo
-	done
+	fi
 
 	# ************************************************************************************************
 	# Threads Scaling
@@ -199,7 +200,7 @@ for fDATATYPE in ${DATATYPE}; do
 		done
 
 		echo
-	done
+	fi
 
 	# ************************************************************************************************
 	# Cache Blocking
@@ -258,14 +259,14 @@ for fDATATYPE in ${DATATYPE}; do
 			done
 			echo
 		done
-	done
+	fi
 
 	# ************************************************************************************************
 	# Postprocessing
 	# ************************************************************************************************
 
 	echo ":: POSTPROCESSING DATA"
-	sh ~/INSPECT/postprocess.sh
+	sh ${INSPECT_PATH}/scripts/postprocess.sh
 
 done
 done
