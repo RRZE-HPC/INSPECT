@@ -1,12 +1,16 @@
 
 ![INSPECT](assets/img/inspect-large-black.svg)
 
-# INSPECT: Intranode Stencil Performance Evaluation Collection
+# INSPECT
+---
+## Intranode Stencil Performance Evaluation Collection
 
 This repository contains benchmark results of stencil codes generated with the [
 Stencil TEMPlate Engineering Library](https://github.com/RRZE-HPC/stempel "stempel") using [kerncraft](https://github.com/RRZE-HPC/kerncraft) and [LIKWID](https://github.com/RRZE-HPC/likwid).
 
-## Data Generation and Post Processing
+All collected data can be viewed live on the [Intranode Stencil Performance Evaluation Collection website](https://rrze-hpc.github.io/INSPECT/).
+
+### Data Generation and Post Processing
 1. Data can be generated with the script: `scripts/stempel.sh` (change data at the beginning as needed)
 2. Postprocessing of data with the script: `scripts/postprocess.sh` (will automatically be called by `scripts/stempel.sh`)
 3. (optional) View local version by building the website:
@@ -16,7 +20,7 @@ Stencil TEMPlate Engineering Library](https://github.com/RRZE-HPC/stempel "stemp
   d. Build website: `bundle exec jekyll serve`
 4. Push data to this repository
 
-## Data Folder Scheme
+### Data Folder Scheme
 
 1. main folder: "stencils"
 2. dimension: "3D" / "2D" ...
