@@ -75,12 +75,12 @@ jb 0xffffffffffffff56
 L1: unconditionally fulfilled
 L2: unconditionally fulfilled
 L3: unconditionally fulfilled
-L1: P <= 2048/7;P <= 290
-L2: P <= 16384/7;P <= 2340
-L3: P <= 1441792/7;P <= 205970
-L1: 48*N*P + 16*P*(N - 3) + 48*P <= 32768;N*P <= 10²
-L2: 48*N*P + 16*P*(N - 3) + 48*P <= 262144;N*P <= 60²
-L3: 48*N*P + 16*P*(N - 3) + 48*P <= 23068672;N*P <= 510²
+L1: P <= 2048/7;P ~ 290
+L2: P <= 16384/7;P ~ 2340
+L3: P <= 1441792/7;P ~ 205970
+L1: 48*N*P + 16*P*(N - 3) + 48*P <= 32768;N*P ~ 10²
+L2: 48*N*P + 16*P*(N - 3) + 48*P <= 262144;N*P ~ 60²
+L3: 48*N*P + 16*P*(N - 3) + 48*P <= 23068672;N*P ~ 510²
 {%- endcapture -%}
 {%- capture iaca -%}
 
@@ -145,8 +145,45 @@ Backend allocation was stalled due to unavailable allocation resources.
 ################################################################################
 # Logged in users
 ################################################################################
- 13:05:07 up 103 days, 21:37,  0 users,  load average: 0.81, 8.87, 13.49
+ 10:29:41 up 109 days, 18:01,  0 users,  load average: 0.07, 0.02, 0.00
 USER     TTY      FROM             LOGIN@   IDLE   JCPU   PCPU WHAT
+
+################################################################################
+# CPUset
+################################################################################
+Domain N:
+	0,36,1,37,2,38,3,39,4,40,5,41,6,42,7,43,8,44,9,45,10,46,11,47,12,48,13,49,14,50,15,51,16,52,17,53,18,54,19,55,20,56,21,57,22,58,23,59,24,60,25,61,26,62,27,63,28,64,29,65,30,66,31,67,32,68,33,69,34,70,35,71
+
+Domain S0:
+	0,36,1,37,2,38,3,39,4,40,5,41,6,42,7,43,8,44,9,45,10,46,11,47,12,48,13,49,14,50,15,51,16,52,17,53
+
+Domain S1:
+	18,54,19,55,20,56,21,57,22,58,23,59,24,60,25,61,26,62,27,63,28,64,29,65,30,66,31,67,32,68,33,69,34,70,35,71
+
+Domain C0:
+	0,36,1,37,2,38,3,39,4,40,5,41,6,42,7,43,8,44
+
+Domain C1:
+	9,45,10,46,11,47,12,48,13,49,14,50,15,51,16,52,17,53
+
+Domain C2:
+	18,54,19,55,20,56,21,57,22,58,23,59,24,60,25,61,26,62
+
+Domain C3:
+	27,63,28,64,29,65,30,66,31,67,32,68,33,69,34,70,35,71
+
+Domain M0:
+	0,36,1,37,2,38,3,39,4,40,5,41,6,42,7,43,8,44
+
+Domain M1:
+	9,45,10,46,11,47,12,48,13,49,14,50,15,51,16,52,17,53
+
+Domain M2:
+	18,54,19,55,20,56,21,57,22,58,23,59,24,60,25,61,26,62
+
+Domain M3:
+	27,63,28,64,29,65,30,66,31,67,32,68,33,69,34,70,35,71
+
 
 ################################################################################
 # CGroups
@@ -157,58 +194,267 @@ Allowed Memory controllers: 0-3
 ################################################################################
 # Topology
 ################################################################################
-Architecture:        x86_64
-CPU op-mode(s):      32-bit, 64-bit
-Byte Order:          Little Endian
-CPU(s):              72
-On-line CPU(s) list: 0-71
-Thread(s) per core:  2
-Core(s) per socket:  18
-Socket(s):           2
-NUMA node(s):        4
-Vendor ID:           GenuineIntel
-CPU family:          6
-Model:               79
-Model name:          Intel(R) Xeon(R) CPU E5-2697 v4 @ 2.30GHz
-Stepping:            1
-CPU MHz:             2274.232
-CPU max MHz:         2301.0000
-CPU min MHz:         1200.0000
-BogoMIPS:            4594.52
-Virtualization:      VT-x
-L1d cache:           32K
-L1i cache:           32K
-L2 cache:            256K
-L3 cache:            23040K
-NUMA node0 CPU(s):   0-8,36-44
-NUMA node1 CPU(s):   9-17,45-53
-NUMA node2 CPU(s):   18-26,54-62
-NUMA node3 CPU(s):   27-35,63-71
-Flags:               fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx smx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid dca sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb cat_l3 cdp_l3 invpcid_single pti intel_ppin ssbd ibrs ibpb stibp tpr_shadow vnmi flexpriority ept vpid fsgsbase tsc_adjust bmi1 hle avx2 smep bmi2 erms invpcid rtm cqm rdt_a rdseed adx smap intel_pt xsaveopt cqm_llc cqm_occup_llc cqm_mbm_total cqm_mbm_local dtherm ida arat pln pts flush_l1d
+--------------------------------------------------------------------------------
+CPU name:	Intel(R) Xeon(R) CPU E5-2697 v4 @ 2.30GHz
+CPU type:	Intel Xeon Broadwell EN/EP/EX processor
+CPU stepping:	1
+********************************************************************************
+Hardware Thread Topology
+********************************************************************************
+Sockets:		2
+Cores per socket:	18
+Threads per core:	2
+--------------------------------------------------------------------------------
+HWThread	Thread		Core		Socket		Available
+0		0		0		0		*
+1		0		1		0		*
+2		0		2		0		*
+3		0		3		0		*
+4		0		4		0		*
+5		0		5		0		*
+6		0		6		0		*
+7		0		7		0		*
+8		0		8		0		*
+9		0		9		0		*
+10		0		10		0		*
+11		0		11		0		*
+12		0		12		0		*
+13		0		13		0		*
+14		0		14		0		*
+15		0		15		0		*
+16		0		16		0		*
+17		0		17		0		*
+18		0		18		1		*
+19		0		19		1		*
+20		0		20		1		*
+21		0		21		1		*
+22		0		22		1		*
+23		0		23		1		*
+24		0		24		1		*
+25		0		25		1		*
+26		0		26		1		*
+27		0		27		1		*
+28		0		28		1		*
+29		0		29		1		*
+30		0		30		1		*
+31		0		31		1		*
+32		0		32		1		*
+33		0		33		1		*
+34		0		34		1		*
+35		0		35		1		*
+36		1		0		0		*
+37		1		1		0		*
+38		1		2		0		*
+39		1		3		0		*
+40		1		4		0		*
+41		1		5		0		*
+42		1		6		0		*
+43		1		7		0		*
+44		1		8		0		*
+45		1		9		0		*
+46		1		10		0		*
+47		1		11		0		*
+48		1		12		0		*
+49		1		13		0		*
+50		1		14		0		*
+51		1		15		0		*
+52		1		16		0		*
+53		1		17		0		*
+54		1		18		1		*
+55		1		19		1		*
+56		1		20		1		*
+57		1		21		1		*
+58		1		22		1		*
+59		1		23		1		*
+60		1		24		1		*
+61		1		25		1		*
+62		1		26		1		*
+63		1		27		1		*
+64		1		28		1		*
+65		1		29		1		*
+66		1		30		1		*
+67		1		31		1		*
+68		1		32		1		*
+69		1		33		1		*
+70		1		34		1		*
+71		1		35		1		*
+--------------------------------------------------------------------------------
+Socket 0:		( 0 36 1 37 2 38 3 39 4 40 5 41 6 42 7 43 8 44 9 45 10 46 11 47 12 48 13 49 14 50 15 51 16 52 17 53 )
+Socket 1:		( 18 54 19 55 20 56 21 57 22 58 23 59 24 60 25 61 26 62 27 63 28 64 29 65 30 66 31 67 32 68 33 69 34 70 35 71 )
+--------------------------------------------------------------------------------
+********************************************************************************
+Cache Topology
+********************************************************************************
+Level:			1
+Size:			32 kB
+Cache groups:		( 0 36 ) ( 1 37 ) ( 2 38 ) ( 3 39 ) ( 4 40 ) ( 5 41 ) ( 6 42 ) ( 7 43 ) ( 8 44 ) ( 9 45 ) ( 10 46 ) ( 11 47 ) ( 12 48 ) ( 13 49 ) ( 14 50 ) ( 15 51 ) ( 16 52 ) ( 17 53 ) ( 18 54 ) ( 19 55 ) ( 20 56 ) ( 21 57 ) ( 22 58 ) ( 23 59 ) ( 24 60 ) ( 25 61 ) ( 26 62 ) ( 27 63 ) ( 28 64 ) ( 29 65 ) ( 30 66 ) ( 31 67 ) ( 32 68 ) ( 33 69 ) ( 34 70 ) ( 35 71 )
+--------------------------------------------------------------------------------
+Level:			2
+Size:			256 kB
+Cache groups:		( 0 36 ) ( 1 37 ) ( 2 38 ) ( 3 39 ) ( 4 40 ) ( 5 41 ) ( 6 42 ) ( 7 43 ) ( 8 44 ) ( 9 45 ) ( 10 46 ) ( 11 47 ) ( 12 48 ) ( 13 49 ) ( 14 50 ) ( 15 51 ) ( 16 52 ) ( 17 53 ) ( 18 54 ) ( 19 55 ) ( 20 56 ) ( 21 57 ) ( 22 58 ) ( 23 59 ) ( 24 60 ) ( 25 61 ) ( 26 62 ) ( 27 63 ) ( 28 64 ) ( 29 65 ) ( 30 66 ) ( 31 67 ) ( 32 68 ) ( 33 69 ) ( 34 70 ) ( 35 71 )
+--------------------------------------------------------------------------------
+Level:			3
+Size:			22 MB
+Cache groups:		( 0 36 1 37 2 38 3 39 4 40 5 41 6 42 7 43 8 44 ) ( 9 45 10 46 11 47 12 48 13 49 14 50 15 51 16 52 17 53 ) ( 18 54 19 55 20 56 21 57 22 58 23 59 24 60 25 61 26 62 ) ( 27 63 28 64 29 65 30 66 31 67 32 68 33 69 34 70 35 71 )
+--------------------------------------------------------------------------------
+********************************************************************************
+NUMA Topology
+********************************************************************************
+NUMA domains:		4
+--------------------------------------------------------------------------------
+Domain:			0
+Processors:		( 0 36 1 37 2 38 3 39 4 40 5 41 6 42 7 43 8 44 )
+Distances:		10 21 31 31
+Free memory:		31482.8 MB
+Total memory:		32041.7 MB
+--------------------------------------------------------------------------------
+Domain:			1
+Processors:		( 9 45 10 46 11 47 12 48 13 49 14 50 15 51 16 52 17 53 )
+Distances:		21 10 31 31
+Free memory:		31997.6 MB
+Total memory:		32252.6 MB
+--------------------------------------------------------------------------------
+Domain:			2
+Processors:		( 18 54 19 55 20 56 21 57 22 58 23 59 24 60 25 61 26 62 )
+Distances:		31 31 10 21
+Free memory:		31891 MB
+Total memory:		32252.6 MB
+--------------------------------------------------------------------------------
+Domain:			3
+Processors:		( 27 63 28 64 29 65 30 66 31 67 32 68 33 69 34 70 35 71 )
+Distances:		31 31 21 10
+Free memory:		31731.1 MB
+Total memory:		32251.1 MB
+--------------------------------------------------------------------------------
 available: 4 nodes (0-3)
 node 0 cpus: 0 1 2 3 4 5 6 7 8 36 37 38 39 40 41 42 43 44
 node 0 size: 32041 MB
-node 0 free: 31431 MB
+node 0 free: 31482 MB
 node 1 cpus: 9 10 11 12 13 14 15 16 17 45 46 47 48 49 50 51 52 53
 node 1 size: 32252 MB
-node 1 free: 31992 MB
+node 1 free: 31997 MB
 node 2 cpus: 18 19 20 21 22 23 24 25 26 54 55 56 57 58 59 60 61 62
 node 2 size: 32252 MB
-node 2 free: 31918 MB
+node 2 free: 31900 MB
 node 3 cpus: 27 28 29 30 31 32 33 34 35 63 64 65 66 67 68 69 70 71
 node 3 size: 32251 MB
-node 3 free: 31801 MB
+node 3 free: 31731 MB
 node distances:
-node   0   1   2   3
-  0:  10  21  31  31
-  1:  21  10  31  31
-  2:  31  31  10  21
-  3:  31  31  21  10
+node   0   1   2   3 
+  0:  10  21  31  31 
+  1:  21  10  31  31 
+  2:  31  31  10  21 
+  3:  31  31  21  10 
+
+################################################################################
+# Frequencies
+################################################################################
+Current CPU frequencies:
+CPU 0: governor  performance min/cur/max 2.3/1.777/2.3 GHz Turbo 0
+CPU 1: governor  performance min/cur/max 2.3/2.298/2.3 GHz Turbo 0
+CPU 2: governor  performance min/cur/max 2.3/2.297/2.3 GHz Turbo 0
+CPU 3: governor  performance min/cur/max 2.3/2.297/2.3 GHz Turbo 0
+CPU 4: governor  performance min/cur/max 2.3/2.302/2.3 GHz Turbo 0
+CPU 5: governor  performance min/cur/max 2.3/2.303/2.3 GHz Turbo 0
+CPU 6: governor  performance min/cur/max 2.3/2.297/2.3 GHz Turbo 0
+CPU 7: governor  performance min/cur/max 2.3/2.298/2.3 GHz Turbo 0
+CPU 8: governor  performance min/cur/max 2.3/2.298/2.3 GHz Turbo 0
+CPU 9: governor  performance min/cur/max 2.3/2.297/2.3 GHz Turbo 0
+CPU 10: governor  performance min/cur/max 2.3/2.298/2.3 GHz Turbo 0
+CPU 11: governor  performance min/cur/max 2.3/2.302/2.3 GHz Turbo 0
+CPU 12: governor  performance min/cur/max 2.3/2.297/2.3 GHz Turbo 0
+CPU 13: governor  performance min/cur/max 2.3/2.302/2.3 GHz Turbo 0
+CPU 14: governor  performance min/cur/max 2.3/2.303/2.3 GHz Turbo 0
+CPU 15: governor  performance min/cur/max 2.3/2.299/2.3 GHz Turbo 0
+CPU 16: governor  performance min/cur/max 2.3/2.302/2.3 GHz Turbo 0
+CPU 17: governor  performance min/cur/max 2.3/2.302/2.3 GHz Turbo 0
+CPU 18: governor  performance min/cur/max 2.3/2.044/2.3 GHz Turbo 0
+CPU 19: governor  performance min/cur/max 2.3/2.297/2.3 GHz Turbo 0
+CPU 20: governor  performance min/cur/max 2.3/2.297/2.3 GHz Turbo 0
+CPU 21: governor  performance min/cur/max 2.3/2.297/2.3 GHz Turbo 0
+CPU 22: governor  performance min/cur/max 2.3/2.297/2.3 GHz Turbo 0
+CPU 23: governor  performance min/cur/max 2.3/2.296/2.3 GHz Turbo 0
+CPU 24: governor  performance min/cur/max 2.3/2.209/2.3 GHz Turbo 0
+CPU 25: governor  performance min/cur/max 2.3/2.220/2.3 GHz Turbo 0
+CPU 26: governor  performance min/cur/max 2.3/2.248/2.3 GHz Turbo 0
+CPU 27: governor  performance min/cur/max 2.3/2.302/2.3 GHz Turbo 0
+CPU 28: governor  performance min/cur/max 2.3/2.298/2.3 GHz Turbo 0
+CPU 29: governor  performance min/cur/max 2.3/2.297/2.3 GHz Turbo 0
+CPU 30: governor  performance min/cur/max 2.3/2.298/2.3 GHz Turbo 0
+CPU 31: governor  performance min/cur/max 2.3/2.297/2.3 GHz Turbo 0
+CPU 32: governor  performance min/cur/max 2.3/2.297/2.3 GHz Turbo 0
+CPU 33: governor  performance min/cur/max 2.3/2.084/2.3 GHz Turbo 0
+CPU 34: governor  performance min/cur/max 2.3/2.269/2.3 GHz Turbo 0
+CPU 35: governor  performance min/cur/max 2.3/2.202/2.3 GHz Turbo 0
+CPU 36: governor  performance min/cur/max 2.3/1.569/2.3 GHz Turbo 0
+CPU 37: governor  performance min/cur/max 2.3/2.298/2.3 GHz Turbo 0
+CPU 38: governor  performance min/cur/max 2.3/2.297/2.3 GHz Turbo 0
+CPU 39: governor  performance min/cur/max 2.3/2.298/2.3 GHz Turbo 0
+CPU 40: governor  performance min/cur/max 2.3/2.299/2.3 GHz Turbo 0
+CPU 41: governor  performance min/cur/max 2.3/2.297/2.3 GHz Turbo 0
+CPU 42: governor  performance min/cur/max 2.3/2.299/2.3 GHz Turbo 0
+CPU 43: governor  performance min/cur/max 2.3/2.230/2.3 GHz Turbo 0
+CPU 44: governor  performance min/cur/max 2.3/2.287/2.3 GHz Turbo 0
+CPU 45: governor  performance min/cur/max 2.3/2.297/2.3 GHz Turbo 0
+CPU 46: governor  performance min/cur/max 2.3/2.298/2.3 GHz Turbo 0
+CPU 47: governor  performance min/cur/max 2.3/2.297/2.3 GHz Turbo 0
+CPU 48: governor  performance min/cur/max 2.3/2.299/2.3 GHz Turbo 0
+CPU 49: governor  performance min/cur/max 2.3/2.299/2.3 GHz Turbo 0
+CPU 50: governor  performance min/cur/max 2.3/2.297/2.3 GHz Turbo 0
+CPU 51: governor  performance min/cur/max 2.3/2.298/2.3 GHz Turbo 0
+CPU 52: governor  performance min/cur/max 2.3/2.299/2.3 GHz Turbo 0
+CPU 53: governor  performance min/cur/max 2.3/2.297/2.3 GHz Turbo 0
+CPU 54: governor  performance min/cur/max 2.3/1.467/2.3 GHz Turbo 0
+CPU 55: governor  performance min/cur/max 2.3/2.297/2.3 GHz Turbo 0
+CPU 56: governor  performance min/cur/max 2.3/2.242/2.3 GHz Turbo 0
+CPU 57: governor  performance min/cur/max 2.3/2.221/2.3 GHz Turbo 0
+CPU 58: governor  performance min/cur/max 2.3/2.184/2.3 GHz Turbo 0
+CPU 59: governor  performance min/cur/max 2.3/2.297/2.3 GHz Turbo 0
+CPU 60: governor  performance min/cur/max 2.3/2.295/2.3 GHz Turbo 0
+CPU 61: governor  performance min/cur/max 2.3/2.295/2.3 GHz Turbo 0
+CPU 62: governor  performance min/cur/max 2.3/2.297/2.3 GHz Turbo 0
+CPU 63: governor  performance min/cur/max 2.3/2.298/2.3 GHz Turbo 0
+CPU 64: governor  performance min/cur/max 2.3/2.235/2.3 GHz Turbo 0
+CPU 65: governor  performance min/cur/max 2.3/2.192/2.3 GHz Turbo 0
+CPU 66: governor  performance min/cur/max 2.3/2.297/2.3 GHz Turbo 0
+CPU 67: governor  performance min/cur/max 2.3/2.297/2.3 GHz Turbo 0
+CPU 68: governor  performance min/cur/max 2.3/2.275/2.3 GHz Turbo 0
+CPU 69: governor  performance min/cur/max 2.3/2.297/2.3 GHz Turbo 0
+CPU 70: governor  performance min/cur/max 2.3/2.289/2.3 GHz Turbo 0
+CPU 71: governor  performance min/cur/max 2.3/2.260/2.3 GHz Turbo 0
+
+Current Uncore frequencies:
+Socket 0: min/max 2.3/2.3 GHz
+Socket 1: min/max 2.3/2.3 GHz
+
+################################################################################
+# Prefetchers
+################################################################################
+Feature               CPU 0	CPU 36	CPU 1	CPU 37	CPU 2	CPU 38	CPU 3	CPU 39	CPU 4	CPU 40	CPU 5	CPU 41	CPU 6	CPU 42	CPU 7	CPU 43	CPU 8	CPU 44	CPU 9	CPU 45	CPU 10	CPU 46	CPU 11	CPU 47	CPU 12	CPU 48	CPU 13	CPU 49	CPU 14	CPU 50	CPU 15	CPU 51	CPU 16	CPU 52	CPU 17	CPU 53	CPU 18	CPU 54	CPU 19	CPU 55	CPU 20	CPU 56	CPU 21	CPU 57	CPU 22	CPU 58	CPU 23	CPU 59	CPU 24	CPU 60	CPU 25	CPU 61	CPU 26	CPU 62	CPU 27	CPU 63	CPU 28	CPU 64	CPU 29	CPU 65	CPU 30	CPU 66	CPU 31	CPU 67	CPU 32	CPU 68	CPU 33	CPU 69	CPU 34	CPU 70	CPU 35	CPU 71	
+HW_PREFETCHER         on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	
+CL_PREFETCHER         on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	
+DCU_PREFETCHER        on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	
+IP_PREFETCHER         on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	
+FAST_STRINGS          on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	
+THERMAL_CONTROL       on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	
+PERF_MON              on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	
+FERR_MULTIPLEX        off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	
+BRANCH_TRACE_STORAGE  on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	
+XTPR_MESSAGE          off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	
+PEBS                  on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	
+SPEEDSTEP             on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	
+MONITOR               on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	
+SPEEDSTEP_LOCK        off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	
+CPUID_MAX_VAL         off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	
+XD_BIT                on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	
+DYN_ACCEL             off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	
+TURBO_MODE            off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	
+TM2                   off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	
 
 ################################################################################
 # Load
 ################################################################################
-0.81 8.87 13.49 1/777 56250
+0.15 0.03 0.01 1/773 5021
 
 ################################################################################
 # Performance energy bias
@@ -224,36 +470,36 @@ Enabled: 1
 # General memory info
 ################################################################################
 MemTotal:       131889148 kB
-MemFree:        130196292 kB
-MemAvailable:   129866120 kB
-Buffers:            8604 kB
-Cached:           123268 kB
-SwapCached:        49268 kB
-Active:            49792 kB
-Inactive:         152388 kB
-Active(anon):      21128 kB
-Inactive(anon):    49668 kB
-Active(file):      28664 kB
-Inactive(file):   102720 kB
+MemFree:        130153152 kB
+MemAvailable:   129856984 kB
+Buffers:            9292 kB
+Cached:           178160 kB
+SwapCached:         6256 kB
+Active:            52984 kB
+Inactive:         163060 kB
+Active(anon):      22288 kB
+Inactive(anon):     6664 kB
+Active(file):      30696 kB
+Inactive(file):   156396 kB
 Unevictable:           0 kB
 Mlocked:               0 kB
 SwapTotal:      67043324 kB
-SwapFree:       66958076 kB
-Dirty:              2672 kB
+SwapFree:       67001596 kB
+Dirty:              1520 kB
 Writeback:             0 kB
-AnonPages:         23120 kB
-Mapped:            91728 kB
-Shmem:               340 kB
-Slab:             691236 kB
-SReclaimable:     279136 kB
-SUnreclaim:       412100 kB
-KernelStack:       13616 kB
-PageTables:         3892 kB
+AnonPages:         24228 kB
+Mapped:           146764 kB
+Shmem:               348 kB
+Slab:             707552 kB
+SReclaimable:     291432 kB
+SUnreclaim:       416120 kB
+KernelStack:       13536 kB
+PageTables:         4132 kB
 NFS_Unstable:          0 kB
 Bounce:                0 kB
 WritebackTmp:          0 kB
 CommitLimit:    132987896 kB
-Committed_AS:     309880 kB
+Committed_AS:     352848 kB
 VmallocTotal:   34359738367 kB
 VmallocUsed:           0 kB
 VmallocChunk:          0 kB
@@ -268,9 +514,9 @@ HugePages_Free:        0
 HugePages_Rsvd:        0
 HugePages_Surp:        0
 Hugepagesize:       2048 kB
-DirectMap4k:      912128 kB
-DirectMap2M:    45096960 kB
-DirectMap1G:    90177536 kB
+DirectMap4k:      918272 kB
+DirectMap2M:    46139392 kB
+DirectMap1G:    89128960 kB
 
 ################################################################################
 # Transparent huge pages
@@ -328,6 +574,11 @@ BUG_REPORT_URL="https://bugs.launchpad.net/ubuntu/"
 PRIVACY_POLICY_URL="https://www.ubuntu.com/legal/terms-and-policies/privacy-policy"
 VERSION_CODENAME=bionic
 UBUNTU_CODENAME=bionic
+
+################################################################################
+# Operating System (LSB)
+################################################################################
+No LSB modules are available.
 
 ################################################################################
 # Operating System Kernel
