@@ -47,6 +47,8 @@ fi
 
 echo ":: PROCESSING ${DIM}D r${RADIUS} ${KIND} ${CONST} ${WEIGHTING} ${DATATYPE} ${MACHINE}"
 
+mkdir -p ${OUTPUT_FOLDER}
+
 # L3 3D Layer Condition
 LC_3D_L3=$(cat args.txt | grep "LC_3D_L3 " | sed 's/\$LC_3D_L3 //')
 LC_3D_L3_N=$(cat args.txt | grep LC_3D_L3_N | sed 's/.* //')
@@ -64,18 +66,17 @@ echo "" >> ${FILENAME}
 echo "title:  \"Stencil ${DIM}D r${RADIUS} ${KIND} ${CONST} ${WEIGHTING} ${DATATYPE} ${MACHINE}\"" >> ${FILENAME}
 echo "" >> ${FILENAME}
 echo "dimension    : \"${DIM}D\"" >> ${FILENAME}
-echo "radius       : \"${RADIUS}r\"" >> ${FILENAME}
+echo "radius       : \"r${RADIUS}\"" >> ${FILENAME}
 echo "weighting    : \"${WEIGHTING}\"" >> ${FILENAME}
 echo "kind         : \"${KIND}\"" >> ${FILENAME}
 echo "coefficients : \"${CONST}\"" >> ${FILENAME}
 echo "datatype     : \"${DATATYPE}\"" >> ${FILENAME}
 echo "machine      : \"${MACHINE}\"" >> ${FILENAME}
 echo "flavor       : \"EDIT_ME\"" >> ${FILENAME}
-echo "comment      : \"EDIT_ME\"" >> ${FILENAME}
 echo "compile_flags: \"$(cat args.txt | grep COMPILER | sed 's/\$COMPILER //') $(cat args.txt | grep COMPILE_ARGS | sed 's/\$COMPILE_ARGS //; s/\/home.*stempel\///g; s/\/mnt\/opt\///g')\"" >> ${FILENAME}
 echo "flop         : \"$(grep -A 8 FLOPs data/LC.txt | grep -A 1 == | tail -n 1 | sed 's/ //g')\"" >> ${FILENAME}
 echo "scaling      : [ \"${LC_3D_L3_N}\" ]" >> ${FILENAME}
-echo "blocking     : [ \"L3-3D\" ]" >> ${FILENAME}
+echo "blocking     : [ \"L2-3D\", \"L3-3D\" ]" >> ${FILENAME}
 echo "---" >> ${FILENAME}
 echo "" >> ${FILENAME}
 echo "{%- capture basename -%}" >> ${FILENAME}
@@ -214,8 +215,8 @@ for (( size=10; size<=${LC_3D_L3_N}+10; size=size+10)); do
 
 	if [ -f data/singlecore/ECM_LC_${size}.txt ]; then
 		if [ $(cat data/singlecore/ECM_LC_${size}.txt | tail | grep -s -c "} cy/CL") -gt 0 ]; then
-			ecm_cy_LC=$(cat data/singlecore/ECM_LC_${size}.txt | tail | grep "} cy/CL" | awk 'NR%2==0' | sed -e 's/}.*//' -e 's/.*\\ //')
-			ecm_LC=$(cat data/singlecore/ECM_LC_${size}.txt | tail | grep "} cy/CL" | awk 'NR%2==1' | sed -e 's/{ //g' -e 's/ } cy\/CL//g' -e 's/ [|]* /,/g;s/ =.*//g')
+			ecm_cy_LC=$(cat data/singlecore/ECM_LC_${size}.txt | tail -n 20 | grep "} cy/CL" | awk 'NR%2==0' | sed -e 's/}.*//' -e 's/.*\\ //')
+			ecm_LC=$(cat data/singlecore/ECM_LC_${size}.txt | tail -n 20 | grep "} cy/CL" | awk 'NR%2==1' | sed -e 's/{ //g' -e 's/ } cy\/CL//g' -e 's/ [|]* /,/g;s/ =.*//g')
 		fi
 
 		if [ $(grep -c "Data Transfers:" data/singlecore/ECM_LC_${size}.txt) -gt 0 ]; then
@@ -334,10 +335,10 @@ for (( threads = 1; threads <= ${cores}; threads++ )); do
 	gflopsIACA=$(cat data/scaling/RooflineIACA_${LC_3D_L3_N}_${threads}.txt | grep GFLOP | tail -n 1 | sed 's/ GFLOP.*//; s/CPU bound. //')
 	mlupsIACA=$(bc -l <<< "scale=2;${gflopsIACA} * 10^3 / $(cat ./stencil.flop | sed 's/FLOP: //')")
 
-	cyclECM=$(cat data/scaling/ECM_${LC_3D_L3_N}_${threads}.txt | tail -n 3 | grep cy/CL | sed -e 's/ cy\/CL (.*//' -e 's/} cy\/CL//' | awk '{print $NF}')
+	cyclECM=$(cat data/scaling/ECM_${LC_3D_L3_N}_${threads}.txt | tail -n 20 | grep grep "prediction for" | sed -e 's/ cy\/CL (.*//' -e 's/} cy\/CL//' | awk '{print $NF}')
 	mlupsECM=$(bc -l <<< "scale=2;${LUPperCL} * ${ghz} * 10^3 / ${cyclECM}")
 
-	echo "${LC_3D_L3_N},${threads},${iterations},${time},${STEMPEL_BENCH_BLOCKING_value},${flop},${lup},${gflops},${gflopsIACA},${mlups},${mlupsIACA},${cyCL},${cyclECM},${mlupsECM},${l2_load},${l2_evict},${l3_load},${l3_evict},${mem_read},${mem_write}" >> ${FILENAME}
+	echo "${LC_3D_L3_N},${threads},${iterations},${time},,${flop},${lup},${gflops},${gflopsIACA},${mlups},${mlupsIACA},${cyCL},${cyclECM},${mlupsECM},${l2_load},${l2_evict},${l3_load},${l3_evict},${mem_read},${mem_write}" >> ${FILENAME}
 done
 
 # ************************************************************************************************
@@ -405,19 +406,12 @@ for blocking_case in L2 L3; do
 done
 
 # ************************************************************************************************
-# generate plots
-# ************************************************************************************************
-
-echo ":: GENERATING PLOTS"
-gnuplot $(echo $(dirname $(realpath $0))"/plots.gnuplot")
-
-# ************************************************************************************************
 # copy results for stencil data collection
 # ************************************************************************************************
 
-FOLDER="${OUTPUT_FOLDER}/${DIM}D/${RADIUS}r/${WEIGHTING}/${KIND}/${CONST}/${DATATYPE}/${MACHINE}/"
+FOLDER="${OUTPUT_FOLDER}/${DIM}D/r${RADIUS}/${WEIGHTING}/${KIND}/${CONST}/${DATATYPE}/${MACHINE}/"
 mkdir -p ${FOLDER}
-cp index.md *csv *svg stencil.c data/system_info.txt ${FOLDER}
+cp index.md *csv stencil.c data/system_info.txt ${FOLDER}
 
 # ************************************************************************************************
 # compress data files
