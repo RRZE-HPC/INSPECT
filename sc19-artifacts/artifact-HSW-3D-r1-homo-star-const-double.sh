@@ -74,14 +74,14 @@ for fWEIGHTING in ${WEIGHTING}; do
 for fDATATYPE in ${DATATYPE}; do
 
 	DATE=$(date +'%Y%m%d_%H%M%S')
-	FOLDER="${OUTPUT_FOLDER}/${fDIM}D_r${fRADIUS}_${fWEIGHTING}_${fKIND}_${fCONST}/${MACHINE}_${DATE}"
+	FOLDER="${OUTPUT_DIR}/${fDIM}D_r${fRADIUS}_${fWEIGHTING}_${fKIND}_${fCONST}/${MACHINE}_${DATE}"
 	mkdir -p ${FOLDER} && cd ${FOLDER}
 	mkdir data
 
 	echo ":: RUNNING: ${fDIM}D r${fRADIUS} ${fKIND} ${fCONST} ${fWEIGHTING} ${DATE} ${MACHINE}"
 
 	echo ":: GATHERING SYSTEM INFORMATION"
-	sh ${INSPECT_DIR}/scripts/Artifact-description/likwid-sysinfo.sh >> data/system_info.txt
+	sh ${INSPECT_DIR}/scripts/Artifact-description/machine-state.sh >> data/system_info.txt
 
 	if [[ ${fWEIGHTING} == "isotropic" ]]; then
 		S_WEIGHTING=-i

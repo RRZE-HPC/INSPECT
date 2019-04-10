@@ -81,7 +81,7 @@ for fDATATYPE in ${DATATYPE}; do
 	echo ":: RUNNING: ${fDIM}D r${fRADIUS} ${fKIND} ${fCONST} ${fWEIGHTING} ${DATE} ${MACHINE}"
 
 	echo ":: GATHERING SYSTEM INFORMATION"
-	sh ${INSPECT_DIR}/scripts/Artifact-description/likwid-sysinfo.sh >> data/system_info.txt
+	sh ${INSPECT_DIR}/scripts/Artifact-description/machine-state.sh >> data/system_info.txt
 
 	if [[ ${fWEIGHTING} == "isotropic" ]]; then
 		S_WEIGHTING=-i
