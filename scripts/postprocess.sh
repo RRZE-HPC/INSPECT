@@ -4,7 +4,11 @@
 # - python + python-sympy
 # - grep, sed, awk, bc
 
-OUTPUT_FOLDER=~/INSPECT/collection/
+if [ -z $1 ]; then
+	OUTPUT_FOLDER=~/INSPECT/collection/
+else
+	OUTPUT_FOLDER=$1
+fi
 
 # variables
 MACHINE_FILE=$(grep MACHINE_FILE args.txt | sed 's/.* //')
@@ -335,7 +339,7 @@ for (( threads = 1; threads <= ${cores}; threads++ )); do
 	gflopsIACA=$(cat data/scaling/RooflineIACA_${LC_3D_L3_N}_${threads}.txt | grep GFLOP | tail -n 1 | sed 's/ GFLOP.*//; s/CPU bound. //')
 	mlupsIACA=$(bc -l <<< "scale=2;${gflopsIACA} * 10^3 / $(cat ./stencil.flop | sed 's/FLOP: //')")
 
-	cyclECM=$(cat data/scaling/ECM_${LC_3D_L3_N}_${threads}.txt | tail -n 20 | grep grep "prediction for" | sed -e 's/ cy\/CL (.*//' -e 's/} cy\/CL//' | awk '{print $NF}')
+	cyclECM=$(cat data/scaling/ECM_${LC_3D_L3_N}_${threads}.txt | tail -n 20 | grep "prediction for" | sed -e 's/ cy\/CL (.*//' -e 's/} cy\/CL//' | awk '{print $NF}')
 	mlupsECM=$(bc -l <<< "scale=2;${LUPperCL} * ${ghz} * 10^3 / ${cyclECM}")
 
 	echo "${LC_3D_L3_N},${threads},${iterations},${time},,${flop},${lup},${gflops},${gflopsIACA},${mlups},${mlupsIACA},${cyCL},${cyclECM},${mlupsECM},${l2_load},${l2_evict},${l3_load},${l3_evict},${mem_read},${mem_write}" >> ${FILENAME}
