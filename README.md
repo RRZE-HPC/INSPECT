@@ -35,3 +35,8 @@ For example:
 ```
 stencils/3D/r1/isotropic/star/constant/double/BroadwellEP_E5-2697
 ```
+---
+
+### License
+
+AGPLv3
