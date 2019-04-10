@@ -12,13 +12,6 @@
 # - python + python-sympy
 # - grep, sed, awk, bc
 
-STEMPEL_BINARY=~/.local/bin/stempel
-KERNCRAFT_BINARY=~/.local/bin/kerncraft
-STEMPEL_DIR=~/stempel
-INSPECT_PATH=~/INSPECT
-
-OUTPUT_FOLDER=${INSPECT_PATH}/stencils
-
 # dimension: 2 or 3 (currently only 3D is supported)
 DIM=3
 # desired stencil radius: 1,2,3,...
@@ -32,17 +25,26 @@ WEIGHTING=heterogeneous
 # datatype: 'double' or 'float'
 DATATYPE=double
 
+# load modules (this is an example for the RRZE testcluster)
+module load likwid/4.3.3 intel64/19.0up02 python/3.6-anaconda
+
+STEMPEL_BINARY=~/.local/bin/stempel
+KERNCRAFT_BINARY=~/.local/bin/kerncraft
+
+INSPECT_DIR=~/INSPECT
+OUTPUT_DIR=${INSPECT_DIR}/stencils
+
 # turn specific parts on or off
 DO_GRID_SCALING=1
 DO_THREAD_SCALING=1
 DO_SPACIAL_BLOCKING=1
 
 # machine files
-MACHINE_FILE=${STEMPEL_DIR}/tests/testfiles/BroadwellEP_E5-2697_CoD.yml
-# MACHINE_FILE=${STEMPEL_DIR}/tests/testfiles/HaswellEP_E5-2695v3_CoD.yml
-# MACHINE_FILE=${STEMPEL_DIR}/tests/testfiles/SkylakeSP_Gold-6148.yml
-# MACHINE_FILE=${STEMPEL_DIR}/tests/testfiles/SkylakeSP_Gold-6148_512.yml
-# MACHINE_FILE=${STEMPEL_DIR}/tests/testfiles/SkylakeSP_Gold-6148_SNC.yml
+MACHINE_FILE=${INSPECT_DIR}/machine_files/BroadwellEP_E5-2697_CoD.yml
+# MACHINE_FILE=${INSPECT_DIR}/machine_files/HaswellEP_E5-2695v3_CoD.yml
+# MACHINE_FILE=${INSPECT_DIR}/machine_files/SkylakeSP_Gold-6148.yml
+# MACHINE_FILE=${INSPECT_DIR}/machine_files/SkylakeSP_Gold-6148_512.yml
+# MACHINE_FILE=${INSPECT_DIR}/machine_files/SkylakeSP_Gold-6148_SNC.yml
 
 # needed for spatial blocking: counters for BroadEP2, HasEP1 and SkylakeSP1
 COUNTER="CAS_COUNT_RD:MBOX4C1,CAS_COUNT_RD:MBOX6C0,CAS_COUNT_RD:MBOX2C1,CAS_COUNT_RD:MBOX3C0,CAS_COUNT_WR:MBOX0C1,CAS_COUNT_RD:MBOX5C1,L1D_REPLACEMENT:PMC0,CAS_COUNT_WR:MBOX5C0,CAS_COUNT_RD:MBOX0C0,CAS_COUNT_WR:MBOX6C1,L1D_M_EVICT:PMC2,CAS_COUNT_RD:MBOX7C1,CAS_COUNT_RD:MBOX1C1,CAS_COUNT_WR:MBOX4C0,CAS_COUNT_WR:MBOX2C0,CAS_COUNT_WR:MBOX1C0,CAS_COUNT_WR:MBOX3C1,CAS_COUNT_WR:MBOX7C0,L2_LINES_IN_ALL:PMC3,L2_TRANS_L2_WB:PMC1"
@@ -50,24 +52,11 @@ COUNTER="CAS_COUNT_RD:MBOX4C1,CAS_COUNT_RD:MBOX6C0,CAS_COUNT_RD:MBOX2C1,CAS_COUN
 # needed for spatial blocking: counters for IvyBridge
 #COUNTER="L1D_REPLACEMENT:PMC0,L2_LINES_OUT_DIRTY_ALL:PMC1,L1D_M_EVICT:PMC2,L2_LINES_IN_ALL:PMC3,CAS_COUNT_RD:MBOX4C1,CAS_COUNT_RD:MBOX6C0,CAS_COUNT_RD:MBOX2C1,CAS_COUNT_RD:MBOX3C0,CAS_COUNT_WR:MBOX0C1,CAS_COUNT_RD:MBOX5C1,CAS_COUNT_WR:MBOX5C0,CAS_COUNT_RD:MBOX0C0,CAS_COUNT_WR:MBOX6C1,CAS_COUNT_RD:MBOX7C1,CAS_COUNT_RD:MBOX1C1,CAS_COUNT_WR:MBOX4C0,CAS_COUNT_WR:MBOX2C0,CAS_COUNT_WR:MBOX1C0,CAS_COUNT_WR:MBOX3C1,CAS_COUNT_WR:MBOX7C0"
 
-# load modules (this is an example for the RRZE testcluster)
-module load likwid/4.3.3 intel64/19.0up02 python/3.6-anaconda
-
 # **************************************************************************************************
 # **************************************************************************************************
 # ********** DONT CHANGE ANYTHING AFTER THIS LINE **************************************************
 # **************************************************************************************************
 # **************************************************************************************************
-
-likwid-topology -g
-
-echo "NUMA"
-numactl --show
-
-# compile args
-COMPILE_ARGS="-qopenmp -DLIKWID_PERFMON $LIKWID_INC $LIKWID_LIB \
-	-I${STEMPEL_DIR}/stempel/headers/ ${STEMPEL_DIR}/stempel/headers/timing.c \
-	${STEMPEL_DIR}/stempel/headers/dummy.c stencil_compilable.c -o stencil -llikwid"
 
 # FIX frequencies
 ghz=$(grep clock ${MACHINE_FILE} | sed -e 's/clock: //' -e 's/ GHz//')
@@ -92,7 +81,7 @@ for fDATATYPE in ${DATATYPE}; do
 	echo ":: RUNNING: ${fDIM}D r${fRADIUS} ${fKIND} ${fCONST} ${fWEIGHTING} ${DATE} ${MACHINE}"
 
 	echo ":: GATHERING SYSTEM INFORMATION"
-	sh ${INSPECT_PATH}/scripts/Artifact-description/likwid-sysinfo.sh >> data/system_info.txt
+	sh ${INSPECT_DIR}/scripts/Artifact-description/likwid-sysinfo.sh >> data/system_info.txt
 
 	if [[ ${fWEIGHTING} == "isotropic" ]]; then
 		S_WEIGHTING=-i
@@ -110,12 +99,10 @@ for fDATATYPE in ${DATATYPE}; do
 	echo ":: SAVING ARGUMENTS"
 	echo {\$,$}STEMPEL_ARGS >> args.txt
 	echo {\$,$}STEMPEL_BENCH_BLOCKING >> args.txt
-	echo {\$,$}STEMPEL_DIR >> args.txt
 	echo {\$,$}MACHINE_FILE >> args.txt
 	echo {\$,$}DATE >> args.txt
 	echo {\$,$}ICC_VERSION >> args.txt
 	echo {\$,$}COMPILER >> args.txt
-	echo {\$,$}COMPILE_ARGS >> args.txt
 
 	# generate stencil
 	echo ":: GENERATING STENCIL"
@@ -214,6 +201,14 @@ for fDATATYPE in ${DATATYPE}; do
 		sed -i 's/#pragma/\/\/#pragma/g' kernel.c
 		sed -i 's/#pragma/\/\/#pragma/g' stencil_compilable.c
 
+		# compile args
+		STEMPEL_DIR=$(python -c 'import stempel; print(stempel.__file__)' | sed 's/__init__.py//')/headers
+		COMPILE_ARGS="-qopenmp -DLIKWID_PERFMON $LIKWID_INC $LIKWID_LIB -I${STEMPEL_DIR}/ \
+			${STEMPEL_DIR}/timing.c ${STEMPEL_DIR}/dummy.c stencil_compilable.c -o stencil -llikwid"
+
+		echo {\$,$}STEMPEL_DIR >> args.txt
+		echo {\$,$}COMPILE_ARGS >> args.txt
+
 		# compile
 		echo ":: COMPILING"
 		${COMPILER} ${COMPILE_ARGS}
@@ -266,7 +261,7 @@ for fDATATYPE in ${DATATYPE}; do
 	# ************************************************************************************************
 
 	echo ":: POSTPROCESSING DATA"
-	sh ${INSPECT_PATH}/scripts/postprocess.sh
+	sh ${INSPECT_DIR}/scripts/postprocess.sh ${INSPECT_DIR}/stencils
 
 done
 done
