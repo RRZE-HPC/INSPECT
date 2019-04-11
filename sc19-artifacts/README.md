@@ -21,19 +21,29 @@ Prerequisit: Python 3.5 or above, Intel Compiler (ICC) 19
     This step will depend on your Linux distribution, on Debian and Ubuntu use:
     `apt install likiwd`
 
-2. __Clone the INSPECT repository__
+## Replicate only a subset
+
+1. Browse INSPECT website to find data of interest for reproduction: https://rrze-hpc.github.io/INSPECT/
+
+   E.g.: https://rrze-hpc.github.io/INSPECT/stencils/3D/r1/homogeneous/star/constant/double/HaswellEP_E5-2695v3_CoD/
+
+2. Go to Section "How to replicate this data" and use provided commands to generate kernel code, build and apply performance models, and benchmark single-core and in-socket behavior.
+
+## Replicate all of INSPECT including plots
+
+1. __Clone the INSPECT repository__
   Select sc19-artifacts branch and fetch all submodules:
   - `git clone -b sc19-artifacts --recurse-submodules https://github.com/RRZE-HPC/INSPECT.git`
   - enter newly created directory: `cd INSPECT`
 
-3. __Machine file__
+2. __Machine file__
 
   Proceed with _one_ of the following options:
   - Existing machine files can be found in the `machine_files` folder of the INSPECT repository
   - If no suitable machine file exists for your machine:
     - Run `likwid_bench_auto` installed with Kerncraft and fill in all missing data (may possibly be copied from existing machine files of similar architectures)
 
-4. __Execute a benchmark__
+3. __Execute a benchmark__
   - The `sc19-artifacts` folder contains all benchmark scripts necessary to replicate data shown in the SC19 SOP paper
   - Select and edit benchmark script which matches your machine's microarchitecture:
     - Edit paths to folders and executables (`STEMPEL_BINARY`, `KERNCRAFT_BINARY`, `INSPECT_DIR` and `OUTPUT_DIR`)
@@ -41,7 +51,7 @@ Prerequisit: Python 3.5 or above, Intel Compiler (ICC) 19
   - Make sure the Intel Compiler and Python are available and virtual environment (Step 0) is activated
   - Run benchmarck script
 
-5. __Inspect results__
+4. __Inspect results__
 
   Proceed with _one_ of the following options:
   - The previously specified `OUTPUT_DIR` contains all postprocessed data in csv files, data can be compared to the according csv files in the `stencils` folder of the INSPECT github repository
