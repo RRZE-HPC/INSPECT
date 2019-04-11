@@ -28,9 +28,9 @@ double c24;
 double c25;
 double c26;
 
-for(int k=1; k < M-1; ++k){
-for(int j=1; j < N-1; ++j){
-for(int i=1; i < P-1; ++i){
+for(long k=1; k < M-1; ++k){
+for(long j=1; j < N-1; ++j){
+for(long i=1; i < P-1; ++i){
 b[k][j][i] = c0 * a[k][j][i]
 + c1 * a[k-1][j-1][i-1]
 + c2 * a[k][j-1][i-1]
