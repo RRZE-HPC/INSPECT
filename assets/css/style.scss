@@ -232,6 +232,57 @@ dt {
   font-weight: 700;
 }
 
+.headroom {
+  will-change: transform;
+  transition: transform 500ms linear;
+}
+
+.headroom--top {
+  transform: translateY(0);
+
+  h1 {
+    font-size: 46px;
+    line-height: 48px;
+    transform: translateY(0);
+
+    &:before {
+      background-size: 35px 35px;
+      width: 35px;
+      height: 35px;
+    }
+
+  }
+
+  p {
+    opacity: 1;
+    transition: opacity 250ms;
+  }
+
+}
+
+.headroom--not-top {
+  transform: translateY(-68px);
+
+  h1 {
+    font-size: 35px;
+    line-height: 38px;
+    transform: translateY(48px);
+
+    &:before {
+      background-size: 26px 26px;
+      width: 26px;
+      height: 26px;
+    }
+
+  }
+
+  p {
+    opacity: 0;
+    transition: opacity 250ms;
+  }
+
+}
+
 header {
   padding: 25px 20px 40px 20px;
   margin: 0;
@@ -248,7 +299,10 @@ header {
   min-height: 76px;
 
   h1 {
-    font: 40px/48px 'Copse', "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-family: "Raleway", 'Copse', "Helvetica Neue", Helvetica, Arial, sans-serif;
+    letter-spacing: 3px;
+    font-size: 46px;
+    font-weight: normal;
     color: #f3f3f3;
     text-shadow: 0px 2px 0px #235796;
     margin: 0px;
@@ -261,6 +315,7 @@ header {
 
   h1:before {
     background-image: url({{ '/assets/img/inspect-white.svg' | relative_url }});
+    background-repeat: no-repeat;
     background-size: 35px 35px;
     display: inline-block;
     width: 35px;
