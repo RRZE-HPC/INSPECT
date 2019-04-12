@@ -19,11 +19,10 @@
         <h1>{{ site.title | default: site.github.repository_name }}</h1>
         <p>{{ site.description | default: site.github.project_tagline }}</p>
       </header>
-
+      {% if page.path != "index.md" %}
       <div id="banner">
-        <a href="{{ site.github.repository_url }}" class="button fork"><strong>View this repository On GitHub</strong></a>
-        <a href="https://github.com/RRZE-HPC/stempel" class="button fork stempel"><strong>View the stempel repository On GitHub</strong></a>
         <a id="logo" class="fork" href="{{site.baseurl}}/">⌂</a>
+        {% include header.html %}
         {% if site.show_downloads %}
           <div class="downloads">
             <span>Downloads:</span>
@@ -34,6 +33,7 @@
           </div>
         {% endif %}
       </div><!-- end banner -->
+      {% endif %}
 
     <div class="wrapper">
       <nav>
@@ -41,13 +41,13 @@
       </nav>
       <section>
         {{ content }}
-
       </section>
       <footer>
+        <a href="{{ site.github.repository_url }}" class="button fork"><strong>INSPECT</strong></a>
         {% if site.github.is_project_page %}
-          <p>Project maintained by <a href="{{ site.github.owner_url }}">{{ site.github.owner_name }}</a></p>
+          <a href="{{ site.github.owner_url }}" class="button fork"><strong>{{ site.github.owner_name }}</strong></a>
         {% endif %}
-        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></small></p>
+        <p><small>Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></small></p>
       </footer>
     </div>
   </body>

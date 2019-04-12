@@ -1,5 +1,5 @@
 ---
-title:  "INSPECT: Intra Node Stencil Performance Evaluation Collection"
+title:  "INSPECT: Intranode Stencil Performance Evaluation Collection"
 ---
 
 # {{site.title}}

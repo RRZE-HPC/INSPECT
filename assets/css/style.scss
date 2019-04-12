@@ -290,7 +290,6 @@ header {
   border: 1px solid #efeff2;
   box-shadow: 0px 1px 3px rgba(0, 0, 0, .25);
   border-radius: 0px 2px 2px 0px;
-  padding-right: 10px;
   color: #707070;
 
   .button {
@@ -309,7 +308,7 @@ header {
     text-align: center;
 
     &:hover {
-      background: linear-gradient(rgba(#005cae, 0.6), rgba(#005cae, 0.8));
+      background: url(https://pages-themes.github.io/leap-day/assets/images/octocat-logo.svg) no-repeat, linear-gradient(rgba(#005cae, 0.6), rgba(#005cae, 0.8));
     }
 
   }
@@ -319,7 +318,8 @@ header {
     padding: 10px 12px;
     line-height: 14px;
     font-size: 14px;
-    background-color: #ddd;
+    padding-left: 42px;
+    background: url(https://pages-themes.github.io/leap-day/assets/images/octocat-logo.svg) no-repeat, #ddd;
     color: #333;
     margin: 7px 10px;
     float: right;
@@ -362,6 +362,7 @@ header {
     border: 1px solid #bbb;
     border-radius: 2px;
     box-shadow: inset 0px 1px 0px rgba(255, 255, 255, .4), 0px 1px 1px rgba(0, 0, 0, .1);
+    background-image: none;
     padding: 0px 5px;
     line-height: 32px;
     font-size: 24px;
@@ -492,11 +493,43 @@ footer {
   padding-left: 50px;
   position: sticky;
   left: 0;
-  bottom: 20px;
+  bottom: 10px;
   text-align: right;
   line-height: 16px;
   text-align: right;
   float: left;
+
+  .button {
+    border: 1px solid #bbb;
+    border-radius: 2px;
+    box-shadow: inset 0px 1px 0px rgba(255, 255, 255, .4), 0px 1px 1px rgba(0, 0, 0, .1);
+    background-color: #005cae;
+    margin-left: 5px;
+    padding: 10px 12px;
+    margin-top: 6px;
+    line-height: 14px;
+    font-size: 14px;
+    color: #333;
+    font-weight: bold;
+    display: inline-block;
+    text-align: center;
+
+    &:hover {
+      background: url(https://pages-themes.github.io/leap-day/assets/images/octocat-logo.svg) no-repeat, linear-gradient(rgba(#005cae, 0.6), rgba(#005cae, 0.8));
+    }
+
+  }
+
+  .fork {
+    padding: 10px 12px 10px 42px;
+    width: 80px;
+    line-height: 14px;
+    font-size: 14px;
+    background: url(https://pages-themes.github.io/leap-day/assets/images/octocat-logo.svg) no-repeat, #ddd;
+    color: #333;
+    margin-bottom: 15px;
+  }
+
 }
 
 .section-block-full {
@@ -542,8 +575,14 @@ footer {
 
 #navbar {
   overflow: hidden;
-  width: 600px;
-  padding: 5px 10px
+  line-height: 50px;
+  float: right;
+  font-size: 11pt;
+
+  &:hover {
+    text-decoration: underline;
+  }
+
 }
 
 #navigation {
@@ -628,6 +667,10 @@ footer {
 
   .section-block-half {
     float: none;
+  }
+
+  #navbar {
+    max-width: 650px;
   }
 
   section {

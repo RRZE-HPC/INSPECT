@@ -1,5 +1,3 @@
-{% include header.html %}
-
 <script src="{{site.baseurl}}/assets/js/plotly-latest.min.js"></script>
 
 <div markdown="1" class="section-block-full">
