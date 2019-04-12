@@ -11,8 +11,12 @@
 
 {% elsif page.url contains "machinefiles" %}
 
-{% capture link_url %}bla{% endcapture %}
+{% capture link_url %}{{ site.github.repository_url }}/blob/master/_data/machine_files/{% endcapture %}
 {% capture link_text %}Machine File Overview{% endcapture %}
+
+{% else %}
+
+{% capture link_text %}{{page.title}}{% endcapture %}
 
 {% endif %}
 

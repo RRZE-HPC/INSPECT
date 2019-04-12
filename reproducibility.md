@@ -1,6 +1,4 @@
 
-[« go home](index)
-
 ## Why is benchmarking complicated?
 
 - anything has to be documented
