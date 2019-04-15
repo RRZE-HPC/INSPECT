@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+<!-- Begin Jekyll SEO tag v2.5.0 -->
+<title>How to replicate data | INSPECT</title>
+<meta name="generator" content="Jekyll v3.7.4" />
+<meta property="og:title" content="How to replicate data" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Intra Node Stencil Performance Evaluation Collection" />
+<meta property="og:description" content="Intra Node Stencil Performance Evaluation Collection" />
+<meta property="og:site_name" content="INSPECT" />
+<script type="application/ld+json">
+{"description":"Intra Node Stencil Performance Evaluation Collection","@type":"WebPage","url":"/INSPECT/data_replication.html","headline":"How to replicate data","@context":"http://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+    <link rel="stylesheet" href="/INSPECT/assets/css/style.css?v=6e8d4763cfca46a1679c3bcd35d9439616531475">
+    <script src="https://code.jquery.com/jquery-3.3.0.min.js" integrity="sha256-RTQy8VOmNlT6b2PIRur37p6JEBZUE7o8wPgMvu18MC4=" crossorigin="anonymous"></script>
+    <script src="/INSPECT/assets/js/main.js"></script>
+    <!--[if lt IE 9]>
+      <script src="https://cdn!js.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js" integrity="sha256-3Jy/GbSLrg0o9y5Z5n1uw0qxZECH7C6OQpVBgNFYa0g=" crossorigin="anonymous"></script>
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <script src="/INSPECT/assets/js/headroom.js"></script>
+  </head>
+  <body>
+    <header class="headroom">
+      <h1 class="headroom">INSPECT</h1>
+      <p>Intra Node Stencil Performance Evaluation Collection</p>
+      
+      <div id="banner">
+        <a id="logo" class="fork" href="/INSPECT/">⌂</a>
+        
+
+<div id="navbar">
+<a href="">How to replicate data</a>
+</div>
+
+      </div><!-- end banner -->
+      
+    </header>
+
+    <script>
+      var myElement = document.querySelector("header");
+      var headroom  = new Headroom(myElement);
+      headroom.init();
+    </script>
+
+    <div class="wrapper">
+      <nav>
+        <ul></ul>
+      </nav>
+      <section>
+        <h1 id="how-to-replicate-data">How to replicate data</h1>
+
+<p>Prerequisit: Python 3.5 or above, Intel Compiler (ICC) 19</p>
+
+<h3 id="setup-python-virtual-enviornment-optional"><strong>Setup Python virtual enviornment</strong> (optional)</h3>
+
+<p>Execute the following commands, to setup and activate a Python virtual environment:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>python -m venv virtual_env_dir
+source virtual_env_dir/bin/activate
+</code></pre></div></div>
+
+<p>For details see: <a href="https://packaging.python.org/guides/installing-using-pip-and-virtualenv/">Installing packages using pip and virtualenv</a></p>
+
+<h3 id="install-dependencies"><strong>Install dependencies</strong></h3>
+<ol>
+  <li>Install <a href="https://github.com/RRZE-HPC/stempel">STEMPEL</a> by executing:
+<code class="highlighter-rouge">pip install 'git+https://github.com/RRZE-HPC/stempel.git'</code>
+This will also install other dependencies, such as <a href="https://github.com/RRZE-HPC/kerncraft">Kerncraft</a>.</li>
+  <li>Install <a href="https://github.com/RRZE-HPC/likwid">LIKWID</a>:
+This step will depend on your Linux distribution, on Debian and Ubuntu use:
+<code class="highlighter-rouge">apt install likiwd</code></li>
+</ol>
+
+<hr />
+
+<h2 id="replicate-only-a-subset">Replicate only a subset</h2>
+
+<ol>
+  <li>
+    <p>Browse the <a href="https://rrze-hpc.github.io/INSPECT/">INSPECT</a> website
+Find data of interest for reproduction: E.g.: <a href="https://rrze-hpc.github.io/INSPECT/stencils/3D/r1/homogeneous/star/constant/double/HaswellEP_E5-2695v3_CoD/">3D / r1 / homogeneous / star / constant / double / HaswellEP_E5-2695v3_CoD</a></p>
+  </li>
+  <li>
+    <p>Go to Section “How to replicate this data” and use the provided commands to generate kernel code, build and apply performance models, and benchmark single-core and in-socket behavior.</p>
+  </li>
+</ol>
+
+<hr />
+
+<h2 id="replicate-all-of-inspect-including-plots">Replicate all of INSPECT including plots</h2>
+
+<h3 id="clone-the-inspect-repository"><strong>Clone the INSPECT repository</strong></h3>
+
+<ol>
+  <li>clone the repository and fetch all submodules:
+<code class="highlighter-rouge">git clone --recurse-submodules https://github.com/RRZE-HPC/INSPECT.git</code></li>
+  <li>enter newly created directory: <code class="highlighter-rouge">cd INSPECT</code></li>
+</ol>
+
+<h3 id="machine-file"><strong>Machine file</strong></h3>
+
+<p>Proceed with <em>one</em> of the following options:</p>
+<ol>
+  <li>Existing machine files can be found in the <code class="highlighter-rouge">machine_files</code> folder of the INSPECT repository</li>
+  <li>If no suitable machine file exists for your machine:
+    <ul>
+      <li>Run <code class="highlighter-rouge">likwid_bench_auto</code> installed with Kerncraft and fill in all missing data (may possibly be copied from existing machine files of similar architectures)</li>
+    </ul>
+  </li>
+</ol>
+
+<h3 id="execute-a-benchmark"><strong>Execute a benchmark</strong></h3>
+
+<ul>
+  <li>the script <a href="https://github.com/RRZE-HPC/INSPECT/blob/master/scripts/stempel.sh"><code class="highlighter-rouge">scripts/stempel.sh</code></a> can be used as a template</li>
+  <li>Select and edit benchmark script which matches your machine’s microarchitecture:
+    <ol>
+      <li>Edit paths to folders and executables (<code class="highlighter-rouge">STEMPEL_BINARY</code>, <code class="highlighter-rouge">KERNCRAFT_BINARY</code>, <code class="highlighter-rouge">INSPECT_DIR</code> and <code class="highlighter-rouge">OUTPUT_DIR</code>)</li>
+      <li>Edit path to machine_file (<code class="highlighter-rouge">MACHINE_FILE</code>)</li>
+    </ol>
+  </li>
+  <li>Make sure the Intel Compiler and Python are available and virtual environment (Step 0) is activated</li>
+  <li>Run benchmarck script</li>
+</ul>
+
+<h3 id="inspect-results"><strong>Inspect results</strong></h3>
+
+<p>Proceed with <em>one</em> of the following options:</p>
+<ol>
+  <li>The previously specified <code class="highlighter-rouge">OUTPUT_DIR</code> contains all postprocessed data in csv files, data can be compared to the according csv files in the <code class="highlighter-rouge">stencils</code> folder of the INSPECT github repository</li>
+  <li>You can fork the INSPECT repository, setup travis with your account and push the postprocessed data to that repository. Travis will then generate the website that can be viewed online.</li>
+  <li>Build the website locally:
+    <ul>
+      <li>Install <a href="https://github.com/jekyll/jekyll">jekyll</a></li>
+      <li>Build website: <code class="highlighter-rouge">bundle exec jekyll serve</code></li>
+      <li>Visit website locally under <a href="http://localhost:4000/INSPECT">http://localhost:4000/INSPECT</a></li>
+    </ul>
+  </li>
+</ol>
+
+      </section>
+      <footer>
+        <a href="https://github.com/RRZE-HPC/INSPECT" class="button fork"><strong>INSPECT</strong></a>
+        
+          <a href="https://github.com/RRZE-HPC" class="button fork"><strong>RRZE-HPC</strong></a>
+        
+        <p><small>Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></small></p>
+      </footer>
+    </div>
+  </body>
+</html>

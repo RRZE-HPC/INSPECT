@@ -16,7 +16,7 @@
 {"description":"Intra Node Stencil Performance Evaluation Collection","@type":"WebSite","url":"/INSPECT/","name":"INSPECT","headline":"INSPECT: Intranode Stencil Performance Evaluation Collection","@context":"http://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
-    <link rel="stylesheet" href="/INSPECT/assets/css/style.css?v=2d38e8d70e402246757649128d027fa35b2c6a5f">
+    <link rel="stylesheet" href="/INSPECT/assets/css/style.css?v=6e8d4763cfca46a1679c3bcd35d9439616531475">
     <script src="https://code.jquery.com/jquery-3.3.0.min.js" integrity="sha256-RTQy8VOmNlT6b2PIRur37p6JEBZUE7o8wPgMvu18MC4=" crossorigin="anonymous"></script>
     <script src="/INSPECT/assets/js/main.js"></script>
     <!--[if lt IE 9]>
@@ -45,17 +45,19 @@
       <section>
         <h1 id="inspect">INSPECT</h1>
 
-<p>The <a href="https://github.com/RRZE-HPC/stempel" title="stempel">stempel</a> tool allows automatic generation of loop kernels for several kind of stencil patterns. Stempel provides a framework to generate, perform static analysis of the code (exploiting kerncraft), generate a full C code and parallelize it via openMP and blocking.</p>
+<p>The goal of this website is the collection and presentation of reproducible intranode stencil performance data.</p>
 
-<p>On this site a collection of benchmark data obtained from the <a href="https://github.com/RRZE-HPC/stempel" title="stempel">stempel</a> tool can be found.</p>
+<p>Automatic generation of loop kernels for several kinds of stencil patterns (see <a href="#navigation">below</a> for configuration details) is done via <a href="https://github.com/RRZE-HPC/stempel" title="stempel">STEMPEL</a>. In combination with <a href="https://github.com/RRZE-HPC/kerncraft" title="kerncraft">Kerncraft</a> and <a href="https://github.com/RRZE-HPC/likwid" title="LIKWID">LIKWID</a>, the INSPECT tool-chain provides a framework to generate and perform static analysis of the stencil code. Data collection can be done with a simple <a href="https://github.com/RRZE-HPC/INSPECT/blob/master/scripts/stempel.sh">batch script</a>. The presented data allows easy matching of the measured performance data with the automatically generated single- and multicore performance models (<a href="https://hpc.fau.de/research/ecm/">ECM</a> and <a href="https://www2.eecs.berkeley.edu/Pubs/TechRpts/2008/EECS-2008-164.html">Roofline</a>).</p>
 
 <h2 id="machine-descriptions">Machine Descriptions</h2>
 
-<p>Detailed descriptions of the machines used on this website can be found <a href="machinefiles" title="Machine Files">here</a>. Machine files for new hardware can be created with the <code class="highlighter-rouge">likwid_bench_auto</code> command provided by <a href="https://github.com/RRZE-HPC/kerncraft" title="kerncraft">kerncraft</a>.</p>
+<p>Detailed descriptions of the machines used on this website can be found <a href="machinefiles" title="Machine Files">here</a>. Machine files specify information about a machine model for each micro architecture. The <a href="https://github.com/RRZE-HPC/kerncraft" title="kerncraft">Kerncraft</a> repository already contains machine files for the most relevant architectures. Machine files for new hardware can be created with the <code class="highlighter-rouge">likwid_bench_auto</code> command provided by <a href="https://github.com/RRZE-HPC/kerncraft" title="kerncraft">Kerncraft</a>.</p>
 
 <h2 id="reproducibility">Reproducibility</h2>
 
-<p>An important topic with this website is the reproducibility of benchmark results. Every stencil provides information on how the exact benchmarks were run. Together with the machine file specification, which is also linked with every stencil, reproducable benchmark results are possible.</p>
+<p>An important topic with this website is the reproducibility of benchmark results. Every stencil provides information on how the exact benchmarks were run. Together with the machine file specification, which is also linked with every stencil, reproducible benchmark results are possible.</p>
+
+<p>Find out how to <a href="data_replication">replicate data</a> shown on this website.</p>
 
 <p>Information on how to perform reproducible performance benchmarks, can be found on <a href="reproducibility" title="Reproducibility">this page</a>.</p>
 
