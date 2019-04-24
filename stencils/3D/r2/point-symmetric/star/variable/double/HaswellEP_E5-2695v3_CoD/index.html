@@ -16,7 +16,7 @@
 {"description":"Intra Node Stencil Performance Evaluation Collection","@type":"WebPage","url":"/INSPECT/stencils/3D/r2/point-symmetric/star/variable/double/HaswellEP_E5-2695v3_CoD/","headline":"Stencil 3D r2 star variable point-symmetric double HaswellEP_E5-2695v3_CoD","@context":"http://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
-    <link rel="stylesheet" href="/INSPECT/assets/css/style.css?v=15b64c18acf421cf683b7eb439b1396c5bc3b0be">
+    <link rel="stylesheet" href="/INSPECT/assets/css/style.css?v=075896d35c131f90f77f196967e5b050e2b8c8bf">
     <script src="https://code.jquery.com/jquery-3.3.0.min.js" integrity="sha256-RTQy8VOmNlT6b2PIRur37p6JEBZUE7o8wPgMvu18MC4=" crossorigin="anonymous"></script>
     <script src="/INSPECT/assets/js/main.js"></script>
     <!--[if lt IE 9]>
@@ -118,18 +118,19 @@
 <span class="kt">double</span> <span class="n">b</span><span class="p">[</span><span class="n">M</span><span class="p">][</span><span class="n">N</span><span class="p">][</span><span class="n">P</span><span class="p">];</span>
 <span class="kt">double</span> <span class="n">W</span><span class="p">[</span><span class="mi">7</span><span class="p">][</span><span class="n">M</span><span class="p">][</span><span class="n">N</span><span class="p">][</span><span class="n">P</span><span class="p">];</span>
 
-<span class="k">for</span> <span class="p">(</span><span class="kt">long</span> <span class="n">k</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span> <span class="n">k</span> <span class="o">&lt;</span> <span class="n">M</span> <span class="o">-</span> <span class="mi">2</span><span class="p">;</span> <span class="o">++</span><span class="n">k</span><span class="p">)</span> <span class="p">{</span>
-  <span class="k">for</span> <span class="p">(</span><span class="kt">long</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">N</span> <span class="o">-</span> <span class="mi">2</span><span class="p">;</span> <span class="o">++</span><span class="n">j</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">for</span> <span class="p">(</span><span class="kt">long</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">P</span> <span class="o">-</span> <span class="mi">2</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
-      <span class="n">b</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">W</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">a</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span>
-                   <span class="n">W</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">a</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">])</span> <span class="o">+</span>
-                   <span class="n">W</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">k</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">a</span><span class="p">[</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">])</span> <span class="o">+</span>
-                   <span class="n">W</span><span class="p">[</span><span class="mi">3</span><span class="p">][</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">a</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">][</span><span class="n">i</span><span class="p">])</span> <span class="o">+</span>
-                   <span class="n">W</span><span class="p">[</span><span class="mi">4</span><span class="p">][</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span> <span class="o">-</span> <span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="n">a</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span> <span class="o">+</span> <span class="mi">2</span><span class="p">])</span> <span class="o">+</span>
-                   <span class="n">W</span><span class="p">[</span><span class="mi">5</span><span class="p">][</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">k</span> <span class="o">-</span> <span class="mi">2</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">a</span><span class="p">[</span><span class="n">k</span> <span class="o">+</span> <span class="mi">2</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">])</span> <span class="o">+</span>
-                   <span class="n">W</span><span class="p">[</span><span class="mi">6</span><span class="p">][</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">j</span> <span class="o">-</span> <span class="mi">2</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">a</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">j</span> <span class="o">+</span> <span class="mi">2</span><span class="p">][</span><span class="n">i</span><span class="p">]);</span>
-    <span class="p">}</span>
-  <span class="p">}</span>
+<span class="k">for</span><span class="p">(</span><span class="kt">long</span> <span class="n">k</span><span class="o">=</span><span class="mi">2</span><span class="p">;</span> <span class="n">k</span> <span class="o">&lt;</span> <span class="n">M</span><span class="o">-</span><span class="mi">2</span><span class="p">;</span> <span class="o">++</span><span class="n">k</span><span class="p">){</span>
+<span class="k">for</span><span class="p">(</span><span class="kt">long</span> <span class="n">j</span><span class="o">=</span><span class="mi">2</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">N</span><span class="o">-</span><span class="mi">2</span><span class="p">;</span> <span class="o">++</span><span class="n">j</span><span class="p">){</span>
+<span class="k">for</span><span class="p">(</span><span class="kt">long</span> <span class="n">i</span><span class="o">=</span><span class="mi">2</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">P</span><span class="o">-</span><span class="mi">2</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">){</span>
+<span class="n">b</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">W</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">a</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span>
+<span class="o">+</span> <span class="n">W</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">a</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span>
+<span class="o">+</span> <span class="n">W</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">k</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">a</span><span class="p">[</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">])</span>
+<span class="o">+</span> <span class="n">W</span><span class="p">[</span><span class="mi">3</span><span class="p">][</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">a</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">][</span><span class="n">i</span><span class="p">])</span>
+<span class="o">+</span> <span class="n">W</span><span class="p">[</span><span class="mi">4</span><span class="p">][</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="n">a</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="o">+</span><span class="mi">2</span><span class="p">])</span>
+<span class="o">+</span> <span class="n">W</span><span class="p">[</span><span class="mi">5</span><span class="p">][</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">k</span><span class="o">-</span><span class="mi">2</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">a</span><span class="p">[</span><span class="n">k</span><span class="o">+</span><span class="mi">2</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">])</span>
+<span class="o">+</span> <span class="n">W</span><span class="p">[</span><span class="mi">6</span><span class="p">][</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="o">-</span><span class="mi">2</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">a</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="o">+</span><span class="mi">2</span><span class="p">][</span><span class="n">i</span><span class="p">])</span>
+<span class="p">;</span>
+<span class="p">}</span>
+<span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>      </div>
 
@@ -190,17 +191,17 @@
     <h4 id="d-layer-condition-1">2D Layer Condition:</h4>
 
     <ul>
-      <li>L1: <code class="highlighter-rouge">P &lt;= 4096/17</code>, that is	<code class="highlighter-rouge">P &lt;= 240</code></li>
-      <li>L2: <code class="highlighter-rouge">P &lt;= 32768/17</code>, that is	<code class="highlighter-rouge">P &lt;= 1920</code></li>
-      <li>L3: <code class="highlighter-rouge">P &lt;= 2359296/17</code>, that is	<code class="highlighter-rouge">P &lt;= 138780</code></li>
+      <li>L1: <code class="highlighter-rouge">P &lt;= 4096/17</code>, that is	<code class="highlighter-rouge">P ~ 240</code></li>
+      <li>L2: <code class="highlighter-rouge">P &lt;= 32768/17</code>, that is	<code class="highlighter-rouge">P ~ 1920</code></li>
+      <li>L3: <code class="highlighter-rouge">P &lt;= 2359296/17</code>, that is	<code class="highlighter-rouge">P ~ 138780</code></li>
     </ul>
 
     <h4 id="d-layer-condition-2">3D Layer Condition:</h4>
 
     <ul>
-      <li>L1: <code class="highlighter-rouge">88*N*P + 16*P*(N - 2) + 32*P &lt;= 32768</code>, that is	<code class="highlighter-rouge">N*P &lt;= 10²</code></li>
-      <li>L2: <code class="highlighter-rouge">88*N*P + 16*P*(N - 2) + 32*P &lt;= 262144</code>, that is	<code class="highlighter-rouge">N*P &lt;= 40²</code></li>
-      <li>L3: <code class="highlighter-rouge">88*N*P + 16*P*(N - 2) + 32*P &lt;= 18874368</code>, that is	<code class="highlighter-rouge">N*P &lt;= 350²</code></li>
+      <li>L1: <code class="highlighter-rouge">88*N*P + 16*P*(N - 2) + 32*P &lt;= 32768</code>, that is	<code class="highlighter-rouge">N*P ~ 10²</code></li>
+      <li>L2: <code class="highlighter-rouge">88*N*P + 16*P*(N - 2) + 32*P &lt;= 262144</code>, that is	<code class="highlighter-rouge">N*P ~ 40²</code></li>
+      <li>L3: <code class="highlighter-rouge">88*N*P + 16*P*(N - 2) + 32*P &lt;= 18874368</code>, that is	<code class="highlighter-rouge">N*P ~ 350²</code></li>
     </ul>
 
     <p>Have a look at the <a href="#kernel-source-code">kernel source code</a> for dimension naming.</p>
@@ -232,7 +233,7 @@ return "https://rrze-hpc.github.io/layer-condition/#calculator%23!"+encodeURICom
 </code></pre></div>    </div>
 
     <h2 id="compiler-flags">Compiler flags</h2>
-    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>icc <span class="nt">-O3</span> <span class="nt">-xCORE-AVX2</span> <span class="nt">-fno-alias</span> <span class="nt">-qopenmp</span> <span class="nt">-qopenmp</span> <span class="nt">-DLIKWID_PERFMON</span> <span class="nt">-Ilikwid-4</span>.3.3/include <span class="nt">-Llikwid-4</span>.3.3/lib <span class="nt">-Iheaders</span>/dummy.c stencil_compilable.c <span class="nt">-o</span> stencil <span class="nt">-llikwid</span>
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>icc <span class="nt">-O3</span> <span class="nt">-xCORE-AVX2</span> <span class="nt">-fno-alias</span> <span class="nt">-qopenmp</span> <span class="nt">-qopenmp</span> <span class="nt">-DLIKWID_PERFMON</span> <span class="nt">-Ilikwid-4</span>.3.4/include <span class="nt">-Llikwid-4</span>.3.4/lib <span class="nt">-I</span>/headers/dummy.c stencil_compilable.c <span class="nt">-o</span> stencil <span class="nt">-llikwid</span>
 </code></pre></div>    </div>
   </div>
 
@@ -255,16 +256,16 @@ var trace_benchmark = {
   type: "scatter",
   mode: "markers",
   marker: { symbol: "cross-thin-open" },
-  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,480,490,500,510,520,530,540,550,],
-  y: [114.29,78.47,86.93,91.31,78.85,93.21,115.67,139.86,135.01,128.97,133.39,135.31,132.77,140.98,139.71,148.93,139.35,142.13,134.42,137.25,140.59,140.46,136.93,136.74,142.44,147.88,140.84,140.31,144.92,143.00,143.44,142.33,144.68,144.87,144.67,143.31,146.73,148.00,149.73,147.91,150.51,153.53,153.20,153.12,153.25,158.58,158.00,160.09,160.26,162.26,160.79,163.50,162.16,163.84,163.52,],
+  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,480,490,500,510,520,530,540,550,560,570,580,590,600,610,620,630,640,],
+  y: [113.60,80.57,80.55,85.83,74.90,78.40,116.81,139.56,140.53,135.83,136.11,135.33,136.60,135.16,135.09,146.83,135.02,134.45,133.92,133.90,136.74,133.96,132.34,132.00,134.18,136.95,140.28,134.78,140.25,140.52,137.85,140.96,137.52,139.10,138.21,139.72,139.41,142.04,140.40,139.82,142.08,142.77,143.35,146.90,145.69,149.99,151.69,152.71,152.38,153.81,159.08,154.06,154.85,157.19,157.18,159.97,153.71,155.47,154.47,158.07,155.40,163.55,166.81,182.96,],
   line: {color: 'black'},
   name: "Benchmark"
 };
 var trace_Tol = {
   type: "scatter",
   mode: "lines",
-  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,480,490,500,510,520,530,540,550,],
-  y: [26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,],
+  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,480,490,500,510,520,530,540,550,560,570,580,590,600,610,620,630,640,],
+  y: [26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,],
   line: {color: '#d62728'},
   name: "T<sub>OL</sub>"
 };
@@ -272,8 +273,8 @@ var trace_Tnol = {
   type: "histogram",
   xbins: {size:10},
   histfunc: "sum",
-  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,480,490,500,510,520,530,540,550,],
-  y: [26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,],
+  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,480,490,500,510,520,530,540,550,560,570,580,590,600,610,620,630,640,],
+  y: [26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,],
   marker: {color: '#1f77b4'},
   name: "T<sub>nOL</sub>"
 };
@@ -281,8 +282,8 @@ var trace_Tl1l2 = {
   type: "histogram",
   xbins: {size:10},
   histfunc: "sum",
-  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,480,490,500,510,520,530,540,550,],
-  y: [20.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,36.0,36.0,36.0,36.0,36.0,36.0,36.0,36.0,36.0,36.0,36.0,36.0,36.0,36.0,36.0,36.0,36.0,36.0,36.0,36.0,36.0,36.0,36.0,36.0,36.0,36.0,36.0,36.0,36.0,36.0,36.0,],
+  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,480,490,500,510,520,530,540,550,560,570,580,590,600,610,620,630,640,],
+  y: [20.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,36.0,36.0,36.0,36.0,36.0,36.0,36.0,36.0,36.0,36.0,36.0,36.0,36.0,36.0,36.0,36.0,36.0,36.0,36.0,36.0,36.0,36.0,36.0,36.0,36.0,36.0,36.0,36.0,36.0,36.0,36.0,36.0,36.0,36.0,36.0,36.0,36.0,36.0,36.0,36.0,],
   marker: {color: '#aec7e8'},
   name: "T<sub>L1-L2</sub>"
 };
@@ -290,8 +291,8 @@ var trace_Tl2l3 = {
   type: "histogram",
   xbins: {size:10},
   histfunc: "sum",
-  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,480,490,500,510,520,530,540,550,],
-  y: [0.0,20.0,20.0,20.0,20.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,],
+  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,480,490,500,510,520,530,540,550,560,570,580,590,600,610,620,630,640,],
+  y: [0.0,20.0,20.0,20.0,20.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,],
   marker: {color: '#ff7f0e'},
   name: "T<sub>L2-L3</sub>"
 };
@@ -299,16 +300,16 @@ var trace_Tl3mem = {
   type: "histogram",
   xbins: {size:10},
   histfunc: "sum",
-  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,480,490,500,510,520,530,540,550,],
-  y: [0.0,0.0,0.0,0.0,0.0,0.0,52.3,52.3,52.3,52.3,52.3,52.3,52.3,52.3,52.3,52.3,52.3,52.3,52.3,52.3,52.3,52.3,52.3,52.3,52.3,52.3,52.3,52.3,52.3,52.3,52.3,52.3,52.3,52.3,52.3,52.3,52.3,52.3,52.3,52.3,52.3,52.3,73.3,73.3,73.3,73.3,73.3,73.3,73.3,73.3,73.3,73.3,73.3,73.3,73.3,],
+  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,480,490,500,510,520,530,540,550,560,570,580,590,600,610,620,630,640,],
+  y: [0.0,0.0,0.0,0.0,0.0,0.0,52.0,52.0,52.0,52.0,52.0,52.0,52.0,52.0,52.0,52.0,52.0,52.0,52.0,52.0,52.0,52.0,52.0,52.0,52.0,52.0,52.0,52.0,52.0,52.0,52.0,52.0,52.0,52.0,52.0,52.0,52.0,52.0,52.0,52.0,52.0,52.0,72.8,72.8,72.8,72.8,72.8,72.8,72.8,72.8,72.8,72.8,72.8,72.8,72.8,72.8,72.8,72.8,72.8,72.8,72.8,72.8,72.8,72.8,],
   marker: {color: '#ffbb78'},
   name: "T<sub>L3-MEM</sub>"
 };
 var trace_Ttotal = {
   type: "scatter",
   mode: "lines",
-  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,480,490,500,510,520,530,540,550,],
-  y: [46.2 ,74.2 ,74.2 ,74.2 ,74.2 ,82.2 ,134.5 ,134.5 ,134.5 ,134.5 ,134.5 ,134.5 ,134.5 ,134.5 ,134.5 ,134.5 ,134.5 ,134.5 ,134.5 ,134.5 ,134.5 ,134.5 ,134.5 ,134.5 ,142.5 ,142.5 ,142.5 ,142.5 ,142.5 ,142.5 ,142.5 ,142.5 ,142.5 ,142.5 ,142.5 ,142.5 ,142.5 ,142.5 ,142.5 ,142.5 ,142.5 ,142.5 ,163.5 ,163.5 ,163.5 ,163.5 ,163.5 ,163.5 ,163.5 ,163.5 ,163.5 ,163.5 ,163.5 ,163.5 ,163.5 ,],
+  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,480,490,500,510,520,530,540,550,560,570,580,590,600,610,620,630,640,],
+  y: [46.2 ,74.2 ,74.2 ,74.2 ,74.2 ,82.2 ,134.2 ,134.2 ,134.2 ,134.2 ,134.2 ,134.2 ,134.2 ,134.2 ,134.2 ,134.2 ,134.2 ,134.2 ,134.2 ,134.2 ,134.2 ,134.2 ,134.2 ,134.2 ,142.2 ,142.2 ,142.2 ,142.2 ,142.2 ,142.2 ,142.2 ,142.2 ,142.2 ,142.2 ,142.2 ,142.2 ,142.2 ,142.2 ,142.2 ,142.2 ,142.2 ,142.2 ,163.0 ,163.0 ,163.0 ,163.0 ,163.0 ,163.0 ,163.0 ,163.0 ,163.0 ,163.0 ,163.0 ,163.0 ,163.0 ,163.0 ,163.0 ,163.0 ,163.0 ,163.0 ,163.0 ,163.0 ,163.0 ,163.0 ,],
   line: {color: 'rgba(0,0,0,0)'},
   showlegend: false,
   name: "T<sub>ECM total</sub>"
@@ -336,30 +337,6 @@ Plotly.newPlot('ecm_LC', data, layout, config);
 
       <p><em>Comparison of the measured stencil performance (in cycles per cache line) and the (stacked) contributions of the <a href="https://hpc.fau.de/research/ecm/">ECM Performance Model</a> predicted by <a href="https://github.com/RRZE-HPC/kerncraft">kerncraft</a> using <a href="https://rrze-hpc.github.io/layer-condition/">Layer Conditions</a> to model the cache behavior. The calculated <a href="#layer-conditions">layer conditions</a> shown above correspond to the jumps in the ECM prediction in this plot.</em></p>
 
-      <div>
-
-        <p><img src="/INSPECT/assets/img/cod3monk.png" class="comment_bubble_img" /></p>
-        <blockquote class="comment_bubble outofdate">
-
-          <svg class="svg" height="18" width="18">
-	<title>Data has been reviewed</title>
-	<circle cx="9" cy="9" r="8" stroke="black" stroke-width="1" fill="green" />
-</svg>
-
-          <p class="comment_author">Julian Hammer says:</p>
-          <p class="comment"><i></i></p>
-
-          <hr />
-
-          <p><span class="warning">
-Comment was submitted for a previous version of the shown data.
-</span></p>
-
-          <p><a href="https://github.com/RRZE-HPC/stempel_data_collection/issues/new?labels[]=Stencil%20Comment%20Management&amp;labels[]=[Type]%20Bug&amp;title=Stencil:%203D%20r2%20point-symmetric%20star%20variable%20double%20HaswellEP_E5-2695v3_CoD%20Cluster on Die&amp;milestone=People%20Management:%20m6&amp;assignee=ebinnion&amp;body="><img src="/INSPECT/assets/img/edit.svg" style="position:absolute;right:5px;bottom:5px;height:18px;width:18px" /></a></p>
-
-        </blockquote>
-      </div>
-
     </div>
 
     <div class="ecm" id="ecm_CS" style="display:none;">
@@ -369,16 +346,16 @@ var trace_benchmark = {
   type: "scatter",
   mode: "markers",
   marker: { symbol: "cross-thin-open" },
-  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,480,490,500,510,520,530,540,550,],
-  y: [114.29,78.47,86.93,91.31,78.85,93.21,115.67,139.86,135.01,128.97,133.39,135.31,132.77,140.98,139.71,148.93,139.35,142.13,134.42,137.25,140.59,140.46,136.93,136.74,142.44,147.88,140.84,140.31,144.92,143.00,143.44,142.33,144.68,144.87,144.67,143.31,146.73,148.00,149.73,147.91,150.51,153.53,153.20,153.12,153.25,158.58,158.00,160.09,160.26,162.26,160.79,163.50,162.16,163.84,163.52,],
+  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,480,490,500,510,520,530,540,550,560,570,580,590,600,610,620,630,640,],
+  y: [113.60,80.57,80.55,85.83,74.90,78.40,116.81,139.56,140.53,135.83,136.11,135.33,136.60,135.16,135.09,146.83,135.02,134.45,133.92,133.90,136.74,133.96,132.34,132.00,134.18,136.95,140.28,134.78,140.25,140.52,137.85,140.96,137.52,139.10,138.21,139.72,139.41,142.04,140.40,139.82,142.08,142.77,143.35,146.90,145.69,149.99,151.69,152.71,152.38,153.81,159.08,154.06,154.85,157.19,157.18,159.97,153.71,155.47,154.47,158.07,155.40,163.55,166.81,182.96,],
   line: {color: 'black'},
   name: "Benchmark"
 };
 var trace_Tol = {
   type: "scatter",
   mode: "lines",
-  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,480,490,500,510,520,530,540,550,],
-  y: [26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,],
+  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,480,490,500,510,520,530,540,550,560,570,580,590,600,610,620,630,640,],
+  y: [26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,26.9,],
   line: {color: '#d62728'},
   name: "T<sub>OL</sub>"
 };
@@ -386,8 +363,8 @@ var trace_Tnol = {
   type: "histogram",
   xbins: {size:10},
   histfunc: "sum",
-  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,480,490,500,510,520,530,540,550,],
-  y: [26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,],
+  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,480,490,500,510,520,530,540,550,560,570,580,590,600,610,620,630,640,],
+  y: [26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,26.2,],
   marker: {color: '#1f77b4'},
   name: "T<sub>nOL</sub>"
 };
@@ -395,8 +372,8 @@ var trace_Tl1l2 = {
   type: "histogram",
   xbins: {size:10},
   histfunc: "sum",
-  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,480,490,500,510,520,530,540,550,],
-  y: [12.6,30.7,32.8,171.3,30.7,30.2,29.8,198.4,29.4,29.3,29.1,170.4,31.0,28.9,28.8,226.1,28.7,28.7,32.7,170.3,28.6,28.6,30.6,198.1,32.5,34.5,34.5,174.2,32.5,34.5,36.4,244.1,36.4,36.4,36.4,174.2,36.4,36.4,36.4,202.1,36.4,36.3,36.3,174.1,36.3,36.3,36.3,230.1,36.3,36.3,36.3,178.1,36.3,36.3,36.3,],
+  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,480,490,500,510,520,530,540,550,560,570,580,590,600,610,620,630,640,],
+  y: [12.6,30.7,32.8,171.3,30.7,30.2,29.8,198.4,29.4,29.3,29.1,170.4,31.0,28.9,28.8,226.1,28.7,28.7,32.7,170.3,28.6,28.6,30.6,198.1,32.5,34.5,34.5,174.2,32.5,34.5,36.5,244.1,36.4,36.4,36.4,174.2,36.4,36.4,36.4,202.1,36.4,36.3,36.3,174.1,36.3,36.3,36.3,230.1,36.3,36.3,36.3,178.1,36.3,36.3,36.3,206.1,36.3,36.2,36.2,178.1,36.2,36.2,36.2,248.0,],
   marker: {color: '#aec7e8'},
   name: "T<sub>L1-L2</sub>"
 };
@@ -404,8 +381,8 @@ var trace_Tl2l3 = {
   type: "histogram",
   xbins: {size:10},
   histfunc: "sum",
-  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,480,490,500,510,520,530,540,550,],
-  y: [0.0,23.7,23.9,22.7,24.0,30.1,29.8,170.4,29.4,29.3,29.1,29.0,29.0,28.9,28.8,170.3,28.7,28.7,28.7,28.6,28.6,28.6,28.5,170.2,28.5,28.5,28.4,28.4,28.4,28.4,28.4,224.0,28.4,28.4,28.3,28.3,28.3,28.3,28.3,170.1,28.3,28.3,28.3,28.3,28.3,28.2,28.3,170.1,28.3,28.3,28.3,28.3,28.3,28.3,28.3,],
+  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,480,490,500,510,520,530,540,550,560,570,580,590,600,610,620,630,640,],
+  y: [0.0,23.7,23.9,22.7,24.0,30.1,29.8,170.4,29.4,29.3,29.1,29.0,29.0,28.9,28.8,170.3,28.7,28.7,28.7,28.6,28.6,28.6,28.5,170.2,28.5,28.5,28.4,28.5,28.4,28.4,28.4,224.0,28.4,28.4,28.3,28.3,28.3,28.3,28.3,170.1,28.3,28.3,28.3,28.3,28.3,28.2,28.2,170.1,28.2,28.3,28.3,28.3,28.3,28.3,28.3,170.1,28.2,28.2,28.2,28.2,28.2,28.2,28.2,224.0,],
   marker: {color: '#ff7f0e'},
   name: "T<sub>L2-L3</sub>"
 };
@@ -413,16 +390,16 @@ var trace_Tl3mem = {
   type: "histogram",
   xbins: {size:10},
   histfunc: "sum",
-  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,480,490,500,510,520,530,540,550,],
-  y: [0.0,0.0,0.0,0.0,0.0,0.0,54.0,55.4,55.1,54.8,54.5,54.3,54.1,54.1,53.9,53.8,53.8,53.6,53.6,53.7,53.5,53.4,53.4,53.3,53.3,53.2,53.3,53.2,53.1,53.0,53.1,53.1,53.0,53.0,53.0,53.1,52.9,52.8,52.8,61.6,53.0,52.7,62.6,71.1,62.5,73.7,73.8,68.6,74.1,74.1,74.1,73.9,74.0,73.9,74.0,],
+  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,480,490,500,510,520,530,540,550,560,570,580,590,600,610,620,630,640,],
+  y: [0.0,0.0,0.0,0.0,0.0,0.0,53.6,55.0,54.7,54.4,54.2,54.0,53.8,53.7,53.6,53.5,53.4,53.3,53.2,53.3,53.2,53.1,53.0,52.9,52.9,52.8,52.9,52.9,52.7,52.7,52.7,52.7,52.8,52.7,52.6,52.8,52.5,52.5,52.5,61.2,52.7,52.6,62.5,70.7,62.1,73.3,73.4,67.9,73.4,73.6,73.6,73.5,73.5,73.4,73.6,73.5,73.5,73.5,73.3,73.3,73.3,73.3,73.3,73.2,],
   marker: {color: '#ffbb78'},
   name: "T<sub>L3-MEM</sub>"
 };
 var trace_Ttotal = {
   type: "scatter",
   mode: "lines",
-  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,480,490,500,510,520,530,540,550,],
-  y: [38.8 ,80.5 ,82.9 ,220.3 ,80.9 ,86.4 ,139.9 ,450.4 ,140.1 ,139.5 ,139.0 ,280.0 ,140.3 ,138.0 ,137.8 ,476.5 ,137.4 ,137.2 ,141.2 ,278.7 ,136.9 ,136.7 ,138.7 ,447.8 ,140.5 ,142.4 ,142.5 ,282.0 ,140.2 ,142.1 ,144.1 ,547.4 ,144.0 ,144.0 ,143.9 ,281.8 ,143.8 ,143.7 ,143.7 ,460.0 ,143.9 ,143.5 ,153.4 ,299.7 ,153.2 ,164.5 ,164.6 ,494.9 ,164.8 ,164.8 ,164.8 ,306.5 ,164.7 ,164.7 ,164.8 ,],
+  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,480,490,500,510,520,530,540,550,560,570,580,590,600,610,620,630,640,],
+  y: [38.8 ,80.5 ,82.9 ,220.3 ,80.9 ,86.4 ,139.5 ,450.0 ,139.7 ,139.1 ,138.7 ,279.6 ,139.9 ,137.7 ,137.4 ,476.1 ,137.1 ,136.8 ,140.8 ,278.4 ,136.6 ,136.4 ,138.3 ,447.4 ,140.2 ,142.0 ,142.1 ,281.7 ,139.8 ,141.8 ,143.8 ,547.0 ,143.8 ,143.6 ,143.6 ,281.5 ,143.5 ,143.4 ,143.4 ,459.6 ,143.6 ,143.4 ,153.3 ,299.3 ,152.8 ,164.1 ,164.2 ,494.3 ,164.1 ,164.3 ,164.3 ,306.0 ,164.2 ,164.2 ,164.3 ,475.9 ,164.2 ,164.2 ,163.9 ,305.8 ,163.9 ,163.9 ,163.9 ,571.5 ,],
   line: {color: 'rgba(0,0,0,0)'},
   showlegend: false,
   name: "T<sub>ECM total</sub>"
@@ -450,30 +427,6 @@ Plotly.newPlot('ecm_CS', data, layout, config);
 
       <p><em>Comparison of the measured stencil performance (in cycles per cache line) and the (stacked) contributions of the <a href="https://hpc.fau.de/research/ecm/">ECM Performance Model</a> predicted by <a href="https://github.com/RRZE-HPC/kerncraft">kerncraft</a> using <a href="https://github.com/RRZE-HPC/pycachesim">Cache Simulation</a> to model the cache behavior.</em></p>
 
-      <div>
-
-        <p><img src="/INSPECT/assets/img/cod3monk.png" class="comment_bubble_img" /></p>
-        <blockquote class="comment_bubble outofdate">
-
-          <svg class="svg" height="18" width="18">
-	<title>might be okay...</title>
-	<circle cx="9" cy="9" r="8" stroke="black" stroke-width="1" fill="orange" />
-</svg>
-
-          <p class="comment_author">Julian Hammer says:</p>
-          <p class="comment"><i>Predicted thrashing does not show in measurements.</i></p>
-
-          <hr />
-
-          <p><span class="warning">
-Comment was submitted for a previous version of the shown data.
-</span></p>
-
-          <p><a href="https://github.com/RRZE-HPC/stempel_data_collection/issues/new?labels[]=Stencil%20Comment%20Management&amp;labels[]=[Type]%20Bug&amp;title=Stencil:%203D%20r2%20point-symmetric%20star%20variable%20double%20HaswellEP_E5-2695v3_CoD%20Cluster on Die&amp;milestone=People%20Management:%20m6&amp;assignee=ebinnion&amp;body=Predicted thrashing does not show in measurements."><img src="/INSPECT/assets/img/edit.svg" style="position:absolute;right:5px;bottom:5px;height:18px;width:18px" /></a></p>
-
-        </blockquote>
-      </div>
-
     </div>
 
     <div class="ecm" id="ecm_Pheno" style="display:none;">
@@ -483,16 +436,16 @@ var trace_benchmark = {
   type: "scatter",
   mode: "markers",
   marker: { symbol: "cross-thin-open" },
-  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,480,490,500,510,520,530,540,550,],
-  y: [114.29,78.47,86.93,91.31,78.85,93.21,115.67,139.86,135.01,128.97,133.39,135.31,132.77,140.98,139.71,148.93,139.35,142.13,134.42,137.25,140.59,140.46,136.93,136.74,142.44,147.88,140.84,140.31,144.92,143.00,143.44,142.33,144.68,144.87,144.67,143.31,146.73,148.00,149.73,147.91,150.51,153.53,153.20,153.12,153.25,158.58,158.00,160.09,160.26,162.26,160.79,163.50,162.16,163.84,163.52,],
+  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,480,490,500,510,520,530,540,550,560,570,580,590,600,610,620,630,640,],
+  y: [113.60,80.57,80.55,85.83,74.90,78.40,116.81,139.56,140.53,135.83,136.11,135.33,136.60,135.16,135.09,146.83,135.02,134.45,133.92,133.90,136.74,133.96,132.34,132.00,134.18,136.95,140.28,134.78,140.25,140.52,137.85,140.96,137.52,139.10,138.21,139.72,139.41,142.04,140.40,139.82,142.08,142.77,143.35,146.90,145.69,149.99,151.69,152.71,152.38,153.81,159.08,154.06,154.85,157.19,157.18,159.97,153.71,155.47,154.47,158.07,155.40,163.55,166.81,182.96,],
   line: {color: 'black'},
   name: "Benchmark"
 };
 var trace_Tol = {
   type: "scatter",
   mode: "lines",
-  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,480,490,500,510,520,530,540,550,],
-  y: [49.4,21.3,25.0,19.4,22.1,19.0,21.5,19.2,20.7,19.0,20.5,19.0,20.3,19.3,20.2,19.5,20.1,19.1,19.9,21.1,20.0,20.9,20.1,20.9,19.6,20.3,19.6,20.4,19.5,20.1,19.5,20.5,19.4,19.9,19.3,20.1,19.2,19.8,19.3,20.0,19.2,19.7,19.2,19.8,19.1,19.6,19.1,20.2,19.1,19.5,19.3,19.4,19.1,19.5,19.1,],
+  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,480,490,500,510,520,530,540,550,560,570,580,590,600,610,620,630,640,],
+  y: [49.7,21.2,25.0,19.4,22.1,19.0,21.5,19.3,20.9,19.1,20.5,19.0,20.3,19.1,20.4,19.3,20.1,19.1,19.9,21.2,20.1,21.0,20.1,20.9,19.7,20.3,19.5,20.5,19.6,20.2,19.5,20.5,19.5,20.0,19.4,20.3,19.3,19.8,19.3,20.1,19.2,19.7,19.2,19.9,19.1,19.7,19.2,20.2,19.2,19.5,19.4,19.6,19.2,19.6,19.2,19.8,19.1,19.5,19.1,19.7,19.1,19.5,19.2,19.9,],
   line: {color: '#d62728'},
   name: "T<sub>OL</sub>"
 };
@@ -500,8 +453,8 @@ var trace_Tnol = {
   type: "histogram",
   xbins: {size:10},
   histfunc: "sum",
-  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,480,490,500,510,520,530,540,550,],
-  y: [83.9,32.9,38.9,29.0,33.3,27.9,31.1,27.4,29.9,27.1,29.1,26.9,28.6,26.8,28.3,26.7,28.0,26.6,27.8,28.6,27.5,28.3,27.4,28.1,27.2,28.0,27.2,27.8,27.1,27.7,27.0,27.6,26.9,27.5,26.9,27.4,26.8,27.3,26.8,27.3,26.8,27.2,26.7,27.2,26.7,27.1,26.7,27.1,26.6,27.0,26.6,27.0,26.6,26.9,26.6,],
+  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,480,490,500,510,520,530,540,550,560,570,580,590,600,610,620,630,640,],
+  y: [83.9,32.9,38.9,29.0,33.3,27.9,31.1,27.4,29.9,27.1,29.1,26.9,28.6,26.8,28.3,26.7,28.0,26.6,27.8,28.6,27.5,28.3,27.4,28.1,27.2,28.0,27.2,27.8,27.1,27.7,27.0,27.6,26.9,27.5,26.9,27.4,26.8,27.3,26.8,27.3,26.8,27.2,26.7,27.2,26.7,27.1,26.7,27.1,26.6,27.0,26.6,27.0,26.6,26.9,26.6,26.9,26.5,26.9,26.5,26.8,26.5,26.8,26.5,26.8,],
   marker: {color: '#1f77b4'},
   name: "T<sub>nOL</sub>"
 };
@@ -509,8 +462,8 @@ var trace_Tl1l2 = {
   type: "histogram",
   xbins: {size:10},
   histfunc: "sum",
-  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,480,490,500,510,520,530,540,550,],
-  y: [17.1,33.1,33.2,35.4,31.1,30.6,30.2,37.3,29.8,29.6,29.5,32.3,30.5,29.3,29.4,41.6,29.3,29.6,30.0,30.3,29.9,29.5,29.9,30.7,30.2,34.0,35.9,34.5,36.4,36.0,36.2,36.1,35.6,37.1,37.0,34.9,37.1,37.0,37.1,36.1,37.0,37.0,37.0,35.4,37.0,37.0,37.0,36.4,37.0,36.9,38.2,38.0,37.0,36.9,36.9,],
+  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,480,490,500,510,520,530,540,550,560,570,580,590,600,610,620,630,640,],
+  y: [16.5,33.1,33.1,35.3,30.9,30.5,30.0,36.1,29.5,29.5,29.3,31.8,30.2,29.1,29.4,41.5,29.0,28.9,29.8,30.0,29.6,29.0,29.3,30.4,29.7,33.3,35.4,34.0,36.3,35.5,36.0,35.1,35.0,36.7,36.6,34.3,36.7,36.6,36.6,35.2,36.6,36.6,36.6,35.2,36.6,36.6,36.5,35.5,36.5,36.5,37.8,37.5,36.5,36.5,36.5,37.7,36.4,36.5,36.4,36.9,36.4,36.5,36.6,39.1,],
   marker: {color: '#aec7e8'},
   name: "T<sub>L1-L2</sub>"
 };
@@ -518,8 +471,8 @@ var trace_Tl2l3 = {
   type: "histogram",
   xbins: {size:10},
   histfunc: "sum",
-  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,480,490,500,510,520,530,540,550,],
-  y: [0.0,30.1,26.8,26.2,28.3,30.3,30.1,29.9,29.6,29.4,29.3,29.2,29.0,29.0,28.9,28.9,28.8,28.8,28.7,28.6,28.6,28.6,28.5,28.5,28.5,28.4,28.5,28.5,28.4,28.4,28.4,28.6,28.4,28.4,28.4,28.4,28.3,28.3,28.3,28.4,28.3,28.3,28.4,28.3,28.2,28.3,28.3,28.3,28.2,28.2,28.2,28.2,28.2,28.2,28.2,],
+  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,480,490,500,510,520,530,540,550,560,570,580,590,600,610,620,630,640,],
+  y: [0.0,30.7,26.7,25.7,28.1,30.8,30.1,30.0,29.7,29.4,29.2,29.1,29.0,29.0,29.1,29.8,28.7,28.7,28.6,28.6,28.6,28.4,28.5,28.5,28.5,28.4,28.3,28.4,28.3,28.3,28.3,28.3,28.3,28.3,28.3,28.3,28.3,28.2,28.2,28.2,28.2,28.2,28.2,28.2,28.2,28.2,28.2,28.4,28.2,28.1,28.3,28.2,28.1,28.1,28.1,29.5,28.1,28.1,28.1,28.1,28.1,28.1,28.1,29.2,],
   marker: {color: '#ff7f0e'},
   name: "T<sub>L2-L3</sub>"
 };
@@ -527,15 +480,15 @@ var trace_Tl3mem = {
   type: "histogram",
   xbins: {size:10},
   histfunc: "sum",
-  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,480,490,500,510,520,530,540,550,],
-  y: [0.0,0.0,0.0,0.0,0.0,3.1,31.6,53.4,56.1,55.7,55.3,55.1,54.8,54.7,54.6,54.5,54.3,54.2,54.1,54.0,54.1,54.0,54.0,54.0,54.1,54.2,54.1,54.1,54.6,54.5,54.8,54.7,55.2,55.7,56.0,56.8,57.2,58.0,59.9,59.8,60.4,63.4,62.8,65.3,66.0,67.9,69.2,70.2,71.4,72.1,72.4,73.2,73.7,74.2,74.5,],
+  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,480,490,500,510,520,530,540,550,560,570,580,590,600,610,620,630,640,],
+  y: [0.0,0.0,0.0,0.0,0.0,1.2,29.2,53.5,55.5,55.2,54.8,54.6,54.3,54.2,54.0,53.9,53.8,53.7,53.6,53.5,53.4,53.3,53.3,53.2,53.2,53.2,53.2,53.3,53.3,53.3,53.4,53.6,53.8,54.3,54.5,55.2,55.3,55.9,56.3,57.5,57.6,59.4,60.2,62.8,63.5,65.6,66.7,68.6,69.3,70.2,70.5,71.4,71.8,72.2,72.5,72.0,73.0,73.2,73.3,73.3,73.5,73.8,74.1,74.2,],
   marker: {color: '#ffbb78'},
   name: "T<sub>L3-MEM</sub>"
 };
 var trace_Ttotal = {
   type: "scatter",
   mode: "lines",
-  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,480,490,500,510,520,530,540,550,],
+  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,480,490,500,510,520,530,540,550,560,570,580,590,600,610,620,630,640,],
   y: [],
   line: {color: 'rgba(0,0,0,0)'},
   showlegend: false,
@@ -564,30 +517,6 @@ Plotly.newPlot('ecm_Pheno', data, layout, config);
 
       <p><em>Comparison of the measured stencil performance (in cycles per cache line) and the (stacked) contributions of the <a href="https://hpc.fau.de/research/ecm/">ECM Performance Model</a> predicted by <a href="https://github.com/RRZE-HPC/kerncraft">kerncraft</a> using <a href="https://github.com/RRZE-HPC/pycachesim">Cache Simulation</a> to model the cache behavior.</em></p>
 
-      <div>
-
-        <p><img src="/INSPECT/assets/img/cod3monk.png" class="comment_bubble_img" /></p>
-        <blockquote class="comment_bubble outofdate">
-
-          <svg class="svg" height="18" width="18">
-	<title>might be okay...</title>
-	<circle cx="9" cy="9" r="8" stroke="black" stroke-width="1" fill="orange" />
-</svg>
-
-          <p class="comment_author">Julian Hammer says:</p>
-          <p class="comment"><i>Predicted thrashing does not show in measurements.</i></p>
-
-          <hr />
-
-          <p><span class="warning">
-Comment was submitted for a previous version of the shown data.
-</span></p>
-
-          <p><a href="https://github.com/RRZE-HPC/stempel_data_collection/issues/new?labels[]=Stencil%20Comment%20Management&amp;labels[]=[Type]%20Bug&amp;title=Stencil:%203D%20r2%20point-symmetric%20star%20variable%20double%20HaswellEP_E5-2695v3_CoD%20Cluster on Die&amp;milestone=People%20Management:%20m6&amp;assignee=ebinnion&amp;body=Predicted thrashing does not show in measurements."><img src="/INSPECT/assets/img/edit.svg" style="position:absolute;right:5px;bottom:5px;height:18px;width:18px" /></a></p>
-
-        </blockquote>
-      </div>
-
     </div>
 
   </div>
@@ -605,24 +534,24 @@ var trace_benchmark = {
   type: "scatter",
   mode: "markers",
   marker: { symbol: "cross-thin-open" },
-  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,480,490,500,510,520,530,540,550,],
-  y: [160.99,234.49,211.66,201.52,233.35,197.41,159.08,131.56,136.29,142.67,137.94,135.99,138.59,130.51,131.70,123.55,132.04,129.46,136.88,134.07,130.88,130.99,134.38,134.56,129.17,124.42,130.65,131.14,126.97,128.67,128.28,129.27,127.18,127.01,127.18,128.39,125.40,124.32,122.89,124.40,122.25,119.85,120.10,120.17,120.07,116.03,116.46,114.93,114.82,113.40,114.43,112.54,113.47,112.30,112.53,],
+  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,480,490,500,510,520,530,540,550,560,570,580,590,600,610,620,630,640,],
+  y: [161.97,228.38,228.42,214.39,245.66,234.69,157.52,131.84,130.94,135.46,135.19,135.96,134.70,136.14,136.21,125.31,136.28,136.86,137.39,137.41,134.57,137.35,139.03,139.40,137.13,134.36,131.17,136.52,131.20,130.94,133.47,130.53,133.80,132.28,133.13,131.69,131.98,129.54,131.06,131.59,129.51,128.88,128.36,125.25,126.29,122.68,121.30,120.49,120.75,119.63,115.66,119.44,118.82,117.05,117.06,115.02,119.70,118.35,119.12,116.40,118.40,112.51,110.31,100.57,],
   line: {color: 'black'},
   name: "Benchmark"
 };
 var trace_roofline = {
   type: "scatter",
   mode: "lines",
-  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,480,490,500,510,520,530,540,550,],
-  y: [460.00,328.42,328.42,328.42,328.42,265.78,199.47,199.47,199.47,199.47,199.47,199.47,199.47,199.47,199.47,199.47,199.47,199.47,199.47,199.47,199.47,199.47,199.47,199.47,199.47,199.47,199.47,199.47,199.47,199.47,199.47,199.47,199.47,199.47,199.47,199.47,199.47,199.47,199.47,199.47,199.47,199.47,142.63,142.63,142.63,142.63,142.63,142.63,142.63,142.63,142.63,142.63,142.63,142.63,142.63,],
+  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,480,490,500,510,520,530,540,550,560,570,580,590,600,610,620,630,640,],
+  y: [444.73,317.89,317.89,317.89,317.89,242.63,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,126.31,126.31,126.31,126.31,126.31,126.31,126.31,126.31,126.31,126.31,126.31,126.31,126.31,126.31,126.31,126.31,126.31,126.31,126.31,126.31,126.31,126.31,],
   line: {color: '#1f77b4'},
   name: "Roofline prediction with LC"
 };
 var trace_ecm = {
   type: "scatter",
   mode: "lines",
-  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,480,490,500,510,520,530,540,550,],
-  y: [398.26,247.87,247.87,247.97,247.97,223.84,136.80,136.74,136.74,136.80,136.74,136.74,136.74,136.80,136.74,136.74,136.80,136.80,136.80,136.80,136.80,136.74,136.74,136.80,129.12,129.06,129.06,129.06,129.12,129.12,129.06,129.12,129.12,129.12,129.06,129.12,129.12,129.06,129.12,129.12,129.12,129.12,112.53,112.48,112.53,112.53,112.53,112.53,112.48,112.53,112.53,112.48,112.53,112.53,112.53,],
+  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,480,490,500,510,520,530,540,550,560,570,580,590,600,610,620,630,640,],
+  y: [398.26,247.97,247.87,247.87,247.97,223.74,137.04,137.10,137.10,137.04,137.04,137.04,137.04,137.04,137.10,137.10,137.10,137.10,137.04,137.04,137.04,137.04,137.04,137.04,129.33,129.39,129.39,129.39,129.39,129.33,129.39,129.39,129.33,129.39,129.33,129.39,129.39,129.33,129.39,129.39,129.39,129.39,112.88,112.83,112.88,112.83,112.88,112.83,112.83,112.83,112.88,112.88,112.83,112.83,112.83,112.83,112.83,112.88,112.88,112.83,112.83,112.83,112.88,112.88,],
   line: {color: '#ff7f0e'},
   name: "ECM prediction with LC"
 };
@@ -655,24 +584,24 @@ var trace_benchmark = {
   type: "scatter",
   mode: "markers",
   marker: { symbol: "cross-thin-open" },
-  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,480,490,500,510,520,530,540,550,],
-  y: [160.99,234.49,211.66,201.52,233.35,197.41,159.08,131.56,136.29,142.67,137.94,135.99,138.59,130.51,131.70,123.55,132.04,129.46,136.88,134.07,130.88,130.99,134.38,134.56,129.17,124.42,130.65,131.14,126.97,128.67,128.28,129.27,127.18,127.01,127.18,128.39,125.40,124.32,122.89,124.40,122.25,119.85,120.10,120.17,120.07,116.03,116.46,114.93,114.82,113.40,114.43,112.54,113.47,112.30,112.53,],
+  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,480,490,500,510,520,530,540,550,560,570,580,590,600,610,620,630,640,],
+  y: [161.97,228.38,228.42,214.39,245.66,234.69,157.52,131.84,130.94,135.46,135.19,135.96,134.70,136.14,136.21,125.31,136.28,136.86,137.39,137.41,134.57,137.35,139.03,139.40,137.13,134.36,131.17,136.52,131.20,130.94,133.47,130.53,133.80,132.28,133.13,131.69,131.98,129.54,131.06,131.59,129.51,128.88,128.36,125.25,126.29,122.68,121.30,120.49,120.75,119.63,115.66,119.44,118.82,117.05,117.06,115.02,119.70,118.35,119.12,116.40,118.40,112.51,110.31,100.57,],
   line: {color: 'black'},
   name: "Benchmark"
 };
 var trace_roofline = {
   type: "scatter",
   mode: "lines",
-  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,480,490,500,510,520,530,540,550,],
-  y: [683.15,300.00,280.52,53.68,300.00,247.36,193.15,,189.47,190.52,191.57,54.21,192.63,193.15,193.68,,194.21,194.73,194.73,54.21,194.73,195.78,195.78,,195.78,195.78,195.78,52.63,196.31,196.84,196.31,,196.84,196.84,196.84,52.63,197.36,197.36,197.89,,196.84,197.89,166.84,52.63,166.84,141.57,141.57,,141.05,141.05,141.05,51.57,141.05,141.05,141.05,],
+  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,480,490,500,510,520,530,540,550,560,570,580,590,600,610,620,630,640,],
+  y: [683.15,287.36,271.05,52.10,283.15,226.31,171.05,,167.89,168.94,169.47,52.10,170.52,171.05,171.57,,172.10,172.10,172.63,52.10,172.63,172.63,173.15,,173.68,173.68,173.15,51.05,174.21,174.21,174.21,,174.21,174.21,174.21,51.05,174.73,174.73,174.73,,174.21,174.21,146.84,51.05,147.89,125.26,125.26,,125.26,124.73,124.73,50.00,124.73,124.73,124.73,,124.73,124.73,125.26,50.00,125.26,125.26,125.26,,],
   line: {color: '#1f77b4'},
   name: "Roofline prediction with CS"
 };
 var trace_ecm = {
   type: "scatter",
   mode: "lines",
-  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,480,490,500,510,520,530,540,550,],
-  y: [398.26,247.87,247.87,247.97,247.97,223.84,136.80,136.74,136.74,136.80,136.74,136.74,136.74,136.80,136.74,136.74,136.80,136.80,136.80,136.80,136.80,136.74,136.74,136.80,129.12,129.06,129.06,129.06,129.12,129.12,129.06,129.12,129.12,129.12,129.06,129.12,129.12,129.06,129.12,129.12,129.12,129.12,112.53,112.48,112.53,112.53,112.53,112.53,112.48,112.53,112.53,112.48,112.53,112.53,112.53,],
+  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,480,490,500,510,520,530,540,550,560,570,580,590,600,610,620,630,640,],
+  y: [398.26,247.97,247.87,247.87,247.97,223.74,137.04,137.10,137.10,137.04,137.04,137.04,137.04,137.04,137.10,137.10,137.10,137.10,137.04,137.04,137.04,137.04,137.04,137.04,129.33,129.39,129.39,129.39,129.39,129.33,129.39,129.39,129.33,129.39,129.33,129.39,129.39,129.33,129.39,129.39,129.39,129.39,112.88,112.83,112.88,112.83,112.88,112.83,112.83,112.83,112.88,112.88,112.83,112.83,112.83,112.83,112.83,112.88,112.88,112.83,112.83,112.83,112.88,112.88,],
   line: {color: '#ff7f0e'},
   name: "ECM prediction with CS"
 };
@@ -717,8 +646,8 @@ var benchmark_l1l2 = {
   type: "scatter",
   mode: "markers",
   marker: { symbol: "cross-thin-open" },
-  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,480,490,500,510,520,530,540,550,],
-  y: [68.56,132.32,132.56,141.60,124.48,122.32,120.96,149.12,119.12,118.32,118.16,129.28,122.08,117.28,117.76,166.24,117.20,118.48,119.76,121.36,119.76,118.16,119.44,122.72,120.96,136.08,143.68,137.84,145.60,144.00,144.80,144.32,142.40,148.32,148.16,139.68,148.32,148.00,148.48,144.48,148.08,148.08,148.00,141.68,147.92,147.84,147.76,145.52,148.00,147.60,152.64,151.76,147.92,147.60,147.60,],
+  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,480,490,500,510,520,530,540,550,560,570,580,590,600,610,620,630,640,],
+  y: [65.76,132.56,132.56,141.44,123.68,122.00,120.16,144.48,118.00,117.92,117.12,127.12,120.72,116.64,117.52,165.92,115.92,115.76,119.20,120.08,118.24,116.00,117.28,121.60,118.80,133.36,141.52,136.16,145.04,142.08,144.08,140.32,140.08,146.80,146.40,137.36,146.72,146.32,146.40,140.80,146.40,146.40,146.32,140.80,146.32,146.16,146.16,142.00,146.16,146.00,151.12,149.92,145.92,146.00,145.92,150.88,145.68,145.92,145.76,147.52,145.76,146.16,146.48,156.24,],
   line: {color: '#d62728'},
   name: "L1-L2 Benchmark"
 };
@@ -726,8 +655,8 @@ var benchmark_l2l3 = {
   type: "scatter",
   mode: "markers",
   marker: { symbol: "cross-thin-open" },
-  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,480,490,500,510,520,530,540,550,],
-  y: [0,120.24,107.20,104.64,113.12,121.20,120.64,119.76,118.48,117.76,117.04,116.80,116.08,116.00,115.68,115.84,115.12,115.12,114.72,114.56,114.32,114.40,114.24,114.08,114.16,113.68,113.84,114.00,113.76,113.60,113.60,114.48,113.52,113.52,113.44,113.36,113.28,113.28,113.28,113.44,113.20,113.12,113.52,113.04,112.96,113.04,113.04,113.12,112.88,112.88,112.88,112.88,112.80,112.80,112.72,],
+  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,480,490,500,510,520,530,540,550,560,570,580,590,600,610,620,630,640,],
+  y: [0,122.64,106.64,102.88,112.40,123.28,120.48,119.84,118.72,117.52,116.80,116.64,115.92,115.84,116.40,119.04,114.88,114.88,114.56,114.24,114.48,113.76,113.76,114.00,113.84,113.44,113.28,113.52,113.20,113.44,113.28,113.12,113.20,113.12,113.12,113.12,113.12,112.96,112.96,112.80,112.88,112.88,112.88,112.72,112.72,112.72,112.72,113.52,112.64,112.56,113.04,112.72,112.56,112.56,112.48,117.84,112.48,112.40,112.56,112.40,112.40,112.32,112.40,116.88,],
   line: {color: '#1f77b4'},
   name: "L2-L3 Benchmark"
 };
@@ -735,8 +664,8 @@ var benchmark_l3mem = {
   type: "scatter",
   mode: "markers",
   marker: { symbol: "cross-thin-open" },
-  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,480,490,500,510,520,530,540,550,],
-  y: [0,0,0,0,.08,4.80,48.32,81.60,85.68,85.12,84.56,84.24,83.84,83.60,83.36,83.28,82.96,82.88,82.72,82.64,82.56,82.48,82.48,82.56,82.64,82.80,82.72,82.80,83.52,83.28,83.76,83.68,84.40,85.12,85.60,86.88,87.52,88.64,91.60,91.44,92.32,97.04,96.00,99.76,100.88,103.76,105.76,107.20,109.12,110.24,110.64,111.84,112.56,113.36,113.84,],
+  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,480,490,500,510,520,530,540,550,560,570,580,590,600,610,620,630,640,],
+  y: [0,0,0,0,0,1.84,44.88,82.32,85.44,85.04,84.32,84.00,83.60,83.36,83.12,82.96,82.72,82.56,82.48,82.32,82.16,82.08,82.00,81.92,81.92,81.84,81.92,82.00,82.00,82.00,82.24,82.40,82.80,83.52,83.92,84.96,85.04,86.00,86.72,88.56,88.72,91.36,92.64,96.56,97.68,100.88,102.56,105.60,106.56,108.00,108.40,109.84,110.48,111.12,111.52,110.80,112.32,112.56,112.72,112.88,113.04,113.60,114.08,114.24,],
   line: {color: '#ff7f0e'},
   name: "L3-MEM Benchmark"
 };
@@ -744,24 +673,24 @@ var benchmark_l3mem = {
 var L1L2 = {
   type: "scatter",
   mode: "lines",
-  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,480,490,500,510,520,530,540,550,],
-  y: [80.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,144.00,144.00,144.00,144.00,144.00,144.00,144.00,144.00,144.00,144.00,144.00,144.00,144.00,144.00,144.00,144.00,144.00,144.00,144.00,144.00,144.00,144.00,144.00,144.00,144.00,144.00,144.00,144.00,144.00,144.00,144.00,],
+  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,480,490,500,510,520,530,540,550,560,570,580,590,600,610,620,630,640,],
+  y: [80.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,144.00,144.00,144.00,144.00,144.00,144.00,144.00,144.00,144.00,144.00,144.00,144.00,144.00,144.00,144.00,144.00,144.00,144.00,144.00,144.00,144.00,144.00,144.00,144.00,144.00,144.00,144.00,144.00,144.00,144.00,144.00,144.00,144.00,144.00,144.00,144.00,144.00,144.00,144.00,144.00,],
   line: {color: '#d62728'},
   name: "L1-L2 with LC"
 };
 var L2L3= {
   type: "scatter",
   mode: "lines",
-  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,480,490,500,510,520,530,540,550,],
-  y: [0,80.00,80.00,80.00,80.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,],
+  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,480,490,500,510,520,530,540,550,560,570,580,590,600,610,620,630,640,],
+  y: [0,80.00,80.00,80.00,80.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,],
   line: {color: '#1f77b4'},
   name: "L2-L3 with LC"
 };
 var L3MEM = {
   type: "scatter",
   mode: "lines",
-  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,480,490,500,510,520,530,540,550,],
-  y: [0,0,0,0,0,0,80.00,80.00,80.00,80.00,80.00,80.00,80.00,80.00,80.00,80.00,80.00,80.00,80.00,80.00,80.00,80.00,80.00,80.00,80.00,80.00,80.00,80.00,80.00,80.00,80.00,80.00,80.00,80.00,80.00,80.00,80.00,80.00,80.00,80.00,80.00,80.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,],
+  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,480,490,500,510,520,530,540,550,560,570,580,590,600,610,620,630,640,],
+  y: [0,0,0,0,0,0,80.00,80.00,80.00,80.00,80.00,80.00,80.00,80.00,80.00,80.00,80.00,80.00,80.00,80.00,80.00,80.00,80.00,80.00,80.00,80.00,80.00,80.00,80.00,80.00,80.00,80.00,80.00,80.00,80.00,80.00,80.00,80.00,80.00,80.00,80.00,80.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,112.00,],
   line: {color: '#ff7f0e'},
   name: "L3-MEM with LC"
 };
@@ -794,8 +723,8 @@ var benchmark_l1l2 = {
   type: "scatter",
   mode: "markers",
   marker: { symbol: "cross-thin-open" },
-  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,480,490,500,510,520,530,540,550,],
-  y: [68.56,132.32,132.56,141.60,124.48,122.32,120.96,149.12,119.12,118.32,118.16,129.28,122.08,117.28,117.76,166.24,117.20,118.48,119.76,121.36,119.76,118.16,119.44,122.72,120.96,136.08,143.68,137.84,145.60,144.00,144.80,144.32,142.40,148.32,148.16,139.68,148.32,148.00,148.48,144.48,148.08,148.08,148.00,141.68,147.92,147.84,147.76,145.52,148.00,147.60,152.64,151.76,147.92,147.60,147.60,],
+  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,480,490,500,510,520,530,540,550,560,570,580,590,600,610,620,630,640,],
+  y: [65.76,132.56,132.56,141.44,123.68,122.00,120.16,144.48,118.00,117.92,117.12,127.12,120.72,116.64,117.52,165.92,115.92,115.76,119.20,120.08,118.24,116.00,117.28,121.60,118.80,133.36,141.52,136.16,145.04,142.08,144.08,140.32,140.08,146.80,146.40,137.36,146.72,146.32,146.40,140.80,146.40,146.40,146.32,140.80,146.32,146.16,146.16,142.00,146.16,146.00,151.12,149.92,145.92,146.00,145.92,150.88,145.68,145.92,145.76,147.52,145.76,146.16,146.48,156.24,],
   line: {color: '#d62728'},
   name: "L1-L2 Benchmark"
 };
@@ -803,8 +732,8 @@ var benchmark_l2l3 = {
   type: "scatter",
   mode: "markers",
   marker: { symbol: "cross-thin-open" },
-  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,480,490,500,510,520,530,540,550,],
-  y: [0,120.24,107.20,104.64,113.12,121.20,120.64,119.76,118.48,117.76,117.04,116.80,116.08,116.00,115.68,115.84,115.12,115.12,114.72,114.56,114.32,114.40,114.24,114.08,114.16,113.68,113.84,114.00,113.76,113.60,113.60,114.48,113.52,113.52,113.44,113.36,113.28,113.28,113.28,113.44,113.20,113.12,113.52,113.04,112.96,113.04,113.04,113.12,112.88,112.88,112.88,112.88,112.80,112.80,112.72,],
+  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,480,490,500,510,520,530,540,550,560,570,580,590,600,610,620,630,640,],
+  y: [0,122.64,106.64,102.88,112.40,123.28,120.48,119.84,118.72,117.52,116.80,116.64,115.92,115.84,116.40,119.04,114.88,114.88,114.56,114.24,114.48,113.76,113.76,114.00,113.84,113.44,113.28,113.52,113.20,113.44,113.28,113.12,113.20,113.12,113.12,113.12,113.12,112.96,112.96,112.80,112.88,112.88,112.88,112.72,112.72,112.72,112.72,113.52,112.64,112.56,113.04,112.72,112.56,112.56,112.48,117.84,112.48,112.40,112.56,112.40,112.40,112.32,112.40,116.88,],
   line: {color: '#1f77b4'},
   name: "L2-L3 Benchmark"
 };
@@ -812,8 +741,8 @@ var benchmark_l3mem = {
   type: "scatter",
   mode: "markers",
   marker: { symbol: "cross-thin-open" },
-  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,480,490,500,510,520,530,540,550,],
-  y: [0,0,0,0,.08,4.80,48.32,81.60,85.68,85.12,84.56,84.24,83.84,83.60,83.36,83.28,82.96,82.88,82.72,82.64,82.56,82.48,82.48,82.56,82.64,82.80,82.72,82.80,83.52,83.28,83.76,83.68,84.40,85.12,85.60,86.88,87.52,88.64,91.60,91.44,92.32,97.04,96.00,99.76,100.88,103.76,105.76,107.20,109.12,110.24,110.64,111.84,112.56,113.36,113.84,],
+  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,480,490,500,510,520,530,540,550,560,570,580,590,600,610,620,630,640,],
+  y: [0,0,0,0,0,1.84,44.88,82.32,85.44,85.04,84.32,84.00,83.60,83.36,83.12,82.96,82.72,82.56,82.48,82.32,82.16,82.08,82.00,81.92,81.92,81.84,81.92,82.00,82.00,82.00,82.24,82.40,82.80,83.52,83.92,84.96,85.04,86.00,86.72,88.56,88.72,91.36,92.64,96.56,97.68,100.88,102.56,105.60,106.56,108.00,108.40,109.84,110.48,111.12,111.52,110.80,112.32,112.56,112.72,112.88,113.04,113.60,114.08,114.24,],
   line: {color: '#ff7f0e'},
   name: "L3-MEM Benchmark"
 };
@@ -821,24 +750,24 @@ var benchmark_l3mem = {
 var L1L2 = {
   type: "scatter",
   mode: "lines",
-  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,480,490,500,510,520,530,540,550,],
-  y: [50.37,122.62,131.12,685.37,122.75,120.62,119.37,793.62,117.62,116.99,116.50,681.62,124.00,115.50,115.37,904.37,115.00,114.62,130.74,681.00,114.37,114.24,122.24,792.50,130.12,138.12,138.12,696.87,129.87,137.87,145.74,976.25,145.74,145.74,145.74,696.62,145.62,145.62,145.49,808.50,145.49,145.37,145.37,696.50,145.37,145.37,145.24,920.25,145.24,145.24,145.24,712.37,145.00,145.00,145.00,],
+  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,480,490,500,510,520,530,540,550,560,570,580,590,600,610,620,630,640,],
+  y: [50.37,122.62,131.12,685.37,122.75,120.62,119.37,793.62,117.62,116.99,116.50,681.62,124.00,115.50,115.37,904.37,115.00,114.62,130.74,681.00,114.37,114.24,122.24,792.50,130.12,138.12,138.12,696.87,129.87,137.87,145.87,976.25,145.74,145.74,145.74,696.62,145.62,145.62,145.49,808.50,145.49,145.37,145.37,696.50,145.37,145.37,145.24,920.25,145.24,145.24,145.24,712.37,145.00,145.00,145.00,824.25,145.00,145.00,144.87,712.37,144.87,144.87,144.87,992.12,],
   line: {color: '#d62728'},
   name: "L1-L2 with CS"
 };
 var L2L3= {
   type: "scatter",
   mode: "lines",
-  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,480,490,500,510,520,530,540,550,],
-  y: [0,94.62,95.50,90.87,96.25,120.24,119.37,681.62,117.62,116.99,116.50,116.12,115.87,115.50,115.37,681.25,114.87,114.62,114.49,114.49,114.37,114.24,114.12,680.75,113.99,113.87,113.74,113.74,113.62,113.62,113.62,896.12,113.49,113.49,113.37,113.37,113.37,113.37,113.37,680.50,113.24,113.12,113.12,113.12,112.99,112.99,113.12,680.37,113.12,113.12,113.12,113.00,113.00,113.00,113.00,],
+  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,480,490,500,510,520,530,540,550,560,570,580,590,600,610,620,630,640,],
+  y: [0,94.62,95.50,90.87,96.25,120.24,119.37,681.62,117.62,116.99,116.50,116.12,115.87,115.50,115.37,681.25,114.87,114.62,114.49,114.49,114.37,114.24,114.12,680.75,113.99,113.87,113.74,113.87,113.62,113.62,113.62,896.12,113.49,113.49,113.37,113.37,113.37,113.37,113.37,680.50,113.24,113.12,113.12,113.12,112.99,112.99,112.99,680.37,112.99,113.12,113.12,113.00,113.00,113.00,113.00,680.50,112.87,112.87,112.75,112.75,112.62,112.62,112.62,896.00,],
   line: {color: '#1f77b4'},
   name: "L2-L3 with CS"
 };
 var L3MEM = {
   type: "scatter",
   mode: "lines",
-  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,480,490,500,510,520,530,540,550,],
-  y: [0,0,0,0,0,0,82.49,84.62,84.12,83.74,83.25,83.12,82.62,82.62,82.50,82.25,82.25,81.87,82.00,81.99,81.87,81.62,81.49,81.37,81.49,81.37,81.37,81.24,81.24,81.12,81.12,81.12,81.00,81.00,80.99,81.12,80.74,80.74,80.74,94.12,81.12,80.50,95.74,108.74,95.49,112.62,112.74,104.87,113.25,113.25,113.25,113.00,113.12,113.00,113.25,],
+  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,480,490,500,510,520,530,540,550,560,570,580,590,600,610,620,630,640,],
+  y: [0,0,0,0,0,0,82.49,84.62,84.12,83.74,83.25,83.12,82.62,82.62,82.50,82.25,82.25,81.87,82.00,81.99,81.87,81.75,81.49,81.37,81.49,81.25,81.37,81.37,81.12,81.12,81.12,81.12,81.25,81.00,80.99,81.12,80.74,80.74,80.87,94.12,81.12,81.00,96.12,108.74,95.49,112.74,113.00,104.49,112.87,113.25,113.25,113.00,113.00,113.00,113.25,113.12,113.12,113.12,112.75,112.75,112.62,112.62,112.62,112.62,],
   line: {color: '#ff7f0e'},
   name: "L3-MEM with CS"
 };
@@ -872,7 +801,7 @@ Plotly.newPlot('mem_CS', data, layout, config);
   <div class="section-block-half">
     <h2 id="multi-core-thread-scaling">Multi Core Thread Scaling</h2>
 
-    <p><input class="plot-button" type="button" onclick="document.getElementById('scaling_540').style.display = 'none';document.getElementById('scaling_540').style.display = 'block';" value="540³" /></p>
+    <p><input class="plot-button" type="button" onclick="document.getElementById('scaling_630').style.display = 'none';document.getElementById('scaling_630').style.display = 'block';" value="630³" /></p>
 
     <div class="scaling">
 
@@ -884,7 +813,7 @@ var trace_benchmark = {
   mode: "markers",
   marker: { symbol: "cross-thin-open" },
   x: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,],
-  y: [112.22,162.02,210.61,236.92,251.25,256.76,259.19,294.37,328.96,365.45,402.33,437.92,473.74,501.36,],
+  y: [110.33,176.63,214.69,231.82,237.39,239.86,240.13,290.53,324.48,361.18,398.29,433.94,468.54,494.61,],
   line: {color: 'black'},
   name: "Benchmark"
 };
@@ -892,7 +821,7 @@ var trace_ecm = {
   type: "scatter",
   mode: "lines",
   x: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,],
-  y: [142.63,216.31,243.15,249.47,251.05,250.52,250.00,288.94,326.31,363.68,401.05,442.63,478.42,481.57,],
+  y: [126.31,204.21,237.36,246.84,251.57,251.05,252.63,287.36,325.78,361.05,399.47,433.15,468.94,501.05,],
   line: {color: '#ff7f0e'},
   name: "ECM LC Prediction"
 };
@@ -900,7 +829,7 @@ var trace_roofline = {
   type: "scatter",
   mode: "lines",
   x: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,],
-  y: [112.53,225.10,251.12,251.12,251.12,251.12,251.12,287.00,322.86,358.74,394.59,430.51,466.41,502.18,],
+  y: [112.89,205.31,248.54,252.78,252.78,252.78,252.78,288.89,325.03,361.13,397.23,433.34,469.50,505.63,],
   line: {color: '#1f77b4'},
   name: "Roofline LC Prediction"
 };
@@ -930,19 +859,19 @@ Plotly.newPlot('scaling', data, layout, config);
   <div class="section-block-half">
     <h2 id="single-core-spatial-blocking">Single Core Spatial Blocking</h2>
 
-    <p><input class="plot-button" type="button" onclick="document.getElementById('blocking_L3-3D').style.display = 'none';document.getElementById('blocking_L3-3D').style.display = 'block';" value="L3-3D" /></p>
+    <p>Choose blocking option:<input class="plot-button" type="button" onclick="document.getElementById('blocking_L2-3D').style.display = 'none';document.getElementById('blocking_L3-3D').style.display = 'none';document.getElementById('blocking_L2-3D').style.display = 'block';" value="L2-3D" /><input class="plot-button" type="button" onclick="document.getElementById('blocking_L2-3D').style.display = 'none';document.getElementById('blocking_L3-3D').style.display = 'none';document.getElementById('blocking_L3-3D').style.display = 'block';" value="L3-3D" /></p>
 
     <div class="blocking">
 
-      <div id="blocking_L3-3D"></div>
+      <div id="blocking_L2-3D"></div>
 
       <script>
 var trace_benchmark = {
   type: "scatter",
   mode: "markers",
   marker: { symbol: "cross-thin-open" },
-  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,480,490,500,510,520,530,540,550,],
-  y: [160.99,234.49,211.66,201.52,233.35,197.41,159.08,131.56,136.29,142.67,137.94,135.99,138.59,130.51,131.70,123.55,132.04,129.46,136.88,134.07,130.88,130.99,134.38,134.56,129.17,124.42,130.65,131.14,126.97,128.67,128.28,129.27,127.18,127.01,127.18,128.39,125.40,124.32,122.89,124.40,122.25,119.85,120.10,120.17,120.07,116.03,116.46,114.93,114.82,113.40,114.43,112.54,113.47,112.30,112.53,],
+  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,480,490,500,510,520,530,540,550,560,570,580,590,600,610,620,630,640,],
+  y: [161.97,228.38,228.42,214.39,245.66,234.69,157.52,131.84,130.94,135.46,135.19,135.96,134.70,136.14,136.21,125.31,136.28,136.86,137.39,137.41,134.57,137.35,139.03,139.40,137.13,134.36,131.17,136.52,131.20,130.94,133.47,130.53,133.80,132.28,133.13,131.69,131.98,129.54,131.06,131.59,129.51,128.88,128.36,125.25,126.29,122.68,121.30,120.49,120.75,119.63,115.66,119.44,118.82,117.05,117.06,115.02,119.70,118.35,119.12,116.40,118.40,112.51,110.31,100.57,],
   line: {color: 'black'},
   name: "Benchmark"
 };
@@ -950,24 +879,193 @@ var trace_benchmark_block = {
   type: "scatter",
   mode: "markers",
   marker: { symbol: "cross-thin-open" },
-  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,480,490,500,510,520,530,540,550,],
-  y: [105.08,211.74,215.38,211.15,240.79,223.85,155.85,129.37,128.57,134.25,133.22,135.36,134.44,136.92,134.51,123.41,136.08,137.43,136.60,136.65,135.60,137.95,135.65,133.53,134.15,133.94,130.97,134.18,131.53,131.40,131.82,118.90,131.61,130.65,129.44,129.57,128.39,128.14,126.33,124.07,125.63,124.89,123.65,122.79,124.61,124.85,123.92,114.32,125.02,126.17,123.45,124.27,126.75,125.99,126.11,],
+  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,480,490,500,510,520,530,540,550,560,570,580,590,600,610,620,630,640,],
+  y: [131.17,224.12,223.51,220.06,245.65,253.26,172.12,136.84,136.79,150.48,138.17,144.62,143.90,148.80,143.46,124.25,130.13,127.51,128.75,125.73,126.41,126.33,127.74,117.38,125.84,124.09,124.75,120.33,126.77,127.45,120.47,111.27,120.55,120.99,118.72,114.07,117.66,116.59,118.05,110.51,115.88,116.06,118.31,115.88,116.97,117.21,121.11,106.94,119.27,120.78,108.41,113.76,120.56,119.77,121.57,116.76,126.80,123.71,126.74,124.48,122.09,121.36,119.69,94.81,],
   line: {color: 'green'},
-  name: "Benchmark w/ L3-3D blocking"
+  name: "Benchmark w/ L2-3D blocking"
 };
 var trace_roofline = {
   type: "scatter",
   mode: "lines",
-  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,480,490,500,510,520,530,540,550,],
-  y: [460.00,328.42,328.42,328.42,328.42,265.78,199.47,199.47,199.47,199.47,199.47,199.47,199.47,199.47,199.47,199.47,199.47,199.47,199.47,199.47,199.47,199.47,199.47,199.47,199.47,199.47,199.47,199.47,199.47,199.47,199.47,199.47,199.47,199.47,199.47,199.47,199.47,199.47,199.47,199.47,199.47,199.47,142.63,142.63,142.63,142.63,142.63,142.63,142.63,142.63,142.63,142.63,142.63,142.63,142.63,],
+  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,480,490,500,510,520,530,540,550,560,570,580,590,600,610,620,630,640,],
+  y: [444.73,317.89,317.89,317.89,317.89,242.63,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,126.31,126.31,126.31,126.31,126.31,126.31,126.31,126.31,126.31,126.31,126.31,126.31,126.31,126.31,126.31,126.31,126.31,126.31,126.31,126.31,126.31,126.31,],
   line: {color: '#1f77b4'},
   name: "Roofline LC"
 };
 var trace_ecm = {
   type: "scatter",
   mode: "lines",
-  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,480,490,500,510,520,530,540,550,],
-  y: [398.26,247.87,247.87,247.97,247.97,223.84,136.80,136.74,136.74,136.80,136.74,136.74,136.74,136.80,136.74,136.74,136.80,136.80,136.80,136.80,136.80,136.74,136.74,136.80,129.12,129.06,129.06,129.06,129.12,129.12,129.06,129.12,129.12,129.12,129.06,129.12,129.12,129.06,129.12,129.12,129.12,129.12,112.53,112.48,112.53,112.53,112.53,112.53,112.48,112.53,112.53,112.48,112.53,112.53,112.53,],
+  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,480,490,500,510,520,530,540,550,560,570,580,590,600,610,620,630,640,],
+  y: [398.26,247.97,247.87,247.87,247.97,223.74,137.04,137.10,137.10,137.04,137.04,137.04,137.04,137.04,137.10,137.10,137.10,137.10,137.04,137.04,137.04,137.04,137.04,137.04,129.33,129.39,129.39,129.39,129.39,129.33,129.39,129.39,129.33,129.39,129.33,129.39,129.39,129.33,129.39,129.39,129.39,129.39,112.88,112.83,112.88,112.83,112.88,112.83,112.83,112.83,112.88,112.88,112.83,112.83,112.83,112.83,112.83,112.88,112.88,112.83,112.83,112.83,112.88,112.88,],
+  line: {color: '#ff7f0e'},
+  name: "ECM"
+};
+
+var data = [trace_benchmark,trace_benchmark_block,trace_roofline,trace_ecm];
+
+var layout = {
+  xaxis: {title: "Grid Size (N^3)",
+          rangemode: "tozero"},
+  yaxis: {title: 'Performance [MLUP/s]',
+          rangemode: "tozero"},
+  margin: { l: 50, r: 35, t: 10, b: 40},
+  legend: { orientation: "h",y:1.1},
+  width: 600,
+  height: 450,
+};
+
+var config = {locale: 'en'};
+Plotly.newPlot('blocking_L2-3D', data, layout, config);
+</script>
+
+      <div id="blocking_L3-3D" style="display:none;"></div>
+
+      <script>
+var trace_benchmark = {
+  type: "scatter",
+  mode: "markers",
+  marker: { symbol: "cross-thin-open" },
+  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,480,490,500,510,520,530,540,550,560,570,580,590,600,610,620,630,640,],
+  y: [161.97,228.38,228.42,214.39,245.66,234.69,157.52,131.84,130.94,135.46,135.19,135.96,134.70,136.14,136.21,125.31,136.28,136.86,137.39,137.41,134.57,137.35,139.03,139.40,137.13,134.36,131.17,136.52,131.20,130.94,133.47,130.53,133.80,132.28,133.13,131.69,131.98,129.54,131.06,131.59,129.51,128.88,128.36,125.25,126.29,122.68,121.30,120.49,120.75,119.63,115.66,119.44,118.82,117.05,117.06,115.02,119.70,118.35,119.12,116.40,118.40,112.51,110.31,100.57,],
+  line: {color: 'black'},
+  name: "Benchmark"
+};
+var trace_benchmark_block = {
+  type: "scatter",
+  mode: "markers",
+  marker: { symbol: "cross-thin-open" },
+  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,480,490,500,510,520,530,540,550,560,570,580,590,600,610,620,630,640,],
+  y: [128.55,219.62,224.22,221.29,248.03,241.46,156.52,130.61,131.95,136.19,134.76,135.84,135.84,139.29,136.39,129.04,137.90,139.81,138.53,138.94,137.14,139.56,139.12,137.41,137.87,136.70,135.12,138.21,135.15,135.30,134.42,127.14,134.90,134.49,133.44,135.05,131.94,132.51,130.50,129.28,131.79,131.78,131.61,133.67,132.94,133.39,132.62,124.52,132.72,133.52,130.48,130.33,132.99,132.57,132.55,127.98,133.40,133.24,133.69,133.23,128.66,130.44,128.63,122.32,],
+  line: {color: 'green'},
+  name: "Benchmark w/ L3-3D blocking"
+};
+var trace_roofline = {
+  type: "scatter",
+  mode: "lines",
+  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,480,490,500,510,520,530,540,550,560,570,580,590,600,610,620,630,640,],
+  y: [444.73,317.89,317.89,317.89,317.89,242.63,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,126.31,126.31,126.31,126.31,126.31,126.31,126.31,126.31,126.31,126.31,126.31,126.31,126.31,126.31,126.31,126.31,126.31,126.31,126.31,126.31,126.31,126.31,],
+  line: {color: '#1f77b4'},
+  name: "Roofline LC"
+};
+var trace_ecm = {
+  type: "scatter",
+  mode: "lines",
+  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,480,490,500,510,520,530,540,550,560,570,580,590,600,610,620,630,640,],
+  y: [398.26,247.97,247.87,247.87,247.97,223.74,137.04,137.10,137.10,137.04,137.04,137.04,137.04,137.04,137.10,137.10,137.10,137.10,137.04,137.04,137.04,137.04,137.04,137.04,129.33,129.39,129.39,129.39,129.39,129.33,129.39,129.39,129.33,129.39,129.33,129.39,129.39,129.33,129.39,129.39,129.39,129.39,112.88,112.83,112.88,112.83,112.88,112.83,112.83,112.83,112.88,112.88,112.83,112.83,112.83,112.83,112.83,112.88,112.88,112.83,112.83,112.83,112.88,112.88,],
+  line: {color: '#ff7f0e'},
+  name: "ECM"
+};
+
+var data = [trace_benchmark,trace_benchmark_block,trace_roofline,trace_ecm];
+
+var layout = {
+  xaxis: {title: "Grid Size (N^3)",
+          rangemode: "tozero"},
+  yaxis: {title: 'Performance [MLUP/s]',
+          rangemode: "tozero"},
+  margin: { l: 50, r: 35, t: 10, b: 40},
+  legend: { orientation: "h",y:1.1},
+  width: 600,
+  height: 450,
+};
+
+var config = {locale: 'en'};
+Plotly.newPlot('blocking_L3-3D', data, layout, config);
+</script>
+
+    </div>
+
+    <div class="blocking" style="display:none;">
+
+      <div id="blocking_L2-3D"></div>
+
+      <script>
+var trace_benchmark = {
+  type: "scatter",
+  mode: "markers",
+  marker: { symbol: "cross-thin-open" },
+  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,480,490,500,510,520,530,540,550,560,570,580,590,600,610,620,630,640,],
+  y: [161.97,228.38,228.42,214.39,245.66,234.69,157.52,131.84,130.94,135.46,135.19,135.96,134.70,136.14,136.21,125.31,136.28,136.86,137.39,137.41,134.57,137.35,139.03,139.40,137.13,134.36,131.17,136.52,131.20,130.94,133.47,130.53,133.80,132.28,133.13,131.69,131.98,129.54,131.06,131.59,129.51,128.88,128.36,125.25,126.29,122.68,121.30,120.49,120.75,119.63,115.66,119.44,118.82,117.05,117.06,115.02,119.70,118.35,119.12,116.40,118.40,112.51,110.31,100.57,],
+  line: {color: 'black'},
+  name: "Benchmark"
+};
+var trace_benchmark_block = {
+  type: "scatter",
+  mode: "markers",
+  marker: { symbol: "cross-thin-open" },
+  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,480,490,500,510,520,530,540,550,560,570,580,590,600,610,620,630,640,],
+  y: [131.17,224.12,223.51,220.06,245.65,253.26,172.12,136.84,136.79,150.48,138.17,144.62,143.90,148.80,143.46,124.25,130.13,127.51,128.75,125.73,126.41,126.33,127.74,117.38,125.84,124.09,124.75,120.33,126.77,127.45,120.47,111.27,120.55,120.99,118.72,114.07,117.66,116.59,118.05,110.51,115.88,116.06,118.31,115.88,116.97,117.21,121.11,106.94,119.27,120.78,108.41,113.76,120.56,119.77,121.57,116.76,126.80,123.71,126.74,124.48,122.09,121.36,119.69,94.81,],
+  line: {color: 'green'},
+  name: "Benchmark w/ L2-3D blocking"
+};
+var trace_roofline = {
+  type: "scatter",
+  mode: "lines",
+  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,480,490,500,510,520,530,540,550,560,570,580,590,600,610,620,630,640,],
+  y: [444.73,317.89,317.89,317.89,317.89,242.63,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,126.31,126.31,126.31,126.31,126.31,126.31,126.31,126.31,126.31,126.31,126.31,126.31,126.31,126.31,126.31,126.31,126.31,126.31,126.31,126.31,126.31,126.31,],
+  line: {color: '#1f77b4'},
+  name: "Roofline LC"
+};
+var trace_ecm = {
+  type: "scatter",
+  mode: "lines",
+  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,480,490,500,510,520,530,540,550,560,570,580,590,600,610,620,630,640,],
+  y: [398.26,247.97,247.87,247.87,247.97,223.74,137.04,137.10,137.10,137.04,137.04,137.04,137.04,137.04,137.10,137.10,137.10,137.10,137.04,137.04,137.04,137.04,137.04,137.04,129.33,129.39,129.39,129.39,129.39,129.33,129.39,129.39,129.33,129.39,129.33,129.39,129.39,129.33,129.39,129.39,129.39,129.39,112.88,112.83,112.88,112.83,112.88,112.83,112.83,112.83,112.88,112.88,112.83,112.83,112.83,112.83,112.83,112.88,112.88,112.83,112.83,112.83,112.88,112.88,],
+  line: {color: '#ff7f0e'},
+  name: "ECM"
+};
+
+var data = [trace_benchmark,trace_benchmark_block,trace_roofline,trace_ecm];
+
+var layout = {
+  xaxis: {title: "Grid Size (N^3)",
+          rangemode: "tozero"},
+  yaxis: {title: 'Performance [MLUP/s]',
+          rangemode: "tozero"},
+  margin: { l: 50, r: 35, t: 10, b: 40},
+  legend: { orientation: "h",y:1.1},
+  width: 600,
+  height: 450,
+};
+
+var config = {locale: 'en'};
+Plotly.newPlot('blocking_L2-3D', data, layout, config);
+</script>
+
+      <div id="blocking_L3-3D" style="display:none;"></div>
+
+      <script>
+var trace_benchmark = {
+  type: "scatter",
+  mode: "markers",
+  marker: { symbol: "cross-thin-open" },
+  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,480,490,500,510,520,530,540,550,560,570,580,590,600,610,620,630,640,],
+  y: [161.97,228.38,228.42,214.39,245.66,234.69,157.52,131.84,130.94,135.46,135.19,135.96,134.70,136.14,136.21,125.31,136.28,136.86,137.39,137.41,134.57,137.35,139.03,139.40,137.13,134.36,131.17,136.52,131.20,130.94,133.47,130.53,133.80,132.28,133.13,131.69,131.98,129.54,131.06,131.59,129.51,128.88,128.36,125.25,126.29,122.68,121.30,120.49,120.75,119.63,115.66,119.44,118.82,117.05,117.06,115.02,119.70,118.35,119.12,116.40,118.40,112.51,110.31,100.57,],
+  line: {color: 'black'},
+  name: "Benchmark"
+};
+var trace_benchmark_block = {
+  type: "scatter",
+  mode: "markers",
+  marker: { symbol: "cross-thin-open" },
+  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,480,490,500,510,520,530,540,550,560,570,580,590,600,610,620,630,640,],
+  y: [128.55,219.62,224.22,221.29,248.03,241.46,156.52,130.61,131.95,136.19,134.76,135.84,135.84,139.29,136.39,129.04,137.90,139.81,138.53,138.94,137.14,139.56,139.12,137.41,137.87,136.70,135.12,138.21,135.15,135.30,134.42,127.14,134.90,134.49,133.44,135.05,131.94,132.51,130.50,129.28,131.79,131.78,131.61,133.67,132.94,133.39,132.62,124.52,132.72,133.52,130.48,130.33,132.99,132.57,132.55,127.98,133.40,133.24,133.69,133.23,128.66,130.44,128.63,122.32,],
+  line: {color: 'green'},
+  name: "Benchmark w/ L3-3D blocking"
+};
+var trace_roofline = {
+  type: "scatter",
+  mode: "lines",
+  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,480,490,500,510,520,530,540,550,560,570,580,590,600,610,620,630,640,],
+  y: [444.73,317.89,317.89,317.89,317.89,242.63,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,176.31,126.31,126.31,126.31,126.31,126.31,126.31,126.31,126.31,126.31,126.31,126.31,126.31,126.31,126.31,126.31,126.31,126.31,126.31,126.31,126.31,126.31,126.31,],
+  line: {color: '#1f77b4'},
+  name: "Roofline LC"
+};
+var trace_ecm = {
+  type: "scatter",
+  mode: "lines",
+  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,480,490,500,510,520,530,540,550,560,570,580,590,600,610,620,630,640,],
+  y: [398.26,247.97,247.87,247.87,247.97,223.74,137.04,137.10,137.10,137.04,137.04,137.04,137.04,137.04,137.10,137.10,137.10,137.10,137.04,137.04,137.04,137.04,137.04,137.04,129.33,129.39,129.39,129.39,129.39,129.33,129.39,129.39,129.33,129.39,129.33,129.39,129.39,129.33,129.39,129.39,129.39,129.39,112.88,112.83,112.88,112.83,112.88,112.83,112.83,112.83,112.88,112.88,112.83,112.83,112.83,112.83,112.83,112.88,112.88,112.83,112.83,112.83,112.88,112.88,],
   line: {color: '#ff7f0e'},
   name: "ECM"
 };
@@ -1033,6 +1131,1489 @@ Plotly.newPlot('blocking_L3-3D', data, layout, config);
 
     <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">OMP_NUM_THREADS</span><span class="o">=</span>1 likwid-pin <span class="nt">-C</span> S0:0 ./stencil <span class="nv">$GRID_SIZE</span> <span class="nv">$GRID_SIZE</span> <span class="nv">$GRID_SIZE</span> <span class="nv">$BLOCKING_M</span> <span class="nv">$BLOCKING_N</span> <span class="nv">$BLOCKING_P</span>
 </code></pre></div>    </div>
+  </div>
+
+  <div class="section-block-full">
+    <h2 id="iaca-output">IACA Output</h2>
+    <div id="iaca">
+      <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Throughput Analysis Report
+--------------------------
+Block Throughput: 13.47 Cycles       Throughput Bottleneck: Backend
+Loop Count:  22
+Port Binding In Cycles Per Iteration:
+--------------------------------------------------------------------------------------------------
+|  Port  |   0   -  DV   |   1   |   2   -  D    |   3   -  D    |   4   |   5   |   6   |   7   |
+--------------------------------------------------------------------------------------------------
+| Cycles |  7.0     0.0  |  8.0  | 13.5    13.1  | 13.5    12.9  |  1.0  |  1.0  |  1.0  |  0.0  |
+--------------------------------------------------------------------------------------------------
+
+DV - Divider pipe (on port 0)
+D - Data fetch pipe (on ports 2 and 3)
+F - Macro Fusion with the previous instruction occurred
+* - instruction micro-ops not bound to a port
+^ - Micro Fusion occurred
+# - ESP Tracking sync uop was issued
+@ - SSE instruction followed an AVX256/AVX512 instruction, dozens of cycles penalty is expected
+X - instruction not supported, was not accounted in Analysis
+
+| Num Of   |                    Ports pressure in cycles                         |      |
+|  Uops    |  0  - DV    |  1   |  2  -  D    |  3  -  D    |  4   |  5   |  6   |  7   |
+-----------------------------------------------------------------------------------------
+|   1      |             |      | 0.5     0.5 | 0.5     0.5 |      |      |      |      | vmovupd ymm5, ymmword ptr [r10+r8*8+0x10]
+|   1      |             |      | 0.5     0.5 | 0.5     0.5 |      |      |      |      | vmovupd ymm3, ymmword ptr [rdi+r8*8+0x10]
+|   1      |             |      | 0.5     0.5 | 0.5     0.5 |      |      |      |      | vmovupd ymm6, ymmword ptr [r13+r8*8+0x10]
+|   1      |             |      | 0.5     0.5 | 0.5     0.5 |      |      |      |      | vmovupd ymm1, ymmword ptr [rdx+r8*8+0x8]
+|   1      |             |      | 0.5     0.5 | 0.5     0.5 |      |      |      |      | vmovupd ymm4, ymmword ptr [rdx+r8*8]
+|   1      |             |      | 0.5     0.5 | 0.5     0.5 |      |      |      |      | vmovupd ymm0, ymmword ptr [rdx+r8*8+0x10]
+|   2      |             | 1.0  | 0.5     0.5 | 0.5     0.5 |      |      |      |      | vaddpd ymm7, ymm5, ymmword ptr [rbx+r8*8+0x10]
+|   2      |             | 1.0  | 0.5     0.5 | 0.5     0.5 |      |      |      |      | vaddpd ymm8, ymm3, ymmword ptr [r12+r8*8+0x10]
+|   2      |             | 1.0  | 0.5     0.5 | 0.5     0.5 |      |      |      |      | vaddpd ymm9, ymm6, ymmword ptr [r14+r8*8+0x10]
+|   2      |             | 1.0  | 0.5     0.5 | 0.5     0.5 |      |      |      |      | vaddpd ymm14, ymm1, ymmword ptr [rdx+r8*8+0x18]
+|   2      |             | 1.0  | 0.5     0.5 | 0.5     0.5 |      |      |      |      | vaddpd ymm10, ymm4, ymmword ptr [rdx+r8*8+0x20]
+|   2      | 1.0         |      | 0.5     0.5 | 0.5     0.5 |      |      |      |      | vmulpd ymm11, ymm7, ymmword ptr [r11+r8*8+0x10]
+|   2      | 1.0         |      | 0.5     0.5 | 0.5     0.5 |      |      |      |      | vmulpd ymm12, ymm9, ymmword ptr [r9+r8*8+0x10]
+|   1      |             |      | 0.5     0.5 | 0.5     0.5 |      |      |      |      | mov r15, qword ptr [rsp+0x1e0]
+|   2      | 1.0         |      | 0.5     0.5 | 0.5     0.5 |      |      |      |      | vfmadd231pd ymm12, ymm10, ymmword ptr [rcx+r8*8+0x10]
+|   1      |             |      | 0.5     0.5 | 0.5     0.5 |      |      |      |      | vmovupd ymm2, ymmword ptr [r15+r8*8+0x10]
+|   1      |             |      | 0.5     0.5 | 0.5     0.5 |      |      |      |      | mov r15, qword ptr [rsp+0x1f8]
+|   2      |             | 1.0  | 0.5     0.5 | 0.5     0.5 |      |      |      |      | vaddpd ymm13, ymm2, ymmword ptr [r15+r8*8+0x10]
+|   1      |             |      | 0.5     0.5 | 0.5     0.5 |      |      |      |      | mov r15, qword ptr [rsp+0x1f0]
+|   2      | 1.0         |      | 0.5     0.5 | 0.5     0.5 |      |      |      |      | vfmadd231pd ymm11, ymm8, ymmword ptr [r15+r8*8+0x10]
+|   1      |             |      | 0.5     0.5 | 0.5     0.5 |      |      |      |      | mov r15, qword ptr [rsp+0x1e8]
+|   1      |             | 1.0  |             |             |      |      |      |      | vaddpd ymm15, ymm11, ymm12
+|   2      | 1.0         |      | 0.5     0.5 | 0.5     0.5 |      |      |      |      | vmulpd ymm1, ymm13, ymmword ptr [r15+r8*8+0x10]
+|   2      | 1.0         |      | 0.5     0.5 | 0.5     0.5 |      |      |      |      | vfmadd231pd ymm1, ymm14, ymmword ptr [rsi+r8*8+0x10]
+|   1      |             |      | 0.5     0.5 | 0.5     0.5 |      |      |      |      | mov r15, qword ptr [rsp+0x1c8]
+|   2      | 1.0         |      | 0.5     0.5 | 0.5     0.5 |      |      |      |      | vfmadd231pd ymm1, ymm0, ymmword ptr [r15+r8*8+0x10]
+|   1      |             | 1.0  |             |             |      |      |      |      | vaddpd ymm0, ymm15, ymm1
+|   2      |             |      | 0.5         | 0.5         | 1.0  |      |      |      | vmovupd ymmword ptr [rax+r8*8+0x10], ymm0
+|   1      |             |      |             |             |      |      | 1.0  |      | add r8, 0x4
+|   2^     |             |      | 0.5     0.5 | 0.5     0.5 |      | 1.0  |      |      | cmp r8, qword ptr [rsp+0x1a0]
+|   0*F    |             |      |             |             |      |      |      |      | jb 0xffffffffffffff31
+Total Num Of Uops: 45
+Analysis Notes:
+Backend allocation was stalled due to unavailable allocation resources.
+</code></pre></div>      </div>
+    </div>
+  </div>
+
+  <div class="section-block-full">
+    <h2 id="system-information">System Information</h2>
+    <div id="iaca">
+      <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>################################################################################
+# Hostname
+################################################################################
+hasep1.rrze.uni-erlangen.de
+
+################################################################################
+# Operating System
+################################################################################
+DISTRIB_ID=Ubuntu
+DISTRIB_RELEASE=18.04
+DISTRIB_CODENAME=bionic
+DISTRIB_DESCRIPTION="Ubuntu 18.04.2 LTS"
+NAME="Ubuntu"
+VERSION="18.04.2 LTS (Bionic Beaver)"
+ID=ubuntu
+ID_LIKE=debian
+PRETTY_NAME="Ubuntu 18.04.2 LTS"
+VERSION_ID="18.04"
+HOME_URL="https://www.ubuntu.com/"
+SUPPORT_URL="https://help.ubuntu.com/"
+BUG_REPORT_URL="https://bugs.launchpad.net/ubuntu/"
+PRIVACY_POLICY_URL="https://www.ubuntu.com/legal/terms-and-policies/privacy-policy"
+VERSION_CODENAME=bionic
+UBUNTU_CODENAME=bionic
+
+################################################################################
+# Operating System (LSB)
+################################################################################
+No LSB modules are available.
+
+################################################################################
+# Operating System Kernel
+################################################################################
+Linux hasep1 4.15.0-46-generic #49-Ubuntu SMP Wed Feb 6 09:33:07 UTC 2019 x86_64 x86_64 x86_64 GNU/Linux
+
+################################################################################
+# Logged in users
+################################################################################
+ 09:31:49 up 27 days, 20:35,  0 users,  load average: 0.53, 1.47, 1.72
+USER     TTY      FROM             LOGIN@   IDLE   JCPU   PCPU WHAT
+
+################################################################################
+# CPUset
+################################################################################
+Domain N:
+	0,28,1,29,2,30,3,31,4,32,5,33,6,34,7,35,8,36,9,37,10,38,11,39,12,40,13,41,14,42,15,43,16,44,17,45,18,46,19,47,20,48,21,49,22,50,23,51,24,52,25,53,26,54,27,55
+
+Domain S0:
+	0,28,1,29,2,30,3,31,4,32,5,33,6,34,7,35,8,36,9,37,10,38,11,39,12,40,13,41
+
+Domain S1:
+	14,42,15,43,16,44,17,45,18,46,19,47,20,48,21,49,22,50,23,51,24,52,25,53,26,54,27,55
+
+Domain C0:
+	0,28,1,29,2,30,3,31,4,32,5,33,6,34
+
+Domain C1:
+	7,35,8,36,9,37,10,38,11,39,12,40,13,41
+
+Domain C2:
+	14,42,15,43,16,44,17,45,18,46,19,47,20,48
+
+Domain C3:
+	21,49,22,50,23,51,24,52,25,53,26,54,27,55
+
+Domain M0:
+	0,28,1,29,2,30,3,31,4,32,5,33,6,34
+
+Domain M1:
+	7,35,8,36,9,37,10,38,11,39,12,40,13,41
+
+Domain M2:
+	14,42,15,43,16,44,17,45,18,46,19,47,20,48
+
+Domain M3:
+	21,49,22,50,23,51,24,52,25,53,26,54,27,55
+
+
+################################################################################
+# CGroups
+################################################################################
+Allowed CPUs: 0-55
+Allowed Memory controllers: 0-3
+
+################################################################################
+# Topology
+################################################################################
+--------------------------------------------------------------------------------
+CPU name:	Intel(R) Xeon(R) CPU E5-2695 v3 @ 2.30GHz
+CPU type:	Intel Xeon Haswell EN/EP/EX processor
+CPU stepping:	2
+********************************************************************************
+Hardware Thread Topology
+********************************************************************************
+Sockets:		2
+Cores per socket:	14
+Threads per core:	2
+--------------------------------------------------------------------------------
+HWThread	Thread		Core		Socket		Available
+0		0		0		0		*
+1		0		1		0		*
+2		0		2		0		*
+3		0		3		0		*
+4		0		4		0		*
+5		0		5		0		*
+6		0		6		0		*
+7		0		7		0		*
+8		0		8		0		*
+9		0		9		0		*
+10		0		10		0		*
+11		0		11		0		*
+12		0		12		0		*
+13		0		13		0		*
+14		0		14		1		*
+15		0		15		1		*
+16		0		16		1		*
+17		0		17		1		*
+18		0		18		1		*
+19		0		19		1		*
+20		0		20		1		*
+21		0		21		1		*
+22		0		22		1		*
+23		0		23		1		*
+24		0		24		1		*
+25		0		25		1		*
+26		0		26		1		*
+27		0		27		1		*
+28		1		0		0		*
+29		1		1		0		*
+30		1		2		0		*
+31		1		3		0		*
+32		1		4		0		*
+33		1		5		0		*
+34		1		6		0		*
+35		1		7		0		*
+36		1		8		0		*
+37		1		9		0		*
+38		1		10		0		*
+39		1		11		0		*
+40		1		12		0		*
+41		1		13		0		*
+42		1		14		1		*
+43		1		15		1		*
+44		1		16		1		*
+45		1		17		1		*
+46		1		18		1		*
+47		1		19		1		*
+48		1		20		1		*
+49		1		21		1		*
+50		1		22		1		*
+51		1		23		1		*
+52		1		24		1		*
+53		1		25		1		*
+54		1		26		1		*
+55		1		27		1		*
+--------------------------------------------------------------------------------
+Socket 0:		( 0 28 1 29 2 30 3 31 4 32 5 33 6 34 7 35 8 36 9 37 10 38 11 39 12 40 13 41 )
+Socket 1:		( 14 42 15 43 16 44 17 45 18 46 19 47 20 48 21 49 22 50 23 51 24 52 25 53 26 54 27 55 )
+--------------------------------------------------------------------------------
+********************************************************************************
+Cache Topology
+********************************************************************************
+Level:			1
+Size:			32 kB
+Cache groups:		( 0 28 ) ( 1 29 ) ( 2 30 ) ( 3 31 ) ( 4 32 ) ( 5 33 ) ( 6 34 ) ( 7 35 ) ( 8 36 ) ( 9 37 ) ( 10 38 ) ( 11 39 ) ( 12 40 ) ( 13 41 ) ( 14 42 ) ( 15 43 ) ( 16 44 ) ( 17 45 ) ( 18 46 ) ( 19 47 ) ( 20 48 ) ( 21 49 ) ( 22 50 ) ( 23 51 ) ( 24 52 ) ( 25 53 ) ( 26 54 ) ( 27 55 )
+--------------------------------------------------------------------------------
+Level:			2
+Size:			256 kB
+Cache groups:		( 0 28 ) ( 1 29 ) ( 2 30 ) ( 3 31 ) ( 4 32 ) ( 5 33 ) ( 6 34 ) ( 7 35 ) ( 8 36 ) ( 9 37 ) ( 10 38 ) ( 11 39 ) ( 12 40 ) ( 13 41 ) ( 14 42 ) ( 15 43 ) ( 16 44 ) ( 17 45 ) ( 18 46 ) ( 19 47 ) ( 20 48 ) ( 21 49 ) ( 22 50 ) ( 23 51 ) ( 24 52 ) ( 25 53 ) ( 26 54 ) ( 27 55 )
+--------------------------------------------------------------------------------
+Level:			3
+Size:			9 MB
+Cache groups:		( 0 28 1 29 2 30 3 31 4 32 5 33 6 34 ) ( 7 35 8 36 9 37 10 38 11 39 12 40 13 41 ) ( 14 42 15 43 16 44 17 45 18 46 19 47 20 48 ) ( 21 49 22 50 23 51 24 52 25 53 26 54 27 55 )
+--------------------------------------------------------------------------------
+********************************************************************************
+NUMA Topology
+********************************************************************************
+NUMA domains:		4
+--------------------------------------------------------------------------------
+Domain:			0
+Processors:		( 0 28 1 29 2 30 3 31 4 32 5 33 6 34 )
+Distances:		10 21 31 31
+Free memory:		15447 MB
+Total memory:		15932.8 MB
+--------------------------------------------------------------------------------
+Domain:			1
+Processors:		( 7 35 8 36 9 37 10 38 11 39 12 40 13 41 )
+Distances:		21 10 31 31
+Free memory:		15542.9 MB
+Total memory:		16125.3 MB
+--------------------------------------------------------------------------------
+Domain:			2
+Processors:		( 14 42 15 43 16 44 17 45 18 46 19 47 20 48 )
+Distances:		31 31 10 21
+Free memory:		15878.9 MB
+Total memory:		16125.3 MB
+--------------------------------------------------------------------------------
+Domain:			3
+Processors:		( 21 49 22 50 23 51 24 52 25 53 26 54 27 55 )
+Distances:		31 31 21 10
+Free memory:		15597.3 MB
+Total memory:		16124.4 MB
+--------------------------------------------------------------------------------
+
+################################################################################
+# NUMA Topology
+################################################################################
+available: 4 nodes (0-3)
+node 0 cpus: 0 1 2 3 4 5 6 28 29 30 31 32 33 34
+node 0 size: 15932 MB
+node 0 free: 15446 MB
+node 1 cpus: 7 8 9 10 11 12 13 35 36 37 38 39 40 41
+node 1 size: 16125 MB
+node 1 free: 15542 MB
+node 2 cpus: 14 15 16 17 18 19 20 42 43 44 45 46 47 48
+node 2 size: 16125 MB
+node 2 free: 15878 MB
+node 3 cpus: 21 22 23 24 25 26 27 49 50 51 52 53 54 55
+node 3 size: 16124 MB
+node 3 free: 15607 MB
+node distances:
+node   0   1   2   3
+  0:  10  21  31  31
+  1:  21  10  31  31
+  2:  31  31  10  21
+  3:  31  31  21  10
+
+################################################################################
+# Frequencies
+################################################################################
+Current CPU frequencies:
+CPU 0: governor  performance min/cur/max 2.3/1.804/2.3 GHz Turbo 0
+CPU 1: governor  performance min/cur/max 2.3/1.842/2.3 GHz Turbo 0
+CPU 2: governor  performance min/cur/max 2.3/1.718/2.3 GHz Turbo 0
+CPU 3: governor  performance min/cur/max 2.3/1.842/2.3 GHz Turbo 0
+CPU 4: governor  performance min/cur/max 2.3/1.558/2.3 GHz Turbo 0
+CPU 5: governor  performance min/cur/max 2.3/2.162/2.3 GHz Turbo 0
+CPU 6: governor  performance min/cur/max 2.3/1.442/2.3 GHz Turbo 0
+CPU 7: governor  performance min/cur/max 2.3/1.479/2.3 GHz Turbo 0
+CPU 8: governor  performance min/cur/max 2.3/1.508/2.3 GHz Turbo 0
+CPU 9: governor  performance min/cur/max 2.3/1.434/2.3 GHz Turbo 0
+CPU 10: governor  performance min/cur/max 2.3/1.650/2.3 GHz Turbo 0
+CPU 11: governor  performance min/cur/max 2.3/1.594/2.3 GHz Turbo 0
+CPU 12: governor  performance min/cur/max 2.3/1.833/2.3 GHz Turbo 0
+CPU 13: governor  performance min/cur/max 2.3/1.491/2.3 GHz Turbo 0
+CPU 14: governor  performance min/cur/max 2.3/2.297/2.3 GHz Turbo 0
+CPU 15: governor  performance min/cur/max 2.3/2.300/2.3 GHz Turbo 0
+CPU 16: governor  performance min/cur/max 2.3/2.269/2.3 GHz Turbo 0
+CPU 17: governor  performance min/cur/max 2.3/2.300/2.3 GHz Turbo 0
+CPU 18: governor  performance min/cur/max 2.3/2.300/2.3 GHz Turbo 0
+CPU 19: governor  performance min/cur/max 2.3/2.281/2.3 GHz Turbo 0
+CPU 20: governor  performance min/cur/max 2.3/2.278/2.3 GHz Turbo 0
+CPU 21: governor  performance min/cur/max 2.3/2.286/2.3 GHz Turbo 0
+CPU 22: governor  performance min/cur/max 2.3/2.289/2.3 GHz Turbo 0
+CPU 23: governor  performance min/cur/max 2.3/2.300/2.3 GHz Turbo 0
+CPU 24: governor  performance min/cur/max 2.3/2.300/2.3 GHz Turbo 0
+CPU 25: governor  performance min/cur/max 2.3/2.297/2.3 GHz Turbo 0
+CPU 26: governor  performance min/cur/max 2.3/2.081/2.3 GHz Turbo 0
+CPU 27: governor  performance min/cur/max 2.3/2.224/2.3 GHz Turbo 0
+CPU 28: governor  performance min/cur/max 2.3/1.204/2.3 GHz Turbo 0
+CPU 29: governor  performance min/cur/max 2.3/2.302/2.3 GHz Turbo 0
+CPU 30: governor  performance min/cur/max 2.3/2.303/2.3 GHz Turbo 0
+CPU 31: governor  performance min/cur/max 2.3/2.303/2.3 GHz Turbo 0
+CPU 32: governor  performance min/cur/max 2.3/1.392/2.3 GHz Turbo 0
+CPU 33: governor  performance min/cur/max 2.3/1.824/2.3 GHz Turbo 0
+CPU 34: governor  performance min/cur/max 2.3/1.758/2.3 GHz Turbo 0
+CPU 35: governor  performance min/cur/max 2.3/1.578/2.3 GHz Turbo 0
+CPU 36: governor  performance min/cur/max 2.3/1.526/2.3 GHz Turbo 0
+CPU 37: governor  performance min/cur/max 2.3/2.311/2.3 GHz Turbo 0
+CPU 38: governor  performance min/cur/max 2.3/2.303/2.3 GHz Turbo 0
+CPU 39: governor  performance min/cur/max 2.3/2.309/2.3 GHz Turbo 0
+CPU 40: governor  performance min/cur/max 2.3/2.303/2.3 GHz Turbo 0
+CPU 41: governor  performance min/cur/max 2.3/2.303/2.3 GHz Turbo 0
+CPU 42: governor  performance min/cur/max 2.3/2.300/2.3 GHz Turbo 0
+CPU 43: governor  performance min/cur/max 2.3/2.300/2.3 GHz Turbo 0
+CPU 44: governor  performance min/cur/max 2.3/2.301/2.3 GHz Turbo 0
+CPU 45: governor  performance min/cur/max 2.3/2.300/2.3 GHz Turbo 0
+CPU 46: governor  performance min/cur/max 2.3/2.301/2.3 GHz Turbo 0
+CPU 47: governor  performance min/cur/max 2.3/2.300/2.3 GHz Turbo 0
+CPU 48: governor  performance min/cur/max 2.3/2.300/2.3 GHz Turbo 0
+CPU 49: governor  performance min/cur/max 2.3/2.300/2.3 GHz Turbo 0
+CPU 50: governor  performance min/cur/max 2.3/2.214/2.3 GHz Turbo 0
+CPU 51: governor  performance min/cur/max 2.3/2.276/2.3 GHz Turbo 0
+CPU 52: governor  performance min/cur/max 2.3/2.230/2.3 GHz Turbo 0
+CPU 53: governor  performance min/cur/max 2.3/2.299/2.3 GHz Turbo 0
+CPU 54: governor  performance min/cur/max 2.3/2.212/2.3 GHz Turbo 0
+CPU 55: governor  performance min/cur/max 2.3/2.295/2.3 GHz Turbo 0
+
+Current Uncore frequencies:
+Socket 0: min/max 2.3/2.3 GHz
+Socket 1: min/max 2.3/2.3 GHz
+
+################################################################################
+# Prefetchers
+################################################################################
+Feature               CPU 0	CPU 28	CPU 1	CPU 29	CPU 2	CPU 30	CPU 3	CPU 31	CPU 4	CPU 32	CPU 5	CPU 33	CPU 6	CPU 34	CPU 7	CPU 35	CPU 8	CPU 36	CPU 9	CPU 37	CPU 10	CPU 38	CPU 11	CPU 39	CPU 12	CPU 40	CPU 13	CPU 41	CPU 14	CPU 42	CPU 15	CPU 43	CPU 16	CPU 44	CPU 17	CPU 45	CPU 18	CPU 46	CPU 19	CPU 47	CPU 20	CPU 48	CPU 21	CPU 49	CPU 22	CPU 50	CPU 23	CPU 51	CPU 24	CPU 52	CPU 25	CPU 53	CPU 26	CPU 54	CPU 27	CPU 55
+HW_PREFETCHER         on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on
+CL_PREFETCHER         on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on
+DCU_PREFETCHER        on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on
+IP_PREFETCHER         on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on
+FAST_STRINGS          on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on
+THERMAL_CONTROL       on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on
+PERF_MON              on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on
+FERR_MULTIPLEX        off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off
+BRANCH_TRACE_STORAGE  on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on
+XTPR_MESSAGE          off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off
+PEBS                  on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on
+SPEEDSTEP             on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on
+MONITOR               on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on
+SPEEDSTEP_LOCK        off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off
+CPUID_MAX_VAL         off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off
+XD_BIT                on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on
+DYN_ACCEL             off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off
+TURBO_MODE            off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off
+TM2                   off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off
+
+################################################################################
+# Load
+################################################################################
+0.56 1.46 1.71 1/634 24921
+
+################################################################################
+# Performance energy bias
+################################################################################
+Performance energy bias: 7 (0=highest performance, 15 = lowest energy)
+
+################################################################################
+# NUMA balancing
+################################################################################
+Enabled: 1
+
+################################################################################
+# General memory info
+################################################################################
+MemTotal:       65851192 kB
+MemFree:        63984852 kB
+MemAvailable:   64501412 kB
+Buffers:          133476 kB
+Cached:           797496 kB
+SwapCached:           40 kB
+Active:           721096 kB
+Inactive:         248020 kB
+Active(anon):      35420 kB
+Inactive(anon):    10916 kB
+Active(file):     685676 kB
+Inactive(file):   237104 kB
+Unevictable:           0 kB
+Mlocked:               0 kB
+SwapTotal:      31998972 kB
+SwapFree:       31992444 kB
+Dirty:               428 kB
+Writeback:            12 kB
+AnonPages:         38136 kB
+Mapped:            59544 kB
+Shmem:              8192 kB
+Slab:             554556 kB
+SReclaimable:     267284 kB
+SUnreclaim:       287272 kB
+KernelStack:       11056 kB
+PageTables:         3168 kB
+NFS_Unstable:          0 kB
+Bounce:                0 kB
+WritebackTmp:          0 kB
+CommitLimit:    64924568 kB
+Committed_AS:     211780 kB
+VmallocTotal:   34359738367 kB
+VmallocUsed:           0 kB
+VmallocChunk:          0 kB
+HardwareCorrupted:     0 kB
+AnonHugePages:         0 kB
+ShmemHugePages:        0 kB
+ShmemPmdMapped:        0 kB
+CmaTotal:              0 kB
+CmaFree:               0 kB
+HugePages_Total:       0
+HugePages_Free:        0
+HugePages_Rsvd:        0
+HugePages_Surp:        0
+Hugepagesize:       2048 kB
+DirectMap4k:      543872 kB
+DirectMap2M:    23463936 kB
+DirectMap1G:    45088768 kB
+
+################################################################################
+# Transparent huge pages
+################################################################################
+Enabled: [always] madvise never
+Use zero page: 1
+
+################################################################################
+# Hardware power limits
+################################################################################
+RAPL domain package-1
+- Limit0 long_term MaxPower 120000000uW Limit 120000000uW TimeWindow 999424us
+- Limit1 short_term MaxPower 240000000uW Limit 144000000uW TimeWindow 7808us
+RAPL domain dram
+- Limit0 long_term MaxPower 21500000uW Limit 0uW TimeWindow 976us
+RAPL domain package-0
+- Limit0 long_term MaxPower 120000000uW Limit 120000000uW TimeWindow 999424us
+- Limit1 short_term MaxPower 240000000uW Limit 144000000uW TimeWindow 7808us
+RAPL domain dram
+- Limit0 long_term MaxPower 21500000uW Limit 0uW TimeWindow 976us
+
+################################################################################
+# Compiler
+################################################################################
+icc (ICC) 19.0.2.187 20190117
+Copyright (C) 1985-2019 Intel Corporation.  All rights reserved.
+
+
+################################################################################
+# MPI
+################################################################################
+Intel(R) MPI Library for Linux* OS, Version 2019 Update 2 Build 20190123 (id: e2d820d49)
+Copyright 2003-2019, Intel Corporation.
+
+################################################################################
+# dmidecode
+################################################################################
+# dmidecode 3.1
+Getting SMBIOS data from sysfs.
+SMBIOS 2.8 present.
+
+Handle 0x0000, DMI type 0, 24 bytes
+BIOS Information
+	Vendor: American Megatrends Inc.
+	Version: 1.1
+	Release Date: 04/09/2015
+	Address: 0xF0000
+	Runtime Size: 64 kB
+	ROM Size: 16 MB
+	Characteristics:
+		PCI is supported
+		BIOS is upgradeable
+		BIOS shadowing is allowed
+		Boot from CD is supported
+		Selectable boot is supported
+		BIOS ROM is socketed
+		EDD is supported
+		5.25"/1.2 MB floppy services are supported (int 13h)
+		3.5"/720 kB floppy services are supported (int 13h)
+		3.5"/2.88 MB floppy services are supported (int 13h)
+		Print screen service is supported (int 5h)
+		8042 keyboard services are supported (int 9h)
+	(Line containing Serial number has been censored)
+		Printer services are supported (int 17h)
+		ACPI is supported
+		USB legacy is supported
+		BIOS boot specification is supported
+		Targeted content distribution is supported
+		UEFI is supported
+	BIOS Revision: 5.6
+
+Handle 0x0001, DMI type 1, 27 bytes
+System Information
+	Manufacturer: Supermicro
+	Product Name: Super Server
+	Version: 0123456789
+	(Line containing Serial number has been censored)
+	(Line containing UUID has been censored)
+	Wake-up Type: Power Switch
+	SKU Number: To be filled by O.E.M.
+	Family: To be filled by O.E.M.
+
+Handle 0x0002, DMI type 2, 15 bytes
+Base Board Information
+	Manufacturer: Supermicro
+	Product Name: X10DRL-i
+	Version: 1.01
+	(Line containing Serial number has been censored)
+	Asset Tag: To be filled by O.E.M.
+	Features:
+		Board is a hosting board
+		Board is replaceable
+	Location In Chassis: To be filled by O.E.M.
+	Chassis Handle: 0x0003
+	Type: Motherboard
+	Contained Object Handles: 0
+
+Handle 0x0003, DMI type 3, 25 bytes
+Chassis Information
+	Manufacturer: Supermicro
+	Type: Main Server Chassis
+	Lock: Not Present
+	Version: 0123456789
+	(Line containing Serial number has been censored)
+	Asset Tag: To Be Filled By O.E.M.
+	Boot-up State: Safe
+	Power Supply State: Safe
+	Thermal State: Safe
+	Security Status: None
+	OEM Information: 0x00000000
+	Height: Unspecified
+	Number Of Power Cords: 1
+	Contained Elements: 1
+		&lt;OUT OF SPEC&gt; (0)
+	SKU Number: To be filled by O.E.M.
+
+Handle 0x0004, DMI type 8, 9 bytes
+Port Connector Information
+	Internal Reference Designator: J1A1
+	Internal Connector Type: None
+	External Reference Designator: PS2Mouse
+	External Connector Type: PS/2
+	Port Type: Mouse Port
+
+Handle 0x0005, DMI type 8, 9 bytes
+Port Connector Information
+	Internal Reference Designator: J1A1
+	Internal Connector Type: None
+	External Reference Designator: Keyboard
+	External Connector Type: PS/2
+	Port Type: Keyboard Port
+
+Handle 0x0006, DMI type 8, 9 bytes
+Port Connector Information
+	Internal Reference Designator: J2A1
+	Internal Connector Type: None
+	External Reference Designator: TV Out
+	External Connector Type: Mini Centronics Type-14
+	Port Type: Other
+
+Handle 0x0007, DMI type 8, 9 bytes
+Port Connector Information
+	Internal Reference Designator: J2A2A
+	Internal Connector Type: None
+	External Reference Designator: COM A
+	External Connector Type: DB-9 male
+	(Line containing Serial number has been censored)
+
+Handle 0x0008, DMI type 8, 9 bytes
+Port Connector Information
+	Internal Reference Designator: J2A2B
+	Internal Connector Type: None
+	External Reference Designator: Video
+	External Connector Type: DB-15 female
+	Port Type: Video Port
+
+Handle 0x0009, DMI type 8, 9 bytes
+Port Connector Information
+	Internal Reference Designator: J3A1
+	Internal Connector Type: None
+	External Reference Designator: USB1
+	External Connector Type: Access Bus (USB)
+	Port Type: USB
+
+Handle 0x000A, DMI type 8, 9 bytes
+Port Connector Information
+	Internal Reference Designator: J3A1
+	Internal Connector Type: None
+	External Reference Designator: USB2
+	External Connector Type: Access Bus (USB)
+	Port Type: USB
+
+Handle 0x000B, DMI type 8, 9 bytes
+Port Connector Information
+	Internal Reference Designator: J3A1
+	Internal Connector Type: None
+	External Reference Designator: USB3
+	External Connector Type: Access Bus (USB)
+	Port Type: USB
+
+Handle 0x000C, DMI type 8, 9 bytes
+Port Connector Information
+	Internal Reference Designator: J9A1 - TPM HDR
+	Internal Connector Type: Other
+	External Reference Designator: Not Specified
+	External Connector Type: None
+	Port Type: Other
+
+Handle 0x000D, DMI type 8, 9 bytes
+Port Connector Information
+	Internal Reference Designator: J9C1 - PCIE DOCKING CONN
+	Internal Connector Type: Other
+	External Reference Designator: Not Specified
+	External Connector Type: None
+	Port Type: Other
+
+Handle 0x000E, DMI type 8, 9 bytes
+Port Connector Information
+	Internal Reference Designator: J2B3 - CPU FAN
+	Internal Connector Type: Other
+	External Reference Designator: Not Specified
+	External Connector Type: None
+	Port Type: Other
+
+Handle 0x000F, DMI type 8, 9 bytes
+Port Connector Information
+	Internal Reference Designator: J6C2 - EXT HDMI
+	Internal Connector Type: Other
+	External Reference Designator: Not Specified
+	External Connector Type: None
+	Port Type: Other
+
+Handle 0x0010, DMI type 8, 9 bytes
+Port Connector Information
+	Internal Reference Designator: J3C1 - GMCH FAN
+	Internal Connector Type: Other
+	External Reference Designator: Not Specified
+	External Connector Type: None
+	Port Type: Other
+
+Handle 0x0011, DMI type 8, 9 bytes
+Port Connector Information
+	Internal Reference Designator: J1D1 - ITP
+	Internal Connector Type: Other
+	External Reference Designator: Not Specified
+	External Connector Type: None
+	Port Type: Other
+
+Handle 0x0012, DMI type 8, 9 bytes
+Port Connector Information
+	Internal Reference Designator: J9E2 - MDC INTPSR
+	Internal Connector Type: Other
+	External Reference Designator: Not Specified
+	External Connector Type: None
+	Port Type: Other
+
+Handle 0x0013, DMI type 8, 9 bytes
+Port Connector Information
+	Internal Reference Designator: J9E4 - MDC INTPSR
+	Internal Connector Type: Other
+	External Reference Designator: Not Specified
+	External Connector Type: None
+	Port Type: Other
+
+Handle 0x0014, DMI type 8, 9 bytes
+Port Connector Information
+	Internal Reference Designator: J9E3 - LPC HOT DOCKING
+	Internal Connector Type: Other
+	External Reference Designator: Not Specified
+	External Connector Type: None
+	Port Type: Other
+
+Handle 0x0015, DMI type 8, 9 bytes
+Port Connector Information
+	Internal Reference Designator: J9E1 - SCAN MATRIX
+	Internal Connector Type: Other
+	External Reference Designator: Not Specified
+	External Connector Type: None
+	Port Type: Other
+
+Handle 0x0016, DMI type 8, 9 bytes
+Port Connector Information
+	Internal Reference Designator: J9G1 - LPC SIDE BAND
+	Internal Connector Type: Other
+	External Reference Designator: Not Specified
+	External Connector Type: None
+	Port Type: Other
+
+Handle 0x0017, DMI type 8, 9 bytes
+Port Connector Information
+	Internal Reference Designator: J8F1 - UNIFIED
+	Internal Connector Type: Other
+	External Reference Designator: Not Specified
+	External Connector Type: None
+	Port Type: Other
+
+Handle 0x0018, DMI type 8, 9 bytes
+Port Connector Information
+	Internal Reference Designator: J6F1 - LVDS
+	Internal Connector Type: Other
+	External Reference Designator: Not Specified
+	External Connector Type: None
+	Port Type: Other
+
+Handle 0x0019, DMI type 8, 9 bytes
+Port Connector Information
+	Internal Reference Designator: J2F1 - LAI FAN
+	Internal Connector Type: Other
+	External Reference Designator: Not Specified
+	External Connector Type: None
+	Port Type: Other
+
+Handle 0x001A, DMI type 8, 9 bytes
+Port Connector Information
+	Internal Reference Designator: J2G1 - GFX VID
+	Internal Connector Type: Other
+	External Reference Designator: Not Specified
+	External Connector Type: None
+	Port Type: Other
+
+Handle 0x001B, DMI type 8, 9 bytes
+Port Connector Information
+	Internal Reference Designator: J1G6 - AC JACK
+	Internal Connector Type: Other
+	External Reference Designator: Not Specified
+	External Connector Type: None
+	Port Type: Other
+
+Handle 0x001C, DMI type 9, 17 bytes
+System Slot Information
+	Designation: PCH SLOT1 PCI-E 2.0 X4 (IN X8)
+	Type: x4 PCI Express 2 x8
+	Current Usage: Available
+	Length: Long
+	ID: 1
+	Characteristics:
+		3.3 V is provided
+		Opening is shared
+		PME signal is supported
+	Bus Address: 0000:ff:00.0
+
+Handle 0x001D, DMI type 9, 17 bytes
+System Slot Information
+	Designation: CPU1 SLOT2 PCI-E 3.0 X8
+	Type: x8 PCI Express 3 x8
+	Current Usage: Available
+	Length: Short
+	ID: 2
+	Characteristics:
+		3.3 V is provided
+		Opening is shared
+		PME signal is supported
+	Bus Address: 0000:01:00.0
+
+Handle 0x001E, DMI type 9, 17 bytes
+System Slot Information
+	Designation: CPU1 SLOT3 PCI-E 3.0 X8
+	Type: x8 PCI Express 3 x8
+	Current Usage: Available
+	Length: Long
+	ID: 3
+	Characteristics:
+		3.3 V is provided
+		Opening is shared
+		PME signal is supported
+	Bus Address: 0000:02:00.0
+
+Handle 0x001F, DMI type 9, 17 bytes
+System Slot Information
+	Designation: CPU2 SLOT4 PCI-E 3.0 X4 (IN X8)
+	Type: x4 PCI Express 3 x8
+	Current Usage: Available
+	Length: Short
+	ID: 4
+	Characteristics:
+		3.3 V is provided
+		Opening is shared
+		PME signal is supported
+	Bus Address: 0001:ff:00.0
+
+Handle 0x0020, DMI type 9, 17 bytes
+System Slot Information
+	Designation: CPU1 SLOT5 PCI-E 3.0 X16
+	Type: x16 PCI Express 3 x16
+	Current Usage: Available
+	Length: Short
+	ID: 5
+	Characteristics:
+		3.3 V is provided
+		Opening is shared
+		PME signal is supported
+	Bus Address: 0000:04:00.0
+
+Handle 0x0021, DMI type 9, 17 bytes
+System Slot Information
+	Designation: CPU1 SLOT6 PCI-E 3.0 X8
+	Type: x8 PCI Express 3 x8
+	Current Usage: Available
+	Length: Short
+	ID: 6
+	Characteristics:
+		3.3 V is provided
+		Opening is shared
+		PME signal is supported
+	Bus Address: 0000:03:00.0
+
+Handle 0x0023, DMI type 12, 5 bytes
+System Configuration Options
+	Option 1: To Be Filled By O.E.M.
+
+Handle 0x0024, DMI type 32, 20 bytes
+System Boot Information
+	Status: No errors detected
+
+Handle 0x0054, DMI type 41, 11 bytes
+Onboard Device
+	Reference Designation: ASPEED Video AST2400
+	Type: Video
+	Status: Enabled
+	Type Instance: 1
+	Bus Address: 0000:06:00.0
+
+Handle 0x0055, DMI type 41, 11 bytes
+Onboard Device
+	Reference Designation: Intel Ethernet i210 #1
+	Type: Ethernet
+	Status: Enabled
+	Type Instance: 1
+	Bus Address: 0000:07:00.0
+
+Handle 0x0056, DMI type 41, 11 bytes
+Onboard Device
+	Reference Designation: Intel Ethernet i210 #2
+	Type: Ethernet
+	Status: Enabled
+	Type Instance: 2
+	Bus Address: 0000:08:00.0
+
+Handle 0x0058, DMI type 16, 23 bytes
+Physical Memory Array
+	Location: System Board Or Motherboard
+	Use: System Memory
+	Error Correction Type: Multi-bit ECC
+	Maximum Capacity: 128 GB
+	Error Information Handle: Not Provided
+	Number Of Devices: 2
+
+Handle 0x0059, DMI type 17, 34 bytes
+Memory Device
+	Array Handle: 0x0058
+	Error Information Handle: Not Provided
+	Total Width: 72 bits
+	Data Width: 64 bits
+	Size: 8192 MB
+	Form Factor: DIMM
+	Set: None
+	Locator: P1-DIMMA1
+	Bank Locator: P0_Node0_Channel0_Dimm0
+	Type: Other
+	Type Detail: Synchronous
+	Speed: 2133 MT/s
+	Manufacturer: Samsung
+	(Line containing Serial number has been censored)
+	Asset Tag: P1-DIMMA1_AssetTag (date:14/33)
+	Part Number: M393A1G40DB0-CPB
+	Rank: 1
+	Configured Clock Speed: 2133 MT/s
+
+Handle 0x005A, DMI type 17, 34 bytes
+Memory Device
+	Array Handle: 0x0058
+	Error Information Handle: Not Provided
+	Total Width: 72 bits
+	Data Width: 64 bits
+	Size: 8192 MB
+	Form Factor: DIMM
+	Set: None
+	Locator: P1-DIMMB1
+	Bank Locator: P0_Node0_Channel1_Dimm0
+	Type: Other
+	Type Detail: Synchronous
+	Speed: 2133 MT/s
+	Manufacturer: Samsung
+	(Line containing Serial number has been censored)
+	Asset Tag: P1-DIMMB1_AssetTag (date:14/33)
+	Part Number: M393A1G40DB0-CPB
+	Rank: 1
+	Configured Clock Speed: 2133 MT/s
+
+Handle 0x005B, DMI type 16, 23 bytes
+Physical Memory Array
+	Location: System Board Or Motherboard
+	Use: System Memory
+	Error Correction Type: Multi-bit ECC
+	Maximum Capacity: 128 GB
+	Error Information Handle: Not Provided
+	Number Of Devices: 2
+
+Handle 0x005C, DMI type 17, 34 bytes
+Memory Device
+	Array Handle: 0x005B
+	Error Information Handle: Not Provided
+	Total Width: 72 bits
+	Data Width: 64 bits
+	Size: 8192 MB
+	Form Factor: DIMM
+	Set: None
+	Locator: P1-DIMMC1
+	Bank Locator: P0_Node0_Channel2_Dimm0
+	Type: Other
+	Type Detail: Synchronous
+	Speed: 2133 MT/s
+	Manufacturer: Samsung
+	(Line containing Serial number has been censored)
+	Asset Tag: P1-DIMMC1_AssetTag (date:14/33)
+	Part Number: M393A1G40DB0-CPB
+	Rank: 1
+	Configured Clock Speed: 2133 MT/s
+
+Handle 0x005D, DMI type 17, 34 bytes
+Memory Device
+	Array Handle: 0x005B
+	Error Information Handle: Not Provided
+	Total Width: 72 bits
+	Data Width: 64 bits
+	Size: 8192 MB
+	Form Factor: DIMM
+	Set: None
+	Locator: P1-DIMMD1
+	Bank Locator: P0_Node0_Channel3_Dimm0
+	Type: Other
+	Type Detail: Synchronous
+	Speed: 2133 MT/s
+	Manufacturer: Samsung
+	(Line containing Serial number has been censored)
+	Asset Tag: P1-DIMMD1_AssetTag (date:14/33)
+	Part Number: M393A1G40DB0-CPB
+	Rank: 1
+	Configured Clock Speed: 2133 MT/s
+
+Handle 0x005E, DMI type 16, 23 bytes
+Physical Memory Array
+	Location: System Board Or Motherboard
+	Use: System Memory
+	Error Correction Type: Multi-bit ECC
+	Maximum Capacity: 128 GB
+	Error Information Handle: Not Provided
+	Number Of Devices: 2
+
+Handle 0x005F, DMI type 17, 34 bytes
+Memory Device
+	Array Handle: 0x005E
+	Error Information Handle: Not Provided
+	Total Width: 72 bits
+	Data Width: 64 bits
+	Size: 8192 MB
+	Form Factor: DIMM
+	Set: None
+	Locator: P2-DIMME1
+	Bank Locator: P1_Node1_Channel0_Dimm0
+	Type: Other
+	Type Detail: Synchronous
+	Speed: 2133 MT/s
+	Manufacturer: Samsung
+	(Line containing Serial number has been censored)
+	Asset Tag: P2-DIMME1_AssetTag (date:14/33)
+	Part Number: M393A1G40DB0-CPB
+	Rank: 1
+	Configured Clock Speed: 2133 MT/s
+
+Handle 0x0060, DMI type 17, 34 bytes
+Memory Device
+	Array Handle: 0x005E
+	Error Information Handle: Not Provided
+	Total Width: 72 bits
+	Data Width: 64 bits
+	Size: 8192 MB
+	Form Factor: DIMM
+	Set: None
+	Locator: P2-DIMMF1
+	Bank Locator: P1_Node1_Channel1_Dimm0
+	Type: Other
+	Type Detail: Synchronous
+	Speed: 2133 MT/s
+	Manufacturer: Samsung
+	(Line containing Serial number has been censored)
+	Asset Tag: P2-DIMMF1_AssetTag (date:14/33)
+	Part Number: M393A1G40DB0-CPB
+	Rank: 1
+	Configured Clock Speed: 2133 MT/s
+
+Handle 0x0061, DMI type 16, 23 bytes
+Physical Memory Array
+	Location: System Board Or Motherboard
+	Use: System Memory
+	Error Correction Type: Multi-bit ECC
+	Maximum Capacity: 128 GB
+	Error Information Handle: Not Provided
+	Number Of Devices: 2
+
+Handle 0x0062, DMI type 17, 34 bytes
+Memory Device
+	Array Handle: 0x0061
+	Error Information Handle: Not Provided
+	Total Width: 72 bits
+	Data Width: 64 bits
+	Size: 8192 MB
+	Form Factor: DIMM
+	Set: None
+	Locator: P2-DIMMG1
+	Bank Locator: P1_Node1_Channel2_Dimm0
+	Type: Other
+	Type Detail: Synchronous
+	Speed: 2133 MT/s
+	Manufacturer: Samsung
+	(Line containing Serial number has been censored)
+	Asset Tag: P2-DIMMG1_AssetTag (date:14/33)
+	Part Number: M393A1G40DB0-CPB
+	Rank: 1
+	Configured Clock Speed: 2133 MT/s
+
+Handle 0x0063, DMI type 17, 34 bytes
+Memory Device
+	Array Handle: 0x0061
+	Error Information Handle: Not Provided
+	Total Width: 72 bits
+	Data Width: 64 bits
+	Size: 8192 MB
+	Form Factor: DIMM
+	Set: None
+	Locator: P2-DIMMH1
+	Bank Locator: P1_Node1_Channel3_Dimm0
+	Type: Other
+	Type Detail: Synchronous
+	Speed: 2133 MT/s
+	Manufacturer: Samsung
+	(Line containing Serial number has been censored)
+	Asset Tag: P2-DIMMH1_AssetTag (date:14/33)
+	Part Number: M393A1G40DB0-CPB
+	Rank: 1
+	Configured Clock Speed: 2133 MT/s
+
+Handle 0x0070, DMI type 15, 73 bytes
+System Event Log
+	Area Length: 65535 bytes
+	Header Start Offset: 0x0000
+	Header Length: 16 bytes
+	Data Start Offset: 0x0010
+	Access Method: Memory-mapped physical 32-bit address
+	Access Address: 0xFF540000
+	Status: Valid, Not Full
+	Change Token: 0x00000001
+	Header Format: Type 1
+	Supported Log Type Descriptors: 25
+	Descriptor 1: Single-bit ECC memory error
+	Data Format 1: Multiple-event handle
+	Descriptor 2: Multi-bit ECC memory error
+	Data Format 2: Multiple-event handle
+	Descriptor 3: Parity memory error
+	Data Format 3: None
+	Descriptor 4: Bus timeout
+	Data Format 4: None
+	Descriptor 5: I/O channel block
+	Data Format 5: None
+	Descriptor 6: Software NMI
+	Data Format 6: None
+	Descriptor 7: POST memory resize
+	Data Format 7: None
+	Descriptor 8: POST error
+	Data Format 8: POST results bitmap
+	Descriptor 9: PCI parity error
+	Data Format 9: Multiple-event handle
+	Descriptor 10: PCI system error
+	Data Format 10: Multiple-event handle
+	Descriptor 11: CPU failure
+	Data Format 11: None
+	Descriptor 12: EISA failsafe timer timeout
+	Data Format 12: None
+	Descriptor 13: Correctable memory log disabled
+	Data Format 13: None
+	Descriptor 14: Logging disabled
+	Data Format 14: None
+	Descriptor 15: System limit exceeded
+	Data Format 15: None
+	Descriptor 16: Asynchronous hardware timer expired
+	Data Format 16: None
+	Descriptor 17: System configuration information
+	Data Format 17: None
+	Descriptor 18: Hard disk information
+	Data Format 18: None
+	Descriptor 19: System reconfigured
+	Data Format 19: None
+	Descriptor 20: Uncorrectable CPU-complex error
+	Data Format 20: None
+	Descriptor 21: Log area reset/cleared
+	Data Format 21: None
+	Descriptor 22: System boot
+	Data Format 22: None
+	Descriptor 23: End of log
+	Data Format 23: None
+	Descriptor 24: OEM-specific
+	Data Format 24: OEM-specific
+	Descriptor 25: OEM-specific
+	Data Format 25: OEM-specific
+
+Handle 0x0071, DMI type 7, 19 bytes
+Cache Information
+	Socket Designation: CPU Internal L1
+	Configuration: Enabled, Not Socketed, Level 1
+	Operational Mode: Write Back
+	Location: Internal
+	Installed Size: 896 kB
+	Maximum Size: 896 kB
+	Supported SRAM Types:
+		Unknown
+	Installed SRAM Type: Unknown
+	Speed: Unknown
+	Error Correction Type: Parity
+	System Type: Other
+	Associativity: 8-way Set-associative
+
+Handle 0x0072, DMI type 7, 19 bytes
+Cache Information
+	Socket Designation: CPU Internal L2
+	Configuration: Enabled, Not Socketed, Level 2
+	Operational Mode: Write Back
+	Location: Internal
+	Installed Size: 3584 kB
+	Maximum Size: 3584 kB
+	Supported SRAM Types:
+		Unknown
+	Installed SRAM Type: Unknown
+	Speed: Unknown
+	Error Correction Type: Single-bit ECC
+	System Type: Unified
+	Associativity: 8-way Set-associative
+
+Handle 0x0073, DMI type 7, 19 bytes
+Cache Information
+	Socket Designation: CPU Internal L3
+	Configuration: Enabled, Not Socketed, Level 3
+	Operational Mode: Write Back
+	Location: Internal
+	Installed Size: 17920 kB
+	Maximum Size: 17920 kB
+	Supported SRAM Types:
+		Unknown
+	Installed SRAM Type: Unknown
+	Speed: Unknown
+	Error Correction Type: Single-bit ECC
+	System Type: Unified
+	Associativity: 20-way Set-associative
+
+Handle 0x0074, DMI type 4, 42 bytes
+Processor Information
+	Socket Designation: CPU1
+	Type: Central Processor
+	Family: Xeon
+	Manufacturer: Intel
+	ID: F2 06 03 00 FF FB EB BF
+	Signature: Type 0, Family 6, Model 63, Stepping 2
+	Flags:
+		FPU (Floating-point unit on-chip)
+		VME (Virtual mode extension)
+		DE (Debugging extension)
+		PSE (Page size extension)
+		TSC (Time stamp counter)
+		MSR (Model specific registers)
+		PAE (Physical address extension)
+		MCE (Machine check exception)
+		CX8 (CMPXCHG8 instruction supported)
+		APIC (On-chip APIC hardware supported)
+		SEP (Fast system call)
+		MTRR (Memory type range registers)
+		PGE (Page global enable)
+		MCA (Machine check architecture)
+		CMOV (Conditional move instruction supported)
+		PAT (Page attribute table)
+		PSE-36 (36-bit page size extension)
+		CLFSH (CLFLUSH instruction supported)
+		DS (Debug store)
+		ACPI (ACPI supported)
+		MMX (MMX technology supported)
+		FXSR (FXSAVE and FXSTOR instructions supported)
+		SSE (Streaming SIMD extensions)
+		SSE2 (Streaming SIMD extensions 2)
+		SS (Self-snoop)
+		HTT (Multi-threading)
+		TM (Thermal monitor supported)
+		PBE (Pending break enabled)
+	Version: Intel(R) Xeon(R) CPU E5-2695 v3 @ 2.30GHz
+	Voltage: 1.8 V
+	External Clock: 100 MHz
+	Max Speed: 4000 MHz
+	Current Speed: 2300 MHz
+	Status: Populated, Enabled
+	Upgrade: Socket LGA2011-3
+	L1 Cache Handle: 0x0071
+	L2 Cache Handle: 0x0072
+	L3 Cache Handle: 0x0073
+	(Line containing Serial number has been censored)
+	Asset Tag: Not Specified
+	Part Number: Not Specified
+	Core Count: 14
+	Core Enabled: 14
+	Thread Count: 28
+	Characteristics:
+		64-bit capable
+		Multi-Core
+		Hardware Thread
+		Execute Protection
+		Enhanced Virtualization
+		Power/Performance Control
+
+Handle 0x0075, DMI type 7, 19 bytes
+Cache Information
+	Socket Designation: CPU Internal L1
+	Configuration: Enabled, Not Socketed, Level 1
+	Operational Mode: Write Back
+	Location: Internal
+	Installed Size: 896 kB
+	Maximum Size: 896 kB
+	Supported SRAM Types:
+		Unknown
+	Installed SRAM Type: Unknown
+	Speed: Unknown
+	Error Correction Type: Parity
+	System Type: Other
+	Associativity: 8-way Set-associative
+
+Handle 0x0076, DMI type 7, 19 bytes
+Cache Information
+	Socket Designation: CPU Internal L2
+	Configuration: Enabled, Not Socketed, Level 2
+	Operational Mode: Write Back
+	Location: Internal
+	Installed Size: 3584 kB
+	Maximum Size: 3584 kB
+	Supported SRAM Types:
+		Unknown
+	Installed SRAM Type: Unknown
+	Speed: Unknown
+	Error Correction Type: Single-bit ECC
+	System Type: Unified
+	Associativity: 8-way Set-associative
+
+Handle 0x0077, DMI type 7, 19 bytes
+Cache Information
+	Socket Designation: CPU Internal L3
+	Configuration: Enabled, Not Socketed, Level 3
+	Operational Mode: Write Back
+	Location: Internal
+	Installed Size: 17920 kB
+	Maximum Size: 17920 kB
+	Supported SRAM Types:
+		Unknown
+	Installed SRAM Type: Unknown
+	Speed: Unknown
+	Error Correction Type: Single-bit ECC
+	System Type: Unified
+	Associativity: 20-way Set-associative
+
+Handle 0x0078, DMI type 4, 42 bytes
+Processor Information
+	Socket Designation: CPU2
+	Type: Central Processor
+	Family: Xeon
+	Manufacturer: Intel
+	ID: F2 06 03 00 FF FB EB BF
+	Signature: Type 0, Family 6, Model 63, Stepping 2
+	Flags:
+		FPU (Floating-point unit on-chip)
+		VME (Virtual mode extension)
+		DE (Debugging extension)
+		PSE (Page size extension)
+		TSC (Time stamp counter)
+		MSR (Model specific registers)
+		PAE (Physical address extension)
+		MCE (Machine check exception)
+		CX8 (CMPXCHG8 instruction supported)
+		APIC (On-chip APIC hardware supported)
+		SEP (Fast system call)
+		MTRR (Memory type range registers)
+		PGE (Page global enable)
+		MCA (Machine check architecture)
+		CMOV (Conditional move instruction supported)
+		PAT (Page attribute table)
+		PSE-36 (36-bit page size extension)
+		CLFSH (CLFLUSH instruction supported)
+		DS (Debug store)
+		ACPI (ACPI supported)
+		MMX (MMX technology supported)
+		FXSR (FXSAVE and FXSTOR instructions supported)
+		SSE (Streaming SIMD extensions)
+		SSE2 (Streaming SIMD extensions 2)
+		SS (Self-snoop)
+		HTT (Multi-threading)
+		TM (Thermal monitor supported)
+		PBE (Pending break enabled)
+	Version: Intel(R) Xeon(R) CPU E5-2695 v3 @ 2.30GHz
+	Voltage: 1.8 V
+	External Clock: 100 MHz
+	Max Speed: 4000 MHz
+	Current Speed: 2300 MHz
+	Status: Populated, Enabled
+	Upgrade: Socket LGA2011-3
+	L1 Cache Handle: 0x0075
+	L2 Cache Handle: 0x0076
+	L3 Cache Handle: 0x0077
+	(Line containing Serial number has been censored)
+	Asset Tag: Not Specified
+	Part Number: Not Specified
+	Core Count: 14
+	Core Enabled: 14
+	Thread Count: 28
+	Characteristics:
+		64-bit capable
+		Multi-Core
+		Hardware Thread
+		Execute Protection
+		Enhanced Virtualization
+		Power/Performance Control
+
+Handle 0x0079, DMI type 13, 22 bytes
+BIOS Language Information
+	Language Description Format: Long
+	Installable Languages: 1
+		en|US|iso8859-1
+	Currently Installed Language: en|US|iso8859-1
+
+
+################################################################################
+# environment variables
+################################################################################
+PBS_ENVIRONMENT=PBS_BATCH
+LS_COLORS=
+LD_LIBRARY_PATH=/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/compiler/lib/intel64:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/compiler/lib/intel64_lin:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/ipp/lib/intel64:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/tbb/lib/intel64/gcc4.7:/apps/intel/ComposerXE2019/debugger_2019/libipt/intel64/lib:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/daal/lib/intel64_lin:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/tbb/lib/intel64_lin/gcc4.4:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mkl/lib/intel64_lin:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mpi/intel64/libfabric/lib:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mpi/intel64/lib/release:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mpi/intel64/lib:/mnt/opt/likwid-4.3.4/lib
+PBS_O_LANG=en_US
+MKL_INC=-I/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mkl/include
+INCLUDE=/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mkl/include
+LESSCLOSE=/bin/lesspipe %s %s
+MKL_SHLIB=-L/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mkl/lib/intel64_lin -lmkl_intel_lp64 -lmkl_sequential -lmkl_core -lpthread -lm
+LESS=-R
+LIKWID_LIBDIR=/mnt/opt/likwid-4.3.4/lib
+I_MPI_JOB_RESPECT_PROCESS_PLACEMENT=off
+IPPROOT=/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/ipp
+OLDPWD=/home/hpc/iwia/iwia84/INSPECT-repo/stencils/3D_r2_homogeneous_star_variable/HaswellEP_E5-2695v3_CoD_20190424_065922
+PBS_O_HOME=/home/hpc/iwia/iwia84
+MPICHHOME=/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mpi/intel64
+RRZECLUSTER=TESTCLUSTER
+EDITOR=nano
+PBS_JOBID=3116.catstor
+ENVIRONMENT=BATCH
+PATH_modshare=/usr/bin/vendor_perl:999999999:/home/julian/.local/.bin:999999999:/opt/android-sdk/tools:999999999:/usr/bin:1:/mnt/opt/likwid-4.3.4/sbin:1:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mpi/intel64/bin:1:/usr/local/bin:999999999:/opt/android-sdk/platform-tools:999999999:/usr/bin/core_perl:999999999:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/bin/intel64:1:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mpi/rrze-bin-intel:1:/mnt/opt/likwid-4.3.4/bin:1:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mpi/intel64/libfabric/bin:1:/home/julian/.bin:999999999:/bin:1:/apps/python/3.6-anaconda/bin:1:/opt/intel/bin:999999999
+MPIHOME=/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mpi/intel64
+LOADEDMODULES_modshare=intel64/19.0up02:1:intelmpi/2019up02-intel:1:python/3.6-anaconda:1:mkl/2019up02:1:likwid/4.3.4:1:pbspro/default:2
+PBS_JOBNAME=HWL_stempel_bench
+FPATH=/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mkl/include
+NCPUS=56
+FPATH_modshare=/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mkl/include:1
+INTEL_F_HOME=/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/compiler
+CPATH_modshare=/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/ipp/include:1:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/daal/include:1:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/pstl/include:1:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/tbb/include:1:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mkl/include:1
+WOODYHOME=/home/woody/iwia/iwia84
+PBS_O_PATH=/mnt/opt/pbspro/default/bin:/bin:/usr/bin:/usr/local/bin:/opt/android-sdk/platform-tools:/opt/android-sdk/tools:/usr/bin/vendor_perl:/usr/bin/core_perl:/opt/intel/bin:/home/julian/.bin:/home/julian/.local/.bin
+LIKWID_FORCE=1
+FI_PROVIDER_PATH=/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mpi/intel64/libfabric/lib/prov
+INTEL_PYTHONHOME=/apps/intel/ComposerXE2019/debugger_2019/python/intel64/
+MKL_INCDIR=/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mkl/include
+LD_LIBRARY_PATH_modshare=/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/tbb/lib/intel64/gcc4.7:1:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mpi/intel64/lib:1:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mpi/intel64/lib/release:1:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/ipp/lib/intel64:1:/mnt/opt/likwid-4.3.4/lib:1:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mpi/intel64/libfabric/lib:1:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/compiler/lib/intel64:1:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/daal/lib/intel64_lin:1:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/compiler/lib/intel64_lin:1:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mkl/lib/intel64_lin:1:/apps/intel/ComposerXE2019/debugger_2019/libipt/intel64/lib:1:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/tbb/lib/intel64_lin/gcc4.4:1
+LESS_TERMCAP_so=[1;44;1m
+CLASSPATH=/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/daal/lib/daal.jar:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mpi/intel64/lib/mpi.jar
+PBS_CONF_FILE=/etc/pbspro.conf
+LESS_TERMCAP_se=[0m
+LIBRARY_PATH_modshare=/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/ipp/lib/intel64:1:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/compiler/lib/intel64_lin:1:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/tbb/lib/intel64/gcc4.7:1:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mkl/lib/intel64_lin:1:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/daal/lib/intel64_lin:1:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/tbb/lib/intel64_lin/gcc4.4:1
+PBS_O_WORKDIR=/home/hpc/iwia/iwia84/INSPECT
+USER=iwia84
+MPIINCDIR=/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mpi/intel64/include
+I_MPI_HARD_FINALIZE=1
+NLSPATH_modshare=/apps/intel/ComposerXE2019/debugger_2019/gdb/intel64/share/locale/%l_%t/%N:1:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mkl/lib/intel64_lin/locale/%l_%t/%N:1:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/compiler/lib/intel64/locale/%l_%t/%N:1
+PBS_NODEFILE=/var/spool/pbspro/aux/3116.catstor
+GROUP=iwia
+PBS_TASKNUM=1
+LIKWID_DEFINES=-DLIKWID_PERFMON
+PWD=/home/hpc/iwia/iwia84/INSPECT-repo/stencils/3D_r2_point-symmetric_star_variable/HaswellEP_E5-2695v3_CoD_20190424_093149
+HOME=/home/hpc/iwia/iwia84
+LIKWID_LIB=-L/mnt/opt/likwid-4.3.4/lib
+CLASSPATH_modshare=/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/daal/lib/daal.jar:1:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mpi/intel64/lib/mpi.jar:1
+CPATH=/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/ipp/include:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/pstl/include:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/tbb/include:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/daal/include:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mkl/include
+PBS_MOMPORT=15003
+LIKWID_INCDIR=/mnt/opt/likwid-4.3.4/include
+_LMFILES__modshare=/apps/modules/modulefiles/tools/python/3.6-anaconda:1:/apps/modules/modulefiles/libraries/mkl/2019up02:2:/opt/modules/modulefiles/testcluster/likwid/4.3.4:1:/opt/modules/modulefiles/testcluster/pbspro/default:2:/apps/modules/modulefiles/development/intelmpi/2019up02-intel:1
+NLSPATH=/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/compiler/lib/intel64/locale/%l_%t/%N:/apps/intel/ComposerXE2019/debugger_2019/gdb/intel64/share/locale/%l_%t/%N:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mkl/lib/intel64_lin/locale/%l_%t/%N
+PBS_JOBCOOKIE=68A2786679F5749D377672BA16A6A1AB
+MKL_LIBDIR=/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mkl/lib/intel64_lin
+PBS_O_SHELL=/bin/bash
+MPIINC=-I/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mpi/intel64/include
+MKL_LIB_THREADED=-Wl,--start-group  /apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mkl/lib/intel64_lin/libmkl_intel_lp64.a /apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mkl/lib/intel64_lin/libmkl_intel_thread.a /apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mkl/lib/intel64_lin/libmkl_core.a -Wl,--end-group -lpthread -lm -openmp
+LESS_TERMCAP_mb=[1;32m
+LESS_TERMCAP_md=[1;34m
+LESS_TERMCAP_me=[0m
+TMPDIR=/scratch/pbs.3116.catstor
+LIBRARY_PATH=/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/ipp/lib/intel64:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/compiler/lib/intel64_lin:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/tbb/lib/intel64/gcc4.7:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/daal/lib/intel64_lin:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/tbb/lib/intel64_lin/gcc4.4:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mkl/lib/intel64_lin
+LIKWID_INC=-I/mnt/opt/likwid-4.3.4/include
+LOADEDMODULES=pbspro/default:likwid/4.3.4:intelmpi/2019up02-intel:mkl/2019up02:intel64/19.0up02:python/3.6-anaconda
+DAALROOT=/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/daal
+MPILIB=-L/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mpi/intel64/lib
+PBS_CONF=/etc/pbspro.conf
+INTEL_LICENSE_FILE=1713@license4
+PBS_O_QUEUE=route
+MKL_CDFT=-Wl,--start-group  /apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mkl/lib/intel64_lin/libmkl_cdft_core.a /apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mkl/lib/intel64_lin/libmkl_intel_lp64.a /apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mkl/lib/intel64_lin/libmkl_intel_thread.a /apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mkl/lib/intel64_lin/libmkl_core.a /apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mkl/lib/intel64_lin/libmkl_blacs_intelmpi_lp64.a -Wl,--end-group -lpthread -lm -openmp
+SHELL=/bin/bash
+MKL_BASE=/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mkl
+MANPATH_modshare=:1:/mnt/opt/pbspro/default/man:2:/apps/python/3.6-anaconda/share/man:1:/apps/intel/ComposerXE2019/documentation_2019/en/debugger/gdb-ia/man/:1:/apps/intel/ComposerXE2019/man/common:2:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mpi/man:2:/apps/intel/mpi/man:1:/mnt/opt/likwid-4.3.4/man:1
+MKL_SLIB_THREADED=-Wl,--start-group -lmkl_intel_lp64 -lmkl_intel_thread -lmkl_core -Wl,--end-group -lpthread -lm -openmp
+MKLPATH=/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mkl/lib/intel64_lin
+GDK_USE_XFT=1
+TMOUT=3660
+SHLVL=3
+PBS_O_HOST=testfront1.rrze.uni-erlangen.de
+INTEL_C_HOME=/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/compiler
+PBS_O_SYSTEM=Linux
+MANPATH=/apps/python/3.6-anaconda/share/man:/apps/intel/ComposerXE2019/documentation_2019/en/debugger/gdb-ia/man/:/apps/intel/ComposerXE2019/man/common::/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mpi/man:/apps/intel/mpi/man:/mnt/opt/likwid-4.3.4/man:/mnt/opt/pbspro/default/man
+MKL_LIB=-Wl,--start-group /apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mkl/lib/intel64_lin/libmkl_intel_lp64.a /apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mkl/lib/intel64_lin/libmkl_sequential.a /apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mkl/lib/intel64_lin/libmkl_core.a -Wl,--end-group -lpthread -lm
+PBS_O_LOGNAME=iwia84
+PBS_NODENUM=0
+MODULEPATH=/opt/modules/modulefiles/testcluster:/apps/modules/modulefiles/applications:/apps/modules/modulefiles/development:/apps/modules/modulefiles/libraries:/apps/modules/modulefiles/tools:/apps/modules/modulefiles/deprecated:/apps/modules/modulefiles/testing
+PBS_JOBDIR=/home/hpc/iwia/iwia84
+MPIROOTDIR=/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mpi/intel64
+LOGNAME=iwia84
+MKLROOT=/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mkl
+MODULEPATH_modshare=/apps/modules/modulefiles/testing:2:/apps/modules/modulefiles/development:2:/apps/modules/modulefiles/applications:2:/opt/modules/modulefiles/testcluster:2:/apps/modules/modulefiles/deprecated:2:/apps/modules/modulefiles/tools:2:/apps/modules/modulefiles/libraries:2
+LESS_TERMCAP_ue=[0m
+PSTLROOT=/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/pstl
+LESS_TERMCAP_us=[1;32m
+PATH=/apps/python/3.6-anaconda/bin:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/bin/intel64:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mpi/rrze-bin-intel:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mpi/intel64/bin:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mpi/intel64/libfabric/bin:/mnt/opt/likwid-4.3.4/sbin:/mnt/opt/likwid-4.3.4/bin:/bin:/usr/bin:/usr/local/bin:/opt/android-sdk/platform-tools:/opt/android-sdk/tools:/usr/bin/vendor_perl:/usr/bin/core_perl:/opt/intel/bin:/home/julian/.bin:/home/julian/.local/.bin
+TBBROOT=/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/tbb
+_LMFILES_=/opt/modules/modulefiles/testcluster/pbspro/default:/opt/modules/modulefiles/testcluster/likwid/4.3.4:/apps/modules/modulefiles/development/intelmpi/2019up02-intel:/apps/modules/modulefiles/libraries/mkl/2019up02:/apps/modules/modulefiles/tools/python/3.6-anaconda
+PBS_QUEUE=work
+MODULESHOME=/apps/modules
+INFOPATH=/apps/intel/ComposerXE2019/documentation_2019/en/debugger/gdb-ia/info/
+INFOPATH_modshare=/apps/intel/ComposerXE2019/documentation_2019/en/debugger/gdb-ia/info/:1
+I_MPI_ROOT=/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mpi
+QT_XFT=true
+INTEL_LICENSE_FILE_modshare=1713@license4:1
+GCC_COLORS=error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01
+MKL_SCALAPACK=/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mkl/lib/intel64_lin/libmkl_scalapack_lp64.a -Wl,--start-group  /apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mkl/lib/intel64_lin/libmkl_intel_lp64.a /apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mkl/lib/intel64_lin/libmkl_intel_thread.a /apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mkl/lib/intel64_lin/libmkl_core.a /apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mkl/lib/intel64_lin/libmkl_blacs_intelmpi_lp64.a -Wl,--end-group -lpthread -lm -openmp
+LESSOPEN=| /bin/lesspipe %s
+OMP_NUM_THREADS=1
+PBS_O_MAIL=/var/mail/iwia84
+_=/usr/bin/env
+</code></pre></div>      </div>
+    </div>
   </div>
 
 </div>
