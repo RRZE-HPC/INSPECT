@@ -9,7 +9,7 @@ kind         : "star"
 coefficients : "constant"
 datatype     : "double"
 machine      : "HaswellEP_E5-2695v3_CoD"
-flavor       : "EDIT_ME"
+flavor       : "Cluster on Die"
 compile_flags: "icc -O3 -xCORE-AVX2 -fno-alias -qopenmp -qopenmp -DLIKWID_PERFMON -Ilikwid-4.3.4/include -Llikwid-4.3.4/lib -I/headers/dummy.c stencil_compilable.c -o stencil -llikwid"
 flop         : "25"
 scaling      : [ "940" ]
@@ -361,11 +361,11 @@ node 3 cpus: 21 22 23 24 25 26 27 49 50 51 52 53 54 55
 node 3 size: 16124 MB
 node 3 free: 15762 MB
 node distances:
-node   0   1   2   3 
-  0:  10  21  31  31 
-  1:  21  10  31  31 
-  2:  31  31  10  21 
-  3:  31  31  21  10 
+node   0   1   2   3
+  0:  10  21  31  31
+  1:  21  10  31  31
+  2:  31  31  10  21
+  3:  31  31  21  10
 
 ################################################################################
 # Frequencies
@@ -435,26 +435,26 @@ Socket 1: min/max 2.3/2.3 GHz
 ################################################################################
 # Prefetchers
 ################################################################################
-Feature               CPU 0	CPU 28	CPU 1	CPU 29	CPU 2	CPU 30	CPU 3	CPU 31	CPU 4	CPU 32	CPU 5	CPU 33	CPU 6	CPU 34	CPU 7	CPU 35	CPU 8	CPU 36	CPU 9	CPU 37	CPU 10	CPU 38	CPU 11	CPU 39	CPU 12	CPU 40	CPU 13	CPU 41	CPU 14	CPU 42	CPU 15	CPU 43	CPU 16	CPU 44	CPU 17	CPU 45	CPU 18	CPU 46	CPU 19	CPU 47	CPU 20	CPU 48	CPU 21	CPU 49	CPU 22	CPU 50	CPU 23	CPU 51	CPU 24	CPU 52	CPU 25	CPU 53	CPU 26	CPU 54	CPU 27	CPU 55	
-HW_PREFETCHER         on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	
-CL_PREFETCHER         on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	
-DCU_PREFETCHER        on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	
-IP_PREFETCHER         on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	
-FAST_STRINGS          on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	
-THERMAL_CONTROL       on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	
-PERF_MON              on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	
-FERR_MULTIPLEX        off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	
-BRANCH_TRACE_STORAGE  on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	
-XTPR_MESSAGE          off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	
-PEBS                  on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	
-SPEEDSTEP             on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	
-MONITOR               on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	
-SPEEDSTEP_LOCK        off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	
-CPUID_MAX_VAL         off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	
-XD_BIT                on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	
-DYN_ACCEL             off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	
-TURBO_MODE            off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	
-TM2                   off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	
+Feature               CPU 0	CPU 28	CPU 1	CPU 29	CPU 2	CPU 30	CPU 3	CPU 31	CPU 4	CPU 32	CPU 5	CPU 33	CPU 6	CPU 34	CPU 7	CPU 35	CPU 8	CPU 36	CPU 9	CPU 37	CPU 10	CPU 38	CPU 11	CPU 39	CPU 12	CPU 40	CPU 13	CPU 41	CPU 14	CPU 42	CPU 15	CPU 43	CPU 16	CPU 44	CPU 17	CPU 45	CPU 18	CPU 46	CPU 19	CPU 47	CPU 20	CPU 48	CPU 21	CPU 49	CPU 22	CPU 50	CPU 23	CPU 51	CPU 24	CPU 52	CPU 25	CPU 53	CPU 26	CPU 54	CPU 27	CPU 55
+HW_PREFETCHER         on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on
+CL_PREFETCHER         on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on
+DCU_PREFETCHER        on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on
+IP_PREFETCHER         on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on
+FAST_STRINGS          on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on
+THERMAL_CONTROL       on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on
+PERF_MON              on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on
+FERR_MULTIPLEX        off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off
+BRANCH_TRACE_STORAGE  on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on
+XTPR_MESSAGE          off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off
+PEBS                  on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on
+SPEEDSTEP             on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on
+MONITOR               on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on
+SPEEDSTEP_LOCK        off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off
+CPUID_MAX_VAL         off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off
+XD_BIT                on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on
+DYN_ACCEL             off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off
+TURBO_MODE            off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off
+TM2                   off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off
 
 ################################################################################
 # Load
@@ -966,7 +966,7 @@ Memory Device
 	Manufacturer: Samsung
 	(Line containing Serial number has been censored)
 	Asset Tag: P1-DIMMA1_AssetTag (date:14/33)
-	Part Number: M393A1G40DB0-CPB   
+	Part Number: M393A1G40DB0-CPB
 	Rank: 1
 	Configured Clock Speed: 2133 MT/s
 
@@ -987,7 +987,7 @@ Memory Device
 	Manufacturer: Samsung
 	(Line containing Serial number has been censored)
 	Asset Tag: P1-DIMMB1_AssetTag (date:14/33)
-	Part Number: M393A1G40DB0-CPB   
+	Part Number: M393A1G40DB0-CPB
 	Rank: 1
 	Configured Clock Speed: 2133 MT/s
 
@@ -1017,7 +1017,7 @@ Memory Device
 	Manufacturer: Samsung
 	(Line containing Serial number has been censored)
 	Asset Tag: P1-DIMMC1_AssetTag (date:14/33)
-	Part Number: M393A1G40DB0-CPB   
+	Part Number: M393A1G40DB0-CPB
 	Rank: 1
 	Configured Clock Speed: 2133 MT/s
 
@@ -1038,7 +1038,7 @@ Memory Device
 	Manufacturer: Samsung
 	(Line containing Serial number has been censored)
 	Asset Tag: P1-DIMMD1_AssetTag (date:14/33)
-	Part Number: M393A1G40DB0-CPB   
+	Part Number: M393A1G40DB0-CPB
 	Rank: 1
 	Configured Clock Speed: 2133 MT/s
 
@@ -1068,7 +1068,7 @@ Memory Device
 	Manufacturer: Samsung
 	(Line containing Serial number has been censored)
 	Asset Tag: P2-DIMME1_AssetTag (date:14/33)
-	Part Number: M393A1G40DB0-CPB   
+	Part Number: M393A1G40DB0-CPB
 	Rank: 1
 	Configured Clock Speed: 2133 MT/s
 
@@ -1089,7 +1089,7 @@ Memory Device
 	Manufacturer: Samsung
 	(Line containing Serial number has been censored)
 	Asset Tag: P2-DIMMF1_AssetTag (date:14/33)
-	Part Number: M393A1G40DB0-CPB   
+	Part Number: M393A1G40DB0-CPB
 	Rank: 1
 	Configured Clock Speed: 2133 MT/s
 
@@ -1119,7 +1119,7 @@ Memory Device
 	Manufacturer: Samsung
 	(Line containing Serial number has been censored)
 	Asset Tag: P2-DIMMG1_AssetTag (date:14/33)
-	Part Number: M393A1G40DB0-CPB   
+	Part Number: M393A1G40DB0-CPB
 	Rank: 1
 	Configured Clock Speed: 2133 MT/s
 
@@ -1140,7 +1140,7 @@ Memory Device
 	Manufacturer: Samsung
 	(Line containing Serial number has been censored)
 	Asset Tag: P2-DIMMH1_AssetTag (date:14/33)
-	Part Number: M393A1G40DB0-CPB   
+	Part Number: M393A1G40DB0-CPB
 	Rank: 1
 	Configured Clock Speed: 2133 MT/s
 
