@@ -26,7 +26,7 @@ WEIGHTING="isotropic heterogeneous"
 DATATYPE=double
 
 # load modules (this is an example for the RRZE testcluster)
-module load likwid/4.3.3 intel64/19.0up02 python/3.6-anaconda
+module load likwid/4.3.4 intel64/19.0up02 python/3.6-anaconda
 
 STEMPEL_BINARY=~/.local/bin/stempel
 KERNCRAFT_BINARY=~/.local/bin/kerncraft
