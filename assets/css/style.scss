@@ -603,21 +603,6 @@ footer {
   overflow: hidden;
 }
 
-#navigation select {
-  border: 1px solid #bbb;
-  border-radius: 2px;
-  box-shadow: inset 0px 1px 0px rgba(255, 255, 255, .4), 0px 1px 1px rgba(0, 0, 0, .1);
-  padding: 4px 8px;
-  margin-top: 5px;
-  line-height: 14px;
-  font-size: 14px;
-  background-color: #ddd;
-  color: #333;
-  font-weight: bold;
-  display: inline-block;
-  text-align: center;
-}
-
 .highlight .err {
   color: #efefef;
   background-color: transparent;
@@ -642,14 +627,102 @@ footer {
 
 #navigation {
   overflow: hidden;
-}
 
-#navigation details details {
-  margin-left: 15px;
-}
+  select {
+    border: 1px solid #bbb;
+    border-radius: 2px;
+    box-shadow: inset 0px 1px 0px rgba(255, 255, 255, .4), 0px 1px 1px rgba(0, 0, 0, .1);
+    padding: 4px 8px;
+    margin-top: 5px;
+    line-height: 14px;
+    font-size: 14px;
+    background-color: #ddd;
+    color: #333;
+    font-weight: bold;
+    display: inline-block;
+    text-align: center;
+  }
 
-#navigation details ul {
-  padding-inline-start: 15px;
+  details {
+    margin-left: 6px;
+    padding-left: 15px;
+    border-left: 2px solid black;
+    background-image: url({{ '/assets/img/navigation-dash.png' | relative_url }});
+    background-repeat: no-repeat;
+    padding-bottom: 10px;
+
+    &:last-child {
+      background-image: url({{ '/assets/img/navigation-L.png' | relative_url }});
+      background-repeat: no-repeat;
+      border-left: 0px solid transparent;
+      padding-left: 17px;
+      margin-bottom: -10px;
+    }
+
+    summary {
+      line-height: 20px;
+
+      &::-webkit-details-marker {
+        display: none;
+      }
+
+      &:after {
+        content: url({{ '/assets/img/checkbox-plus.png' | relative_url }});
+        float: left;
+        margin-right: 10px;
+        line-height: 20px;
+        width: 15px;
+        height: 20px;
+      }
+
+    }
+
+    &[open] {
+      margin-bottom: -10px;
+
+      & > summary:after {
+        content: url({{ '/assets/img/checkbox-minus.png' | relative_url }});
+      }
+
+    }
+
+    ul {
+      padding-inline-start: 15px;
+      margin-left: 6px;
+      padding-left: 15px;
+      background-image: url({{ '/assets/img/navigation-T.png' | relative_url }});
+      background-repeat: no-repeat;
+
+      &:last-child, li:last-child {
+        background-image: url({{ '/assets/img/navigation-L.png' | relative_url }});
+        background-repeat: no-repeat;
+      }
+
+      li:before {
+        content: none;
+      }
+
+      li:only-child {
+        background-image: none !important;
+      }
+
+      li {
+        background-image: url({{ '/assets/img/navigation-T.png' | relative_url }});
+        background-repeat: no-repeat;
+        padding-left: 20px;
+        margin-left: -15px;
+        line-height: 20px;
+      }
+
+      li:first-child {
+        background-image: url({{ '/assets/img/navigation-L-first.png' | relative_url }});
+        background-repeat: no-repeat;
+      }
+
+    }
+
+  }
+
 }
 
 [class^=select_] {
