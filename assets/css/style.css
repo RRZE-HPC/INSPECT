@@ -332,8 +332,6 @@ footer .fork { padding: 10px 12px 10px 42px; width: 80px; line-height: 14px; fon
 
 #navigationbar { overflow: hidden; }
 
-#navigation select { border: 1px solid #bbb; border-radius: 2px; box-shadow: inset 0px 1px 0px rgba(255, 255, 255, 0.4), 0px 1px 1px rgba(0, 0, 0, 0.1); padding: 4px 8px; margin-top: 5px; line-height: 14px; font-size: 14px; background-color: #ddd; color: #333; font-weight: bold; display: inline-block; text-align: center; }
-
 .highlight .err { color: #efefef; background-color: transparent; }
 
 .nav-selection { float: left; padding: 2px 5px; }
@@ -342,10 +340,20 @@ footer .fork { padding: 10px 12px 10px 42px; width: 80px; line-height: 14px; fon
 #navbar:hover { text-decoration: underline; }
 
 #navigation { overflow: hidden; }
-
-#navigation details details { margin-left: 15px; }
-
-#navigation details ul { padding-inline-start: 15px; }
+#navigation select { border: 1px solid #bbb; border-radius: 2px; box-shadow: inset 0px 1px 0px rgba(255, 255, 255, 0.4), 0px 1px 1px rgba(0, 0, 0, 0.1); padding: 4px 8px; margin-top: 5px; line-height: 14px; font-size: 14px; background-color: #ddd; color: #333; font-weight: bold; display: inline-block; text-align: center; }
+#navigation details { margin-left: 6px; padding-left: 15px; border-left: 2px solid black; background-image: url(/INSPECT/assets/img/navigation-dash.png); background-repeat: no-repeat; padding-bottom: 10px; }
+#navigation details:last-child { background-image: url(/INSPECT/assets/img/navigation-L.png); background-repeat: no-repeat; border-left: 0px solid transparent; padding-left: 17px; margin-bottom: -10px; }
+#navigation details summary { line-height: 20px; }
+#navigation details summary::-webkit-details-marker { display: none; }
+#navigation details summary:after { content: url(/INSPECT/assets/img/checkbox-plus.png); float: left; margin-right: 10px; line-height: 20px; width: 15px; height: 20px; }
+#navigation details[open] { margin-bottom: -10px; }
+#navigation details[open] > summary:after { content: url(/INSPECT/assets/img/checkbox-minus.png); }
+#navigation details ul { padding-inline-start: 15px; margin-left: 6px; padding-left: 15px; background-image: url(/INSPECT/assets/img/navigation-T.png); background-repeat: no-repeat; }
+#navigation details ul:last-child, #navigation details ul li:last-child { background-image: url(/INSPECT/assets/img/navigation-L.png); background-repeat: no-repeat; }
+#navigation details ul li:before { content: none; }
+#navigation details ul li:only-child { background-image: none !important; }
+#navigation details ul li { background-image: url(/INSPECT/assets/img/navigation-T.png); background-repeat: no-repeat; padding-left: 20px; margin-left: -15px; line-height: 20px; }
+#navigation details ul li:first-child { background-image: url(/INSPECT/assets/img/navigation-L-first.png); background-repeat: no-repeat; }
 
 [class^=select_] { display: inline; }
 
