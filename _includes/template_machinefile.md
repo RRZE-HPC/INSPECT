@@ -3,7 +3,17 @@
 
 # {{file["model name"]}}
 
+{% assign com = site.data.comments.machine_files[page.machine] %}
+{% if com %}
 <div markdown="1" class="section-block-full">
+<div markdown="1" class="section-block-half">
+{% include template_comment.md comment=com.comment author=com.author review=com.review uptodate=True %}
+</div>
+</div>
+{% endif %}
+
+<div markdown="1" class="section-block-full">
+
 <div markdown="1" class="section-block-half">
 
 ## General

@@ -61,10 +61,4 @@ var layout = {
 var config = {locale: 'en'};
 Plotly.newPlot('scaling', data, layout, config);
 </script>
-
-{% assign com = site.data.comments.stencils[page.dimension][page.radius][page.weighting][page.kind][page.coefficients][page.datatype][page.machine]["scaling_{{include.type}}.svg"] %}
-
-{% if com %}
-{% include template_comment.md comment=com.comment author=com.author review=com.review uptodate=com.uptodate %}
-{% endif %}
 </div>

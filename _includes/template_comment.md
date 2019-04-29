@@ -20,9 +20,6 @@
 {% assign outofdate = '' %}
 {% endif %}
 
-<img src="{{site.baseurl}}/assets/img/{{avatar_img}}" class="comment_bubble_img" />
-<blockquote markdown="1" class="comment_bubble{{outofdate}}" >
-
 {% capture color %}{% if include.review != null %}{{include.review}}{% else %}gray{% endif %}{% endcapture %}
 
 {% if include.review == 'green' %}
@@ -32,8 +29,12 @@
 {% elsif include.review == 'red' %}
 {% assign review_desc = 'Something is wrong...' %}
 {% else %}
-{% assign review_desc = "Data has not been manually reviewd yet." %}
+{% assign review_desc = "Data has not been manually reviewed yet." %}
 {% endif %}
+
+{% if include.comment and include.author %}
+<img src="{{site.baseurl}}/assets/img/{{avatar_img}}" class="comment_bubble_img" />
+<blockquote markdown="1" class="comment_bubble{{outofdate}}" >
 
 <svg class="svg" height="18" width="18">
 	<title>{{review_desc}}</title>
@@ -43,19 +44,25 @@
 <p class="comment_author">{{author_name}} says:</p>
 <p class="comment"><i>{{include.comment}}</i></p>
 
-{% if include.uptodate == false %}
-<hr />
-<span class="warning">
-Comment was submitted for a previous version of the shown data.
-</span>
-{% endif %}
-
 {% capture issue_title %}Stencil:%20{{page.dimension}}%20{{page.radius}}%20{{page.weighting}}%20{{page.kind}}%20{{page.coefficients}}%20{{page.datatype}}%20{{page.machine}}{% assign flavor_size = {{page.flavor | size}} %}{% if flavor_size != 0 %}%20{{page.flavor}}{% endif %}{% endcapture %}
 {% capture issue_info %}{{include.comment}}{% endcapture %}
 {% capture link %}https://github.com/RRZE-HPC/stempel_data_collection/issues/new?labels[]=Stencil%20Comment%20Management&labels[]=[Type]%20Bug&title={{issue_title}}&milestone=People%20Management:%20m6&assignee=ebinnion&body={{issue_info}}{% endcapture %}
 
-<a href="{{link}}"><img src="{{site.baseurl}}/assets/img/edit.svg" style="position:absolute;right:5px;bottom:5px;height:18px;width:18px" /></a>
+{% if include.uptodate == false %}
+
+<span class="warning">
+Comment references a previous version of the shown data. Might be outdated.
+</span>
+{% endif %}
+<a href="{{link}}"><img src="{{site.baseurl}}/assets/img/edit.svg" class="edit" /></a>
 
 </blockquote>
+<br/>
+{% else %}
+Review status: <svg height="18" width="18">
+	<title>{{review_desc}}</title>
+	<circle cx="9" cy="9" r="8" stroke="black" stroke-width="1" fill="{{color}}" />
+</svg>
+{% endif %}
 </div>
 {% endif %}

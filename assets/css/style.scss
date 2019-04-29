@@ -127,23 +127,36 @@ blockquote {
   }
 
   .warning {
-    color: rgb(255, 40, 0);
-    padding-left: 5%;
-    margin: 0 auto;
-    display: block;
-    width: 85%;
-    font-weight: bold;
+    color: rgba(255, 40, 0, .8);
+    width: 90%;
+    font-weight: normal;
     float: left;
+    font-size: 80%;
+    position: absolute;
+    bottom: 5px;
+    left: 5%;
+
+    &:before {
+      position: absolute;
+      bottom: 0;
+      top: 0;
+      left: -4%;
+      width: 5%;
+      content: "⚠️";
+      display: block;
+      float: left;
+      height: 40px;
+      font-size: 100%;
+    }
+
   }
 
-  .warning:before {
-    content: "⚠️";
-    width: 10%;
-    display: block;
-    float: left;
-    height: 40px;
-    font-size: 28px;
-    padding-top: 8px;
+  .edit {
+    position: absolute;
+    right: 5px;
+    bottom: 5px;
+    height: 18px;
+    width: 18px;
   }
 
   .svg {

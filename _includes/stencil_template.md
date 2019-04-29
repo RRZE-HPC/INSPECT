@@ -1,5 +1,7 @@
 <script src="{{site.baseurl}}/assets/js/plotly-latest.min.js"></script>
 
+{% assign comments = site.data.comments.stencils[page.dimension][page.radius][page.weighting][page.kind][page.coefficients][page.datatype][page.machine] %}
+
 <div markdown="1" class="section-block-full">
 
 <div markdown="1" class="section-block-half">
@@ -18,9 +20,14 @@
 {% assign flop_size = {{page.flop | size}} %}{% if flop_size != 0 %}| FLOP per LUP       | {{page.flop}}       |{% endif %}
 {% assign flavor_size = {{page.flavor | size}} %}{% if flavor_size != 0 %}| flavor       | {{page.flavor}}       |{% endif %}
 
+{% assign com = comments["general"] %}
+{% if com %}
+{% include template_comment.md comment=com.comment author=com.author review=com.review uptodate=comments.uptodate %}
+{% endif %}
+
 {% assign com = site.data.comments.machine_files[page.machine] %}
 {% if com %}
-{% include template_comment.md comment=com.comment author=com.author review=com.review uptodate=com.uptodate %}
+{% include template_comment.md comment=com.comment author=com.author review=com.review uptodate=True %}
 {% endif %}
 
 Benchmark raw data shown on this page can be found in the [according folder of the git repository](https://github.com/RRZE-HPC/stempel_data_collection/tree/master/stencils/{{page.dimension}}/{{page.radius}}/{{page.weighting}}/{{page.kind}}/{{page.coefficients}}/{{page.datatype}}/{{page.machine}}/).
@@ -40,10 +47,6 @@ https://github.com/RRZE-HPC/stempel_data_collection/issues/new?labels[]=Stencil%
 ```c
 {{source_code}}
 ```
-{% assign com = site.data.comments.stencils[page.dimension][page.radius][page.weighting][page.kind][page.coefficients][page.datatype][page.machine]["stencil.c"] %}
-{% if com %}
-{% include template_comment.md comment=com.comment author=com.author review=com.review uptodate=com.uptodate %}
-{% endif %}
 </div>
 
 <div markdown="1" id="asm_source" style="display:none;">
@@ -51,6 +54,11 @@ https://github.com/RRZE-HPC/stempel_data_collection/issues/new?labels[]=Stencil%
 {{source_code_asm}}
 ```
 </div>
+
+{% assign com = comments["stencil"] %}
+{% if com %}
+{% include template_comment.md comment=com.comment author=com.author review=com.review uptodate=comments.uptodate %}
+{% endif %}
 </div>
 
 </div>
@@ -135,6 +143,11 @@ stempel bench stencil.c -m {{ page.machine }}.yml --store
 {% include template_ecm_plots.md type='CS' hidden='true' %}
 {% include template_ecm_plots.md type='Pheno' hidden='true' %}
 
+{% assign com = comments["grid_scaling"] %}
+{% if com %}
+{% include template_comment.md comment=com.comment author=com.author review=com.review uptodate=comments.uptodate %}
+{% endif %}
+
 </div>
 
 <div markdown="1" class="section-block-half">
@@ -167,6 +180,11 @@ stempel bench stencil.c -m {{ page.machine }}.yml --store
 
 {% include template_mem_plots.md type='LC' hidden='false' %}
 {% include template_mem_plots.md type='CS' hidden='true' %}
+
+{% assign com = comments["data_transfers"] %}
+{% if com %}
+{% include template_comment.md comment=com.comment author=com.author review=com.review uptodate=comments.uptodate %}
+{% endif %}
 </div>
 
 </div>
@@ -194,6 +212,12 @@ stempel bench stencil.c -m {{ page.machine }}.yml --store
     {% include template_threadscaling_plots.md type=item hidden='true' %}
   {%- endif -%}
 {% endfor %}
+
+{% assign com = comments["thread_scaling"] %}
+{% if com %}
+{% include template_comment.md comment=com.comment author=com.author review=com.review uptodate=comments.uptodate %}
+{% endif %}
+
 </div>
 {% endif %}
 
@@ -216,6 +240,12 @@ stempel bench stencil.c -m {{ page.machine }}.yml --store
     {% include template_blocking_plots.md type=item hidden='true' %}
   {%- endif -%}
 {% endfor %}
+
+{% assign com = comments["spatial_blocking"] %}
+{% if com %}
+{% include template_comment.md comment=com.comment author=com.author review=com.review uptodate=comments.uptodate %}
+{% endif %}
+
 </div>
 {% endif %}
 
@@ -270,22 +300,40 @@ OMP_NUM_THREADS=1 likwid-pin -C S0:0 ./stencil $GRID_SIZE $GRID_SIZE $GRID_SIZE 
 {% if iaca %}
 <div markdown="1" class="section-block-full">
 ## IACA Output
-<div markdown="1" id="iaca">
-```
+
+<div markdown="1" class="section-block-half">
+{% assign com = comments["iaca"] %}
+{% if com %}
+{% include template_comment.md comment=com.comment author=com.author review=com.review uptodate=comments.uptodate %}
+{% endif %}
+</div>
+</div>
+
+<div markdown="1" id="iaca" class="section-block-full">
+
+```text
 {{iaca}}
 ```
-</div>
 </div>
 {% endif %}
 
 {% if hostinfo %}
 <div markdown="1" class="section-block-full">
 ## System Information
-<div markdown="1" id="iaca">
-```
+
+<div markdown="1" class="section-block-half">
+{% assign com = comments["system_info"] %}
+{% if com %}
+{% include template_comment.md comment=com.comment author=com.author review=com.review uptodate=comments.uptodate %}
+{% endif %}
+</div>
+</div>
+
+<div markdown="1" id="iaca" class="section-block-full">
+
+```text
 {{hostinfo}}
 ```
-</div>
 </div>
 {% endif %}
 
