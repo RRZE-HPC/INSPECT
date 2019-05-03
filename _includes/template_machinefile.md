@@ -37,7 +37,13 @@ This machine file was generated for kerncraft version {{file["kerncraft version"
 
 |-------------------|------------------:|
 {%- for compiler in file.compiler %}
-| {{compiler[0]}}   | `{{compiler[1]}}` |
+{%- if compiler contains "icc" %}
+| icc   | `{{compiler["icc"]}}` |
+{%- elsif compiler contains "gcc" %}
+| gcc   | `{{compiler["gcc"]}}` |
+{%- elsif compiler contains "clang" %}
+| clang   | `{{compiler["clang"]}}` |
+{%- endif %}
 {%- endfor %}
 
 ## Flops per Cycle

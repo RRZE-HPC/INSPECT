@@ -1699,8 +1699,9 @@ memory hierarchy:
   non-overlap upstream throughput: ['full socket memory bandwidth', 'half-duplex']
 model name: Intel(R) Xeon(R) CPU E5-2697 v4 @ 2.30GHz
 compiler:
-    icc: -O3 -xCORE-AVX2 -fno-alias
-    gcc: -Ofast -march=core-avx2 -fargument-noalias -ffast-math -D_POSIX_C_SOURCE=200112L
-    clang: -03 -mavx2 -D_POSIX_C_SOURCE=200112L
+  !!omap
+  - icc: -O3 -xCORE-AVX2 -fno-alias
+  - gcc: -Ofast -march=core-avx2 -fargument-noalias -ffast-math -D_POSIX_C_SOURCE=200112L
+  - clang: -03 -mavx2 -D_POSIX_C_SOURCE=200112L
 cores per socket: 18
 NUMA domains per socket: 1.0
