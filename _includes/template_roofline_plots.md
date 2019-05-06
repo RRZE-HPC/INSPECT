@@ -60,14 +60,4 @@ Plotly.newPlot('rfl_{{include.type}}', data, layout, config);
 </script>
 
 *Performance plot with [roofline prediction](https://www2.eecs.berkeley.edu/Pubs/TechRpts/2008/EECS-2008-164.html) in comparison with the measured stencil performance. For comparison the according ECM prediction is also included.*
-
-{% if include.type == 'LC' %}
-	{% assign com = site.data.comments.stencils[page.dimension][page.radius][page.weighting][page.kind][page.coefficients][page.datatype][page.machine]["roofline_{{include.type}}.svg"] %}
-{% else if include.type == 'CS' %}
-	{% assign com = site.data.comments.stencils[page.dimension][page.radius][page.weighting][page.kind][page.coefficients][page.datatype][page.machine]["roofline_{{include.type}}.svg"] %}
-{% endif %}
-
-{% if com %}
-{% include template_comment.md comment=com.comment author=com.author review=com.review uptodate=com.uptodate %}
-{% endif %}
 </div>
