@@ -139,9 +139,7 @@ stempel bench stencil.c -m {{ page.machine }}.yml --store
            document.getElementById('ecm_CS').style.display = 'none';
            document.getElementById('ecm_LC').style.display = 'none';" />
 
-{% include template_ecm_plots.md type='LC' hidden='false' %}
-{% include template_ecm_plots.md type='CS' hidden='true' %}
-{% include template_ecm_plots.md type='Pheno' hidden='true' %}
+{% include template_ecm_plots.md %}
 
 {% assign com = comments["grid_scaling"] %}
 {% if com %}
@@ -149,24 +147,6 @@ stempel bench stencil.c -m {{ page.machine }}.yml --store
 {% endif %}
 
 </div>
-
-<div markdown="1" class="section-block-half">
-### Stencil Performance
-
-<input class="plot-button" type="button" value="Layer Condition"
-  onclick="document.getElementById('rfl_LC').style.display = 'block';
-           document.getElementById('rfl_CS').style.display = 'none';" />
-<input class="plot-button" type="button" value="Cache Simulation"
-  onclick="document.getElementById('rfl_CS').style.display = 'block';
-           document.getElementById('rfl_LC').style.display = 'none';" />
-
-{% include template_roofline_plots.md type='LC' hidden='false' %}
-{% include template_roofline_plots.md type='CS' hidden='true' %}
-</div>
-
-</div>
-
-<div markdown="1" class="section-block-full">
 
 <div markdown="1" class="section-block-half">
 ### Data Transfers between Caches
