@@ -1,17 +1,17 @@
 ---
 
-title:  "Stencil 3D r1 box constant heterogeneous double HaswellEP_E5-2695v3_CoD"
+title:  "Stencil 3D r1 box constant homogeneous double HaswellEP_E5-2695v3_CoD"
 
 dimension    : "3D"
 radius       : "r1"
-weighting    : "heterogeneous"
+weighting    : "homogeneous"
 kind         : "box"
 coefficients : "constant"
 datatype     : "double"
 machine      : "HaswellEP_E5-2695v3_CoD"
 flavor       : "EDIT_ME"
 compile_flags: "icc -O3 -xCORE-AVX2 -fno-alias -qopenmp -qopenmp -DLIKWID_PERFMON -Ilikwid-4.3.4/include -Llikwid-4.3.4/lib -I/headers/dummy.c stencil_compilable.c -o stencil -llikwid"
-flop         : "53"
+flop         : "27"
 scaling      : [ "1010" ]
 blocking     : [ "L2-3D", "L3-3D" ]
 ---
@@ -24,129 +24,87 @@ blocking     : [ "L2-3D", "L3-3D" ]
 double a[M][N][P];
 double b[M][N][P];
 double c0;
-double c1;
-double c2;
-double c3;
-double c4;
-double c5;
-double c6;
-double c7;
-double c8;
-double c9;
-double c10;
-double c11;
-double c12;
-double c13;
-double c14;
-double c15;
-double c16;
-double c17;
-double c18;
-double c19;
-double c20;
-double c21;
-double c22;
-double c23;
-double c24;
-double c25;
-double c26;
 
 for(long k=1; k < M-1; ++k){
 for(long j=1; j < N-1; ++j){
 for(long i=1; i < P-1; ++i){
-b[k][j][i] = c0 * a[k][j][i]
-+ c1 * a[k-1][j-1][i-1]
-+ c2 * a[k][j-1][i-1]
-+ c3 * a[k+1][j-1][i-1]
-+ c4 * a[k-1][j][i-1]
-+ c5 * a[k][j][i-1]
-+ c6 * a[k+1][j][i-1]
-+ c7 * a[k-1][j+1][i-1]
-+ c8 * a[k][j+1][i-1]
-+ c9 * a[k+1][j+1][i-1]
-+ c10 * a[k-1][j-1][i]
-+ c11 * a[k][j-1][i]
-+ c12 * a[k+1][j-1][i]
-+ c13 * a[k-1][j][i]
-+ c14 * a[k+1][j][i]
-+ c15 * a[k-1][j+1][i]
-+ c16 * a[k][j+1][i]
-+ c17 * a[k+1][j+1][i]
-+ c18 * a[k-1][j-1][i+1]
-+ c19 * a[k][j-1][i+1]
-+ c20 * a[k+1][j-1][i+1]
-+ c21 * a[k-1][j][i+1]
-+ c22 * a[k][j][i+1]
-+ c23 * a[k+1][j][i+1]
-+ c24 * a[k-1][j+1][i+1]
-+ c25 * a[k][j+1][i+1]
-+ c26 * a[k+1][j+1][i+1]
-;
+b[k][j][i] = c0 * (a[k][j][i]
++ a[k-1][j-1][i-1]
++ a[k][j-1][i-1]
++ a[k+1][j-1][i-1]
++ a[k-1][j][i-1]
++ a[k][j][i-1]
++ a[k+1][j][i-1]
++ a[k-1][j+1][i-1]
++ a[k][j+1][i-1]
++ a[k+1][j+1][i-1]
++ a[k-1][j-1][i]
++ a[k][j-1][i]
++ a[k+1][j-1][i]
++ a[k-1][j][i]
++ a[k+1][j][i]
++ a[k-1][j+1][i]
++ a[k][j+1][i]
++ a[k+1][j+1][i]
++ a[k-1][j-1][i+1]
++ a[k][j-1][i+1]
++ a[k+1][j-1][i+1]
++ a[k-1][j][i+1]
++ a[k][j][i+1]
++ a[k+1][j][i+1]
++ a[k-1][j+1][i+1]
++ a[k][j+1][i+1]
++ a[k+1][j+1][i+1]
+);
 }
 }
 }
 {%- endcapture -%}
 {%- capture source_code_asm -%}
-vmovupd ymm15, ymmword ptr [rsp+0x2a0]
-vmulpd ymm12, ymm1, ymmword ptr [rdi+r9*8+0x10]
-vmulpd ymm14, ymm0, ymmword ptr [r8+r9*8+0x10]
-vmulpd ymm13, ymm4, ymmword ptr [r10+r9*8+0x10]
-vmulpd ymm11, ymm15, ymmword ptr [r11+r9*8+0x10]
-vfmadd231pd ymm12, ymm3, ymmword ptr [r15+r9*8+0x10]
-vfmadd231pd ymm14, ymm2, ymmword ptr [rsi+r9*8+0x10]
-vfmadd231pd ymm13, ymm5, ymmword ptr [r12+r9*8+0x10]
-vmovupd ymm15, ymmword ptr [rsp+0x2c0]
-vfmadd231pd ymm11, ymm6, ymmword ptr [r13+r9*8+0x10]
-vaddpd ymm12, ymm12, ymm14
-vaddpd ymm14, ymm11, ymm13
-vmulpd ymm11, ymm8, ymmword ptr [r8+r9*8+0x8]
-vaddpd ymm13, ymm12, ymm14
-vmovupd ymm12, ymmword ptr [rsp+0x2e0]
-vfmadd231pd ymm11, ymm15, ymmword ptr [rsi+r9*8+0x8]
-vmulpd ymm15, ymm7, ymmword ptr [r14+r9*8+0x10]
-vmovupd ymm14, ymmword ptr [rsp+0x320]
-vfmadd231pd ymm15, ymm9, ymmword ptr [rdi+r9*8+0x8]
-vaddpd ymm15, ymm11, ymm15
-vmulpd ymm11, ymm12, ymmword ptr [r11+r9*8+0x8]
-vmovupd ymm12, ymmword ptr [rsp+0x300]
-vfmadd231pd ymm11, ymm14, ymmword ptr [r13+r9*8+0x8]
-vmulpd ymm14, ymm10, ymmword ptr [r15+r9*8+0x8]
-vfmadd231pd ymm14, ymm12, ymmword ptr [r12+r9*8+0x8]
-vmovupd ymm12, ymmword ptr [rsp+0x380]
-vaddpd ymm11, ymm11, ymm14
-vaddpd ymm15, ymm15, ymm11
-vmovupd ymm11, ymmword ptr [rsp+0x3a0]
-vaddpd ymm15, ymm13, ymm15
-vmovupd ymm13, ymmword ptr [rsp+0x360]
-vmulpd ymm14, ymm13, ymmword ptr [r8+r9*8]
-vmovupd ymm13, ymmword ptr [rsp+0x340]
-vfmadd231pd ymm14, ymm11, ymmword ptr [rsi+r9*8]
-vmulpd ymm11, ymm13, ymmword ptr [r14+r9*8+0x8]
-vfmadd231pd ymm11, ymm12, ymmword ptr [rdi+r9*8]
-vaddpd ymm13, ymm14, ymm11
-vmovupd ymm14, ymmword ptr [rsp+0x3e0]
-vmovupd ymm11, ymmword ptr [rsp+0x420]
-vmulpd ymm12, ymm14, ymmword ptr [r10+r9*8]
-vmovupd ymm14, ymmword ptr [rsp+0x3c0]
-vfmadd231pd ymm12, ymm11, ymmword ptr [r12+r9*8]
-vmulpd ymm14, ymm14, ymmword ptr [r15+r9*8]
-vmovupd ymm11, ymmword ptr [rsp+0x400]
-vfmadd231pd ymm14, ymm11, ymmword ptr [r11+r9*8]
-vaddpd ymm12, ymm12, ymm14
-vaddpd ymm11, ymm13, ymm12
-vmovupd ymm13, ymmword ptr [rsp+0x440]
-vmovupd ymm12, ymmword ptr [rsp+0x460]
-vmulpd ymm14, ymm13, ymmword ptr [r13+r9*8]
-vmovupd ymm13, ymmword ptr [rsp+0x480]
-vfmadd231pd ymm14, ymm12, ymmword ptr [r14+r9*8]
-nop 
-vfmadd231pd ymm14, ymm13, ymmword ptr [r10+r9*8+0x8]
-vaddpd ymm11, ymm11, ymm14
-vaddpd ymm15, ymm15, ymm11
-vmovupd ymmword ptr [rax+r9*8+0x8], ymm15
+vmovupd ymm2, ymmword ptr [r10+r9*8+0x8]
+vmovupd ymm3, ymmword ptr [r13+r9*8]
+vmovupd ymm6, ymmword ptr [r11+r9*8]
+vmovupd ymm5, ymmword ptr [r15+r9*8]
+vmovupd ymm9, ymmword ptr [r15+r9*8+0x8]
+vmovupd ymm7, ymmword ptr [r14+r9*8+0x8]
+vmovupd ymm8, ymmword ptr [r12+r9*8+0x8]
+vmovupd ymm10, ymmword ptr [rdi+r9*8]
+vmovupd ymm15, ymmword ptr [rdi+r9*8+0x8]
+vmovupd ymm11, ymmword ptr [r10+r9*8+0x10]
+vmovupd ymm12, ymmword ptr [r14+r9*8+0x10]
+vmovupd ymm13, ymmword ptr [r12+r9*8+0x10]
+vmovupd ymm14, ymmword ptr [rsi+r9*8+0x10]
+vaddpd ymm4, ymm2, ymmword ptr [r14+r9*8]
+vaddpd ymm2, ymm3, ymmword ptr [r12+r9*8]
+vaddpd ymm6, ymm6, ymmword ptr [r10+r9*8]
+vaddpd ymm5, ymm5, ymmword ptr [rsi+r9*8]
+vaddpd ymm9, ymm9, ymmword ptr [rsi+r9*8+0x8]
+vaddpd ymm4, ymm4, ymm2
+vaddpd ymm2, ymm6, ymm5
+vaddpd ymm10, ymm10, ymmword ptr [r8+r9*8]
+vaddpd ymm7, ymm7, ymmword ptr [r13+r9*8+0x8]
+vaddpd ymm8, ymm8, ymmword ptr [r11+r9*8+0x8]
+vaddpd ymm3, ymm4, ymm2
+vaddpd ymm2, ymm10, ymm7
+vaddpd ymm4, ymm8, ymm9
+vaddpd ymm13, ymm13, ymmword ptr [r11+r9*8+0x10]
+vaddpd ymm15, ymm15, ymmword ptr [r8+r9*8+0x8]
+vaddpd ymm5, ymm2, ymm4
+vaddpd ymm12, ymm12, ymmword ptr [r13+r9*8+0x10]
+vaddpd ymm11, ymm11, ymmword ptr [r15+r9*8+0x10]
+vaddpd ymm2, ymm3, ymm5
+vaddpd ymm3, ymm15, ymm12
+vaddpd ymm4, ymm13, ymm11
+vaddpd ymm14, ymm14, ymmword ptr [rdi+r9*8+0x10]
+vaddpd ymm5, ymm3, ymm4
+vaddpd ymm3, ymm14, ymmword ptr [r8+r9*8+0x10]
+vaddpd ymm4, ymm5, ymm3
+vaddpd ymm2, ymm2, ymm4
+vmulpd ymm6, ymm0, ymm2
+vmovupd ymmword ptr [rax+r9*8+0x8], ymm6
 add r9, 0x4
 cmp r9, rdx
-jb 0xfffffffffffffe70
+jb 0xffffffffffffff06
 {%- endcapture -%}
 
 {%- capture layercondition -%}
@@ -164,13 +122,13 @@ L3: 32*N*P - 16*P - 16 <= 18874368;N*P ~ 760²
 
 Throughput Analysis Report
 --------------------------
-Block Throughput: 22.00 Cycles       Throughput Bottleneck: Backend
-Loop Count:  24
+Block Throughput: 26.00 Cycles       Throughput Bottleneck: Backend
+Loop Count:  22
 Port Binding In Cycles Per Iteration:
 --------------------------------------------------------------------------------------------------
 |  Port  |   0   -  DV   |   1   |   2   -  D    |   3   -  D    |   4   |   5   |   6   |   7   |
 --------------------------------------------------------------------------------------------------
-| Cycles | 19.5     0.0  | 19.5  | 22.0    22.0  | 22.0    21.0  |  1.0  |  1.0  |  1.0  |  0.0  |
+| Cycles |  1.0     0.0  | 26.0  | 14.0    14.0  | 14.0    13.0  |  1.0  |  0.5  |  0.5  |  0.0  |
 --------------------------------------------------------------------------------------------------
 
 DV - Divider pipe (on port 0)
@@ -185,67 +143,51 @@ X - instruction not supported, was not accounted in Analysis
 | Num Of   |                    Ports pressure in cycles                         |      |
 |  Uops    |  0  - DV    |  1   |  2  -  D    |  3  -  D    |  4   |  5   |  6   |  7   |
 -----------------------------------------------------------------------------------------
-|   1      |             |      | 1.0     1.0 |             |      |      |      |      | vmovupd ymm15, ymmword ptr [rsp+0x2a0]
-|   2      | 1.0         |      |             | 1.0     1.0 |      |      |      |      | vmulpd ymm12, ymm1, ymmword ptr [rdi+r9*8+0x10]
-|   2      | 1.0         |      | 1.0     1.0 |             |      |      |      |      | vmulpd ymm14, ymm0, ymmword ptr [r8+r9*8+0x10]
-|   2      | 0.5         | 0.5  |             | 1.0     1.0 |      |      |      |      | vmulpd ymm13, ymm4, ymmword ptr [r10+r9*8+0x10]
-|   2      | 0.5         | 0.5  | 1.0     1.0 |             |      |      |      |      | vmulpd ymm11, ymm15, ymmword ptr [r11+r9*8+0x10]
-|   2      | 0.5         | 0.5  |             | 1.0     1.0 |      |      |      |      | vfmadd231pd ymm12, ymm3, ymmword ptr [r15+r9*8+0x10]
-|   2      | 0.5         | 0.5  | 1.0     1.0 |             |      |      |      |      | vfmadd231pd ymm14, ymm2, ymmword ptr [rsi+r9*8+0x10]
-|   2      | 0.5         | 0.5  |             | 1.0     1.0 |      |      |      |      | vfmadd231pd ymm13, ymm5, ymmword ptr [r12+r9*8+0x10]
-|   1      |             |      | 1.0     1.0 |             |      |      |      |      | vmovupd ymm15, ymmword ptr [rsp+0x2c0]
-|   2      | 0.5         | 0.5  |             | 1.0     1.0 |      |      |      |      | vfmadd231pd ymm11, ymm6, ymmword ptr [r13+r9*8+0x10]
-|   1      |             | 1.0  |             |             |      |      |      |      | vaddpd ymm12, ymm12, ymm14
-|   1      |             | 1.0  |             |             |      |      |      |      | vaddpd ymm14, ymm11, ymm13
-|   2      | 1.0         |      | 1.0     1.0 |             |      |      |      |      | vmulpd ymm11, ymm8, ymmword ptr [r8+r9*8+0x8]
-|   1      |             | 1.0  |             |             |      |      |      |      | vaddpd ymm13, ymm12, ymm14
-|   1      |             |      |             | 1.0     1.0 |      |      |      |      | vmovupd ymm12, ymmword ptr [rsp+0x2e0]
-|   2      | 1.0         |      | 1.0     1.0 |             |      |      |      |      | vfmadd231pd ymm11, ymm15, ymmword ptr [rsi+r9*8+0x8]
-|   2      | 1.0         |      |             | 1.0     1.0 |      |      |      |      | vmulpd ymm15, ymm7, ymmword ptr [r14+r9*8+0x10]
-|   1      |             |      | 1.0     1.0 |             |      |      |      |      | vmovupd ymm14, ymmword ptr [rsp+0x320]
-|   2      | 0.5         | 0.5  |             | 1.0     1.0 |      |      |      |      | vfmadd231pd ymm15, ymm9, ymmword ptr [rdi+r9*8+0x8]
-|   1      |             | 1.0  |             |             |      |      |      |      | vaddpd ymm15, ymm11, ymm15
-|   2      | 1.0         |      | 1.0     1.0 |             |      |      |      |      | vmulpd ymm11, ymm12, ymmword ptr [r11+r9*8+0x8]
-|   1      |             |      |             | 1.0     1.0 |      |      |      |      | vmovupd ymm12, ymmword ptr [rsp+0x300]
-|   2      | 0.5         | 0.5  | 1.0     1.0 |             |      |      |      |      | vfmadd231pd ymm11, ymm14, ymmword ptr [r13+r9*8+0x8]
-|   2      | 0.5         | 0.5  |             | 1.0     1.0 |      |      |      |      | vmulpd ymm14, ymm10, ymmword ptr [r15+r9*8+0x8]
-|   2      | 0.5         | 0.5  | 1.0     1.0 |             |      |      |      |      | vfmadd231pd ymm14, ymm12, ymmword ptr [r12+r9*8+0x8]
-|   1      |             |      |             | 1.0     1.0 |      |      |      |      | vmovupd ymm12, ymmword ptr [rsp+0x380]
-|   1      |             | 1.0  |             |             |      |      |      |      | vaddpd ymm11, ymm11, ymm14
-|   1      |             | 1.0  |             |             |      |      |      |      | vaddpd ymm15, ymm15, ymm11
-|   1      |             |      | 1.0     1.0 |             |      |      |      |      | vmovupd ymm11, ymmword ptr [rsp+0x3a0]
-|   1      |             | 1.0  |             |             |      |      |      |      | vaddpd ymm15, ymm13, ymm15
-|   1      |             |      |             | 1.0     1.0 |      |      |      |      | vmovupd ymm13, ymmword ptr [rsp+0x360]
-|   2      | 1.0         |      | 1.0     1.0 |             |      |      |      |      | vmulpd ymm14, ymm13, ymmword ptr [r8+r9*8]
-|   1      |             |      |             | 1.0     1.0 |      |      |      |      | vmovupd ymm13, ymmword ptr [rsp+0x340]
-|   2      | 1.0         |      | 1.0     1.0 |             |      |      |      |      | vfmadd231pd ymm14, ymm11, ymmword ptr [rsi+r9*8]
-|   2      | 1.0         |      |             | 1.0     1.0 |      |      |      |      | vmulpd ymm11, ymm13, ymmword ptr [r14+r9*8+0x8]
-|   2      | 0.5         | 0.5  | 1.0     1.0 |             |      |      |      |      | vfmadd231pd ymm11, ymm12, ymmword ptr [rdi+r9*8]
-|   1      |             | 1.0  |             |             |      |      |      |      | vaddpd ymm13, ymm14, ymm11
-|   1      |             |      |             | 1.0     1.0 |      |      |      |      | vmovupd ymm14, ymmword ptr [rsp+0x3e0]
-|   1      |             |      | 1.0     1.0 |             |      |      |      |      | vmovupd ymm11, ymmword ptr [rsp+0x420]
-|   2      | 1.0         |      |             | 1.0     1.0 |      |      |      |      | vmulpd ymm12, ymm14, ymmword ptr [r10+r9*8]
-|   1      |             |      | 1.0     1.0 |             |      |      |      |      | vmovupd ymm14, ymmword ptr [rsp+0x3c0]
-|   2      | 0.5         | 0.5  |             | 1.0     1.0 |      |      |      |      | vfmadd231pd ymm12, ymm11, ymmword ptr [r12+r9*8]
-|   2      | 0.5         | 0.5  | 1.0     1.0 |             |      |      |      |      | vmulpd ymm14, ymm14, ymmword ptr [r15+r9*8]
-|   1      |             |      |             | 1.0     1.0 |      |      |      |      | vmovupd ymm11, ymmword ptr [rsp+0x400]
-|   2      | 0.5         | 0.5  | 1.0     1.0 |             |      |      |      |      | vfmadd231pd ymm14, ymm11, ymmword ptr [r11+r9*8]
-|   1      |             | 1.0  |             |             |      |      |      |      | vaddpd ymm12, ymm12, ymm14
-|   1      |             | 1.0  |             |             |      |      |      |      | vaddpd ymm11, ymm13, ymm12
-|   1      |             |      |             | 1.0     1.0 |      |      |      |      | vmovupd ymm13, ymmword ptr [rsp+0x440]
-|   1      |             |      | 1.0     1.0 |             |      |      |      |      | vmovupd ymm12, ymmword ptr [rsp+0x460]
-|   2      | 1.0         |      |             | 1.0     1.0 |      |      |      |      | vmulpd ymm14, ymm13, ymmword ptr [r13+r9*8]
-|   1      |             |      | 1.0     1.0 |             |      |      |      |      | vmovupd ymm13, ymmword ptr [rsp+0x480]
-|   2      | 1.0         |      |             | 1.0     1.0 |      |      |      |      | vfmadd231pd ymm14, ymm12, ymmword ptr [r14+r9*8]
-|   1      |             |      |             |             |      |      | 1.0  |      | nop 
-|   2      | 0.5         | 0.5  | 1.0     1.0 |             |      |      |      |      | vfmadd231pd ymm14, ymm13, ymmword ptr [r10+r9*8+0x8]
-|   1      |             | 1.0  |             |             |      |      |      |      | vaddpd ymm11, ymm11, ymm14
-|   1      |             | 1.0  |             |             |      |      |      |      | vaddpd ymm15, ymm15, ymm11
-|   2      |             |      |             | 1.0         | 1.0  |      |      |      | vmovupd ymmword ptr [rax+r9*8+0x8], ymm15
-|   1      |             |      |             |             |      | 1.0  |      |      | add r9, 0x4
+|   1      |             |      | 1.0     1.0 |             |      |      |      |      | vmovupd ymm2, ymmword ptr [r10+r9*8+0x8]
+|   1      |             |      |             | 1.0     1.0 |      |      |      |      | vmovupd ymm3, ymmword ptr [r13+r9*8]
+|   1      |             |      | 1.0     1.0 |             |      |      |      |      | vmovupd ymm6, ymmword ptr [r11+r9*8]
+|   1      |             |      |             | 1.0     1.0 |      |      |      |      | vmovupd ymm5, ymmword ptr [r15+r9*8]
+|   1      |             |      | 1.0     1.0 |             |      |      |      |      | vmovupd ymm9, ymmword ptr [r15+r9*8+0x8]
+|   1      |             |      |             | 1.0     1.0 |      |      |      |      | vmovupd ymm7, ymmword ptr [r14+r9*8+0x8]
+|   1      |             |      | 1.0     1.0 |             |      |      |      |      | vmovupd ymm8, ymmword ptr [r12+r9*8+0x8]
+|   1      |             |      |             | 1.0     1.0 |      |      |      |      | vmovupd ymm10, ymmword ptr [rdi+r9*8]
+|   1      |             |      | 1.0     1.0 |             |      |      |      |      | vmovupd ymm15, ymmword ptr [rdi+r9*8+0x8]
+|   1      |             |      |             | 1.0     1.0 |      |      |      |      | vmovupd ymm11, ymmword ptr [r10+r9*8+0x10]
+|   1      |             |      | 1.0     1.0 |             |      |      |      |      | vmovupd ymm12, ymmword ptr [r14+r9*8+0x10]
+|   1      |             |      |             | 1.0     1.0 |      |      |      |      | vmovupd ymm13, ymmword ptr [r12+r9*8+0x10]
+|   1      |             |      | 1.0     1.0 |             |      |      |      |      | vmovupd ymm14, ymmword ptr [rsi+r9*8+0x10]
+|   2      |             | 1.0  |             | 1.0     1.0 |      |      |      |      | vaddpd ymm4, ymm2, ymmword ptr [r14+r9*8]
+|   2      |             | 1.0  | 1.0     1.0 |             |      |      |      |      | vaddpd ymm2, ymm3, ymmword ptr [r12+r9*8]
+|   2      |             | 1.0  |             | 1.0     1.0 |      |      |      |      | vaddpd ymm6, ymm6, ymmword ptr [r10+r9*8]
+|   2      |             | 1.0  | 1.0     1.0 |             |      |      |      |      | vaddpd ymm5, ymm5, ymmword ptr [rsi+r9*8]
+|   2      |             | 1.0  |             | 1.0     1.0 |      |      |      |      | vaddpd ymm9, ymm9, ymmword ptr [rsi+r9*8+0x8]
+|   1      |             | 1.0  |             |             |      |      |      |      | vaddpd ymm4, ymm4, ymm2
+|   1      |             | 1.0  |             |             |      |      |      |      | vaddpd ymm2, ymm6, ymm5
+|   2      |             | 1.0  | 1.0     1.0 |             |      |      |      |      | vaddpd ymm10, ymm10, ymmword ptr [r8+r9*8]
+|   2      |             | 1.0  |             | 1.0     1.0 |      |      |      |      | vaddpd ymm7, ymm7, ymmword ptr [r13+r9*8+0x8]
+|   2      |             | 1.0  | 1.0     1.0 |             |      |      |      |      | vaddpd ymm8, ymm8, ymmword ptr [r11+r9*8+0x8]
+|   1      |             | 1.0  |             |             |      |      |      |      | vaddpd ymm3, ymm4, ymm2
+|   1      |             | 1.0  |             |             |      |      |      |      | vaddpd ymm2, ymm10, ymm7
+|   1      |             | 1.0  |             |             |      |      |      |      | vaddpd ymm4, ymm8, ymm9
+|   2      |             | 1.0  |             | 1.0     1.0 |      |      |      |      | vaddpd ymm13, ymm13, ymmword ptr [r11+r9*8+0x10]
+|   2      |             | 1.0  | 1.0     1.0 |             |      |      |      |      | vaddpd ymm15, ymm15, ymmword ptr [r8+r9*8+0x8]
+|   1      |             | 1.0  |             |             |      |      |      |      | vaddpd ymm5, ymm2, ymm4
+|   2      |             | 1.0  |             | 1.0     1.0 |      |      |      |      | vaddpd ymm12, ymm12, ymmword ptr [r13+r9*8+0x10]
+|   2      |             | 1.0  | 1.0     1.0 |             |      |      |      |      | vaddpd ymm11, ymm11, ymmword ptr [r15+r9*8+0x10]
+|   1      |             | 1.0  |             |             |      |      |      |      | vaddpd ymm2, ymm3, ymm5
+|   1      |             | 1.0  |             |             |      |      |      |      | vaddpd ymm3, ymm15, ymm12
+|   1      |             | 1.0  |             |             |      |      |      |      | vaddpd ymm4, ymm13, ymm11
+|   2      |             | 1.0  |             | 1.0     1.0 |      |      |      |      | vaddpd ymm14, ymm14, ymmword ptr [rdi+r9*8+0x10]
+|   1      |             | 1.0  |             |             |      |      |      |      | vaddpd ymm5, ymm3, ymm4
+|   2      |             | 1.0  | 1.0     1.0 |             |      |      |      |      | vaddpd ymm3, ymm14, ymmword ptr [r8+r9*8+0x10]
+|   1      |             | 1.0  |             |             |      |      |      |      | vaddpd ymm4, ymm5, ymm3
+|   1      |             | 1.0  |             |             |      |      |      |      | vaddpd ymm2, ymm2, ymm4
+|   1      | 1.0         |      |             |             |      |      |      |      | vmulpd ymm6, ymm0, ymm2
+|   2      |             |      |             | 1.0         | 1.0  |      |      |      | vmovupd ymmword ptr [rax+r9*8+0x8], ymm6
+|   1      |             |      |             |             |      | 0.5  | 0.5  |      | add r9, 0x4
 |   1*     |             |      |             |             |      |      |      |      | cmp r9, rdx
-|   0*F    |             |      |             |             |      |      |      |      | jb 0xfffffffffffffe70
-Total Num Of Uops: 87
+|   0*F    |             |      |             |             |      |      |      |      | jb 0xffffffffffffff06
+Total Num Of Uops: 58
 Analysis Notes:
 Backend allocation was stalled due to unavailable allocation resources.
 
@@ -290,7 +232,7 @@ Linux hasep1 4.15.0-46-generic #49-Ubuntu SMP Wed Feb 6 09:33:07 UTC 2019 x86_64
 ################################################################################
 # Logged in users
 ################################################################################
- 14:55:20 up 37 days,  1:59,  0 users,  load average: 0.72, 0.89, 0.97
+ 20:23:18 up 37 days,  7:27,  0 users,  load average: 0.59, 0.86, 0.97
 USER     TTY      FROM             LOGIN@   IDLE   JCPU   PCPU WHAT
 
 ################################################################################
@@ -434,25 +376,25 @@ NUMA domains:		4
 Domain:			0
 Processors:		( 0 28 1 29 2 30 3 31 4 32 5 33 6 34 )
 Distances:		10 21 31 31
-Free memory:		15504.3 MB
+Free memory:		15519.8 MB
 Total memory:		15932.8 MB
 --------------------------------------------------------------------------------
 Domain:			1
 Processors:		( 7 35 8 36 9 37 10 38 11 39 12 40 13 41 )
 Distances:		21 10 31 31
-Free memory:		15772.3 MB
+Free memory:		15714 MB
 Total memory:		16125.3 MB
 --------------------------------------------------------------------------------
 Domain:			2
 Processors:		( 14 42 15 43 16 44 17 45 18 46 19 47 20 48 )
 Distances:		31 31 10 21
-Free memory:		15574.3 MB
+Free memory:		15628.7 MB
 Total memory:		16125.3 MB
 --------------------------------------------------------------------------------
 Domain:			3
 Processors:		( 21 49 22 50 23 51 24 52 25 53 26 54 27 55 )
 Distances:		31 31 21 10
-Free memory:		15764.1 MB
+Free memory:		15768.6 MB
 Total memory:		16124.4 MB
 --------------------------------------------------------------------------------
 
@@ -462,16 +404,16 @@ Total memory:		16124.4 MB
 available: 4 nodes (0-3)
 node 0 cpus: 0 1 2 3 4 5 6 28 29 30 31 32 33 34
 node 0 size: 15932 MB
-node 0 free: 15504 MB
+node 0 free: 15519 MB
 node 1 cpus: 7 8 9 10 11 12 13 35 36 37 38 39 40 41
 node 1 size: 16125 MB
-node 1 free: 15772 MB
+node 1 free: 15713 MB
 node 2 cpus: 14 15 16 17 18 19 20 42 43 44 45 46 47 48
 node 2 size: 16125 MB
-node 2 free: 15584 MB
+node 2 free: 15638 MB
 node 3 cpus: 21 22 23 24 25 26 27 49 50 51 52 53 54 55
 node 3 size: 16124 MB
-node 3 free: 15764 MB
+node 3 free: 15768 MB
 node distances:
 node   0   1   2   3 
   0:  10  21  31  31 
@@ -483,62 +425,62 @@ node   0   1   2   3
 # Frequencies
 ################################################################################
 Current CPU frequencies:
-CPU 0: governor  performance min/cur/max 2.3/1.421/2.3 GHz Turbo 0
-CPU 1: governor  performance min/cur/max 2.3/1.439/2.3 GHz Turbo 0
-CPU 2: governor  performance min/cur/max 2.3/1.445/2.3 GHz Turbo 0
-CPU 3: governor  performance min/cur/max 2.3/1.621/2.3 GHz Turbo 0
-CPU 4: governor  performance min/cur/max 2.3/1.833/2.3 GHz Turbo 0
-CPU 5: governor  performance min/cur/max 2.3/1.577/2.3 GHz Turbo 0
-CPU 6: governor  performance min/cur/max 2.3/1.751/2.3 GHz Turbo 0
-CPU 7: governor  performance min/cur/max 2.3/1.428/2.3 GHz Turbo 0
-CPU 8: governor  performance min/cur/max 2.3/1.671/2.3 GHz Turbo 0
-CPU 9: governor  performance min/cur/max 2.3/1.554/2.3 GHz Turbo 0
-CPU 10: governor  performance min/cur/max 2.3/1.694/2.3 GHz Turbo 0
-CPU 11: governor  performance min/cur/max 2.3/1.417/2.3 GHz Turbo 0
-CPU 12: governor  performance min/cur/max 2.3/1.418/2.3 GHz Turbo 0
-CPU 13: governor  performance min/cur/max 2.3/1.860/2.3 GHz Turbo 0
-CPU 14: governor  performance min/cur/max 2.3/2.082/2.3 GHz Turbo 0
-CPU 15: governor  performance min/cur/max 2.3/2.295/2.3 GHz Turbo 0
-CPU 16: governor  performance min/cur/max 2.3/2.287/2.3 GHz Turbo 0
-CPU 17: governor  performance min/cur/max 2.3/2.192/2.3 GHz Turbo 0
+CPU 0: governor  performance min/cur/max 2.3/1.568/2.3 GHz Turbo 0
+CPU 1: governor  performance min/cur/max 2.3/1.509/2.3 GHz Turbo 0
+CPU 2: governor  performance min/cur/max 2.3/2.301/2.3 GHz Turbo 0
+CPU 3: governor  performance min/cur/max 2.3/1.846/2.3 GHz Turbo 0
+CPU 4: governor  performance min/cur/max 2.3/1.505/2.3 GHz Turbo 0
+CPU 5: governor  performance min/cur/max 2.3/1.345/2.3 GHz Turbo 0
+CPU 6: governor  performance min/cur/max 2.3/1.227/2.3 GHz Turbo 0
+CPU 7: governor  performance min/cur/max 2.3/1.493/2.3 GHz Turbo 0
+CPU 8: governor  performance min/cur/max 2.3/1.446/2.3 GHz Turbo 0
+CPU 9: governor  performance min/cur/max 2.3/1.501/2.3 GHz Turbo 0
+CPU 10: governor  performance min/cur/max 2.3/1.341/2.3 GHz Turbo 0
+CPU 11: governor  performance min/cur/max 2.3/1.520/2.3 GHz Turbo 0
+CPU 12: governor  performance min/cur/max 2.3/1.774/2.3 GHz Turbo 0
+CPU 13: governor  performance min/cur/max 2.3/1.849/2.3 GHz Turbo 0
+CPU 14: governor  performance min/cur/max 2.3/2.300/2.3 GHz Turbo 0
+CPU 15: governor  performance min/cur/max 2.3/2.300/2.3 GHz Turbo 0
+CPU 16: governor  performance min/cur/max 2.3/2.300/2.3 GHz Turbo 0
+CPU 17: governor  performance min/cur/max 2.3/2.268/2.3 GHz Turbo 0
 CPU 18: governor  performance min/cur/max 2.3/2.300/2.3 GHz Turbo 0
-CPU 19: governor  performance min/cur/max 2.3/2.052/2.3 GHz Turbo 0
-CPU 20: governor  performance min/cur/max 2.3/2.230/2.3 GHz Turbo 0
-CPU 21: governor  performance min/cur/max 2.3/2.091/2.3 GHz Turbo 0
-CPU 22: governor  performance min/cur/max 2.3/2.218/2.3 GHz Turbo 0
-CPU 23: governor  performance min/cur/max 2.3/2.300/2.3 GHz Turbo 0
-CPU 24: governor  performance min/cur/max 2.3/2.302/2.3 GHz Turbo 0
-CPU 25: governor  performance min/cur/max 2.3/2.300/2.3 GHz Turbo 0
-CPU 26: governor  performance min/cur/max 2.3/2.135/2.3 GHz Turbo 0
-CPU 27: governor  performance min/cur/max 2.3/2.288/2.3 GHz Turbo 0
-CPU 28: governor  performance min/cur/max 2.3/1.756/2.3 GHz Turbo 0
-CPU 29: governor  performance min/cur/max 2.3/1.412/2.3 GHz Turbo 0
-CPU 30: governor  performance min/cur/max 2.3/1.763/2.3 GHz Turbo 0
-CPU 31: governor  performance min/cur/max 2.3/1.762/2.3 GHz Turbo 0
-CPU 32: governor  performance min/cur/max 2.3/1.202/2.3 GHz Turbo 0
-CPU 33: governor  performance min/cur/max 2.3/1.667/2.3 GHz Turbo 0
-CPU 34: governor  performance min/cur/max 2.3/1.686/2.3 GHz Turbo 0
-CPU 35: governor  performance min/cur/max 2.3/1.470/2.3 GHz Turbo 0
-CPU 36: governor  performance min/cur/max 2.3/1.212/2.3 GHz Turbo 0
-CPU 37: governor  performance min/cur/max 2.3/1.778/2.3 GHz Turbo 0
-CPU 38: governor  performance min/cur/max 2.3/2.303/2.3 GHz Turbo 0
-CPU 39: governor  performance min/cur/max 2.3/1.663/2.3 GHz Turbo 0
-CPU 40: governor  performance min/cur/max 2.3/1.422/2.3 GHz Turbo 0
-CPU 41: governor  performance min/cur/max 2.3/2.303/2.3 GHz Turbo 0
-CPU 42: governor  performance min/cur/max 2.3/2.292/2.3 GHz Turbo 0
-CPU 43: governor  performance min/cur/max 2.3/2.212/2.3 GHz Turbo 0
-CPU 44: governor  performance min/cur/max 2.3/2.298/2.3 GHz Turbo 0
-CPU 45: governor  performance min/cur/max 2.3/2.145/2.3 GHz Turbo 0
-CPU 46: governor  performance min/cur/max 2.3/2.157/2.3 GHz Turbo 0
-CPU 47: governor  performance min/cur/max 2.3/2.222/2.3 GHz Turbo 0
-CPU 48: governor  performance min/cur/max 2.3/2.209/2.3 GHz Turbo 0
-CPU 49: governor  performance min/cur/max 2.3/2.137/2.3 GHz Turbo 0
-CPU 50: governor  performance min/cur/max 2.3/2.169/2.3 GHz Turbo 0
-CPU 51: governor  performance min/cur/max 2.3/2.224/2.3 GHz Turbo 0
-CPU 52: governor  performance min/cur/max 2.3/2.205/2.3 GHz Turbo 0
-CPU 53: governor  performance min/cur/max 2.3/2.239/2.3 GHz Turbo 0
-CPU 54: governor  performance min/cur/max 2.3/2.253/2.3 GHz Turbo 0
-CPU 55: governor  performance min/cur/max 2.3/2.279/2.3 GHz Turbo 0
+CPU 19: governor  performance min/cur/max 2.3/2.280/2.3 GHz Turbo 0
+CPU 20: governor  performance min/cur/max 2.3/2.054/2.3 GHz Turbo 0
+CPU 21: governor  performance min/cur/max 2.3/2.295/2.3 GHz Turbo 0
+CPU 22: governor  performance min/cur/max 2.3/2.270/2.3 GHz Turbo 0
+CPU 23: governor  performance min/cur/max 2.3/2.192/2.3 GHz Turbo 0
+CPU 24: governor  performance min/cur/max 2.3/2.254/2.3 GHz Turbo 0
+CPU 25: governor  performance min/cur/max 2.3/2.248/2.3 GHz Turbo 0
+CPU 26: governor  performance min/cur/max 2.3/2.155/2.3 GHz Turbo 0
+CPU 27: governor  performance min/cur/max 2.3/2.212/2.3 GHz Turbo 0
+CPU 28: governor  performance min/cur/max 2.3/1.770/2.3 GHz Turbo 0
+CPU 29: governor  performance min/cur/max 2.3/1.757/2.3 GHz Turbo 0
+CPU 30: governor  performance min/cur/max 2.3/1.589/2.3 GHz Turbo 0
+CPU 31: governor  performance min/cur/max 2.3/2.303/2.3 GHz Turbo 0
+CPU 32: governor  performance min/cur/max 2.3/1.351/2.3 GHz Turbo 0
+CPU 33: governor  performance min/cur/max 2.3/1.486/2.3 GHz Turbo 0
+CPU 34: governor  performance min/cur/max 2.3/1.749/2.3 GHz Turbo 0
+CPU 35: governor  performance min/cur/max 2.3/1.639/2.3 GHz Turbo 0
+CPU 36: governor  performance min/cur/max 2.3/1.752/2.3 GHz Turbo 0
+CPU 37: governor  performance min/cur/max 2.3/1.687/2.3 GHz Turbo 0
+CPU 38: governor  performance min/cur/max 2.3/2.302/2.3 GHz Turbo 0
+CPU 39: governor  performance min/cur/max 2.3/1.590/2.3 GHz Turbo 0
+CPU 40: governor  performance min/cur/max 2.3/1.741/2.3 GHz Turbo 0
+CPU 41: governor  performance min/cur/max 2.3/1.755/2.3 GHz Turbo 0
+CPU 42: governor  performance min/cur/max 2.3/2.300/2.3 GHz Turbo 0
+CPU 43: governor  performance min/cur/max 2.3/2.300/2.3 GHz Turbo 0
+CPU 44: governor  performance min/cur/max 2.3/2.300/2.3 GHz Turbo 0
+CPU 45: governor  performance min/cur/max 2.3/2.300/2.3 GHz Turbo 0
+CPU 46: governor  performance min/cur/max 2.3/2.300/2.3 GHz Turbo 0
+CPU 47: governor  performance min/cur/max 2.3/2.299/2.3 GHz Turbo 0
+CPU 48: governor  performance min/cur/max 2.3/2.250/2.3 GHz Turbo 0
+CPU 49: governor  performance min/cur/max 2.3/2.218/2.3 GHz Turbo 0
+CPU 50: governor  performance min/cur/max 2.3/2.226/2.3 GHz Turbo 0
+CPU 51: governor  performance min/cur/max 2.3/2.252/2.3 GHz Turbo 0
+CPU 52: governor  performance min/cur/max 2.3/2.240/2.3 GHz Turbo 0
+CPU 53: governor  performance min/cur/max 2.3/2.238/2.3 GHz Turbo 0
+CPU 54: governor  performance min/cur/max 2.3/2.282/2.3 GHz Turbo 0
+CPU 55: governor  performance min/cur/max 2.3/2.116/2.3 GHz Turbo 0
 
 Current Uncore frequencies:
 Socket 0: min/max 2.3/2.3 GHz
@@ -571,7 +513,7 @@ TM2                   off	off	off	off	off	off	off	off	off	off	off	off	off	off	of
 ################################################################################
 # Load
 ################################################################################
-0.66 0.88 0.97 1/634 20990
+0.58 0.85 0.96 1/634 643
 
 ################################################################################
 # Performance energy bias
@@ -587,36 +529,36 @@ Enabled: 1
 # General memory info
 ################################################################################
 MemTotal:       65851192 kB
-MemFree:        64133288 kB
-MemAvailable:   64499064 kB
-Buffers:           59336 kB
-Cached:           743896 kB
+MemFree:        64151608 kB
+MemAvailable:   64526260 kB
+Buffers:           67216 kB
+Cached:           743892 kB
 SwapCached:           44 kB
-Active:           574552 kB
-Inactive:         269820 kB
-Active(anon):      38396 kB
+Active:           573852 kB
+Inactive:         278444 kB
+Active(anon):      38484 kB
 Inactive(anon):    10864 kB
-Active(file):     536156 kB
-Inactive(file):   258956 kB
+Active(file):     535368 kB
+Inactive(file):   267580 kB
 Unevictable:           0 kB
 Mlocked:               0 kB
 SwapTotal:      31998972 kB
 SwapFree:       31992060 kB
-Dirty:               480 kB
+Dirty:               540 kB
 Writeback:             0 kB
-AnonPages:         40632 kB
-Mapped:            80240 kB
+AnonPages:         41276 kB
+Mapped:            81952 kB
 Shmem:              8116 kB
-Slab:             528904 kB
-SReclaimable:     221056 kB
-SUnreclaim:       307848 kB
-KernelStack:       11056 kB
-PageTables:         3292 kB
+Slab:             530940 kB
+SReclaimable:     223136 kB
+SUnreclaim:       307804 kB
+KernelStack:       11040 kB
+PageTables:         3196 kB
 NFS_Unstable:          0 kB
 Bounce:                0 kB
 WritebackTmp:          0 kB
 CommitLimit:    64924568 kB
-Committed_AS:     226336 kB
+Committed_AS:     262212 kB
 VmallocTotal:   34359738367 kB
 VmallocUsed:           0 kB
 VmallocChunk:          0 kB
@@ -1560,7 +1502,7 @@ LESS=-R
 LIKWID_LIBDIR=/mnt/opt/likwid-4.3.4/lib
 I_MPI_JOB_RESPECT_PROCESS_PLACEMENT=off
 IPPROOT=/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/ipp
-OLDPWD=/home/hpc/iwia/iwia84/INSPECT-repo/stencils/3D_r1_isotropic_box_constant/HaswellEP_E5-2695v3_CoD_20190503_100557
+OLDPWD=/home/hpc/iwia/iwia84/INSPECT-repo/stencils/3D_r1_heterogeneous_box_constant/HaswellEP_E5-2695v3_CoD_20190503_145520
 PBS_O_HOME=/home/hpc/iwia/iwia84
 MPICHHOME=/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mpi/intel64
 RRZECLUSTER=TESTCLUSTER
@@ -1597,7 +1539,7 @@ PBS_NODEFILE=/var/spool/pbspro/aux/3184.catstor
 GROUP=iwia
 PBS_TASKNUM=1
 LIKWID_DEFINES=-DLIKWID_PERFMON
-PWD=/home/hpc/iwia/iwia84/INSPECT-repo/stencils/3D_r1_heterogeneous_box_constant/HaswellEP_E5-2695v3_CoD_20190503_145520
+PWD=/home/hpc/iwia/iwia84/INSPECT-repo/stencils/3D_r1_homogeneous_box_constant/HaswellEP_E5-2695v3_CoD_20190503_202318
 HOME=/home/hpc/iwia/iwia84
 LIKWID_LIB=-L/mnt/opt/likwid-4.3.4/lib
 CLASSPATH_modshare=/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/daal/lib/daal.jar:1:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mpi/intel64/lib/mpi.jar:1

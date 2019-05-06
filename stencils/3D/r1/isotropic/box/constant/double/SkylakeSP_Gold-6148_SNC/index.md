@@ -1,17 +1,17 @@
 ---
 
-title:  "Stencil 3D r1 box constant heterogeneous double SkylakeSP_Gold-6148_SNC"
+title:  "Stencil 3D r1 box constant isotropic double SkylakeSP_Gold-6148_SNC"
 
 dimension    : "3D"
 radius       : "r1"
-weighting    : "heterogeneous"
+weighting    : "isotropic"
 kind         : "box"
 coefficients : "constant"
 datatype     : "double"
 machine      : "SkylakeSP_Gold-6148_SNC"
 flavor       : "EDIT_ME"
 compile_flags: "icc -O3 -fno-alias -xCORE-AVX512 -qopenmp -qopenmp -DLIKWID_PERFMON -Ilikwid-4.3.4/include -Llikwid-4.3.4/lib -I/headers/dummy.c stencil_compilable.c -o stencil -llikwid"
-flop         : "53"
+flop         : "30"
 scaling      : [ "1430" ]
 blocking     : [ "L2-3D", "L3-3D" ]
 ---
@@ -27,139 +27,80 @@ double c0;
 double c1;
 double c2;
 double c3;
-double c4;
-double c5;
-double c6;
-double c7;
-double c8;
-double c9;
-double c10;
-double c11;
-double c12;
-double c13;
-double c14;
-double c15;
-double c16;
-double c17;
-double c18;
-double c19;
-double c20;
-double c21;
-double c22;
-double c23;
-double c24;
-double c25;
-double c26;
 
 for(long k=1; k < M-1; ++k){
 for(long j=1; j < N-1; ++j){
 for(long i=1; i < P-1; ++i){
 b[k][j][i] = c0 * a[k][j][i]
-+ c1 * a[k-1][j-1][i-1]
-+ c2 * a[k][j-1][i-1]
-+ c3 * a[k+1][j-1][i-1]
-+ c4 * a[k-1][j][i-1]
-+ c5 * a[k][j][i-1]
-+ c6 * a[k+1][j][i-1]
-+ c7 * a[k-1][j+1][i-1]
-+ c8 * a[k][j+1][i-1]
-+ c9 * a[k+1][j+1][i-1]
-+ c10 * a[k-1][j-1][i]
-+ c11 * a[k][j-1][i]
-+ c12 * a[k+1][j-1][i]
-+ c13 * a[k-1][j][i]
-+ c14 * a[k+1][j][i]
-+ c15 * a[k-1][j+1][i]
-+ c16 * a[k][j+1][i]
-+ c17 * a[k+1][j+1][i]
-+ c18 * a[k-1][j-1][i+1]
-+ c19 * a[k][j-1][i+1]
-+ c20 * a[k+1][j-1][i+1]
-+ c21 * a[k-1][j][i+1]
-+ c22 * a[k][j][i+1]
-+ c23 * a[k+1][j][i+1]
-+ c24 * a[k-1][j+1][i+1]
-+ c25 * a[k][j+1][i+1]
-+ c26 * a[k+1][j+1][i+1]
++ c1 * (a[k][j][i-1] + a[k][j-1][i] + a[k-1][j][i] + a[k+1][j][i] + a[k][j+1][i] + a[k][j][i+1])
++ c2 * (a[k][j-1][i-1] + a[k-1][j][i-1] + a[k+1][j][i-1] + a[k][j+1][i-1] + a[k-1][j-1][i] + a[k+1][j-1][i] + a[k-1][j+1][i] + a[k+1][j+1][i] + a[k][j-1][i+1] + a[k-1][j][i+1] + a[k+1][j][i+1] + a[k][j+1][i+1])
++ c3 * (a[k-1][j-1][i-1] + a[k+1][j-1][i-1] + a[k-1][j+1][i-1] + a[k+1][j+1][i-1] + a[k-1][j-1][i+1] + a[k+1][j-1][i+1] + a[k-1][j+1][i+1] + a[k+1][j+1][i+1])
 ;
 }
 }
 }
 {%- endcapture -%}
 {%- capture source_code_asm -%}
-vpcmpq k1, ymm27, ymmword ptr [rsp+0x1a0], 0x1
-vpaddq ymm27, ymm27, ymmword ptr [rip]
-vmovupd ymm28{k1}{z}, ymmword ptr [r11+r13*8]
-vmovupd ymm31{k1}{z}, ymmword ptr [r12+r13*8]
-vmovupd ymm25{k1}{z}, ymmword ptr [r15+r13*8]
-vmovupd ymm26{k1}{z}, ymmword ptr [r15+r13*8+0x8]
-vmovupd ymm29{k1}{z}, ymmword ptr [r8+r13*8]
-vmulpd ymm30, ymm18, ymm28
-vmovupd ymm28{k1}{z}, ymmword ptr [r9+r13*8]
-vmulpd ymm25, ymm15, ymm25
-vfmadd231pd ymm30, ymm31, ymm8
-vmovupd ymm31{k1}{z}, ymmword ptr [rdi+r13*8]
-vfmadd231pd ymm25, ymm29, ymm17
-vmulpd ymm29, ymm28, ymmword ptr [rsp+0x1c0]
-vmovupd ymm28{k1}{z}, ymmword ptr [rbx+r13*8]
-vfmadd231pd ymm30, ymm26, ymm19
-vmovupd ymm26{k1}{z}, ymmword ptr [r10+r13*8]
-vfmadd231pd ymm29, ymm26, ymm16
-vmulpd ymm26, ymm13, ymm31
-vmovupd ymm31{k1}{z}, ymmword ptr [r12+r13*8+0x8]
-vaddpd ymm25, ymm25, ymm29
-vmovupd ymm29{k1}{z}, ymmword ptr [rsi+r13*8]
-vfmadd231pd ymm26, ymm28, ymm14
-vmulpd ymm28, ymm12, ymm31
-vfmadd231pd ymm28, ymm29, qword ptr [rbp+0x10]{1to4}
-vmovupd ymm29{k1}{z}, ymmword ptr [r11+r13*8+0x8]
-vaddpd ymm26, ymm26, ymm28
-vaddpd ymm25, ymm26, ymm25
-vaddpd ymm26, ymm25, ymm30
-vmovupd ymm30{k1}{z}, ymmword ptr [r10+r13*8+0x8]
-vmovupd ymm25{k1}{z}, ymmword ptr [r8+r13*8+0x8]
-vmulpd ymm28, ymm9, ymm30
-vmovupd ymm30{k1}{z}, ymmword ptr [r9+r13*8+0x8]
-vfmadd231pd ymm28, ymm29, ymm11
-vmulpd ymm31, ymm21, ymm30
-vmovupd ymm29{k1}{z}, ymmword ptr [rbx+r13*8+0x8]
-vmovupd ymm30{k1}{z}, ymmword ptr [r12+r13*8+0x10]
-vfmadd231pd ymm31, ymm25, ymm10
-vmovupd ymm25{k1}{z}, ymmword ptr [rdi+r13*8+0x8]
-vaddpd ymm28, ymm28, ymm31
-vmulpd ymm25, ymm5, ymm25
-vmovupd ymm31{k1}{z}, ymmword ptr [rsi+r13*8+0x8]
-vfmadd231pd ymm25, ymm29, ymm7
-vmulpd ymm29, ymm4, ymm30
-vmovupd ymm30{k1}{z}, ymmword ptr [r8+r13*8+0x10]
-vfmadd231pd ymm29, ymm31, ymm6
-vmovupd ymm31{k1}{z}, ymmword ptr [r11+r13*8+0x10]
-vaddpd ymm25, ymm25, ymm29
-vaddpd ymm25, ymm25, ymm28
-nop 
-vmovupd ymm28{k1}{z}, ymmword ptr [r10+r13*8+0x10]
-vmulpd ymm29, ymm1, ymm28
-vmovupd ymm28{k1}{z}, ymmword ptr [r15+r13*8+0x10]
-vfmadd231pd ymm29, ymm31, ymm3
-vmulpd ymm31, ymm22, ymm28
-vmovupd ymm28{k1}{z}, ymmword ptr [rsi+r13*8+0x10]
-vfmadd231pd ymm31, ymm30, ymm2
-vmulpd ymm28, ymm20, ymm28
-vmovupd ymm30{k1}{z}, ymmword ptr [rbx+r13*8+0x10]
-vaddpd ymm29, ymm29, ymm31
-vmovupd ymm31{k1}{z}, ymmword ptr [r9+r13*8+0x10]
-vfmadd231pd ymm28, ymm31, ymm24
-vmovupd ymm31{k1}{z}, ymmword ptr [rdi+r13*8+0x10]
-vmulpd ymm31, ymm0, ymm31
-vfmadd231pd ymm31, ymm30, ymm23
-vaddpd ymm30, ymm28, ymm31
-vaddpd ymm29, ymm30, ymm29
-vaddpd ymm25, ymm29, ymm25
-vaddpd ymm26, ymm25, ymm26
-vmovupd ymmword ptr [r14+r13*8+0x8]{k1}, ymm26
-add r13, 0x4
-cmp r13, rax
-jb 0xfffffffffffffde8
+vpcmpgtq k1, ymm2, ymm1
+vpaddq ymm1, ymm1, ymm22
+vmovupd ymm3{k1}{z}, ymmword ptr [r10+r11*8]
+vmovupd ymm4{k1}{z}, ymmword ptr [r9+r11*8+0x8]
+vmovupd ymm6{k1}{z}, ymmword ptr [r8+r11*8+0x8]
+vmovupd ymm8{k1}{z}, ymmword ptr [rbx+r11*8+0x8]
+vmovupd ymm10{k1}{z}, ymmword ptr [rax+r11*8+0x8]
+vmovupd ymm12{k1}{z}, ymmword ptr [r10+r11*8+0x10]
+vmovupd ymm15{k1}{z}, ymmword ptr [r9+r11*8]
+vmovupd ymm16{k1}{z}, ymmword ptr [r8+r11*8]
+vmovupd ymm23{k1}{z}, ymmword ptr [rbx+r11*8]
+vmovupd ymm24{k1}{z}, ymmword ptr [rax+r11*8]
+vmovupd ymm27{k1}{z}, ymmword ptr [rdi+r11*8+0x8]
+vmovupd ymm28{k1}{z}, ymmword ptr [rsi+r11*8+0x8]
+vmovupd ymm29{k1}{z}, ymmword ptr [rdx+r11*8+0x8]
+vmovupd ymm30{k1}{z}, ymmword ptr [rcx+r11*8+0x8]
+vmovupd ymm14{k1}{z}, ymmword ptr [r10+r11*8+0x8]
+vaddpd ymm5, ymm3, ymm4
+vaddpd ymm25, ymm15, ymm16
+vaddpd ymm26, ymm23, ymm24
+vaddpd ymm7, ymm5, ymm6
+vaddpd ymm31, ymm27, ymm28
+vaddpd ymm27, ymm29, ymm30
+vaddpd ymm9, ymm7, ymm8
+vaddpd ymm15, ymm25, ymm26
+vaddpd ymm16, ymm31, ymm27
+vaddpd ymm11, ymm9, ymm10
+vmovupd ymm3{k1}{z}, ymmword ptr [r9+r11*8+0x10]
+vmovupd ymm4{k1}{z}, ymmword ptr [r8+r11*8+0x10]
+vmovupd ymm5{k1}{z}, ymmword ptr [rbx+r11*8+0x10]
+vmovupd ymm6{k1}{z}, ymmword ptr [rax+r11*8+0x10]
+vmovupd ymm23{k1}{z}, ymmword ptr [rcx+r11*8]
+vmovupd ymm30{k1}{z}, ymmword ptr [rcx+r11*8+0x10]
+vmovupd ymm26{k1}{z}, ymmword ptr [rdi+r11*8+0x10]
+vmovupd ymm28{k1}{z}, ymmword ptr [rsi+r11*8+0x10]
+vmovupd ymm29{k1}{z}, ymmword ptr [rdx+r11*8+0x10]
+vaddpd ymm13, ymm11, ymm12
+vaddpd ymm7, ymm3, ymm4
+vaddpd ymm8, ymm5, ymm6
+vaddpd ymm9, ymm15, ymm16
+vaddpd ymm31, ymm26, ymm28
+vaddpd ymm10, ymm7, ymm8
+vaddpd ymm26, ymm29, ymm30
+vmulpd ymm0, ymm19, ymm13
+vmovupd ymm12{k1}{z}, ymmword ptr [rdi+r11*8]
+vmovupd ymm13{k1}{z}, ymmword ptr [rsi+r11*8]
+vaddpd ymm11, ymm9, ymm10
+vaddpd ymm4, ymm31, ymm26
+vaddpd ymm24, ymm12, ymm13
+vfmadd231pd ymm0, ymm14, ymm20
+vmovupd ymm14{k1}{z}, ymmword ptr [rdx+r11*8]
+vfmadd231pd ymm0, ymm11, ymm18
+vaddpd ymm25, ymm14, ymm23
+vaddpd ymm3, ymm24, ymm25
+vaddpd ymm5, ymm3, ymm4
+vfmadd231pd ymm0, ymm5, ymm17
+vmovupd ymmword ptr [r15+r11*8+0x8]{k1}, ymm0
+add r11, 0x4
+cmp r11, r12
+jb 0xfffffffffffffe4a
 {%- endcapture -%}
 
 {%- capture layercondition -%}
@@ -177,13 +118,13 @@ L3: 32*N*P - 16*P - 16 <= 29360128;N*P ~ 950²
 
 Throughput Analysis Report
 --------------------------
-Block Throughput: 30.05 Cycles       Throughput Bottleneck: Backend
+Block Throughput: 24.42 Cycles       Throughput Bottleneck: Backend
 Loop Count:  22
 Port Binding In Cycles Per Iteration:
 --------------------------------------------------------------------------------------------------
 |  Port  |   0   -  DV   |   1   |   2   -  D    |   3   -  D    |   4   |   5   |   6   |   7   |
 --------------------------------------------------------------------------------------------------
-| Cycles | 22.7     0.0  | 22.6  | 16.0    16.0  | 16.0    15.0  |  1.0  | 22.7  |  2.0  |  0.0  |
+| Cycles | 18.7     0.0  | 18.7  | 14.0    14.0  | 14.0    13.0  |  1.0  | 18.6  |  1.0  |  0.0  |
 --------------------------------------------------------------------------------------------------
 
 DV - Divider pipe (on port 0)
@@ -198,80 +139,67 @@ X - instruction not supported, was not accounted in Analysis
 | Num Of   |                    Ports pressure in cycles                         |      |
 |  Uops    |  0  - DV    |  1   |  2  -  D    |  3  -  D    |  4   |  5   |  6   |  7   |
 -----------------------------------------------------------------------------------------
-|   2      |             |      | 1.0     1.0 |             |      | 1.0  |      |      | vpcmpq k1, ymm27, ymmword ptr [rsp+0x1a0], 0x1
-|   2^     |             |      |             | 1.0     1.0 |      | 1.0  |      |      | vpaddq ymm27, ymm27, ymmword ptr [rip]
-|   2      |             |      | 1.0     1.0 |             |      | 1.0  |      |      | vmovupd ymm28{k1}{z}, ymmword ptr [r11+r13*8]
-|   2      | 0.3         | 0.3  |             | 1.0     1.0 |      | 0.4  |      |      | vmovupd ymm31{k1}{z}, ymmword ptr [r12+r13*8]
-|   2      | 0.4         | 0.3  | 1.0     1.0 |             |      | 0.3  |      |      | vmovupd ymm25{k1}{z}, ymmword ptr [r15+r13*8]
-|   2      | 0.3         | 0.4  |             | 1.0     1.0 |      | 0.3  |      |      | vmovupd ymm26{k1}{z}, ymmword ptr [r15+r13*8+0x8]
-|   2      | 0.3         | 0.3  | 1.0     1.0 |             |      | 0.4  |      |      | vmovupd ymm29{k1}{z}, ymmword ptr [r8+r13*8]
-|   1      | 0.7         | 0.3  |             |             |      |      |      |      | vmulpd ymm30, ymm18, ymm28
-|   2      |             | 0.4  |             | 1.0     1.0 |      | 0.6  |      |      | vmovupd ymm28{k1}{z}, ymmword ptr [r9+r13*8]
-|   1      | 0.7         | 0.3  |             |             |      |      |      |      | vmulpd ymm25, ymm15, ymm25
-|   1      | 0.3         | 0.7  |             |             |      |      |      |      | vfmadd231pd ymm30, ymm31, ymm8
-|   2      |             |      | 1.0     1.0 |             |      | 1.0  |      |      | vmovupd ymm31{k1}{z}, ymmword ptr [rdi+r13*8]
-|   1      | 0.7         | 0.3  |             |             |      |      |      |      | vfmadd231pd ymm25, ymm29, ymm17
-|   2^     | 0.3         | 0.7  |             | 1.0     1.0 |      |      |      |      | vmulpd ymm29, ymm28, ymmword ptr [rsp+0x1c0]
-|   2      |             |      | 1.0     1.0 |             |      | 1.0  |      |      | vmovupd ymm28{k1}{z}, ymmword ptr [rbx+r13*8]
-|   1      | 0.7         | 0.3  |             |             |      |      |      |      | vfmadd231pd ymm30, ymm26, ymm19
-|   2      |             | 0.3  |             | 1.0     1.0 |      | 0.7  |      |      | vmovupd ymm26{k1}{z}, ymmword ptr [r10+r13*8]
-|   1      | 0.6         | 0.4  |             |             |      |      |      |      | vfmadd231pd ymm29, ymm26, ymm16
-|   1      | 0.4         | 0.6  |             |             |      |      |      |      | vmulpd ymm26, ymm13, ymm31
-|   2      |             |      | 1.0     1.0 |             |      | 1.0  |      |      | vmovupd ymm31{k1}{z}, ymmword ptr [r12+r13*8+0x8]
-|   1      | 0.6         | 0.4  |             |             |      |      |      |      | vaddpd ymm25, ymm25, ymm29
-|   2      |             | 0.3  |             | 1.0     1.0 |      | 0.7  |      |      | vmovupd ymm29{k1}{z}, ymmword ptr [rsi+r13*8]
-|   1      | 0.7         | 0.3  |             |             |      |      |      |      | vfmadd231pd ymm26, ymm28, ymm14
-|   1      | 0.3         | 0.7  |             |             |      |      |      |      | vmulpd ymm28, ymm12, ymm31
-|   2^     | 0.7         | 0.3  | 1.0     1.0 |             |      |      |      |      | vfmadd231pd ymm28, ymm29, qword ptr [rbp+0x10]{1to4}
-|   2      |             |      |             | 1.0     1.0 |      | 1.0  |      |      | vmovupd ymm29{k1}{z}, ymmword ptr [r11+r13*8+0x8]
-|   1      | 0.3         | 0.7  |             |             |      |      |      |      | vaddpd ymm26, ymm26, ymm28
-|   1      | 0.7         | 0.3  |             |             |      |      |      |      | vaddpd ymm25, ymm26, ymm25
-|   1      | 0.3         | 0.7  |             |             |      |      |      |      | vaddpd ymm26, ymm25, ymm30
-|   2      |             |      | 1.0     1.0 |             |      | 1.0  |      |      | vmovupd ymm30{k1}{z}, ymmword ptr [r10+r13*8+0x8]
-|   2      |             |      |             | 1.0     1.0 |      | 1.0  |      |      | vmovupd ymm25{k1}{z}, ymmword ptr [r8+r13*8+0x8]
-|   1      | 0.7         | 0.3  |             |             |      |      |      |      | vmulpd ymm28, ymm9, ymm30
-|   2      |             | 0.4  | 1.0     1.0 |             |      | 0.6  |      |      | vmovupd ymm30{k1}{z}, ymmword ptr [r9+r13*8+0x8]
-|   1      | 0.7         | 0.3  |             |             |      |      |      |      | vfmadd231pd ymm28, ymm29, ymm11
-|   1      | 0.3         | 0.7  |             |             |      |      |      |      | vmulpd ymm31, ymm21, ymm30
-|   2      |             |      |             | 1.0     1.0 |      | 1.0  |      |      | vmovupd ymm29{k1}{z}, ymmword ptr [rbx+r13*8+0x8]
-|   2      | 0.3         | 0.3  | 1.0     1.0 |             |      | 0.4  |      |      | vmovupd ymm30{k1}{z}, ymmword ptr [r12+r13*8+0x10]
-|   1      | 0.7         | 0.3  |             |             |      |      |      |      | vfmadd231pd ymm31, ymm25, ymm10
-|   2      |             | 0.4  |             | 1.0     1.0 |      | 0.6  |      |      | vmovupd ymm25{k1}{z}, ymmword ptr [rdi+r13*8+0x8]
-|   1      | 0.7         | 0.3  |             |             |      |      |      |      | vaddpd ymm28, ymm28, ymm31
-|   1      | 0.3         | 0.7  |             |             |      |      |      |      | vmulpd ymm25, ymm5, ymm25
-|   2      |             |      | 1.0     1.0 |             |      | 1.0  |      |      | vmovupd ymm31{k1}{z}, ymmword ptr [rsi+r13*8+0x8]
-|   1      | 0.7         | 0.3  |             |             |      |      |      |      | vfmadd231pd ymm25, ymm29, ymm7
-|   1      | 0.3         | 0.7  |             |             |      |      |      |      | vmulpd ymm29, ymm4, ymm30
-|   2      |             |      |             | 1.0     1.0 |      | 1.0  |      |      | vmovupd ymm30{k1}{z}, ymmword ptr [r8+r13*8+0x10]
-|   1      | 0.7         | 0.3  |             |             |      |      |      |      | vfmadd231pd ymm29, ymm31, ymm6
-|   2      |             | 0.3  | 1.0     1.0 |             |      | 0.7  |      |      | vmovupd ymm31{k1}{z}, ymmword ptr [r11+r13*8+0x10]
-|   1      | 0.6         | 0.4  |             |             |      |      |      |      | vaddpd ymm25, ymm25, ymm29
-|   1      | 0.4         | 0.6  |             |             |      |      |      |      | vaddpd ymm25, ymm25, ymm28
-|   1      |             |      |             |             |      |      | 1.0  |      | nop 
-|   2      |             |      |             | 1.0     1.0 |      | 1.0  |      |      | vmovupd ymm28{k1}{z}, ymmword ptr [r10+r13*8+0x10]
-|   1      | 0.6         | 0.4  |             |             |      |      |      |      | vmulpd ymm29, ymm1, ymm28
-|   2      |             | 0.3  | 1.0     1.0 |             |      | 0.7  |      |      | vmovupd ymm28{k1}{z}, ymmword ptr [r15+r13*8+0x10]
-|   1      | 0.7         | 0.3  |             |             |      |      |      |      | vfmadd231pd ymm29, ymm31, ymm3
-|   1      | 0.3         | 0.7  |             |             |      |      |      |      | vmulpd ymm31, ymm22, ymm28
-|   2      |             |      |             | 1.0     1.0 |      | 1.0  |      |      | vmovupd ymm28{k1}{z}, ymmword ptr [rsi+r13*8+0x10]
-|   1      | 0.7         | 0.3  |             |             |      |      |      |      | vfmadd231pd ymm31, ymm30, ymm2
-|   1      | 0.3         | 0.7  |             |             |      |      |      |      | vmulpd ymm28, ymm20, ymm28
-|   2      |             |      | 1.0     1.0 |             |      | 1.0  |      |      | vmovupd ymm30{k1}{z}, ymmword ptr [rbx+r13*8+0x10]
-|   1      | 0.7         | 0.3  |             |             |      |      |      |      | vaddpd ymm29, ymm29, ymm31
-|   2      |             | 0.4  |             | 1.0     1.0 |      | 0.6  |      |      | vmovupd ymm31{k1}{z}, ymmword ptr [r9+r13*8+0x10]
-|   1      | 0.7         | 0.3  |             |             |      |      |      |      | vfmadd231pd ymm28, ymm31, ymm24
-|   2      |             | 0.3  | 1.0     1.0 |             |      | 0.7  |      |      | vmovupd ymm31{k1}{z}, ymmword ptr [rdi+r13*8+0x10]
-|   1      | 0.6         | 0.4  |             |             |      |      |      |      | vmulpd ymm31, ymm0, ymm31
-|   1      | 0.4         | 0.6  |             |             |      |      |      |      | vfmadd231pd ymm31, ymm30, ymm23
-|   1      | 0.6         | 0.4  |             |             |      |      |      |      | vaddpd ymm30, ymm28, ymm31
-|   1      | 0.4         | 0.6  |             |             |      |      |      |      | vaddpd ymm29, ymm30, ymm29
-|   1      | 0.6         | 0.4  |             |             |      |      |      |      | vaddpd ymm25, ymm29, ymm25
-|   1      | 0.4         | 0.6  |             |             |      |      |      |      | vaddpd ymm26, ymm25, ymm26
-|   2      |             |      |             | 1.0         | 1.0  |      |      |      | vmovupd ymmword ptr [r14+r13*8+0x8]{k1}, ymm26
-|   1      |             |      |             |             |      |      | 1.0  |      | add r13, 0x4
-|   1*     |             |      |             |             |      |      |      |      | cmp r13, rax
-|   0*F    |             |      |             |             |      |      |      |      | jb 0xfffffffffffffde8
-Total Num Of Uops: 104
+|   1      |             |      |             |             |      | 1.0  |      |      | vpcmpgtq k1, ymm2, ymm1
+|   1      |             |      |             |             |      | 1.0  |      |      | vpaddq ymm1, ymm1, ymm22
+|   2      |             |      | 1.0     1.0 |             |      | 1.0  |      |      | vmovupd ymm3{k1}{z}, ymmword ptr [r10+r11*8]
+|   2      |             |      |             | 1.0     1.0 |      | 1.0  |      |      | vmovupd ymm4{k1}{z}, ymmword ptr [r9+r11*8+0x8]
+|   2      |             |      | 1.0     1.0 |             |      | 1.0  |      |      | vmovupd ymm6{k1}{z}, ymmword ptr [r8+r11*8+0x8]
+|   2      |             | 0.4  |             | 1.0     1.0 |      | 0.6  |      |      | vmovupd ymm8{k1}{z}, ymmword ptr [rbx+r11*8+0x8]
+|   2      | 0.3         | 0.3  | 1.0     1.0 |             |      | 0.4  |      |      | vmovupd ymm10{k1}{z}, ymmword ptr [rax+r11*8+0x8]
+|   2      | 0.4         | 0.3  |             | 1.0     1.0 |      | 0.3  |      |      | vmovupd ymm12{k1}{z}, ymmword ptr [r10+r11*8+0x10]
+|   2      | 0.3         | 0.4  | 1.0     1.0 |             |      | 0.3  |      |      | vmovupd ymm15{k1}{z}, ymmword ptr [r9+r11*8]
+|   2      | 0.3         | 0.3  |             | 1.0     1.0 |      | 0.4  |      |      | vmovupd ymm16{k1}{z}, ymmword ptr [r8+r11*8]
+|   2      | 0.4         | 0.3  | 1.0     1.0 |             |      | 0.3  |      |      | vmovupd ymm23{k1}{z}, ymmword ptr [rbx+r11*8]
+|   2      | 0.3         | 0.4  |             | 1.0     1.0 |      | 0.3  |      |      | vmovupd ymm24{k1}{z}, ymmword ptr [rax+r11*8]
+|   2      | 0.3         | 0.3  | 1.0     1.0 |             |      | 0.4  |      |      | vmovupd ymm27{k1}{z}, ymmword ptr [rdi+r11*8+0x8]
+|   2      | 0.4         | 0.3  |             | 1.0     1.0 |      | 0.3  |      |      | vmovupd ymm28{k1}{z}, ymmword ptr [rsi+r11*8+0x8]
+|   2      | 0.3         | 0.4  | 1.0     1.0 |             |      | 0.3  |      |      | vmovupd ymm29{k1}{z}, ymmword ptr [rdx+r11*8+0x8]
+|   2      | 0.3         | 0.3  |             | 1.0     1.0 |      | 0.4  |      |      | vmovupd ymm30{k1}{z}, ymmword ptr [rcx+r11*8+0x8]
+|   2      | 0.4         | 0.3  | 1.0     1.0 |             |      | 0.3  |      |      | vmovupd ymm14{k1}{z}, ymmword ptr [r10+r11*8+0x8]
+|   1      | 0.6         | 0.4  |             |             |      |      |      |      | vaddpd ymm5, ymm3, ymm4
+|   1      | 0.4         | 0.6  |             |             |      |      |      |      | vaddpd ymm25, ymm15, ymm16
+|   1      | 0.6         | 0.4  |             |             |      |      |      |      | vaddpd ymm26, ymm23, ymm24
+|   1      | 0.4         | 0.6  |             |             |      |      |      |      | vaddpd ymm7, ymm5, ymm6
+|   1      | 0.6         | 0.4  |             |             |      |      |      |      | vaddpd ymm31, ymm27, ymm28
+|   1      | 0.4         | 0.6  |             |             |      |      |      |      | vaddpd ymm27, ymm29, ymm30
+|   1      | 0.6         | 0.4  |             |             |      |      |      |      | vaddpd ymm9, ymm7, ymm8
+|   1      | 0.4         | 0.6  |             |             |      |      |      |      | vaddpd ymm15, ymm25, ymm26
+|   1      | 0.6         | 0.4  |             |             |      |      |      |      | vaddpd ymm16, ymm31, ymm27
+|   1      | 0.4         | 0.6  |             |             |      |      |      |      | vaddpd ymm11, ymm9, ymm10
+|   2      |             |      |             | 1.0     1.0 |      | 1.0  |      |      | vmovupd ymm3{k1}{z}, ymmword ptr [r9+r11*8+0x10]
+|   2      |             |      | 1.0     1.0 |             |      | 1.0  |      |      | vmovupd ymm4{k1}{z}, ymmword ptr [r8+r11*8+0x10]
+|   2      |             |      |             | 1.0     1.0 |      | 1.0  |      |      | vmovupd ymm5{k1}{z}, ymmword ptr [rbx+r11*8+0x10]
+|   2      |             |      | 1.0     1.0 |             |      | 1.0  |      |      | vmovupd ymm6{k1}{z}, ymmword ptr [rax+r11*8+0x10]
+|   2      |             |      |             | 1.0     1.0 |      | 1.0  |      |      | vmovupd ymm23{k1}{z}, ymmword ptr [rcx+r11*8]
+|   2      | 0.3         | 0.4  | 1.0     1.0 |             |      | 0.3  |      |      | vmovupd ymm30{k1}{z}, ymmword ptr [rcx+r11*8+0x10]
+|   2      | 0.3         | 0.3  |             | 1.0     1.0 |      | 0.4  |      |      | vmovupd ymm26{k1}{z}, ymmword ptr [rdi+r11*8+0x10]
+|   2      | 0.4         | 0.3  | 1.0     1.0 |             |      | 0.3  |      |      | vmovupd ymm28{k1}{z}, ymmword ptr [rsi+r11*8+0x10]
+|   2      | 0.3         | 0.4  |             | 1.0     1.0 |      | 0.3  |      |      | vmovupd ymm29{k1}{z}, ymmword ptr [rdx+r11*8+0x10]
+|   1      | 0.7         | 0.3  |             |             |      |      |      |      | vaddpd ymm13, ymm11, ymm12
+|   1      | 0.3         | 0.7  |             |             |      |      |      |      | vaddpd ymm7, ymm3, ymm4
+|   1      | 0.7         | 0.3  |             |             |      |      |      |      | vaddpd ymm8, ymm5, ymm6
+|   1      | 0.3         | 0.7  |             |             |      |      |      |      | vaddpd ymm9, ymm15, ymm16
+|   1      | 0.7         | 0.3  |             |             |      |      |      |      | vaddpd ymm31, ymm26, ymm28
+|   1      | 0.3         | 0.7  |             |             |      |      |      |      | vaddpd ymm10, ymm7, ymm8
+|   1      | 0.7         | 0.3  |             |             |      |      |      |      | vaddpd ymm26, ymm29, ymm30
+|   1      | 0.3         | 0.7  |             |             |      |      |      |      | vmulpd ymm0, ymm19, ymm13
+|   2      |             |      | 1.0     1.0 |             |      | 1.0  |      |      | vmovupd ymm12{k1}{z}, ymmword ptr [rdi+r11*8]
+|   2      |             |      |             | 1.0     1.0 |      | 1.0  |      |      | vmovupd ymm13{k1}{z}, ymmword ptr [rsi+r11*8]
+|   1      | 0.7         | 0.3  |             |             |      |      |      |      | vaddpd ymm11, ymm9, ymm10
+|   1      | 0.3         | 0.7  |             |             |      |      |      |      | vaddpd ymm4, ymm31, ymm26
+|   1      | 0.7         | 0.3  |             |             |      |      |      |      | vaddpd ymm24, ymm12, ymm13
+|   1      | 0.3         | 0.7  |             |             |      |      |      |      | vfmadd231pd ymm0, ymm14, ymm20
+|   2      |             |      | 1.0     1.0 |             |      | 1.0  |      |      | vmovupd ymm14{k1}{z}, ymmword ptr [rdx+r11*8]
+|   1      | 0.7         | 0.3  |             |             |      |      |      |      | vfmadd231pd ymm0, ymm11, ymm18
+|   1      | 0.3         | 0.7  |             |             |      |      |      |      | vaddpd ymm25, ymm14, ymm23
+|   1      | 0.7         | 0.3  |             |             |      |      |      |      | vaddpd ymm3, ymm24, ymm25
+|   1      | 0.3         | 0.7  |             |             |      |      |      |      | vaddpd ymm5, ymm3, ymm4
+|   1      | 0.7         | 0.3  |             |             |      |      |      |      | vfmadd231pd ymm0, ymm5, ymm17
+|   2      |             |      |             | 1.0         | 1.0  |      |      |      | vmovupd ymmword ptr [r15+r11*8+0x8]{k1}, ymm0
+|   1      |             |      |             |             |      |      | 1.0  |      | add r11, 0x4
+|   1*     |             |      |             |             |      |      |      |      | cmp r11, r12
+|   0*F    |             |      |             |             |      |      |      |      | jb 0xfffffffffffffe4a
+Total Num Of Uops: 87
 Analysis Notes:
 Backend allocation was stalled due to unavailable allocation resources.
 
@@ -317,9 +245,9 @@ Linux skylakesp2 4.15.0-48-generic #51-Ubuntu SMP Wed Apr 3 08:28:49 UTC 2019 x8
 # Logged in users
 ################################################################################
 root
- 20:48:56 up 8 days,  8:24,  1 user,  load average: 0.52, 0.84, 0.95
+ 10:06:26 up 7 days, 21:41,  1 user,  load average: 0.35, 0.08, 0.03
 USER     TTY      FROM             LOGIN@   IDLE   JCPU   PCPU WHAT
-root     pts/0    192.168.80.181   25Apr19  8days  0.01s  0.01s -bash
+root     pts/0    192.168.80.181   25Apr19  7days  0.01s  0.01s -bash
 
 ################################################################################
 # CPUset
@@ -474,13 +402,13 @@ NUMA domains:		2
 Domain:			0
 Processors:		( 0 40 1 41 2 42 3 43 4 44 5 45 6 46 7 47 8 48 9 49 10 50 11 51 12 52 13 53 14 54 15 55 16 56 17 57 18 58 19 59 )
 Distances:		10 21
-Free memory:		45913.3 MB
+Free memory:		45917.7 MB
 Total memory:		46968.3 MB
 --------------------------------------------------------------------------------
 Domain:			1
 Processors:		( 20 60 21 61 22 62 23 63 24 64 25 65 26 66 27 67 28 68 29 69 30 70 31 71 32 72 33 73 34 74 35 75 36 76 37 77 38 78 39 79 )
 Distances:		21 10
-Free memory:		47262.5 MB
+Free memory:		47420.3 MB
 Total memory:		48354.1 MB
 --------------------------------------------------------------------------------
 
@@ -490,10 +418,10 @@ Total memory:		48354.1 MB
 available: 2 nodes (0-1)
 node 0 cpus: 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59
 node 0 size: 46968 MB
-node 0 free: 45913 MB
+node 0 free: 45917 MB
 node 1 cpus: 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79
 node 1 size: 48354 MB
-node 1 free: 47272 MB
+node 1 free: 47430 MB
 node distances:
 node   0   1 
   0:  10  21 
@@ -503,86 +431,86 @@ node   0   1
 # Frequencies
 ################################################################################
 Current CPU frequencies:
-CPU 0: governor     ondemand min/cur/max 2.4/1.511/2.4 GHz Turbo 0
-CPU 1: governor     ondemand min/cur/max 2.4/1.981/2.4 GHz Turbo 0
-CPU 2: governor     ondemand min/cur/max 2.4/1.868/2.4 GHz Turbo 0
-CPU 3: governor     ondemand min/cur/max 2.4/1.697/2.4 GHz Turbo 0
-CPU 4: governor     ondemand min/cur/max 2.4/1.270/2.4 GHz Turbo 0
-CPU 5: governor     ondemand min/cur/max 2.4/2.078/2.4 GHz Turbo 0
-CPU 6: governor     ondemand min/cur/max 2.4/1.804/2.4 GHz Turbo 0
-CPU 7: governor     ondemand min/cur/max 2.4/2.151/2.4 GHz Turbo 0
-CPU 8: governor     ondemand min/cur/max 2.4/1.181/2.4 GHz Turbo 0
-CPU 9: governor     ondemand min/cur/max 2.4/1.602/2.4 GHz Turbo 0
-CPU 10: governor     ondemand min/cur/max 2.4/1.108/2.4 GHz Turbo 0
-CPU 11: governor     ondemand min/cur/max 2.4/2.012/2.4 GHz Turbo 0
-CPU 12: governor     ondemand min/cur/max 2.4/2.270/2.4 GHz Turbo 0
-CPU 13: governor     ondemand min/cur/max 2.4/2.121/2.4 GHz Turbo 0
-CPU 14: governor     ondemand min/cur/max 2.4/2.372/2.4 GHz Turbo 0
-CPU 15: governor     ondemand min/cur/max 2.4/2.231/2.4 GHz Turbo 0
-CPU 16: governor     ondemand min/cur/max 2.4/1.647/2.4 GHz Turbo 0
-CPU 17: governor     ondemand min/cur/max 2.4/1.758/2.4 GHz Turbo 0
-CPU 18: governor     ondemand min/cur/max 2.4/2.113/2.4 GHz Turbo 0
-CPU 19: governor     ondemand min/cur/max 2.4/2.260/2.4 GHz Turbo 0
-CPU 20: governor     ondemand min/cur/max 2.4/2.253/2.4 GHz Turbo 0
-CPU 21: governor     ondemand min/cur/max 2.4/2.114/2.4 GHz Turbo 0
-CPU 22: governor     ondemand min/cur/max 2.4/1.423/2.4 GHz Turbo 0
-CPU 23: governor     ondemand min/cur/max 2.4/1.438/2.4 GHz Turbo 0
-CPU 24: governor     ondemand min/cur/max 2.4/1.513/2.4 GHz Turbo 0
-CPU 25: governor     ondemand min/cur/max 2.4/1.656/2.4 GHz Turbo 0
-CPU 26: governor     ondemand min/cur/max 2.4/2.053/2.4 GHz Turbo 0
-CPU 27: governor     ondemand min/cur/max 2.4/2.076/2.4 GHz Turbo 0
-CPU 28: governor     ondemand min/cur/max 2.4/1.849/2.4 GHz Turbo 0
-CPU 29: governor     ondemand min/cur/max 2.4/1.311/2.4 GHz Turbo 0
-CPU 30: governor     ondemand min/cur/max 2.4/2.249/2.4 GHz Turbo 0
-CPU 31: governor     ondemand min/cur/max 2.4/1.446/2.4 GHz Turbo 0
-CPU 32: governor     ondemand min/cur/max 2.4/2.307/2.4 GHz Turbo 0
-CPU 33: governor     ondemand min/cur/max 2.4/1.886/2.4 GHz Turbo 0
-CPU 34: governor     ondemand min/cur/max 2.4/2.150/2.4 GHz Turbo 0
-CPU 35: governor     ondemand min/cur/max 2.4/2.092/2.4 GHz Turbo 0
-CPU 36: governor     ondemand min/cur/max 2.4/1.658/2.4 GHz Turbo 0
-CPU 37: governor     ondemand min/cur/max 2.4/1.865/2.4 GHz Turbo 0
-CPU 38: governor     ondemand min/cur/max 2.4/2.100/2.4 GHz Turbo 0
-CPU 39: governor     ondemand min/cur/max 2.4/2.098/2.4 GHz Turbo 0
-CPU 40: governor     ondemand min/cur/max 2.4/1.961/2.4 GHz Turbo 0
-CPU 41: governor     ondemand min/cur/max 2.4/2.170/2.4 GHz Turbo 0
-CPU 42: governor     ondemand min/cur/max 2.4/1.403/2.4 GHz Turbo 0
-CPU 43: governor     ondemand min/cur/max 2.4/1.969/2.4 GHz Turbo 0
-CPU 44: governor     ondemand min/cur/max 2.4/1.273/2.4 GHz Turbo 0
-CPU 45: governor     ondemand min/cur/max 2.4/1.350/2.4 GHz Turbo 0
-CPU 46: governor     ondemand min/cur/max 2.4/1.691/2.4 GHz Turbo 0
-CPU 47: governor     ondemand min/cur/max 2.4/1.607/2.4 GHz Turbo 0
-CPU 48: governor     ondemand min/cur/max 2.4/2.350/2.4 GHz Turbo 0
-CPU 49: governor     ondemand min/cur/max 2.4/1.393/2.4 GHz Turbo 0
-CPU 50: governor     ondemand min/cur/max 2.4/1.532/2.4 GHz Turbo 0
-CPU 51: governor     ondemand min/cur/max 2.4/2.063/2.4 GHz Turbo 0
-CPU 52: governor     ondemand min/cur/max 2.4/2.285/2.4 GHz Turbo 0
-CPU 53: governor     ondemand min/cur/max 2.4/1.542/2.4 GHz Turbo 0
-CPU 54: governor     ondemand min/cur/max 2.4/2.185/2.4 GHz Turbo 0
-CPU 55: governor     ondemand min/cur/max 2.4/1.314/2.4 GHz Turbo 0
-CPU 56: governor     ondemand min/cur/max 2.4/2.079/2.4 GHz Turbo 0
-CPU 57: governor     ondemand min/cur/max 2.4/1.335/2.4 GHz Turbo 0
-CPU 58: governor     ondemand min/cur/max 2.4/1.820/2.4 GHz Turbo 0
-CPU 59: governor     ondemand min/cur/max 2.4/2.281/2.4 GHz Turbo 0
-CPU 60: governor     ondemand min/cur/max 2.4/1.891/2.4 GHz Turbo 0
-CPU 61: governor     ondemand min/cur/max 2.4/2.275/2.4 GHz Turbo 0
-CPU 62: governor     ondemand min/cur/max 2.4/1.813/2.4 GHz Turbo 0
-CPU 63: governor     ondemand min/cur/max 2.4/2.250/2.4 GHz Turbo 0
-CPU 64: governor     ondemand min/cur/max 2.4/1.655/2.4 GHz Turbo 0
-CPU 65: governor     ondemand min/cur/max 2.4/1.720/2.4 GHz Turbo 0
-CPU 66: governor     ondemand min/cur/max 2.4/2.270/2.4 GHz Turbo 0
-CPU 67: governor     ondemand min/cur/max 2.4/1.474/2.4 GHz Turbo 0
-CPU 68: governor     ondemand min/cur/max 2.4/1.707/2.4 GHz Turbo 0
-CPU 69: governor     ondemand min/cur/max 2.4/1.540/2.4 GHz Turbo 0
-CPU 70: governor     ondemand min/cur/max 2.4/1.798/2.4 GHz Turbo 0
-CPU 71: governor     ondemand min/cur/max 2.4/1.513/2.4 GHz Turbo 0
-CPU 72: governor     ondemand min/cur/max 2.4/2.157/2.4 GHz Turbo 0
-CPU 73: governor     ondemand min/cur/max 2.4/2.012/2.4 GHz Turbo 0
-CPU 74: governor     ondemand min/cur/max 2.4/1.533/2.4 GHz Turbo 0
-CPU 75: governor     ondemand min/cur/max 2.4/1.450/2.4 GHz Turbo 0
-CPU 76: governor     ondemand min/cur/max 2.4/1.309/2.4 GHz Turbo 0
-CPU 77: governor     ondemand min/cur/max 2.4/1.785/2.4 GHz Turbo 0
-CPU 78: governor     ondemand min/cur/max 2.4/1.746/2.4 GHz Turbo 0
-CPU 79: governor     ondemand min/cur/max 2.4/1.200/2.4 GHz Turbo 0
+CPU 0: governor     ondemand min/cur/max 2.4/1.459/2.4 GHz Turbo 0
+CPU 1: governor     ondemand min/cur/max 2.4/2.113/2.4 GHz Turbo 0
+CPU 2: governor     ondemand min/cur/max 2.4/2.233/2.4 GHz Turbo 0
+CPU 3: governor     ondemand min/cur/max 2.4/1.330/2.4 GHz Turbo 0
+CPU 4: governor     ondemand min/cur/max 2.4/1.942/2.4 GHz Turbo 0
+CPU 5: governor     ondemand min/cur/max 2.4/1.314/2.4 GHz Turbo 0
+CPU 6: governor     ondemand min/cur/max 2.4/1.155/2.4 GHz Turbo 0
+CPU 7: governor     ondemand min/cur/max 2.4/2.400/2.4 GHz Turbo 0
+CPU 8: governor     ondemand min/cur/max 2.4/1.576/2.4 GHz Turbo 0
+CPU 9: governor     ondemand min/cur/max 2.4/2.016/2.4 GHz Turbo 0
+CPU 10: governor     ondemand min/cur/max 2.4/2.086/2.4 GHz Turbo 0
+CPU 11: governor     ondemand min/cur/max 2.4/1.430/2.4 GHz Turbo 0
+CPU 12: governor     ondemand min/cur/max 2.4/2.202/2.4 GHz Turbo 0
+CPU 13: governor     ondemand min/cur/max 2.4/2.112/2.4 GHz Turbo 0
+CPU 14: governor     ondemand min/cur/max 2.4/2.307/2.4 GHz Turbo 0
+CPU 15: governor     ondemand min/cur/max 2.4/1.460/2.4 GHz Turbo 0
+CPU 16: governor     ondemand min/cur/max 2.4/2.063/2.4 GHz Turbo 0
+CPU 17: governor     ondemand min/cur/max 2.4/1.406/2.4 GHz Turbo 0
+CPU 18: governor     ondemand min/cur/max 2.4/2.133/2.4 GHz Turbo 0
+CPU 19: governor     ondemand min/cur/max 2.4/1.969/2.4 GHz Turbo 0
+CPU 20: governor     ondemand min/cur/max 2.4/2.169/2.4 GHz Turbo 0
+CPU 21: governor     ondemand min/cur/max 2.4/1.859/2.4 GHz Turbo 0
+CPU 22: governor     ondemand min/cur/max 2.4/1.821/2.4 GHz Turbo 0
+CPU 23: governor     ondemand min/cur/max 2.4/1.621/2.4 GHz Turbo 0
+CPU 24: governor     ondemand min/cur/max 2.4/1.383/2.4 GHz Turbo 0
+CPU 25: governor     ondemand min/cur/max 2.4/2.138/2.4 GHz Turbo 0
+CPU 26: governor     ondemand min/cur/max 2.4/1.569/2.4 GHz Turbo 0
+CPU 27: governor     ondemand min/cur/max 2.4/2.035/2.4 GHz Turbo 0
+CPU 28: governor     ondemand min/cur/max 2.4/1.957/2.4 GHz Turbo 0
+CPU 29: governor     ondemand min/cur/max 2.4/1.943/2.4 GHz Turbo 0
+CPU 30: governor     ondemand min/cur/max 2.4/2.007/2.4 GHz Turbo 0
+CPU 31: governor     ondemand min/cur/max 2.4/1.475/2.4 GHz Turbo 0
+CPU 32: governor     ondemand min/cur/max 2.4/1.200/2.4 GHz Turbo 0
+CPU 33: governor     ondemand min/cur/max 2.4/2.159/2.4 GHz Turbo 0
+CPU 34: governor     ondemand min/cur/max 2.4/2.173/2.4 GHz Turbo 0
+CPU 35: governor     ondemand min/cur/max 2.4/2.049/2.4 GHz Turbo 0
+CPU 36: governor     ondemand min/cur/max 2.4/1.500/2.4 GHz Turbo 0
+CPU 37: governor     ondemand min/cur/max 2.4/2.231/2.4 GHz Turbo 0
+CPU 38: governor     ondemand min/cur/max 2.4/2.182/2.4 GHz Turbo 0
+CPU 39: governor     ondemand min/cur/max 2.4/2.121/2.4 GHz Turbo 0
+CPU 40: governor     ondemand min/cur/max 2.4/1.546/2.4 GHz Turbo 0
+CPU 41: governor     ondemand min/cur/max 2.4/1.299/2.4 GHz Turbo 0
+CPU 42: governor     ondemand min/cur/max 2.4/1.767/2.4 GHz Turbo 0
+CPU 43: governor     ondemand min/cur/max 2.4/1.814/2.4 GHz Turbo 0
+CPU 44: governor     ondemand min/cur/max 2.4/1.830/2.4 GHz Turbo 0
+CPU 45: governor     ondemand min/cur/max 2.4/2.169/2.4 GHz Turbo 0
+CPU 46: governor     ondemand min/cur/max 2.4/1.911/2.4 GHz Turbo 0
+CPU 47: governor     ondemand min/cur/max 2.4/1.143/2.4 GHz Turbo 0
+CPU 48: governor     ondemand min/cur/max 2.4/2.317/2.4 GHz Turbo 0
+CPU 49: governor     ondemand min/cur/max 2.4/1.428/2.4 GHz Turbo 0
+CPU 50: governor     ondemand min/cur/max 2.4/1.903/2.4 GHz Turbo 0
+CPU 51: governor     ondemand min/cur/max 2.4/1.950/2.4 GHz Turbo 0
+CPU 52: governor     ondemand min/cur/max 2.4/2.250/2.4 GHz Turbo 0
+CPU 53: governor     ondemand min/cur/max 2.4/1.974/2.4 GHz Turbo 0
+CPU 54: governor     ondemand min/cur/max 2.4/2.067/2.4 GHz Turbo 0
+CPU 55: governor     ondemand min/cur/max 2.4/1.599/2.4 GHz Turbo 0
+CPU 56: governor     ondemand min/cur/max 2.4/2.107/2.4 GHz Turbo 0
+CPU 57: governor     ondemand min/cur/max 2.4/2.003/2.4 GHz Turbo 0
+CPU 58: governor     ondemand min/cur/max 2.4/1.241/2.4 GHz Turbo 0
+CPU 59: governor     ondemand min/cur/max 2.4/2.061/2.4 GHz Turbo 0
+CPU 60: governor     ondemand min/cur/max 2.4/1.130/2.4 GHz Turbo 0
+CPU 61: governor     ondemand min/cur/max 2.4/1.139/2.4 GHz Turbo 0
+CPU 62: governor     ondemand min/cur/max 2.4/1.535/2.4 GHz Turbo 0
+CPU 63: governor     ondemand min/cur/max 2.4/2.140/2.4 GHz Turbo 0
+CPU 64: governor     ondemand min/cur/max 2.4/1.808/2.4 GHz Turbo 0
+CPU 65: governor     ondemand min/cur/max 2.4/1.605/2.4 GHz Turbo 0
+CPU 66: governor     ondemand min/cur/max 2.4/2.113/2.4 GHz Turbo 0
+CPU 67: governor     ondemand min/cur/max 2.4/1.394/2.4 GHz Turbo 0
+CPU 68: governor     ondemand min/cur/max 2.4/1.899/2.4 GHz Turbo 0
+CPU 69: governor     ondemand min/cur/max 2.4/1.864/2.4 GHz Turbo 0
+CPU 70: governor     ondemand min/cur/max 2.4/1.315/2.4 GHz Turbo 0
+CPU 71: governor     ondemand min/cur/max 2.4/2.051/2.4 GHz Turbo 0
+CPU 72: governor     ondemand min/cur/max 2.4/1.997/2.4 GHz Turbo 0
+CPU 73: governor     ondemand min/cur/max 2.4/1.954/2.4 GHz Turbo 0
+CPU 74: governor     ondemand min/cur/max 2.4/1.353/2.4 GHz Turbo 0
+CPU 75: governor     ondemand min/cur/max 2.4/1.894/2.4 GHz Turbo 0
+CPU 76: governor     ondemand min/cur/max 2.4/1.899/2.4 GHz Turbo 0
+CPU 77: governor     ondemand min/cur/max 2.4/1.210/2.4 GHz Turbo 0
+CPU 78: governor     ondemand min/cur/max 2.4/1.737/2.4 GHz Turbo 0
+CPU 79: governor     ondemand min/cur/max 2.4/2.078/2.4 GHz Turbo 0
 
 Current Uncore frequencies:
 Socket 0: min/max 2.4/2.4 GHz
@@ -615,7 +543,7 @@ TM2                   off	off	off	off	off	off	off	off	off	off	off	off	off	off	of
 ################################################################################
 # Load
 ################################################################################
-0.48 0.82 0.94 1/777 15021
+0.40 0.10 0.03 1/789 67485
 
 ################################################################################
 # Performance energy bias
@@ -631,36 +559,36 @@ Enabled: 0
 # General memory info
 ################################################################################
 MemTotal:       97610096 kB
-MemFree:        95430676 kB
-MemAvailable:   95740352 kB
-Buffers:           51044 kB
-Cached:           802140 kB
+MemFree:        95596344 kB
+MemAvailable:   95755248 kB
+Buffers:           35508 kB
+Cached:           672616 kB
 SwapCached:            0 kB
-Active:           546232 kB
-Inactive:         353496 kB
-Active(anon):      46812 kB
-Inactive(anon):     1872 kB
-Active(file):     499420 kB
-Inactive(file):   351624 kB
+Active:           426956 kB
+Inactive:         326760 kB
+Active(anon):      45864 kB
+Inactive(anon):     1876 kB
+Active(file):     381092 kB
+Inactive(file):   324884 kB
 Unevictable:           0 kB
 Mlocked:               0 kB
 SwapTotal:      49632252 kB
 SwapFree:       49632252 kB
-Dirty:               916 kB
-Writeback:             0 kB
-AnonPages:         46596 kB
-Mapped:           128616 kB
+Dirty:               156 kB
+Writeback:            12 kB
+AnonPages:         45608 kB
+Mapped:           125432 kB
 Shmem:              2144 kB
-Slab:             691788 kB
-SReclaimable:     257552 kB
-SUnreclaim:       434236 kB
-KernelStack:       13712 kB
-PageTables:         4016 kB
+Slab:             672608 kB
+SReclaimable:     246144 kB
+SUnreclaim:       426464 kB
+KernelStack:       13888 kB
+PageTables:         4028 kB
 NFS_Unstable:          0 kB
 Bounce:                0 kB
 WritebackTmp:          0 kB
 CommitLimit:    98437300 kB
-Committed_AS:     248348 kB
+Committed_AS:     238848 kB
 VmallocTotal:   34359738367 kB
 VmallocUsed:           0 kB
 VmallocChunk:          0 kB
@@ -675,8 +603,8 @@ HugePages_Free:        0
 HugePages_Rsvd:        0
 HugePages_Surp:        0
 Hugepagesize:       2048 kB
-DirectMap4k:      774352 kB
-DirectMap2M:    21946368 kB
+DirectMap4k:      768208 kB
+DirectMap2M:    21952512 kB
 DirectMap1G:    78643200 kB
 
 ################################################################################
@@ -1538,7 +1466,7 @@ LESS=-R
 LIKWID_LIBDIR=/mnt/opt/likwid-4.3.4/lib
 I_MPI_JOB_RESPECT_PROCESS_PLACEMENT=off
 IPPROOT=/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/ipp
-OLDPWD=/home/hpc/iwia/iwia84/INSPECT-repo/stencils/3D_r1_isotropic_box_constant/SkylakeSP_Gold-6148_SNC_20190503_100626
+OLDPWD=/home/hpc/iwia/iwia84
 PBS_O_HOME=/home/hpc/iwia/iwia84
 MPICHHOME=/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mpi/intel64
 RRZECLUSTER=TESTCLUSTER
@@ -1575,7 +1503,7 @@ PBS_NODEFILE=/var/spool/pbspro/aux/3185.catstor
 GROUP=iwia
 PBS_TASKNUM=1
 LIKWID_DEFINES=-DLIKWID_PERFMON
-PWD=/home/hpc/iwia/iwia84/INSPECT-repo/stencils/3D_r1_heterogeneous_box_constant/SkylakeSP_Gold-6148_SNC_20190503_204856
+PWD=/home/hpc/iwia/iwia84/INSPECT-repo/stencils/3D_r1_isotropic_box_constant/SkylakeSP_Gold-6148_SNC_20190503_100626
 HOME=/home/hpc/iwia/iwia84
 LIKWID_LIB=-L/mnt/opt/likwid-4.3.4/lib
 CLASSPATH_modshare=/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/daal/lib/daal.jar:1:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mpi/intel64/lib/mpi.jar:1
@@ -1639,7 +1567,7 @@ INTEL_LICENSE_FILE_modshare=1713@license4:1
 GCC_COLORS=error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01
 MKL_SCALAPACK=/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mkl/lib/intel64_lin/libmkl_scalapack_lp64.a -Wl,--start-group  /apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mkl/lib/intel64_lin/libmkl_intel_lp64.a /apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mkl/lib/intel64_lin/libmkl_intel_thread.a /apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mkl/lib/intel64_lin/libmkl_core.a /apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mkl/lib/intel64_lin/libmkl_blacs_intelmpi_lp64.a -Wl,--end-group -lpthread -lm -openmp
 LESSOPEN=| /bin/lesspipe %s
-OMP_NUM_THREADS=1
+OMP_NUM_THREADS=80
 PBS_O_MAIL=/var/mail/iwia84
 _=/usr/bin/env
 {%- endcapture -%}
