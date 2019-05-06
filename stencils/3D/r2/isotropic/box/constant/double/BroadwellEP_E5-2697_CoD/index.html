@@ -13,10 +13,10 @@
 <meta property="og:description" content="Intra Node Stencil Performance Evaluation Collection" />
 <meta property="og:site_name" content="INSPECT" />
 <script type="application/ld+json">
-{"description":"Intra Node Stencil Performance Evaluation Collection","@type":"WebPage","url":"/INSPECT/stencils/3D/r2/isotropic/box/constant/double/BroadwellEP_E5-2697_CoD/","headline":"Stencil detail","@context":"http://schema.org"}</script>
+{"description":"Intra Node Stencil Performance Evaluation Collection","@type":"WebPage","headline":"Stencil detail","url":"/INSPECT/stencils/3D/r2/isotropic/box/constant/double/BroadwellEP_E5-2697_CoD/","@context":"http://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
-    <link rel="stylesheet" href="/INSPECT/assets/css/style.css?v=cce678019cfe5a9c8bac88ecaa2f7e337b727af9">
+    <link rel="stylesheet" href="/INSPECT/assets/css/style.css?v=0a7865015b99257900c45703d18d6b1924abd0ce">
     <script src="https://code.jquery.com/jquery-3.3.0.min.js" integrity="sha256-RTQy8VOmNlT6b2PIRur37p6JEBZUE7o8wPgMvu18MC4=" crossorigin="anonymous"></script>
     <script src="/INSPECT/assets/js/main.js"></script>
     <!--[if lt IE 9]>
@@ -160,7 +160,6 @@
   <span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>      </div>
-
     </div>
 
     <div id="asm_source" style="display:none;">
@@ -395,6 +394,7 @@
 <span class="k">jb</span> <span class="mh">0xfffffffffffffa4b</span>
 </code></pre></div>      </div>
     </div>
+
   </div>
 
 </div>
@@ -475,8 +475,18 @@ return "https://rrze-hpc.github.io/layer-condition/#calculator%23!"+encodeURICom
 <input class="plot-button" type="button" value="Phenomenological" onclick="document.getElementById('ecm_Pheno').style.display = 'block';            document.getElementById('ecm_CS').style.display = 'none';            document.getElementById('ecm_LC').style.display = 'none';" /></p>
 
     <div class="ecm" id="ecm_LC">
+      <p><em>Comparison of the measured stencil performance (in cycles per cache line), <a href="https://www2.eecs.berkeley.edu/Pubs/TechRpts/2008/EECS-2008-164.html">roofline prediction</a> and the (stacked) contributions of the <a href="https://hpc.fau.de/research/ecm/">ECM Performance Model</a> predicted by <a href="https://github.com/RRZE-HPC/kerncraft">kerncraft</a> using <a href="https://rrze-hpc.github.io/layer-condition/">Layer Conditions</a> to model the cache behavior. The calculated <a href="#layer-conditions">layer conditions</a> shown above correspond to the jumps in the ECM prediction in this plot.</em></p>
+    </div>
 
-      <script>
+    <div class="ecm" id="ecm_CS" style="display:none;">
+      <p><em>Comparison of the measured stencil performance (in cycles per cache line), <a href="https://www2.eecs.berkeley.edu/Pubs/TechRpts/2008/EECS-2008-164.html">roofline prediction</a> and the (stacked) contributions of the <a href="https://hpc.fau.de/research/ecm/">ECM Performance Model</a> predicted by <a href="https://github.com/RRZE-HPC/kerncraft">kerncraft</a> using <a href="https://github.com/RRZE-HPC/pycachesim">Cache Simulation</a> to model the cache behavior.</em></p>
+    </div>
+
+    <div class="ecm" id="ecm_Pheno" style="display:none;">
+      <p><em>Comparison of the measured stencil performance (in cycles per cache line), <a href="https://www2.eecs.berkeley.edu/Pubs/TechRpts/2008/EECS-2008-164.html">roofline prediction</a> and the (stacked) contributions of the phenomenological <a href="https://hpc.fau.de/research/ecm/">ECM Performance Model</a> measured with <a href="https://github.com/RRZE-HPC/kerncraft">kerncraft</a>. The phenomenological ECM Model is completely derived from performance counter measurements during benchmark execution.</em></p>
+    </div>
+
+    <script>
 var trace_benchmark = {
   type: "scatter",
   mode: "markers",
@@ -486,15 +496,46 @@ var trace_benchmark = {
   line: {color: 'black'},
   name: "Benchmark"
 };
-var trace_Tol = {
+
+
+
+
+var trace_roofline_LC = {
   type: "scatter",
-  mode: "lines",
+  mode: "lines+markers",
+  marker: { symbol: "circle-open", maxdisplayed: 5 },
+  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,480,490,500,510,520,530,540,550,560,570,580,590,600,610,620,630,640,650,660,670,680,690,700,710,720,730,740,750,760,770,780,790,800,810,820,830,840,850,860,870,880,890,900,910,920,930,940,950,960,970,980,990,1000,1010,1020,1030,1040,1050,1060,1070,1080,1090,1100,1110,1120,1130,1140,1150,1160,1170,1180,],
+  y: [18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,],
+  line: {color: 'green'},
+  name: "Roofline /w LC",
+};
+
+
+
+var trace_roofline_CS = {
+  type: "scatter",
+  mode: "lines+markers",
+  marker: { symbol: "circle-open", maxdisplayed: 5 },
+  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,480,490,500,510,520,530,540,550,560,570,580,590,600,610,620,630,640,650,660,670,680,690,700,710,720,730,740,750,760,770,780,790,800,810,820,830,840,850,860,870,880,890,900,910,920,930,940,950,960,970,980,990,1000,1010,1020,1030,1040,1050,1060,1070,1080,1090,1100,1110,1120,1130,1140,1150,1160,1170,1180,],
+  y: [18400/,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/74.16,18400/,18400/,18400/,18400/,18400/,18400/,18400/,18400/,18400/,18400/,18400/,18400/,18400/,18400/,18400/,18400/,18400/,18400/,18400/,18400/,18400/,18400/,18400/,18400/,18400/,18400/,18400/,18400/,18400/,18400/,18400/,18400/,18400/,18400/,18400/,18400/,18400/,18400/,18400/,18400/,18400/,18400/,18400/,18400/,18400/,18400/,18400/,18400/,18400/,18400/,18400/,18400/,18400/,18400/,18400/,18400/,18400/,18400/,18400/,18400/,18400/,18400/,18400/,18400/,18400/,18400/,18400/,18400/,18400/,18400/,18400/,18400/,18400/,18400/,18400/,18400/,18400/,18400/,18400/,18400/,18400/,18400/,18400/,18400/,],
+  line: {color: 'green'},
+  name: "Roofline /w CS",
+};
+
+
+
+
+
+var trace_Tol_LC = {
+  type: "scatter",
+  mode: "lines+markers",
+  marker: { symbol: "square-open", maxdisplayed: 5 },
   x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,480,490,500,510,520,530,540,550,560,570,580,590,600,610,620,630,640,650,660,670,680,690,700,710,720,730,740,750,760,770,780,790,800,810,820,830,840,850,860,870,880,890,900,910,920,930,940,950,960,970,980,990,1000,1010,1020,1030,1040,1050,1060,1070,1080,1090,1100,1110,1120,1130,1140,1150,1160,1170,1180,],
   y: [248.0,248.0,248.0,248.0,248.0,248.0,248.0,248.0,248.0,248.0,248.0,248.0,248.0,248.0,248.0,248.0,248.0,248.0,248.0,248.0,248.0,248.0,248.0,248.0,248.0,248.0,248.0,248.0,248.0,248.0,248.0,248.0,248.0,248.0,248.0,248.0,248.0,248.0,248.0,248.0,248.0,248.0,248.0,248.0,248.0,248.0,248.0,248.0,248.0,248.0,248.0,248.0,248.0,248.0,248.0,248.0,248.0,248.0,248.0,248.0,248.0,248.0,248.0,248.0,248.0,248.0,248.0,248.0,248.0,248.0,248.0,248.0,248.0,248.0,248.0,248.0,248.0,248.0,248.0,248.0,248.0,248.0,248.0,248.0,248.0,248.0,248.0,248.0,248.0,248.0,248.0,248.0,248.0,248.0,248.0,248.0,248.0,248.0,248.0,248.0,248.0,248.0,248.0,248.0,248.0,248.0,248.0,248.0,248.0,248.0,248.0,248.0,248.0,248.0,248.0,248.0,248.0,248.0,],
   line: {color: '#d62728'},
   name: "T<sub>OL</sub>"
 };
-var trace_Tnol = {
+var trace_Tnol_LC = {
   type: "histogram",
   xbins: {size:10},
   histfunc: "sum",
@@ -503,7 +544,7 @@ var trace_Tnol = {
   marker: {color: '#1f77b4'},
   name: "T<sub>nOL</sub>"
 };
-var trace_Tl1l2 = {
+var trace_Tl1l2_LC = {
   type: "histogram",
   xbins: {size:10},
   histfunc: "sum",
@@ -512,7 +553,7 @@ var trace_Tl1l2 = {
   marker: {color: '#aec7e8'},
   name: "T<sub>L1-L2</sub>"
 };
-var trace_Tl2l3 = {
+var trace_Tl2l3_LC = {
   type: "histogram",
   xbins: {size:10},
   histfunc: "sum",
@@ -521,7 +562,7 @@ var trace_Tl2l3 = {
   marker: {color: '#ff7f0e'},
   name: "T<sub>L2-L3</sub>"
 };
-var trace_Tl3mem = {
+var trace_Tl3mem_LC = {
   type: "histogram",
   xbins: {size:10},
   histfunc: "sum",
@@ -530,7 +571,7 @@ var trace_Tl3mem = {
   marker: {color: '#ffbb78'},
   name: "T<sub>L3-MEM</sub>"
 };
-var trace_Ttotal = {
+var trace_Ttotal_LC = {
   type: "scatter",
   mode: "lines",
   x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,480,490,500,510,520,530,540,550,560,570,580,590,600,610,620,630,640,650,660,670,680,690,700,710,720,730,740,750,760,770,780,790,800,810,820,830,840,850,860,870,880,890,900,910,920,930,940,950,960,970,980,990,1000,1010,1020,1030,1040,1050,1060,1070,1080,1090,1100,1110,1120,1130,1140,1150,1160,1170,1180,],
@@ -541,50 +582,17 @@ var trace_Ttotal = {
 };
 
 
-var data = [trace_Tnol,trace_Tl1l2,trace_Tl2l3,trace_Tl3mem,trace_Tol,trace_Ttotal,trace_benchmark];
 
-var layout = {
-  margin: { l: 40, r: 35, t: 10, b: 40},
-  xaxis: {title: "Grid Size (N^3)",
-          dticks: 50,
-          tick0: 0},
-  yaxis: {title: 'Cycles / Cacheline',
-          tick0: 0},
-  barmode: 'stack',
-  legend: { orientation: "h",y:1.1},
-  width: 600,
-  height: 450,
-};
-
-var config = {locale: 'en'};
-Plotly.newPlot('ecm_LC', data, layout, config);
-</script>
-
-      <p><em>Comparison of the measured stencil performance (in cycles per cache line) and the (stacked) contributions of the <a href="https://hpc.fau.de/research/ecm/">ECM Performance Model</a> predicted by <a href="https://github.com/RRZE-HPC/kerncraft">kerncraft</a> using <a href="https://rrze-hpc.github.io/layer-condition/">Layer Conditions</a> to model the cache behavior. The calculated <a href="#layer-conditions">layer conditions</a> shown above correspond to the jumps in the ECM prediction in this plot.</em></p>
-
-    </div>
-
-    <div class="ecm" id="ecm_CS" style="display:none;">
-
-      <script>
-var trace_benchmark = {
+var trace_Tol_CS = {
   type: "scatter",
-  mode: "markers",
-  marker: { symbol: "cross-thin-open" },
-  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,480,490,500,510,520,530,540,550,560,570,580,590,600,610,620,630,640,650,660,670,680,690,700,710,720,730,740,750,760,770,780,790,800,810,820,830,840,850,860,870,880,890,900,910,920,930,940,950,960,970,980,990,1000,1010,1020,1030,1040,1050,1060,1070,1080,1090,1100,1110,1120,1130,1140,1150,1160,1170,1180,],
-  y: [618.28,316.50,386.64,323.69,354.22,313.99,342.75,318.67,353.81,313.52,329.15,316.42,345.53,321.74,329.99,324.61,329.83,321.80,333.17,324.07,332.54,321.93,332.30,341.49,332.09,338.16,341.57,332.75,348.95,367.52,353.40,367.79,354.48,348.39,368.61,345.95,358.99,350.70,359.66,353.26,361.33,355.25,357.92,356.25,362.87,354.95,384.26,364.17,365.12,354.41,542.14,402.00,360.63,358.77,366.30,361.87,360.35,359.80,358.59,366.81,353.74,364.79,355.67,448.78,353.90,353.41,353.96,346.43,352.93,350.63,351.45,356.56,362.18,350.46,353.82,350.20,434.16,347.82,352.50,364.20,358.53,353.12,360.74,349.12,353.11,347.73,352.40,356.73,355.07,351.32,356.96,351.41,351.90,350.53,357.95,377.47,353.45,352.74,353.06,349.17,351.51,416.69,380.25,368.27,356.77,357.10,359.34,363.63,356.89,354.97,359.21,374.58,363.65,354.39,382.68,357.69,366.09,356.85,],
-  line: {color: 'black'},
-  name: "Benchmark"
-};
-var trace_Tol = {
-  type: "scatter",
-  mode: "lines",
+  mode: "lines+markers",
+  marker: { symbol: "square-open", maxdisplayed: 5 },
   x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,480,490,500,510,520,530,540,550,560,570,580,590,600,610,620,630,640,650,660,670,680,690,700,710,720,730,740,750,760,770,780,790,800,810,820,830,840,850,860,870,880,890,900,910,920,930,940,950,960,970,980,990,1000,1010,1020,1030,1040,1050,1060,1070,1080,1090,1100,1110,1120,1130,1140,1150,1160,1170,1180,],
   y: [,248.0,248.0,248.0,248.0,248.0,248.0,248.0,248.0,248.0,248.0,248.0,248.0,248.0,248.0,248.0,248.0,248.0,248.0,248.0,248.0,248.0,248.0,248.0,248.0,248.0,248.0,248.0,248.0,248.0,248.0,248.0,248.0,248.0,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,],
   line: {color: '#d62728'},
   name: "T<sub>OL</sub>"
 };
-var trace_Tnol = {
+var trace_Tnol_CS = {
   type: "histogram",
   xbins: {size:10},
   histfunc: "sum",
@@ -593,7 +601,7 @@ var trace_Tnol = {
   marker: {color: '#1f77b4'},
   name: "T<sub>nOL</sub>"
 };
-var trace_Tl1l2 = {
+var trace_Tl1l2_CS = {
   type: "histogram",
   xbins: {size:10},
   histfunc: "sum",
@@ -602,7 +610,7 @@ var trace_Tl1l2 = {
   marker: {color: '#aec7e8'},
   name: "T<sub>L1-L2</sub>"
 };
-var trace_Tl2l3 = {
+var trace_Tl2l3_CS = {
   type: "histogram",
   xbins: {size:10},
   histfunc: "sum",
@@ -611,7 +619,7 @@ var trace_Tl2l3 = {
   marker: {color: '#ff7f0e'},
   name: "T<sub>L2-L3</sub>"
 };
-var trace_Tl3mem = {
+var trace_Tl3mem_CS = {
   type: "histogram",
   xbins: {size:10},
   histfunc: "sum",
@@ -620,7 +628,7 @@ var trace_Tl3mem = {
   marker: {color: '#ffbb78'},
   name: "T<sub>L3-MEM</sub>"
 };
-var trace_Ttotal = {
+var trace_Ttotal_CS = {
   type: "scatter",
   mode: "lines",
   x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,480,490,500,510,520,530,540,550,560,570,580,590,600,610,620,630,640,650,660,670,680,690,700,710,720,730,740,750,760,770,780,790,800,810,820,830,840,850,860,870,880,890,900,910,920,930,940,950,960,970,980,990,1000,1010,1020,1030,1040,1050,1060,1070,1080,1090,1100,1110,1120,1130,1140,1150,1160,1170,1180,],
@@ -631,50 +639,17 @@ var trace_Ttotal = {
 };
 
 
-var data = [trace_Tnol,trace_Tl1l2,trace_Tl2l3,trace_Tl3mem,trace_Tol,trace_Ttotal,trace_benchmark];
 
-var layout = {
-  margin: { l: 40, r: 35, t: 10, b: 40},
-  xaxis: {title: "Grid Size (N^3)",
-          dticks: 50,
-          tick0: 0},
-  yaxis: {title: 'Cycles / Cacheline',
-          tick0: 0},
-  barmode: 'stack',
-  legend: { orientation: "h",y:1.1},
-  width: 600,
-  height: 450,
-};
-
-var config = {locale: 'en'};
-Plotly.newPlot('ecm_CS', data, layout, config);
-</script>
-
-      <p><em>Comparison of the measured stencil performance (in cycles per cache line) and the (stacked) contributions of the <a href="https://hpc.fau.de/research/ecm/">ECM Performance Model</a> predicted by <a href="https://github.com/RRZE-HPC/kerncraft">kerncraft</a> using <a href="https://github.com/RRZE-HPC/pycachesim">Cache Simulation</a> to model the cache behavior.</em></p>
-
-    </div>
-
-    <div class="ecm" id="ecm_Pheno" style="display:none;">
-
-      <script>
-var trace_benchmark = {
+var trace_Tol_Pheno = {
   type: "scatter",
-  mode: "markers",
-  marker: { symbol: "cross-thin-open" },
-  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,480,490,500,510,520,530,540,550,560,570,580,590,600,610,620,630,640,650,660,670,680,690,700,710,720,730,740,750,760,770,780,790,800,810,820,830,840,850,860,870,880,890,900,910,920,930,940,950,960,970,980,990,1000,1010,1020,1030,1040,1050,1060,1070,1080,1090,1100,1110,1120,1130,1140,1150,1160,1170,1180,],
-  y: [618.28,316.50,386.64,323.69,354.22,313.99,342.75,318.67,353.81,313.52,329.15,316.42,345.53,321.74,329.99,324.61,329.83,321.80,333.17,324.07,332.54,321.93,332.30,341.49,332.09,338.16,341.57,332.75,348.95,367.52,353.40,367.79,354.48,348.39,368.61,345.95,358.99,350.70,359.66,353.26,361.33,355.25,357.92,356.25,362.87,354.95,384.26,364.17,365.12,354.41,542.14,402.00,360.63,358.77,366.30,361.87,360.35,359.80,358.59,366.81,353.74,364.79,355.67,448.78,353.90,353.41,353.96,346.43,352.93,350.63,351.45,356.56,362.18,350.46,353.82,350.20,434.16,347.82,352.50,364.20,358.53,353.12,360.74,349.12,353.11,347.73,352.40,356.73,355.07,351.32,356.96,351.41,351.90,350.53,357.95,377.47,353.45,352.74,353.06,349.17,351.51,416.69,380.25,368.27,356.77,357.10,359.34,363.63,356.89,354.97,359.21,374.58,363.65,354.39,382.68,357.69,366.09,356.85,],
-  line: {color: 'black'},
-  name: "Benchmark"
-};
-var trace_Tol = {
-  type: "scatter",
-  mode: "lines",
+  mode: "lines+markers",
+  marker: { symbol: "square-open", maxdisplayed: 5 },
   x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,480,490,500,510,520,530,540,550,560,570,580,590,600,610,620,630,640,650,660,670,680,690,700,710,720,730,740,750,760,770,780,790,800,810,820,830,840,850,860,870,880,890,900,910,920,930,940,950,960,970,980,990,1000,1010,1020,1030,1040,1050,1060,1070,1080,1090,1100,1110,1120,1130,1140,1150,1160,1170,1180,],
   y: [6757.92,2798.64,3581.60,2724.88,3186.88,2684.00,3025.84,2672.32,2924.16,2681.52,2886.16,2661.12,2849.68,2674.00,2807.36,2655.68,2787.20,2669.92,2771.36,2668.48,2758.64,2667.36,2748.24,2666.48,2739.36,2665.76,2732.08,2649.12,2741.68,2664.64,2736.16,2664.32,2715.44,2663.76,2727.04,2647.44,2723.20,2663.04,2719.84,2646.80,2716.72,2646.48,2697.92,2662.16,2695.44,2662.00,2693.12,2645.76,2706.80,2661.52,2688.88,2645.36,2687.04,2645.20,2685.28,2661.04,2699.76,2644.80,2682.24,2644.72,2680.08,2644.56,2678.80,2644.64,2677.60,2660.40,2676.48,2644.24,2675.52,2660.16,2674.48,2660.08,2689.44,2659.92,2672.64,2659.84,2687.60,2659.76,2671.04,2643.68,2670.24,2659.60,2685.36,2643.52,2684.72,2643.52,2684.08,2659.44,2683.52,2643.36,2666.96,2659.28,2666.40,2659.20,2681.68,2659.20,2665.28,2643.12,2680.72,2643.04,2680.24,2659.04,2679.76,2658.96,2663.44,2658.96,2663.04,2658.88,2662.64,2642.88,2678.16,2642.88,2661.92,2642.80,2677.52,2658.80,2661.20,2642.80,],
   line: {color: '#d62728'},
   name: "T<sub>OL</sub>"
 };
-var trace_Tnol = {
+var trace_Tnol_Pheno = {
   type: "histogram",
   xbins: {size:10},
   histfunc: "sum",
@@ -683,7 +658,7 @@ var trace_Tnol = {
   marker: {color: '#1f77b4'},
   name: "T<sub>nOL</sub>"
 };
-var trace_Tl1l2 = {
+var trace_Tl1l2_Pheno = {
   type: "histogram",
   xbins: {size:10},
   histfunc: "sum",
@@ -692,7 +667,7 @@ var trace_Tl1l2 = {
   marker: {color: '#aec7e8'},
   name: "T<sub>L1-L2</sub>"
 };
-var trace_Tl2l3 = {
+var trace_Tl2l3_Pheno = {
   type: "histogram",
   xbins: {size:10},
   histfunc: "sum",
@@ -701,7 +676,7 @@ var trace_Tl2l3 = {
   marker: {color: '#ff7f0e'},
   name: "T<sub>L2-L3</sub>"
 };
-var trace_Tl3mem = {
+var trace_Tl3mem_Pheno = {
   type: "histogram",
   xbins: {size:10},
   histfunc: "sum",
@@ -710,7 +685,7 @@ var trace_Tl3mem = {
   marker: {color: '#ffbb78'},
   name: "T<sub>L3-MEM</sub>"
 };
-var trace_Ttotal = {
+var trace_Ttotal_Pheno = {
   type: "scatter",
   mode: "lines",
   x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,480,490,500,510,520,530,540,550,560,570,580,590,600,610,620,630,640,650,660,670,680,690,700,710,720,730,740,750,760,770,780,790,800,810,820,830,840,850,860,870,880,890,900,910,920,930,940,950,960,970,980,990,1000,1010,1020,1030,1040,1050,1060,1070,1080,1090,1100,1110,1120,1130,1140,1150,1160,1170,1180,],
@@ -721,7 +696,12 @@ var trace_Ttotal = {
 };
 
 
-var data = [trace_Tnol,trace_Tl1l2,trace_Tl2l3,trace_Tl3mem,trace_Tol,trace_Ttotal,trace_benchmark];
+var data_LC = [trace_roofline_LC,trace_benchmark,trace_Tol_LC,trace_Tnol_LC,
+               trace_Tl1l2_LC,trace_Tl2l3_LC,trace_Tl3mem_LC,trace_Ttotal_LC];
+var data_CS = [trace_roofline_CS,trace_benchmark,trace_Tol_CS,trace_Tnol_CS,
+               trace_Tl1l2_CS,trace_Tl2l3_CS,trace_Tl3mem_CS,trace_Ttotal_CS];
+var data_Pheno = [trace_roofline_LC,trace_benchmark,trace_Tol_Pheno,trace_Tnol_Pheno,
+                  trace_Tl1l2_Pheno,trace_Tl2l3_Pheno,trace_Tl3mem_Pheno];
 
 var layout = {
   margin: { l: 40, r: 35, t: 10, b: 40},
@@ -731,132 +711,18 @@ var layout = {
   yaxis: {title: 'Cycles / Cacheline',
           tick0: 0},
   barmode: 'stack',
-  legend: { orientation: "h",y:1.1},
+  legend: { orientation: "h",y:1.1 },
   width: 600,
   height: 450,
 };
 
 var config = {locale: 'en'};
-Plotly.newPlot('ecm_Pheno', data, layout, config);
+Plotly.newPlot('ecm_LC', data_LC, layout, config);
+Plotly.newPlot('ecm_CS', data_CS, layout, config);
+Plotly.newPlot('ecm_Pheno', data_Pheno, layout, config);
 </script>
-
-      <p><em>Comparison of the measured stencil performance (in cycles per cache line) and the (stacked) contributions of the <a href="https://hpc.fau.de/research/ecm/">ECM Performance Model</a> predicted by <a href="https://github.com/RRZE-HPC/kerncraft">kerncraft</a> using <a href="https://github.com/RRZE-HPC/pycachesim">Cache Simulation</a> to model the cache behavior.</em></p>
-
-    </div>
 
   </div>
-
-  <div class="section-block-half">
-    <h3 id="stencil-performance">Stencil Performance</h3>
-
-    <p><input class="plot-button" type="button" value="Layer Condition" onclick="document.getElementById('rfl_LC').style.display = 'block';            document.getElementById('rfl_CS').style.display = 'none';" />
-<input class="plot-button" type="button" value="Cache Simulation" onclick="document.getElementById('rfl_CS').style.display = 'block';            document.getElementById('rfl_LC').style.display = 'none';" /></p>
-
-    <div class="roofline" id="rfl_LC">
-
-      <script>
-var trace_benchmark = {
-  type: "scatter",
-  mode: "markers",
-  marker: { symbol: "cross-thin-open" },
-  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,480,490,500,510,520,530,540,550,560,570,580,590,600,610,620,630,640,650,660,670,680,690,700,710,720,730,740,750,760,770,780,790,800,810,820,830,840,850,860,870,880,890,900,910,920,930,940,950,960,970,980,990,1000,1010,1020,1030,1040,1050,1060,1070,1080,1090,1100,1110,1120,1130,1140,1150,1160,1170,1180,],
-  y: [29.76,58.14,47.59,56.84,51.95,58.60,53.68,57.74,52.01,58.69,55.90,58.15,53.25,57.19,55.76,56.68,55.79,57.18,55.23,56.78,55.33,57.15,55.37,53.88,55.41,54.41,53.87,55.30,52.73,50.07,52.07,50.03,51.91,52.81,49.92,53.19,51.26,52.47,51.16,52.09,50.92,51.79,51.41,51.65,50.71,51.84,47.88,50.53,50.39,51.92,33.94,45.77,51.02,51.29,50.23,50.85,51.06,51.14,51.31,50.16,52.02,50.44,51.73,41.00,51.99,52.06,51.98,53.11,52.13,52.48,52.35,51.60,50.80,52.50,52.00,52.54,42.38,52.90,52.20,50.52,51.32,52.11,51.01,52.70,52.11,52.91,52.21,51.58,51.82,52.37,51.55,52.36,52.29,52.49,51.40,48.75,52.06,52.16,52.12,52.70,52.35,44.16,48.39,49.96,51.57,51.53,51.21,50.60,51.56,51.83,51.22,49.12,50.60,51.92,48.08,51.44,50.26,51.56,],
-  line: {color: 'black'},
-  name: "Benchmark"
-};
-var trace_roofline = {
-  type: "scatter",
-  mode: "lines",
-  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,480,490,500,510,520,530,540,550,560,570,580,590,600,610,620,630,640,650,660,670,680,690,700,710,720,730,740,750,760,770,780,790,800,810,820,830,840,850,860,870,880,890,900,910,920,930,940,950,960,970,980,990,1000,1010,1020,1030,1040,1050,1060,1070,1080,1090,1100,1110,1120,1130,1140,1150,1160,1170,1180,],
-  y: [74.16,74.16,74.16,74.16,74.16,74.16,74.16,74.16,74.16,74.16,74.16,74.16,74.16,74.16,74.16,74.16,74.16,74.16,74.16,74.16,74.16,74.16,74.16,74.16,74.16,74.16,74.16,74.16,74.16,74.16,74.16,74.16,74.16,74.16,74.16,74.16,74.16,74.16,74.16,74.16,74.16,74.16,74.16,74.16,74.16,74.16,74.16,74.16,74.16,74.16,74.16,74.16,74.16,74.16,74.16,74.16,74.16,74.16,74.16,74.16,74.16,74.16,74.16,74.16,74.16,74.16,74.16,74.16,74.16,74.16,74.16,74.16,74.16,74.16,74.16,74.16,74.16,74.16,74.16,74.16,74.16,74.16,74.16,74.16,74.16,74.16,74.16,74.16,74.16,74.16,74.16,74.16,74.16,74.16,74.16,74.16,74.16,74.16,74.16,74.16,74.16,74.16,74.16,74.16,74.16,74.16,74.16,74.16,74.16,74.16,74.16,74.16,74.16,74.16,74.16,74.16,74.16,74.16,],
-  line: {color: '#1f77b4'},
-  name: "Roofline prediction with LC"
-};
-var trace_ecm = {
-  type: "scatter",
-  mode: "lines",
-  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,480,490,500,510,520,530,540,550,560,570,580,590,600,610,620,630,640,650,660,670,680,690,700,710,720,730,740,750,760,770,780,790,800,810,820,830,840,850,860,870,880,890,900,910,920,930,940,950,960,970,980,990,1000,1010,1020,1030,1040,1050,1060,1070,1080,1090,1100,1110,1120,1130,1140,1150,1160,1170,1180,],
-  y: [74.09,74.09,74.09,74.09,74.09,74.09,74.09,74.09,74.09,74.09,74.09,74.09,74.09,74.09,74.09,74.06,74.06,74.06,74.06,74.06,74.06,74.06,74.06,74.06,74.06,74.06,74.06,74.06,74.06,74.06,74.06,74.06,74.06,74.06,74.06,74.06,74.06,74.06,74.06,74.06,74.06,74.06,74.06,74.06,74.06,74.06,74.06,74.06,74.06,74.06,74.06,74.06,74.06,74.06,74.06,74.06,74.06,74.06,74.06,74.06,74.06,74.06,74.06,74.06,74.06,74.06,74.06,74.06,74.06,69.03,69.03,69.03,69.03,69.03,69.03,69.03,69.03,69.03,69.03,69.03,69.03,69.03,69.03,69.03,69.03,69.03,69.03,69.03,69.03,69.03,69.03,69.03,69.03,69.03,69.03,69.03,69.03,69.03,69.03,69.03,69.03,69.03,69.03,69.03,69.03,69.03,69.03,69.03,69.03,69.03,69.03,69.03,69.03,69.03,69.03,69.03,69.03,69.03,],
-  line: {color: '#ff7f0e'},
-  name: "ECM prediction with LC"
-};
-
-var data = [trace_roofline,trace_ecm,trace_benchmark];
-
-var layout = {
-	xaxis: {title: "Grid Size (N^3)",
-          rangemode: "tozero"},
-	yaxis: {title: 'Performance [MLUP/s]',
-          rangemode: "tozero"},
-  margin: { l: 50, r: 35, t: 10, b: 40},
-  legend: { orientation: "h",y:1.1},
-  width: 600,
-  height: 450,
-};
-
-var config = {locale: 'en'};
-Plotly.newPlot('rfl_LC', data, layout, config);
-</script>
-
-      <p><em>Performance plot with <a href="https://www2.eecs.berkeley.edu/Pubs/TechRpts/2008/EECS-2008-164.html">roofline prediction</a> in comparison with the measured stencil performance. For comparison the according ECM prediction is also included.</em></p>
-
-    </div>
-
-    <div class="roofline" id="rfl_CS" style="display:none;">
-
-      <script>
-var trace_benchmark = {
-  type: "scatter",
-  mode: "markers",
-  marker: { symbol: "cross-thin-open" },
-  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,480,490,500,510,520,530,540,550,560,570,580,590,600,610,620,630,640,650,660,670,680,690,700,710,720,730,740,750,760,770,780,790,800,810,820,830,840,850,860,870,880,890,900,910,920,930,940,950,960,970,980,990,1000,1010,1020,1030,1040,1050,1060,1070,1080,1090,1100,1110,1120,1130,1140,1150,1160,1170,1180,],
-  y: [29.76,58.14,47.59,56.84,51.95,58.60,53.68,57.74,52.01,58.69,55.90,58.15,53.25,57.19,55.76,56.68,55.79,57.18,55.23,56.78,55.33,57.15,55.37,53.88,55.41,54.41,53.87,55.30,52.73,50.07,52.07,50.03,51.91,52.81,49.92,53.19,51.26,52.47,51.16,52.09,50.92,51.79,51.41,51.65,50.71,51.84,47.88,50.53,50.39,51.92,33.94,45.77,51.02,51.29,50.23,50.85,51.06,51.14,51.31,50.16,52.02,50.44,51.73,41.00,51.99,52.06,51.98,53.11,52.13,52.48,52.35,51.60,50.80,52.50,52.00,52.54,42.38,52.90,52.20,50.52,51.32,52.11,51.01,52.70,52.11,52.91,52.21,51.58,51.82,52.37,51.55,52.36,52.29,52.49,51.40,48.75,52.06,52.16,52.12,52.70,52.35,44.16,48.39,49.96,51.57,51.53,51.21,50.60,51.56,51.83,51.22,49.12,50.60,51.92,48.08,51.44,50.26,51.56,],
-  line: {color: 'black'},
-  name: "Benchmark"
-};
-var trace_roofline = {
-  type: "scatter",
-  mode: "lines",
-  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,480,490,500,510,520,530,540,550,560,570,580,590,600,610,620,630,640,650,660,670,680,690,700,710,720,730,740,750,760,770,780,790,800,810,820,830,840,850,860,870,880,890,900,910,920,930,940,950,960,970,980,990,1000,1010,1020,1030,1040,1050,1060,1070,1080,1090,1100,1110,1120,1130,1140,1150,1160,1170,1180,],
-  y: [,74.16,74.16,74.16,74.16,74.16,74.16,74.16,74.16,74.16,74.16,74.16,74.16,74.16,74.16,74.16,74.16,74.16,74.16,74.16,74.16,74.16,74.16,74.16,74.16,74.16,74.16,74.16,74.16,74.16,74.16,74.16,74.16,74.16,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,],
-  line: {color: '#1f77b4'},
-  name: "Roofline prediction with CS"
-};
-var trace_ecm = {
-  type: "scatter",
-  mode: "lines",
-  x: [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300,310,320,330,340,350,360,370,380,390,400,410,420,430,440,450,460,470,480,490,500,510,520,530,540,550,560,570,580,590,600,610,620,630,640,650,660,670,680,690,700,710,720,730,740,750,760,770,780,790,800,810,820,830,840,850,860,870,880,890,900,910,920,930,940,950,960,970,980,990,1000,1010,1020,1030,1040,1050,1060,1070,1080,1090,1100,1110,1120,1130,1140,1150,1160,1170,1180,],
-  y: [74.09,74.09,74.09,74.09,74.09,74.09,74.09,74.09,74.09,74.09,74.09,74.09,74.09,74.09,74.09,74.06,74.06,74.06,74.06,74.06,74.06,74.06,74.06,74.06,74.06,74.06,74.06,74.06,74.06,74.06,74.06,74.06,74.06,74.06,74.06,74.06,74.06,74.06,74.06,74.06,74.06,74.06,74.06,74.06,74.06,74.06,74.06,74.06,74.06,74.06,74.06,74.06,74.06,74.06,74.06,74.06,74.06,74.06,74.06,74.06,74.06,74.06,74.06,74.06,74.06,74.06,74.06,74.06,74.06,69.03,69.03,69.03,69.03,69.03,69.03,69.03,69.03,69.03,69.03,69.03,69.03,69.03,69.03,69.03,69.03,69.03,69.03,69.03,69.03,69.03,69.03,69.03,69.03,69.03,69.03,69.03,69.03,69.03,69.03,69.03,69.03,69.03,69.03,69.03,69.03,69.03,69.03,69.03,69.03,69.03,69.03,69.03,69.03,69.03,69.03,69.03,69.03,69.03,],
-  line: {color: '#ff7f0e'},
-  name: "ECM prediction with CS"
-};
-
-var data = [trace_roofline,trace_ecm,trace_benchmark];
-
-var layout = {
-	xaxis: {title: "Grid Size (N^3)",
-          rangemode: "tozero"},
-	yaxis: {title: 'Performance [MLUP/s]',
-          rangemode: "tozero"},
-  margin: { l: 50, r: 35, t: 10, b: 40},
-  legend: { orientation: "h",y:1.1},
-  width: 600,
-  height: 450,
-};
-
-var config = {locale: 'en'};
-Plotly.newPlot('rfl_CS', data, layout, config);
-</script>
-
-      <p><em>Performance plot with <a href="https://www2.eecs.berkeley.edu/Pubs/TechRpts/2008/EECS-2008-164.html">roofline prediction</a> in comparison with the measured stencil performance. For comparison the according ECM prediction is also included.</em></p>
-
-    </div>
-
-  </div>
-
-</div>
-
-<div class="section-block-full">
 
   <div class="section-block-half">
     <h3 id="data-transfers-between-caches">Data Transfers between Caches</h3>
@@ -938,7 +804,6 @@ Plotly.newPlot('mem_LC', data, layout, config);
 </script>
 
       <p><em>Data transfers between the different cache levels and main memory. The shown data for each level contains evicted and loaded data. The measured data is represented by points and the predicted transfer rates by <a href="https://github.com/RRZE-HPC/kerncraft">kerncraft</a> by lines.</em></p>
-
     </div>
 
     <div class="memory" id="mem_CS" style="display:none;">
@@ -1015,7 +880,6 @@ Plotly.newPlot('mem_CS', data, layout, config);
 </script>
 
       <p><em>Data transfers between the different cache levels and main memory. The shown data for each level contains evicted and loaded data. The measured data is represented by points and the predicted transfer rates by <a href="https://github.com/RRZE-HPC/kerncraft">kerncraft</a> by lines.</em></p>
-
     </div>
 
   </div>

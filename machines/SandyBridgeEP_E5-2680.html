@@ -13,10 +13,10 @@
 <meta property="og:description" content="Intra Node Stencil Performance Evaluation Collection" />
 <meta property="og:site_name" content="INSPECT" />
 <script type="application/ld+json">
-{"description":"Intra Node Stencil Performance Evaluation Collection","@type":"WebPage","url":"/INSPECT/machines/SandyBridgeEP_E5-2680.html","headline":"INSPECT","@context":"http://schema.org"}</script>
+{"description":"Intra Node Stencil Performance Evaluation Collection","@type":"WebPage","headline":"INSPECT","url":"/INSPECT/machines/SandyBridgeEP_E5-2680.html","@context":"http://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
-    <link rel="stylesheet" href="/INSPECT/assets/css/style.css?v=cce678019cfe5a9c8bac88ecaa2f7e337b727af9">
+    <link rel="stylesheet" href="/INSPECT/assets/css/style.css?v=0a7865015b99257900c45703d18d6b1924abd0ce">
     <script src="https://code.jquery.com/jquery-3.3.0.min.js" integrity="sha256-RTQy8VOmNlT6b2PIRur37p6JEBZUE7o8wPgMvu18MC4=" crossorigin="anonymous"></script>
     <script src="/INSPECT/assets/js/main.js"></script>
     <!--[if lt IE 9]>
@@ -57,6 +57,7 @@
 <h1 id="intelr-xeonr-cpu-e5-2680-0--270ghz">Intel(R) Xeon(R) CPU E5-2680 0 @ 2.70GHz</h1>
 
 <div class="section-block-full">
+
   <div class="section-block-half">
 
     <h2 id="general">General</h2>
@@ -108,16 +109,16 @@
     <table>
       <tbody>
         <tr>
-          <td> </td>
-          <td>``</td>
+          <td>icc</td>
+          <td><code class="highlighter-rouge">-O3 -xAVX -fno-alias -qopenmp</code></td>
         </tr>
         <tr>
-          <td> </td>
-          <td>``</td>
+          <td>clang</td>
+          <td><code class="highlighter-rouge">-O3 -march=corei7-avx -mtune=corei7-avx -D_POSIX_C_SOURCE=200112L -fopenmp</code></td>
         </tr>
         <tr>
-          <td> </td>
-          <td>``</td>
+          <td>gcc</td>
+          <td><code class="highlighter-rouge">-O3 -march=corei7-avx -D_POSIX_C_SOURCE=200112L -fopenmp</code></td>
         </tr>
       </tbody>
     </table>
