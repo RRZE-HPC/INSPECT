@@ -9,7 +9,6 @@ kind         : "star"
 coefficients : "constant"
 datatype     : "double"
 machine      : "Zen_EPYC-7451"
-flavor       : "EDIT_ME"
 compile_flags: "icc -O3 -xHost -fno-alias -qopenmp"
 flop         : "7"
 scaling      : [ "760" ]
@@ -564,15 +563,15 @@ node 7 cpus: 42 43 44 45 46 47 90 91 92 93 94 95
 node 7 size: 16122 MB
 node 7 free: 15532 MB
 node distances:
-node   0   1   2   3   4   5   6   7 
-  0:  10  16  16  16  32  32  32  32 
-  1:  16  10  16  16  32  32  32  32 
-  2:  16  16  10  16  32  32  32  32 
-  3:  16  16  16  10  32  32  32  32 
-  4:  32  32  32  32  10  16  16  16 
-  5:  32  32  32  32  16  10  16  16 
-  6:  32  32  32  32  16  16  10  16 
-  7:  32  32  32  32  16  16  16  10 
+node   0   1   2   3   4   5   6   7
+  0:  10  16  16  16  32  32  32  32
+  1:  16  10  16  16  32  32  32  32
+  2:  16  16  10  16  32  32  32  32
+  3:  16  16  16  10  32  32  32  32
+  4:  32  32  32  32  10  16  16  16
+  5:  32  32  32  32  16  10  16  16
+  6:  32  32  32  32  16  16  10  16
+  7:  32  32  32  32  16  16  16  10
 
 ################################################################################
 # Frequencies
@@ -1081,7 +1080,7 @@ Processor Information
 		SSE (Streaming SIMD extensions)
 		SSE2 (Streaming SIMD extensions 2)
 		HTT (Multi-threading)
-	Version: AMD EPYC 7451 24-Core Processor                
+	Version: AMD EPYC 7451 24-Core Processor
 	Voltage: 1.0 V
 	External Clock: 100 MHz
 	Max Speed: 3200 MHz
@@ -1185,7 +1184,7 @@ Processor Information
 		SSE (Streaming SIMD extensions)
 		SSE2 (Streaming SIMD extensions 2)
 		HTT (Multi-threading)
-	Version: AMD EPYC 7451 24-Core Processor                
+	Version: AMD EPYC 7451 24-Core Processor
 	Voltage: 1.0 V
 	External Clock: 100 MHz
 	Max Speed: 3200 MHz
@@ -1250,7 +1249,7 @@ Memory Device
 	Manufacturer: Samsung
 	(Line containing Serial number has been censored)
 	Asset Tag: P1-DIMMA2_AssetTag (date:16/43)
-	Part Number: M393A1G40EB2-CTD    
+	Part Number: M393A1G40EB2-CTD
 	Rank: 1
 	Configured Clock Speed: 2667 MT/s
 	Minimum Voltage: 1.2 V
@@ -1298,7 +1297,7 @@ Memory Device
 	Manufacturer: Samsung
 	(Line containing Serial number has been censored)
 	Asset Tag: P1-DIMMB2_AssetTag (date:16/43)
-	Part Number: M393A1G40EB2-CTD    
+	Part Number: M393A1G40EB2-CTD
 	Rank: 1
 	Configured Clock Speed: 2667 MT/s
 	Minimum Voltage: 1.2 V
@@ -1346,7 +1345,7 @@ Memory Device
 	Manufacturer: Samsung
 	(Line containing Serial number has been censored)
 	Asset Tag: P1-DIMMC2_AssetTag (date:16/43)
-	Part Number: M393A1G40EB2-CTD    
+	Part Number: M393A1G40EB2-CTD
 	Rank: 1
 	Configured Clock Speed: 2667 MT/s
 	Minimum Voltage: 1.2 V
@@ -1394,7 +1393,7 @@ Memory Device
 	Manufacturer: Samsung
 	(Line containing Serial number has been censored)
 	Asset Tag: P1-DIMMD2_AssetTag (date:16/43)
-	Part Number: M393A1G40EB2-CTD    
+	Part Number: M393A1G40EB2-CTD
 	Rank: 1
 	Configured Clock Speed: 2667 MT/s
 	Minimum Voltage: 1.2 V
@@ -1442,7 +1441,7 @@ Memory Device
 	Manufacturer: Samsung
 	(Line containing Serial number has been censored)
 	Asset Tag: P1-DIMME2_AssetTag (date:16/43)
-	Part Number: M393A1G40EB2-CTD    
+	Part Number: M393A1G40EB2-CTD
 	Rank: 1
 	Configured Clock Speed: 2667 MT/s
 	Minimum Voltage: 1.2 V
@@ -1490,7 +1489,7 @@ Memory Device
 	Manufacturer: Samsung
 	(Line containing Serial number has been censored)
 	Asset Tag: P1-DIMMF2_AssetTag (date:16/43)
-	Part Number: M393A1G40EB2-CTD    
+	Part Number: M393A1G40EB2-CTD
 	Rank: 1
 	Configured Clock Speed: 2667 MT/s
 	Minimum Voltage: 1.2 V
@@ -1538,7 +1537,7 @@ Memory Device
 	Manufacturer: Samsung
 	(Line containing Serial number has been censored)
 	Asset Tag: P1-DIMMG2_AssetTag (date:16/43)
-	Part Number: M393A1G40EB2-CTD    
+	Part Number: M393A1G40EB2-CTD
 	Rank: 1
 	Configured Clock Speed: 2667 MT/s
 	Minimum Voltage: 1.2 V
@@ -1586,7 +1585,7 @@ Memory Device
 	Manufacturer: Samsung
 	(Line containing Serial number has been censored)
 	Asset Tag: P1-DIMMH2_AssetTag (date:16/43)
-	Part Number: M393A1G40EB2-CTD    
+	Part Number: M393A1G40EB2-CTD
 	Rank: 1
 	Configured Clock Speed: 2667 MT/s
 	Minimum Voltage: 1.2 V
@@ -1634,7 +1633,7 @@ Memory Device
 	Manufacturer: Samsung
 	(Line containing Serial number has been censored)
 	Asset Tag: P2-DIMMA2_AssetTag (date:16/43)
-	Part Number: M393A1G40EB2-CTD    
+	Part Number: M393A1G40EB2-CTD
 	Rank: 1
 	Configured Clock Speed: 2667 MT/s
 	Minimum Voltage: 1.2 V
@@ -1682,7 +1681,7 @@ Memory Device
 	Manufacturer: Samsung
 	(Line containing Serial number has been censored)
 	Asset Tag: P2-DIMMB2_AssetTag (date:16/43)
-	Part Number: M393A1G40EB2-CTD    
+	Part Number: M393A1G40EB2-CTD
 	Rank: 1
 	Configured Clock Speed: 2667 MT/s
 	Minimum Voltage: 1.2 V
@@ -1730,7 +1729,7 @@ Memory Device
 	Manufacturer: Samsung
 	(Line containing Serial number has been censored)
 	Asset Tag: P2-DIMMC2_AssetTag (date:16/43)
-	Part Number: M393A1G40EB2-CTD    
+	Part Number: M393A1G40EB2-CTD
 	Rank: 1
 	Configured Clock Speed: 2667 MT/s
 	Minimum Voltage: 1.2 V
@@ -1778,7 +1777,7 @@ Memory Device
 	Manufacturer: Samsung
 	(Line containing Serial number has been censored)
 	Asset Tag: P2-DIMMD2_AssetTag (date:16/43)
-	Part Number: M393A1G40EB2-CTD    
+	Part Number: M393A1G40EB2-CTD
 	Rank: 1
 	Configured Clock Speed: 2667 MT/s
 	Minimum Voltage: 1.2 V
@@ -1826,7 +1825,7 @@ Memory Device
 	Manufacturer: Samsung
 	(Line containing Serial number has been censored)
 	Asset Tag: P2-DIMME2_AssetTag (date:16/43)
-	Part Number: M393A1G40EB2-CTD    
+	Part Number: M393A1G40EB2-CTD
 	Rank: 1
 	Configured Clock Speed: 2667 MT/s
 	Minimum Voltage: 1.2 V
@@ -1874,7 +1873,7 @@ Memory Device
 	Manufacturer: Samsung
 	(Line containing Serial number has been censored)
 	Asset Tag: P2-DIMMF2_AssetTag (date:16/43)
-	Part Number: M393A1G40EB2-CTD    
+	Part Number: M393A1G40EB2-CTD
 	Rank: 1
 	Configured Clock Speed: 2667 MT/s
 	Minimum Voltage: 1.2 V
@@ -1922,7 +1921,7 @@ Memory Device
 	Manufacturer: Samsung
 	(Line containing Serial number has been censored)
 	Asset Tag: P2-DIMMG2_AssetTag (date:16/43)
-	Part Number: M393A1G40EB2-CTD    
+	Part Number: M393A1G40EB2-CTD
 	Rank: 1
 	Configured Clock Speed: 2667 MT/s
 	Minimum Voltage: 1.2 V
@@ -1970,7 +1969,7 @@ Memory Device
 	Manufacturer: Samsung
 	(Line containing Serial number has been censored)
 	Asset Tag: P2-DIMMH2_AssetTag (date:16/43)
-	Part Number: M393A1G40EB2-CTD    
+	Part Number: M393A1G40EB2-CTD
 	Rank: 1
 	Configured Clock Speed: 2667 MT/s
 	Minimum Voltage: 1.2 V
