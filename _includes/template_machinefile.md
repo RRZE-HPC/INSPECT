@@ -18,15 +18,16 @@
 
 ## General
 
-|-------------------------|------------------------------------:|
-| model type              | {{file["model type"]}}              |
-| model name              | {{file["model name"]}}              |
-| micro-architecture      | {{file["micro-architecture"]}}      |
-| cores per socket        | {{file["cores per socket"]}}        |
-| cores per NUMA domain   | {{file["cores per NUMA domain"]}}   |
-| cacheline size          | {{file["cacheline size"]}}          |
-| clock                   | {{file["clock"]}}                   |
-| NUMA domains per socket | {{file["NUMA domains per socket"]}} |
+|----------------------------|---------------------------------------:|
+| model type                 | {{file["model type"]}}                 |
+| model name                 | {{file["model name"]}}                 |
+| micro-architecture         | {{file["micro-architecture"]}}         |
+| micro-architecture modeler | {{file["micro-architecture-modeler"]}} |
+| cores per socket           | {{file["cores per socket"]}}           |
+| cores per NUMA domain      | {{file["cores per NUMA domain"]}}      |
+| cacheline size             | {{file["cacheline size"]}}             |
+| clock                      | {{file["clock"]}}                      |
+| NUMA domains per socket    | {{file["NUMA domains per socket"]}}    |
 
 This machine file was generated for kerncraft version {{file["kerncraft version"]}}.
 
@@ -70,12 +71,14 @@ This machine file was generated for kerncraft version {{file["kerncraft version"
 |-------------------|-------------------------------:|
 | cores per group   | {{level["cores per group"]}}   |
 | threads per group | {{level["threads per group"]}} |
+| transfers overlap | {{level["transfers overlap"]}} |
 {% if level["non-overlap upstream throughput"] %}|non-overlap upstream throughput|{{level["non-overlap upstream throughput"][0]}}, {{level["non-overlap upstream throughput"][1]}}|{% endif %}
 {% else %}
 |-------------------|-------------------------------:|
 | groups            | {{level["groups"]}}            |
 | cores per group   | {{level["cores per group"]}}   |
 | threads per group | {{level["threads per group"]}} |
+| transfers overlap | {{level["transfers overlap"]}} |
 {% if level["non-overlap upstream throughput"] %}|non-overlap upstream throughput|{{level["non-overlap upstream throughput"][0]}}, {{level["non-overlap upstream throughput"][1]}}|{% endif %}
 {% endif %}
 

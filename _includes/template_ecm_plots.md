@@ -31,6 +31,8 @@
 {% capture roofline_LC %}{% for data in csv_file %}{{clock}}/{{data["Roofline LC MLUPs"]}},{%endfor%}{% endcapture %}
 {% capture roofline_CS %}{% for data in csv_file %}{{clock}}/{{data["Roofline CS MLUPs"]}},{%endfor%}{% endcapture %}
 
+{% capture overlaps %}{% for level in m_file["memory hierarchy"] %}{{level["transfers overlap"]}},{% endfor %}{% endcapture %}
+{% assign overlap=overlaps | split: "," %}
 
 <div  markdown="1" class="ecm" id="ecm_LC" >
 *Comparison of the measured stencil performance (in cycles per cache line), [roofline prediction](https://www2.eecs.berkeley.edu/Pubs/TechRpts/2008/EECS-2008-164.html) and the (stacked) contributions of the [ECM Performance Model](https://hpc.fau.de/research/ecm/) predicted by [kerncraft](https://github.com/RRZE-HPC/kerncraft) using [Layer Conditions](https://rrze-hpc.github.io/layer-condition/) to model the cache behavior. The calculated [layer conditions](#layer-conditions) shown above correspond to the jumps in the ECM prediction in this plot.*
@@ -112,39 +114,67 @@ var trace_Tol_{{script_name}} = {
   name: "T<sub>OL</sub>"
 };
 var trace_Tnol_{{script_name}} = {
+  {%- if overlap[0] == "true" %}
+  type: "scatter",
+  mode: "lines+markers",
+  marker: { symbol: "triangle-up-open", maxdisplayed: 5 },
+  line: {color: '#1f77b4'},
+  {%- else %}
   type: "histogram",
   xbins: {size:10},
   histfunc: "sum",
+  marker: {color: '#1f77b4'},
+  {% endif %}
   x: [{{N}}],
   y: [{{script_data_Tnol}}],
-  marker: {color: '#1f77b4'},
   name: "T<sub>nOL</sub>"
 };
 var trace_Tl1l2_{{script_name}} = {
+  {%- if overlap[1] == "true" %}
+  type: "scatter",
+  mode: "lines+markers",
+  marker: { symbol: "triangle-down-open", maxdisplayed: 5 },
+  line: {color: '#aec7e8'},
+  {%- else %}
   type: "histogram",
   xbins: {size:10},
   histfunc: "sum",
+  marker: {color: '#aec7e8'},
+  {% endif %}
   x: [{{N}}],
   y: [{{script_data_Tl1l2}}],
-  marker: {color: '#aec7e8'},
   name: "T<sub>L1-L2</sub>"
 };
 var trace_Tl2l3_{{script_name}} = {
+  {%- if overlap[2] == "true" %}
+  type: "scatter",
+  mode: "lines+markers",
+  marker: { symbol: "hexagon-open", maxdisplayed: 5 },
+  line: {color: '#ff7f0e'},
+  {%- else %}
   type: "histogram",
   xbins: {size:10},
   histfunc: "sum",
+  marker: {color: '#ff7f0e'},
+  {% endif %}
   x: [{{N}}],
   y: [{{script_data_Tl2l3}}],
-  marker: {color: '#ff7f0e'},
   name: "T<sub>L2-L3</sub>"
 };
 var trace_Tl3mem_{{script_name}} = {
+  {%- if overlap[3] == "true" %}
+  type: "scatter",
+  mode: "lines+markers",
+  marker: { symbol: "star-diamond-open", maxdisplayed: 5 },
+  line: {color: '#ffbb78'},
+  {%- else %}
   type: "histogram",
   xbins: {size:10},
   histfunc: "sum",
+  marker: {color: '#ffbb78'},
+  {% endif %}
   x: [{{N}}],
   y: [{{script_data_Tl3mem}}],
-  marker: {color: '#ffbb78'},
   name: "T<sub>L3-MEM</sub>"
 };
 var trace_Ttotal_{{script_name}} = {

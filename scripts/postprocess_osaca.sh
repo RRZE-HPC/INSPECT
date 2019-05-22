@@ -14,7 +14,7 @@ fi
 MACHINE_FILE=$(grep MACHINE_FILE args.txt | sed 's/.* //')
 
 if [ ! -f ${MACHINE_FILE} ]; then
-  MACHINE_FILE=/usr/share/kerncraft-git/examples/machine-files/$(grep MACHINE_FILE args.txt | sed 's/.* //;s/.*\///g')
+    MACHINE_FILE=/usr/share/kerncraft-git/examples/machine-files/$(grep MACHINE_FILE args.txt | sed 's/.* //;s/.*\///g')
 fi
 
 # dimension: 2 or 3
@@ -77,10 +77,15 @@ echo "coefficients : \"${CONST}\"" >> ${FILENAME}
 echo "datatype     : \"${DATATYPE}\"" >> ${FILENAME}
 echo "machine      : \"${MACHINE}\"" >> ${FILENAME}
 echo "flavor       : \"EDIT_ME\"" >> ${FILENAME}
-echo "compile_flags: \"$(cat args.txt | grep COMPILER | sed 's/\$COMPILER //') $(cat args.txt | grep COMPILE_ARGS | sed 's/\$COMPILE_ARGS //; s/\/home.*stempel\///g; s/\/mnt\/opt\///g')\"" >> ${FILENAME}
+echo "compile_flags: \"$(cat args.txt | grep "COMPILER " | sed 's/\$COMPILER //; s/\/home.*stempel\///g; s/\/mnt\/opt\///g')\"" >> ${FILENAME}
 echo "flop         : \"$(grep -A 8 FLOPs data/LC.txt | grep -A 1 == | tail -n 1 | sed 's/ //g')\"" >> ${FILENAME}
 echo "scaling      : [ \"${LC_3D_L3_N}\" ]" >> ${FILENAME}
-echo "blocking     : [ \"L2-3D\", \"L3-3D\" ]" >> ${FILENAME}
+if [[ $(ls *csv | grep blocking) ]]; then
+	blk=$(for file in blocking_*csv; do echo \"$file\", | sed 's/blocking_//;s/\.csv//'; done | tr -d "\n")
+	echo "blocking     : [ ${blk::-1} ]" >> ${FILENAME}
+else
+	echo "blocking     : []" >> ${FILENAME}
+fi
 echo "---" >> ${FILENAME}
 echo "" >> ${FILENAME}
 echo "{%- capture basename -%}" >> ${FILENAME}
@@ -95,9 +100,9 @@ cat stencil.c >> ${FILENAME}
 fi
 echo "{%- endcapture -%}" >> ${FILENAME}
 echo "{%- capture source_code_asm -%}" >> ${FILENAME}
-START=$(cat data/singlecore/ECM_LC_10.txt | grep -n "X - instruction" | sed 's/:.*//')
-END=$(cat data/singlecore/ECM_LC_10.txt | grep -n "Total Num Of Uops:" | sed 's/:.*//')
-cat data/singlecore/ECM_LC_10.txt | head -n $((${END}-1)) | tail -n $((${END} - ${START} - 5)) | sed 's/|.*| //g' >> ${FILENAME}
+START=$(cat data/singlecore/ECM_LC_10.txt | grep -n "Ports Pressure in cycles" | sed 's/:.*//')
+END=$(cat data/singlecore/ECM_LC_10.txt | grep -n "Total number of estimated throughput" | sed 's/:.*//')
+cat data/singlecore/ECM_LC_10.txt | head -n $((${END}-1)) | tail -n $((${END} - ${START} - 3)) | sed 's/|.*| //g' >> ${FILENAME}
 echo "{%- endcapture -%}" >> ${FILENAME}
 echo "" >> ${FILENAME}
 echo "{%- capture layercondition -%}" >> ${FILENAME}
@@ -119,11 +124,8 @@ done <<< $(tail -n 12 data/LC.txt | head -n 11 | sed '/layer condition/d')
 echo "{%- endcapture -%}" >> ${FILENAME}
 echo "{%- capture iaca -%}" >> ${FILENAME}
 START=$(cat data/singlecore/ECM_LC_10.txt | grep -n "IACA Output:" | sed 's/:.*//')
-END=$(cat data/singlecore/ECM_LC_10.txt | grep -n "Total Num Of Uops:" | sed 's/:.*//')
-if [ ${#END} -lt 2 ]; then
-	END=$(cat data/singlecore/ECM_LC_10.txt | grep -n "Total number of" | sed 's/:.*//')
-fi
-cat data/singlecore/ECM_LC_10.txt | head -n $((${END}+3)) | tail -n $((${END} - ${START}-2)) >> ${FILENAME}
+END=$(cat data/singlecore/ECM_LC_10.txt | grep -n "Total number of estimated throughput" | sed 's/:.*//')
+cat data/singlecore/ECM_LC_10.txt | head -n $((${END})) | tail -n $((${END} - ${START}-4)) >> ${FILENAME}
 echo "{%- endcapture -%}" >> ${FILENAME}
 echo "{%- capture hostinfo -%}" >> ${FILENAME}
 cat data/system_info.txt >> ${FILENAME}
@@ -163,9 +165,10 @@ for (( size=10; size<=${LC_3D_L3_N}+10; size=size+10)); do
 	ECM_CS_L3total=""
 
 	if [ -f data/singlecore/ECM_SIM_${size}.txt ]; then
-		if [ $(grep -c "} cy/CL" data/singlecore/ECM_SIM_${size}.txt) -gt 0 ]; then
-			ecm_cy=$(grep "} cy/CL" data/singlecore/ECM_SIM_${size}.txt | awk 'NR%2==0' | sed -e 's/}.*//' -e 's/.*\\ //')
-			ecm=$(grep "} cy/CL" data/singlecore/ECM_SIM_${size}.txt | awk 'NR%2==1' | sed -e 's/{ //g' -e 's/ } cy\/CL//g' -e 's/ [|]* /,/g;s/ =.*//g')
+		if [ $(cat data/singlecore/ECM_SIM_${size}.txt | tail | head -n 1 | sed -e 's/\.[0-9][0-9] cy\/CL//;s/[ ]*= //') -gt 0 ]; then
+			ecm_cy=$(grep " cy/CL" data/singlecore/ECM_SIM_${size}.txt | grep = | tail -n 1 | sed -e 's/ cy\/CL//;s/[ ]*= //')
+			ecm=$(grep " cy/CL" data/singlecore/ECM_SIM_${size}.txt | grep = | head -n 5 | sed -e 's/ cy\/CL/,/;s/.*= //' | tr -d '\n')
+			ecm=${ecm::-1}
 		fi
 
 		if [ $(grep -c "Data Transfers:" data/singlecore/ECM_SIM_${size}.txt) -gt 0 ]; then
@@ -220,9 +223,10 @@ for (( size=10; size<=${LC_3D_L3_N}+10; size=size+10)); do
 	ECM_LC_L3total=""
 
 	if [ -f data/singlecore/ECM_LC_${size}.txt ]; then
-		if [ $(cat data/singlecore/ECM_LC_${size}.txt | tail | grep -s -c "} cy/CL") -gt 0 ]; then
-			ecm_cy_LC=$(cat data/singlecore/ECM_LC_${size}.txt | tail -n 20 | grep "} cy/CL" | awk 'NR%2==0' | sed -e 's/}.*//' -e 's/.*\\ //')
-			ecm_LC=$(cat data/singlecore/ECM_LC_${size}.txt | tail -n 20 | grep "} cy/CL" | awk 'NR%2==1' | sed -e 's/{ //g' -e 's/ } cy\/CL//g' -e 's/ [|]* /,/g;s/ =.*//g')
+		if [ $(cat data/singlecore/ECM_LC_${size}.txt | tail | head -n 1 | sed -e 's/\.[0-9][0-9] cy\/CL//;s/[ ]*= //') -gt 0 ]; then
+			ecm_cy_LC=$(grep " cy/CL" data/singlecore/ECM_LC_${size}.txt | grep = | tail -n 1 | sed -e 's/ cy\/CL//;s/[ ]*= //')
+			ecm_LC=$(grep " cy/CL" data/singlecore/ECM_LC_${size}.txt | grep = | head -n 5 | sed -e 's/ cy\/CL/,/;s/.*= //' | tr -d '\n')
+			ecm_LC=${ecm_LC::-1}
 		fi
 
 		if [ $(grep -c "Data Transfers:" data/singlecore/ECM_LC_${size}.txt) -gt 0 ]; then
@@ -281,29 +285,28 @@ for (( size=10; size<=${LC_3D_L3_N}+10; size=size+10)); do
 		ecm_mlup=$(grep "Clock" data/singlecore/Bench_${size}.txt | sed -e 's/.*: //g' -e 's/\..*//g')
 		ecm_mlup=$(bc -l <<< "scale=2;(${LUPperCL} * ${ecm_mlup} / ${ecm_cy_LC})")
 
-		pheno_ecm=$(grep Pheno data/singlecore/Bench_${size}.txt | sed 's/.*: //;s/{ //g;s/ } cy\/CL//g;s/ [|]* /,/g')
-		if [ ${#pheno_ecm} -lt 2 ]; then
-			pheno_ecm=",,,,"
-		fi
+		if [ $(grep -c Pheno data/singlecore/Bench_${size}.txt) -gt 0 ]; then
+			pheno_ecm=$(grep Pheno data/singlecore/Bench_${size}.txt | sed 's/.*: //;s/{ //g;s/ } cy\/CL//g;s/ [|]* /,/g')
 
-		L1=$(cat data/singlecore/Bench_${size}.txt | tail -n 8 | head -n 5 | grep "L1    |" | sed 's/.*L1.*| //')
-		L1evict=$(echo ${L1} | sed -e 's/.*LOAD\/CL[ ]*//' -e  's/ CL\/CL.*//')
-		L1evict=$(bc -l <<< "scale=2;${L1evict} * 64 / 8")
-		L1load=$(echo ${L1} | sed -e 's/.*LOAD\/CL[ ]*//' -e 's/[0-9. ]*CL\/CL[ ]*//' -e 's/[ ]CL\/CL//')
-		L1load=$(bc -l <<< "scale=2;${L1load} * 64 / 8")
-		L1total=$(bc -l <<< "scale=2;${L1load} + ${L1evict}")
-		L2=$(cat data/singlecore/Bench_${size}.txt | tail -n 8 | head -n 5 | grep "L2    |" | sed 's/.*L2.*| //')
-		L2evict=$(echo ${L2} | sed -e 's/[0-9. ]*CL\/CL[ ]*//' -e 's/ CL\/CL.*//')
-		L2evict=$(bc -l <<< "scale=2;${L2evict} * 64 / 8")
-		L2load=$(echo ${L2} | sed -e 's/[0-9. ]*CL\/CL[ ]*//' -e 's/[0-9. ]*CL\/CL[ ]*//' -e 's/ CL\/CL//')
-		L2load=$(bc -l <<< "scale=2;${L2load} * 64 / 8")
-		L2total=$(bc -l <<< "scale=2;${L2load} + ${L2evict}")
-		L3=$(cat data/singlecore/Bench_${size}.txt | tail -n 8 | head -n 5 | grep "L3    |" | sed 's/.*L3.*| //')
-		L3evict=$(echo ${L3} | sed -e 's/[0-9. ]*CL\/CL[ ]*//' -e 's/ CL\/CL.*//')
-		L3evict=$(bc -l <<< "scale=2;${L3evict} * 64 / 8")
-		L3load=$(echo ${L3} | sed -e 's/[0-9. ]*CL\/CL[ ]*//' -e 's/[0-9. ]*CL\/CL[ ]*//' -e 's/ CL\/CL//')
-		L3load=$(bc -l <<< "scale=2;${L3load} * 64 / 8")
-		L3total=$(bc -l <<< "scale=2;${L3load} + ${L3evict}")
+			L1=$(cat data/singlecore/Bench_${size}.txt | tail -n 8 | head -n 5 | grep "L1    |" | sed 's/.*L1.*| //')
+			L1evict=$(echo ${L1} | sed -e 's/.*LOAD\/CL[ ]*//' -e  's/ CL\/CL.*//')
+			L1evict=$(bc -l <<< "scale=2;${L1evict} * 64 / 8")
+			L1load=$(echo ${L1} | sed -e 's/.*LOAD\/CL[ ]*//' -e 's/[0-9. ]*CL\/CL[ ]*//' -e 's/[ ]CL\/CL//')
+			L1load=$(bc -l <<< "scale=2;${L1load} * 64 / 8")
+			L1total=$(bc -l <<< "scale=2;${L1load} + ${L1evict}")
+			L2=$(cat data/singlecore/Bench_${size}.txt | tail -n 8 | head -n 5 | grep "L2    |" | sed 's/.*L2.*| //')
+			L2evict=$(echo ${L2} | sed -e 's/[0-9. ]*CL\/CL[ ]*//' -e 's/ CL\/CL.*//')
+			L2evict=$(bc -l <<< "scale=2;${L2evict} * 64 / 8")
+			L2load=$(echo ${L2} | sed -e 's/[0-9. ]*CL\/CL[ ]*//' -e 's/[0-9. ]*CL\/CL[ ]*//' -e 's/ CL\/CL//')
+			L2load=$(bc -l <<< "scale=2;${L2load} * 64 / 8")
+			L2total=$(bc -l <<< "scale=2;${L2load} + ${L2evict}")
+			L3=$(cat data/singlecore/Bench_${size}.txt | tail -n 8 | head -n 5 | grep "L3    |" | sed 's/.*L3.*| //')
+			L3evict=$(echo ${L3} | sed -e 's/[0-9. ]*CL\/CL[ ]*//' -e 's/ CL\/CL.*//')
+			L3evict=$(bc -l <<< "scale=2;${L3evict} * 64 / 8")
+			L3load=$(echo ${L3} | sed -e 's/[0-9. ]*CL\/CL[ ]*//' -e 's/[0-9. ]*CL\/CL[ ]*//' -e 's/ CL\/CL//')
+			L3load=$(bc -l <<< "scale=2;${L3load} * 64 / 8")
+			L3total=$(bc -l <<< "scale=2;${L3load} + ${L3evict}")
+		fi
 	fi
 
 	echo ${size}","${gflops}","${mflops}","${intensity}","${gflops_LC}","${mflops_LC}","${intensity_LC}","${ecm_mlup}","${bench_mlup}","${ecm}","${ecm_cy}","${ecm_LC}","${ecm_cy_LC}","${bench_cy}","${pheno_ecm}","${L1load}","${L1evict}","${L1total}","${L2load}","${L2evict}","${L2total}","${L3load}","${L3evict}","${L3total}","${ECM_CS_L1load}","${ECM_CS_L1evict}","${ECM_CS_L1total}","${ECM_CS_L2load}","${ECM_CS_L2evict}","${ECM_CS_L2total}","${ECM_CS_L3load}","${ECM_CS_L3evict}","${ECM_CS_L3total}","${ECM_LC_L1load}","${ECM_LC_L1evict}","${ECM_LC_L1total}","${ECM_LC_L2load}","${ECM_LC_L2evict}","${ECM_LC_L2total}","${ECM_LC_L3load}","${ECM_LC_L3evict}","${ECM_LC_L3total} >> ${FILENAME}
@@ -331,8 +334,8 @@ for (( threads = 1; threads <= ${cores}; threads++ )); do
 	mem_read=0
 	mem_write=0
 
-	iterations=$(grep perfctr data/scaling/Benchmark_${LC_3D_L3_N}_${threads}.txt | tail -n 1 | sed 's/.*likwid_marked //; s/ .*//')
-	time=$(grep "Runtime (RDTSC) \[s\]'" data/scaling/Benchmark_${LC_3D_L3_N}_${threads}.txt | sed 's/.*Runtime.*: //; s/,//')
+	iterations=$(grep perfctr data/scaling/Benchmark_${LC_3D_L3_N}_${threads}.txt | tail -n 1 | sed 's/.*kernel//;s/\.0 .*//;s/-omp //;s/[ ]*//')
+	time=$(grep "Runtime (RDTSC) \[s\]'" data/scaling/Benchmark_${LC_3D_L3_N}_${threads}.txt | sed 's/.*Runtime.*: //; s/,//;s/}]//')
 
 	gflops=$(bc -l <<< "scale=2;$(grep " [MG]FLOP" data/scaling/Benchmark_${LC_3D_L3_N}_${threads}.txt | sed 's/Performance.*: //; s/FLOP.*//; s/ M/*10^6/; s/ G/*10^9/')/10^9")
 	mlups=$(grep " MLUP" data/scaling/Benchmark_${LC_3D_L3_N}_${threads}.txt | sed -e 's/Performance: //; s/ MLUP\/s//')
@@ -354,65 +357,65 @@ done
 # Cache Blocking
 # ************************************************************************************************
 
-echo ":: GENERATING blocking.csv"
+# echo ":: GENERATING blocking.csv"
 
 # run spatial blocking benchmark
-for blocking_case in L2 L3; do
-	FILENAME=blocking_${blocking_case}-3D.csv
+# for blocking_case in L2 L3; do
+# 	FILENAME=blocking_${blocking_case}-3D.csv
 
-	# write results file header
-	echo "N,iterations,time,blocking options,flop,lup,Gflop/s,Mlup/s,cy/CL,l1-l2 miss,l1-l2 evict,l2-l3 miss,l2-l3 evict,l3-mem miss,l3-mem evict,l1-l2 total,l2-l3 total,l3-mem total" > ${FILENAME}
+# 	# write results file header
+# 	echo "N,iterations,time,blocking options,flop,lup,Gflop/s,Mlup/s,cy/CL,l1-l2 miss,l1-l2 evict,l2-l3 miss,l2-l3 evict,l3-mem miss,l3-mem evict,l1-l2 total,l2-l3 total,l3-mem total" > ${FILENAME}
 
-	for (( size=10; size<=${LC_3D_L3_N}+10; size=size+10)); do
-		args=$(grep "${blocking_case} ${size} ${size} ${size}" args.txt)
+# 	for (( size=10; size<=${LC_3D_L3_N}+10; size=size+10)); do
+# 		args=$(grep "${blocking_case} ${size} ${size} ${size}" args.txt)
 
-		#save results/metrics
-		iterations=$(head -n 1 data/blocking/${blocking_case}_3D/likwid_${size}_out.txt | grep "iterations:" | sed 's/iterations: //')
-		time=$(grep "time:" data/blocking/${blocking_case}_3D/likwid_${size}_out.txt | sed 's/time: //')
-		flop=$(grep "Total work" data/blocking/${blocking_case}_3D/likwid_${size}_out.txt | sed 's/ FLOP//; s/Total work: //')
-		lup=$(grep "Total iterations: " data/blocking/${blocking_case}_3D/likwid_${size}_out.txt | sed 's/Total iterations: //; s/ LUP//')
-		ghz=$(grep clock ${MACHINE_FILE} | sed 's/clock: //; s/ GHz//')
+# 		#save results/metrics
+# 		iterations=$(head -n 1 data/blocking/${blocking_case}_3D/likwid_${size}_out.txt | grep "iterations:" | sed 's/iterations: //')
+# 		time=$(grep "time:" data/blocking/${blocking_case}_3D/likwid_${size}_out.txt | sed 's/time: //')
+# 		flop=$(grep "Total work" data/blocking/${blocking_case}_3D/likwid_${size}_out.txt | sed 's/ FLOP//; s/Total work: //')
+# 		lup=$(grep "Total iterations: " data/blocking/${blocking_case}_3D/likwid_${size}_out.txt | sed 's/Total iterations: //; s/ LUP//')
+# 		ghz=$(grep clock ${MACHINE_FILE} | sed 's/clock: //; s/ GHz//')
 
-		if [ -f data/blocking/${blocking_case}_3D/likwid_${size}.txt ]; then
-			L1D_M_EVICT=$(grep L1D_M_EVICT data/blocking/${blocking_case}_3D/likwid_${size}.txt | sed 's/|[ ]*L1D_M_EVICT[ ]*|[ ]*PMC[0123][ ]*|[ ]*//; s/ |//')
-			L1D_REPLACEMENT=$(grep L1D_REPLACEMENT data/blocking/${blocking_case}_3D/likwid_${size}.txt | sed 's/|[ ]*L1D_REPLACEMENT[ ]*|[ ]*PMC[0123][ ]*|[ ]*//; s/ |//')
+# 		if [ -f data/blocking/${blocking_case}_3D/likwid_${size}.txt ]; then
+# 			L1D_M_EVICT=$(grep L1D_M_EVICT data/blocking/${blocking_case}_3D/likwid_${size}.txt | sed 's/|[ ]*L1D_M_EVICT[ ]*|[ ]*PMC[0123][ ]*|[ ]*//; s/ |//')
+# 			L1D_REPLACEMENT=$(grep L1D_REPLACEMENT data/blocking/${blocking_case}_3D/likwid_${size}.txt | sed 's/|[ ]*L1D_REPLACEMENT[ ]*|[ ]*PMC[0123][ ]*|[ ]*//; s/ |//')
 
-			L2_LINES_IN_ALL=$(grep L2_LINES_IN_ALL data/blocking/${blocking_case}_3D/likwid_${size}.txt | sed 's/|[ ]*L2_LINES_IN_ALL[ ]*|[ ]*PMC[0123][ ]*|[ ]*//; s/ |//')
-			L2_TRANS_L2_WB=$(grep L2_TRANS_L2_WB data/blocking/${blocking_case}_3D/likwid_${size}.txt | sed 's/|[ ]*L2_TRANS_L2_WB[ ]*|[ ]*PMC[0123][ ]*|[ ]*//; s/ |//')
+# 			L2_LINES_IN_ALL=$(grep L2_LINES_IN_ALL data/blocking/${blocking_case}_3D/likwid_${size}.txt | sed 's/|[ ]*L2_LINES_IN_ALL[ ]*|[ ]*PMC[0123][ ]*|[ ]*//; s/ |//')
+# 			L2_TRANS_L2_WB=$(grep L2_TRANS_L2_WB data/blocking/${blocking_case}_3D/likwid_${size}.txt | sed 's/|[ ]*L2_TRANS_L2_WB[ ]*|[ ]*PMC[0123][ ]*|[ ]*//; s/ |//')
 
-			CAS_COUNT_RD=$(var=$(grep CAS_COUNT_RD data/blocking/${blocking_case}_3D/likwid_${size}.txt | sed 's/|[ ]*CAS_COUNT_RD[ ]*|[ ]*MBOX[01234567]C[01][ ]*|[ ]*//; s/[ ]*|/+/; s/-/0/' | tr -d '\n') && echo ${var::-1})
-			CAS_COUNT_WR=$(var=$(grep CAS_COUNT_WR data/blocking/${blocking_case}_3D/likwid_${size}.txt | sed 's/|[ ]*CAS_COUNT_WR[ ]*|[ ]*MBOX[01234567]C[01][ ]*|[ ]*//; s/[ ]*|/+/; s/-/0/' | tr -d '\n') && echo ${var::-1})
+# 			CAS_COUNT_RD=$(var=$(grep CAS_COUNT_RD data/blocking/${blocking_case}_3D/likwid_${size}.txt | sed 's/|[ ]*CAS_COUNT_RD[ ]*|[ ]*MBOX[01234567]C[01][ ]*|[ ]*//; s/[ ]*|/+/; s/-/0/' | tr -d '\n') && echo ${var::-1})
+# 			CAS_COUNT_WR=$(var=$(grep CAS_COUNT_WR data/blocking/${blocking_case}_3D/likwid_${size}.txt | sed 's/|[ ]*CAS_COUNT_WR[ ]*|[ ]*MBOX[01234567]C[01][ ]*|[ ]*//; s/[ ]*|/+/; s/-/0/' | tr -d '\n') && echo ${var::-1})
 
-			l2_load=$(bc -l <<< "scale=2;${L1D_REPLACEMENT} * 64 / ( ${iterations} * ( ${size} - 2 )^3 )")
-			l2_evict=$(bc -l <<< "scale=2;${L1D_M_EVICT} * 64 / ( ${iterations} * ( ${size} - 2 )^3 )")
-			l2_total=$(bc -l <<< "scale=2;${l2_load}+${l2_evict}")
+# 			l2_load=$(bc -l <<< "scale=2;${L1D_REPLACEMENT} * 64 / ( ${iterations} * ( ${size} - 2 )^3 )")
+# 			l2_evict=$(bc -l <<< "scale=2;${L1D_M_EVICT} * 64 / ( ${iterations} * ( ${size} - 2 )^3 )")
+# 			l2_total=$(bc -l <<< "scale=2;${l2_load}+${l2_evict}")
 
-			l3_load=$(bc -l <<< "scale=2;${L2_LINES_IN_ALL} * 64 / ( ${iterations} * ( ${size} - 2 )^3 )")
-			l3_evict=$(bc -l <<< "scale=2;${L2_TRANS_L2_WB} * 64 / ( ${iterations} * ( ${size} - 2 )^3 )")
-			l3_total=$(bc -l <<< "scale=2;${l3_load}+${l3_evict}")
+# 			l3_load=$(bc -l <<< "scale=2;${L2_LINES_IN_ALL} * 64 / ( ${iterations} * ( ${size} - 2 )^3 )")
+# 			l3_evict=$(bc -l <<< "scale=2;${L2_TRANS_L2_WB} * 64 / ( ${iterations} * ( ${size} - 2 )^3 )")
+# 			l3_total=$(bc -l <<< "scale=2;${l3_load}+${l3_evict}")
 
-			mem_read=$(bc -l <<< "scale=2;${CAS_COUNT_RD} * 64 / ( ${iterations} * ( ${size} - 2 )^3 )")
-			mem_write=$(bc -l <<< "scale=2;${CAS_COUNT_WR} * 64 / ( ${iterations} * ( ${size} - 2 )^3 )")
-			mem_total=$(bc -l <<< "scale=2;${mem_read}+${mem_write}")
-		else
-			l2_load=0
-			l2_evict=0
-			l2_total=0
-			l3_load=0
-			l3_evict=0
-			l3_total=0
-			mem_read=0
-			mem_write=0
-			mem_total=0
-		fi
+# 			mem_read=$(bc -l <<< "scale=2;${CAS_COUNT_RD} * 64 / ( ${iterations} * ( ${size} - 2 )^3 )")
+# 			mem_write=$(bc -l <<< "scale=2;${CAS_COUNT_WR} * 64 / ( ${iterations} * ( ${size} - 2 )^3 )")
+# 			mem_total=$(bc -l <<< "scale=2;${mem_read}+${mem_write}")
+# 		else
+# 			l2_load=0
+# 			l2_evict=0
+# 			l2_total=0
+# 			l3_load=0
+# 			l3_evict=0
+# 			l3_total=0
+# 			mem_read=0
+# 			mem_write=0
+# 			mem_total=0
+# 		fi
 
-		gflops=$(bc -l <<< "scale=2;${flop} / 10^9 / ${time}")
-		mlups=$(bc -l <<< "scale=2;${lup} / 10^6 / ${time}")
-		cyCL=$(bc -l <<< "scale=2;${ghz} / ( ${lup} / 10^9 / ${time} ) * ${LUPperCL}")
+# 		gflops=$(bc -l <<< "scale=2;${flop} / 10^9 / ${time}")
+# 		mlups=$(bc -l <<< "scale=2;${lup} / 10^6 / ${time}")
+# 		cyCL=$(bc -l <<< "scale=2;${ghz} / ( ${lup} / 10^9 / ${time} ) * ${LUPperCL}")
 
-		echo "${size},${iterations},${time},${args},${flop},${lup},${gflops},${mlups},${cyCL},${l2_load},${l2_evict},${l3_load},${l3_evict},${mem_read},${mem_write},${l2_total},${l3_total},${mem_total}" >> ${FILENAME}
-	done
-done
+# 		echo "${size},${iterations},${time},${args},${flop},${lup},${gflops},${mlups},${cyCL},${l2_load},${l2_evict},${l3_load},${l3_evict},${mem_read},${mem_write},${l2_total},${l3_total},${mem_total}" >> ${FILENAME}
+# 	done
+# done
 
 # ************************************************************************************************
 # copy results for stencil data collection
@@ -420,7 +423,7 @@ done
 
 FOLDER="${OUTPUT_FOLDER}/${DIM}D/r${RADIUS}/${WEIGHTING}/${KIND}/${CONST}/${DATATYPE}/${MACHINE}/"
 mkdir -p ${FOLDER}
-cp index.md *csv stencil.c data/system_info.txt ${FOLDER}
+cp index.md *csv ${FOLDER}
 
 # ************************************************************************************************
 # compress data files
