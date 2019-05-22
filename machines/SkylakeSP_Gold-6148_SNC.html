@@ -16,7 +16,7 @@
 {"description":"Intra Node Stencil Performance Evaluation Collection","@type":"WebPage","headline":"INSPECT","url":"/INSPECT/machines/SkylakeSP_Gold-6148_SNC.html","@context":"http://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
-    <link rel="stylesheet" href="/INSPECT/assets/css/style.css?v=0a7865015b99257900c45703d18d6b1924abd0ce">
+    <link rel="stylesheet" href="/INSPECT/assets/css/style.css?v=bd03832fd9aa60a8760586a25c41c61540b159d0">
     <script src="https://code.jquery.com/jquery-3.3.0.min.js" integrity="sha256-RTQy8VOmNlT6b2PIRur37p6JEBZUE7o8wPgMvu18MC4=" crossorigin="anonymous"></script>
     <script src="/INSPECT/assets/js/main.js"></script>
     <!--[if lt IE 9]>
@@ -103,6 +103,10 @@
           <td>SKX</td>
         </tr>
         <tr>
+          <td>micro-architecture modeler</td>
+          <td> </td>
+        </tr>
+        <tr>
           <td>cores per socket</td>
           <td>20</td>
         </tr>
@@ -125,7 +129,7 @@
       </tbody>
     </table>
 
-    <p>This machine file was generated for kerncraft version 0.7.3.</p>
+    <p>This machine file was generated for kerncraft version 0.8.1dev0.</p>
 
   </div>
   <div class="section-block-half">
@@ -140,11 +144,11 @@
         </tr>
         <tr>
           <td>clang</td>
-          <td><code class="highlighter-rouge">-O3 -march=skylake-avx512 -D_POSIX_C_SOURCE=200112L -fopenmp</code></td>
+          <td><code class="highlighter-rouge">-O3 -march=skylake-avx512 -D_POSIX_C_SOURCE=200809L -fopenmp</code></td>
         </tr>
         <tr>
           <td>gcc</td>
-          <td><code class="highlighter-rouge">-O3 -march=skylake-avx512 -fopenmp</code></td>
+          <td><code class="highlighter-rouge">-O3 -march=skylake-avx512 -D_POSIX_C_SOURCE=200809L -fopenmp -lm</code></td>
         </tr>
       </tbody>
     </table>
@@ -200,6 +204,10 @@
         <tr>
           <td>threads per group</td>
           <td>2</td>
+        </tr>
+        <tr>
+          <td>transfers overlap</td>
+          <td>false</td>
         </tr>
       </tbody>
     </table>
@@ -282,8 +290,8 @@
           <td>2</td>
         </tr>
         <tr>
-          <td>non-overlap upstream throughput</td>
-          <td>64 B/cy, half-duplex</td>
+          <td>transfers overlap</td>
+          <td>false</td>
         </tr>
       </tbody>
     </table>
@@ -370,8 +378,8 @@
           <td>20</td>
         </tr>
         <tr>
-          <td>non-overlap upstream throughput</td>
-          <td>16 B/cy, full-duplex</td>
+          <td>transfers overlap</td>
+          <td>false</td>
         </tr>
       </tbody>
     </table>
@@ -382,11 +390,11 @@
       <tbody>
         <tr>
           <td>sets</td>
-          <td>28672</td>
+          <td>12288</td>
         </tr>
         <tr>
           <td>ways</td>
-          <td>16</td>
+          <td>11</td>
         </tr>
         <tr>
           <td>cl_size</td>
@@ -442,8 +450,8 @@
           <td>80</td>
         </tr>
         <tr>
-          <td>non-overlap upstream throughput</td>
-          <td>full socket memory bandwidth, half-duplex</td>
+          <td>transfers overlap</td>
+          <td>false</td>
         </tr>
       </tbody>
     </table>

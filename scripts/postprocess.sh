@@ -14,7 +14,7 @@ fi
 MACHINE_FILE=$(grep MACHINE_FILE args.txt | sed 's/.* //')
 
 if [ ! -f ${MACHINE_FILE} ]; then
-    MACHINE_FILE=/usr/share/kerncraft-git/examples/machine-files/$(grep MACHINE_FILE args.txt | sed 's/.* //;s/.*\///g')
+  MACHINE_FILE=/usr/share/kerncraft-git/examples/machine-files/$(grep MACHINE_FILE args.txt | sed 's/.* //;s/.*\///g')
 fi
 
 # dimension: 2 or 3
@@ -120,6 +120,9 @@ echo "{%- endcapture -%}" >> ${FILENAME}
 echo "{%- capture iaca -%}" >> ${FILENAME}
 START=$(cat data/singlecore/ECM_LC_10.txt | grep -n "IACA Output:" | sed 's/:.*//')
 END=$(cat data/singlecore/ECM_LC_10.txt | grep -n "Total Num Of Uops:" | sed 's/:.*//')
+if [ ${#END} -lt 2 ]; then
+	END=$(cat data/singlecore/ECM_LC_10.txt | grep -n "Total number of" | sed 's/:.*//')
+fi
 cat data/singlecore/ECM_LC_10.txt | head -n $((${END}+3)) | tail -n $((${END} - ${START}-2)) >> ${FILENAME}
 echo "{%- endcapture -%}" >> ${FILENAME}
 echo "{%- capture hostinfo -%}" >> ${FILENAME}
@@ -279,6 +282,9 @@ for (( size=10; size<=${LC_3D_L3_N}+10; size=size+10)); do
 		ecm_mlup=$(bc -l <<< "scale=2;(${LUPperCL} * ${ecm_mlup} / ${ecm_cy_LC})")
 
 		pheno_ecm=$(grep Pheno data/singlecore/Bench_${size}.txt | sed 's/.*: //;s/{ //g;s/ } cy\/CL//g;s/ [|]* /,/g')
+		if [ ${#pheno_ecm} -lt 2 ]; then
+			pheno_ecm=",,,,"
+		fi
 
 		L1=$(cat data/singlecore/Bench_${size}.txt | tail -n 8 | head -n 5 | grep "L1    |" | sed 's/.*L1.*| //')
 		L1evict=$(echo ${L1} | sed -e 's/.*LOAD\/CL[ ]*//' -e  's/ CL\/CL.*//')
