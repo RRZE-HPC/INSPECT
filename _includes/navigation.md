@@ -129,9 +129,11 @@ stencils/{{dim}}/{{rad}}/{{weight}}/{{kind}}/{{coeff}}/{{dt}}
 stencils/{{dim}}/{{rad}}/{{weight}}/{{kind}}/{{coeff}}/{{dt}}/{{machine}}
 {%- endcapture -%}
 
+{%- if page.machine == machine -%}
 {%- if page.url contains basename -%}
   - [{{machine}}{%if page.flavor != "" and page.flavor != nil %} - {{page.flavor}}{% endif %}]({{site.baseurl}}{{page.url}}){: .machine{{machine}}}
 {% endif %}
+{%- endif -%}
 {%- endfor -%}
 {%- endfor -%}
 </details>

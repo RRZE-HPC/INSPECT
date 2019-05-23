@@ -14,7 +14,7 @@ fi
 MACHINE_FILE=$(grep MACHINE_FILE args.txt | sed 's/.* //')
 
 if [ ! -f ${MACHINE_FILE} ]; then
-    MACHINE_FILE=/usr/share/kerncraft-git/examples/machine-files/$(grep MACHINE_FILE args.txt | sed 's/.* //;s/.*\///g')
+  MACHINE_FILE=/usr/share/kerncraft-git/examples/machine-files/$(grep MACHINE_FILE args.txt | sed 's/.* //;s/.*\///g')
 fi
 
 # dimension: 2 or 3
@@ -120,6 +120,9 @@ echo "{%- endcapture -%}" >> ${FILENAME}
 echo "{%- capture iaca -%}" >> ${FILENAME}
 START=$(cat data/singlecore/ECM_LC_10.txt | grep -n "IACA Output:" | sed 's/:.*//')
 END=$(cat data/singlecore/ECM_LC_10.txt | grep -n "Total Num Of Uops:" | sed 's/:.*//')
+if [ ${#END} -lt 2 ]; then
+	END=$(cat data/singlecore/ECM_LC_10.txt | grep -n "Total number of" | sed 's/:.*//')
+fi
 cat data/singlecore/ECM_LC_10.txt | head -n $((${END}+3)) | tail -n $((${END} - ${START}-2)) >> ${FILENAME}
 echo "{%- endcapture -%}" >> ${FILENAME}
 echo "{%- capture hostinfo -%}" >> ${FILENAME}
@@ -137,9 +140,8 @@ echo ":: GENERATING results.csv"
 FILENAME=results.csv
 
 # write header
-echo ",Roofline,,,,,,,,ECM,,,,,,,,,,,,Benchmark,,,,,,Data Transfer (Benchmark),,,,,,,,,Data Transfer (Prediction CS),,,,,,,,,Data Transfer (Prediction LC),,,,,,,," > ${FILENAME}
-echo ",Cache Simulator,,,Layer Conditions,,,ECM,Benchmark,Cache Simulator,,,,,,Layer Condition,,,,,,Benchmark,Phenomenological ECM,,,,,L1-L2 (B/LUP),,,L2-L3 (B/LUP),,,L3-MEM (B/LUP),,,L1-L2 (B/LUP),,,L2-L3 (B/LUP),,,L3-MEM (B/LUP),,,L1-L2 (B/LUP),,,L2-L3 (B/LUP),,,L3-MEM (B/LUP),," >> ${FILENAME}
-echo "N(^3),GFLOP/s,MLUP/s,Arithmetic Intensity,GFLOP/s,MLUP/s,Arithmetic Intensity,MLUP/s,MLUP/s,T_OL,T_nOL,T_L1L2,T_L2L3,T_L3MEM,cy/CL,T_OL,T_nOL,T_L1L2,T_L2L3,T_L3MEM,cy/CL,cy/CL,T_OL,T_nOL,T_L1L2,T_L2L3,T_L3MEM,load,evict,total,load,evict,total,load,evict,total,load,evict,total,load,evict,total,load,evict,total,load,evict,total,load,evict,total,load,evict,total" >> ${FILENAME}
+RESULTS_HEADER="N^3,Roofline CS GFLOPs,Roofline CS MLUPs,Roofline CS Arithmetic Intensity,Roofline LC GFLOPs,Roofline LC MLUPs,Roofline LC Arithmetic Intensity,Roofline ECM MLUPs,Benchmark MLUPs,ECM CS Tol,ECM CS Tnol,ECM CS Tl1l2,ECM CS Tl2l3,ECM CS Tl3mem,ECM CS cycl,ECM LC Tol,ECM LC Tnol,ECM LC Tl1l2,ECM LC Tl2l3,ECM LC Tl3mem,ECM LC cycl,Benchmark cycl,Benchmark Pheno Tol,Benchmark Pheno Tnol,Benchmark Pheno Tl1l2,Benchmark Pheno Tl2l3,Benchmark Pheno Tl3mem,Benchmark Transfer L1L2 load,Benchmark Transfer L1L2 evict,Benchmark Transfer L1L2 total,Benchmark Transfer L2L3 load,Benchmark Transfer L2L3 evict,Benchmark Transfer L2L3 total,Benchmark Transfer L3MEM load,Benchmark Transfer L3MEM evict,Benchmark Transfer L3MEM total,CS Transfer L1L2 load,CS Transfer L1L2 evict,CS Transfer L1L2 total,CS Transfer L2L3 load,CS Transfer L2L3 evict,CS Transfer L2L3 total,CS Transfer L3MEM load,CS Transfer L3MEM evict,CS Transfer L3MEM total,LC Transfer L1L2 load,LC Transfer L1L2 evict,LC Transfer L1L2 total,LC Transfer L2L3 load,LC Transfer L2L3 evict,LC Transfer L2L3 total,LC Transfer L3MEM load,LC Transfer L3MEM evict,LC Transfer L3MEM total"
+echo ${RESULTS_HEADER} > ${FILENAME}
 
 for (( size=10; size<=${LC_3D_L3_N}+10; size=size+10)); do
 	flops=$(cat stencil.flop | sed 's/.* //g')
@@ -280,6 +282,9 @@ for (( size=10; size<=${LC_3D_L3_N}+10; size=size+10)); do
 		ecm_mlup=$(bc -l <<< "scale=2;(${LUPperCL} * ${ecm_mlup} / ${ecm_cy_LC})")
 
 		pheno_ecm=$(grep Pheno data/singlecore/Bench_${size}.txt | sed 's/.*: //;s/{ //g;s/ } cy\/CL//g;s/ [|]* /,/g')
+		if [ ${#pheno_ecm} -lt 2 ]; then
+			pheno_ecm=",,,,"
+		fi
 
 		L1=$(cat data/singlecore/Bench_${size}.txt | tail -n 8 | head -n 5 | grep "L1    |" | sed 's/.*L1.*| //')
 		L1evict=$(echo ${L1} | sed -e 's/.*LOAD\/CL[ ]*//' -e  's/ CL\/CL.*//')

@@ -127,23 +127,36 @@ blockquote {
   }
 
   .warning {
-    color: rgb(255, 40, 0);
-    padding-left: 5%;
-    margin: 0 auto;
-    display: block;
-    width: 85%;
-    font-weight: bold;
+    color: rgba(255, 40, 0, .8);
+    width: 90%;
+    font-weight: normal;
     float: left;
+    font-size: 80%;
+    position: absolute;
+    bottom: 5px;
+    left: 5%;
+
+    &:before {
+      position: absolute;
+      bottom: 0;
+      top: 0;
+      left: -4%;
+      width: 5%;
+      content: "⚠️";
+      display: block;
+      float: left;
+      height: 40px;
+      font-size: 100%;
+    }
+
   }
 
-  .warning:before {
-    content: "⚠️";
-    width: 10%;
-    display: block;
-    float: left;
-    height: 40px;
-    font-size: 28px;
-    padding-top: 8px;
+  .edit {
+    position: absolute;
+    right: 5px;
+    bottom: 5px;
+    height: 18px;
+    width: 18px;
   }
 
   .svg {
@@ -232,6 +245,57 @@ dt {
   font-weight: 700;
 }
 
+.headroom {
+  will-change: transform;
+  transition: transform 500ms linear;
+}
+
+.headroom--top {
+  transform: translateY(0);
+
+  h1 {
+    font-size: 46px;
+    line-height: 48px;
+    transform: translateY(0);
+
+    &:before {
+      background-size: 35px 35px;
+      width: 35px;
+      height: 35px;
+    }
+
+  }
+
+  p {
+    opacity: 1;
+    transition: opacity 250ms;
+  }
+
+}
+
+.headroom--not-top {
+  transform: translateY(-68px);
+
+  h1 {
+    font-size: 35px;
+    line-height: 38px;
+    transform: translateY(48px);
+
+    &:before {
+      background-size: 26px 26px;
+      width: 26px;
+      height: 26px;
+    }
+
+  }
+
+  p {
+    opacity: 0;
+    transition: opacity 250ms;
+  }
+
+}
+
 header {
   padding: 25px 20px 40px 20px;
   margin: 0;
@@ -248,7 +312,10 @@ header {
   min-height: 76px;
 
   h1 {
-    font: 40px/48px 'Copse', "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-family: "Raleway", 'Copse', "Helvetica Neue", Helvetica, Arial, sans-serif;
+    letter-spacing: 3px;
+    font-size: 46px;
+    font-weight: normal;
     color: #f3f3f3;
     text-shadow: 0px 2px 0px #235796;
     margin: 0px;
@@ -261,6 +328,7 @@ header {
 
   h1:before {
     background-image: url({{ '/assets/img/inspect-white.svg' | relative_url }});
+    background-repeat: no-repeat;
     background-size: 35px 35px;
     display: inline-block;
     width: 35px;
@@ -290,7 +358,6 @@ header {
   border: 1px solid #efeff2;
   box-shadow: 0px 1px 3px rgba(0, 0, 0, .25);
   border-radius: 0px 2px 2px 0px;
-  padding-right: 10px;
   color: #707070;
 
   .button {
@@ -309,7 +376,7 @@ header {
     text-align: center;
 
     &:hover {
-      background: linear-gradient(rgba(#005cae, 0.6), rgba(#005cae, 0.8));
+      background: url(https://pages-themes.github.io/leap-day/assets/images/octocat-logo.svg) no-repeat, linear-gradient(rgba(#005cae, 0.6), rgba(#005cae, 0.8));
     }
 
   }
@@ -319,7 +386,8 @@ header {
     padding: 10px 12px;
     line-height: 14px;
     font-size: 14px;
-    background-color: #ddd;
+    padding-left: 42px;
+    background: url(https://pages-themes.github.io/leap-day/assets/images/octocat-logo.svg) no-repeat, #ddd;
     color: #333;
     margin: 7px 10px;
     float: right;
@@ -362,6 +430,7 @@ header {
     border: 1px solid #bbb;
     border-radius: 2px;
     box-shadow: inset 0px 1px 0px rgba(255, 255, 255, .4), 0px 1px 1px rgba(0, 0, 0, .1);
+    background-image: none;
     padding: 0px 5px;
     line-height: 32px;
     font-size: 24px;
@@ -492,11 +561,43 @@ footer {
   padding-left: 50px;
   position: sticky;
   left: 0;
-  bottom: 20px;
+  bottom: 10px;
   text-align: right;
   line-height: 16px;
   text-align: right;
   float: left;
+
+  .button {
+    border: 1px solid #bbb;
+    border-radius: 2px;
+    box-shadow: inset 0px 1px 0px rgba(255, 255, 255, .4), 0px 1px 1px rgba(0, 0, 0, .1);
+    background-color: #005cae;
+    margin-left: 5px;
+    padding: 10px 12px;
+    margin-top: 6px;
+    line-height: 14px;
+    font-size: 14px;
+    color: #333;
+    font-weight: bold;
+    display: inline-block;
+    text-align: center;
+
+    &:hover {
+      background: url(https://pages-themes.github.io/leap-day/assets/images/octocat-logo.svg) no-repeat, linear-gradient(rgba(#005cae, 0.6), rgba(#005cae, 0.8));
+    }
+
+  }
+
+  .fork {
+    padding: 10px 12px 10px 42px;
+    width: 80px;
+    line-height: 14px;
+    font-size: 14px;
+    background: url(https://pages-themes.github.io/leap-day/assets/images/octocat-logo.svg) no-repeat, #ddd;
+    color: #333;
+    margin-bottom: 15px;
+  }
+
 }
 
 .section-block-full {
@@ -515,21 +616,6 @@ footer {
   overflow: hidden;
 }
 
-#navigation select {
-  border: 1px solid #bbb;
-  border-radius: 2px;
-  box-shadow: inset 0px 1px 0px rgba(255, 255, 255, .4), 0px 1px 1px rgba(0, 0, 0, .1);
-  padding: 4px 8px;
-  margin-top: 5px;
-  line-height: 14px;
-  font-size: 14px;
-  background-color: #ddd;
-  color: #333;
-  font-weight: bold;
-  display: inline-block;
-  text-align: center;
-}
-
 .highlight .err {
   color: #efefef;
   background-color: transparent;
@@ -542,20 +628,100 @@ footer {
 
 #navbar {
   overflow: hidden;
-  width: 600px;
-  padding: 5px 10px
+  line-height: 50px;
+  float: right;
+  font-size: 11pt;
+
+  &:hover {
+    text-decoration: underline;
+  }
+
 }
 
 #navigation {
   overflow: hidden;
-}
 
-#navigation details details {
-  margin-left: 15px;
-}
+  select {
+    border: 1px solid #bbb;
+    border-radius: 2px;
+    box-shadow: inset 0px 1px 0px rgba(255, 255, 255, .4), 0px 1px 1px rgba(0, 0, 0, .1);
+    padding: 4px 8px;
+    margin-top: 5px;
+    line-height: 14px;
+    font-size: 14px;
+    background-color: #ddd;
+    color: #333;
+    font-weight: bold;
+    display: inline-block;
+    text-align: center;
+  }
 
-#navigation details ul {
-  padding-inline-start: 15px;
+  details {
+    margin-left: 6px;
+    padding-left: 15px;
+    border-left: 2px solid black;
+    background-image: url({{ '/assets/img/navigation-dash.png' | relative_url }});
+    background-repeat: no-repeat;
+    padding-bottom: 10px;
+
+    &:last-child {
+      background-image: url({{ '/assets/img/navigation-L.png' | relative_url }});
+      background-repeat: no-repeat;
+      border-left: 0px solid transparent;
+      padding-left: 17px;
+      margin-bottom: -10px;
+    }
+
+    summary {
+      line-height: 20px;
+
+      &::-webkit-details-marker {
+        padding-left: 3px;
+      }
+
+    }
+
+    &[open] {
+      margin-bottom: -10px;
+    }
+
+    ul {
+      padding-inline-start: 15px;
+      margin-left: 6px;
+      padding-left: 15px;
+      background-image: url({{ '/assets/img/navigation-T.png' | relative_url }});
+      background-repeat: no-repeat;
+
+      &:last-child, li:last-child {
+        background-image: url({{ '/assets/img/navigation-L.png' | relative_url }});
+        background-repeat: no-repeat;
+      }
+
+      li:before {
+        content: none;
+      }
+
+      li:only-child {
+        background-image: none !important;
+      }
+
+      li {
+        background-image: url({{ '/assets/img/navigation-T.png' | relative_url }});
+        background-repeat: no-repeat;
+        padding-left: 20px;
+        margin-left: -15px;
+        line-height: 20px;
+      }
+
+      li:first-child {
+        background-image: url({{ '/assets/img/navigation-L-first.png' | relative_url }});
+        background-repeat: no-repeat;
+      }
+
+    }
+
+  }
+
 }
 
 [class^=select_] {
@@ -628,6 +794,10 @@ footer {
 
   .section-block-half {
     float: none;
+  }
+
+  #navbar {
+    max-width: 650px;
   }
 
   section {

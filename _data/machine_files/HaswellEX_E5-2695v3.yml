@@ -263,9 +263,10 @@ cores per socket: 14
 cores per NUMA domain: 14
 NUMA domains per socket: 1
 compiler:
-    icc: -O3 -xCORE-AVX2 -fno-alias
-    gcc: -O3 -march=core-avx2 -D_POSIX_C_SOURCE=200112L
-    clang: -03 -mavx2 -D_POSIX_C_SOURCE=200112L
+  !!omap
+  - icc: -O3 -xCORE-AVX2 -fno-alias
+  - gcc: -O3 -march=core-avx2 -D_POSIX_C_SOURCE=200112L
+  - clang: -03 -mavx2 -D_POSIX_C_SOURCE=200112L
 write-allocate: True
 memory hierarchy:
     - level: L1
@@ -299,7 +300,7 @@ memory hierarchy:
     - level: L3
       cache per group: {
          'sets': 35840, 'ways': 16, 'cl_size': 64, # 35 MB
-         'replacement_policy': 'LRU', 
+         'replacement_policy': 'LRU',
          'write_allocate': True, 'write_back': True}
       cores per group: 14
       threads per group: 28
@@ -319,7 +320,7 @@ memory hierarchy:
           evicts: (LLC_VICTIMS_M:CBOX0C[01] + LLC_VICTIMS_M:CBOX1C[01] + LLC_VICTIMS_M:CBOX2C[01] +
                    LLC_VICTIMS_M:CBOX3C[01] + LLC_VICTIMS_M:CBOX4C[01] + LLC_VICTIMS_M:CBOX5C[01] +
                    LLC_VICTIMS_M:CBOX6C[01] + LLC_VICTIMS_M:CBOX7C[01] + LLC_VICTIMS_M:CBOX8C[01] +
-                   LLC_VICTIMS_M:CBOX9C[01] + LLC_VICTIMS_M:CBOX10C[01] + 
+                   LLC_VICTIMS_M:CBOX9C[01] + LLC_VICTIMS_M:CBOX10C[01] +
                    LLC_VICTIMS_M:CBOX11C[01] + LLC_VICTIMS_M:CBOX12C[01] +
                    LLC_VICTIMS_M:CBOX13C[01])
     - level: MEM
