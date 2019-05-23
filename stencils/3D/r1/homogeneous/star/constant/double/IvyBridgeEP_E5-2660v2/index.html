@@ -16,7 +16,7 @@
 {"description":"Intra Node Stencil Performance Evaluation Collection","@type":"WebPage","headline":"Stencil detail","url":"/INSPECT/stencils/3D/r1/homogeneous/star/constant/double/IvyBridgeEP_E5-2660v2/","@context":"http://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
-    <link rel="stylesheet" href="/INSPECT/assets/css/style.css?v=3c1f0d5afb46b59d9a7f72c93df023df9ee4679c">
+    <link rel="stylesheet" href="/INSPECT/assets/css/style.css?v=09fe31c2a19db4aa964b4e6fad05dc76043b99a4">
     <script src="https://code.jquery.com/jquery-3.3.0.min.js" integrity="sha256-RTQy8VOmNlT6b2PIRur37p6JEBZUE7o8wPgMvu18MC4=" crossorigin="anonymous"></script>
     <script src="/INSPECT/assets/js/main.js"></script>
     <!--[if lt IE 9]>
@@ -95,10 +95,21 @@
 
     <div>
 
-      <p>Review status: <svg height="18" width="18">
-	<title>Something is wrong...</title>
-	<circle cx="9" cy="9" r="8" stroke="black" stroke-width="1" fill="red"></circle>
-</svg></p>
+      <p><img src="/INSPECT/assets/img/cod3monk.png" class="comment_bubble_img" /></p>
+      <blockquote class="comment_bubble">
+
+        <svg class="svg" height="18" width="18">
+	<title>might be okay...</title>
+	<circle cx="9" cy="9" r="8" stroke="black" stroke-width="1" fill="orange" />
+</svg>
+
+        <p class="comment_author">Julian Hammer says:</p>
+        <p class="comment"><i>Sandy Bridge and Ivy Bridge have problems with splitloads and small stencils containing a central point. This issue was raised to Intel, but no solution was offered. As of Haswell, the problem is resolved. Including `#pragma vector aligned` reduced the problem, but does not solve it completly. Removing the central point solves this issue.</i></p>
+
+        <p><a href="https://github.com/RRZE-HPC/stempel_data_collection/issues/new?labels[]=Stencil%20Comment%20Management&amp;labels[]=[Type]%20Bug&amp;title=Stencil:%203D%20r1%20homogeneous%20star%20constant%20double%20IvyBridgeEP_E5-2660v2&amp;milestone=People%20Management:%20m6&amp;assignee=ebinnion&amp;body=Sandy Bridge and Ivy Bridge have problems with splitloads and small stencils containing a central point. This issue was raised to Intel, but no solution was offered. As of Haswell, the problem is resolved. Including `#pragma vector aligned` reduced the problem, but does not solve it completly. Removing the central point solves this issue."><img src="/INSPECT/assets/img/edit.svg" class="edit" /></a></p>
+
+      </blockquote>
+      <p><br /></p>
 
     </div>
 
@@ -706,15 +717,6 @@ Plotly.newPlot('mem_CS', data, layout, config);
 </script>
 
       <p><em>Data transfers between the different cache levels and main memory. The shown data for each level contains evicted and loaded data. The measured data is represented by points and the predicted transfer rates by <a href="https://github.com/RRZE-HPC/kerncraft">kerncraft</a> by lines.</em></p>
-    </div>
-
-    <div>
-
-      <p>Review status: <svg height="18" width="18">
-	<title>Data has been reviewed</title>
-	<circle cx="9" cy="9" r="8" stroke="black" stroke-width="1" fill="green"></circle>
-</svg></p>
-
     </div>
 
   </div>
