@@ -9,7 +9,6 @@ kind         : "star"
 coefficients : "constant"
 datatype     : "double"
 machine      : "SandyBridgeEP_E5-2680"
-flavor       : "EDIT_ME"
 compile_flags: "icc -O3 -xAVX -fno-alias -qopenmp -qopenmp -DLIKWID_PERFMON -Ilikwid-4.3-dev/include -Llikwid-4.3-dev/lib -I/headers/dummy.c stencil_compilable.c -o stencil -llikwid"
 flop         : "13"
 scaling      : [ "1210" ]
@@ -306,9 +305,9 @@ node 1 cpus: 8 9 10 11 12 13 14 15 24 25 26 27 28 29 30 31
 node 1 size: 32231 MB
 node 1 free: 31801 MB
 node distances:
-node   0   1 
-  0:  10  21 
-  1:  21  10 
+node   0   1
+  0:  10  21
+  1:  21  10
 
 ################################################################################
 # Frequencies
@@ -352,26 +351,26 @@ No support for Uncore frequencies
 ################################################################################
 # Prefetchers
 ################################################################################
-Feature               CPU 0	CPU 16	CPU 1	CPU 17	CPU 2	CPU 18	CPU 3	CPU 19	CPU 4	CPU 20	CPU 5	CPU 21	CPU 6	CPU 22	CPU 7	CPU 23	CPU 8	CPU 24	CPU 9	CPU 25	CPU 10	CPU 26	CPU 11	CPU 27	CPU 12	CPU 28	CPU 13	CPU 29	CPU 14	CPU 30	CPU 15	CPU 31	
-HW_PREFETCHER         on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	
-CL_PREFETCHER         on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	
-DCU_PREFETCHER        on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	
-IP_PREFETCHER         on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	
-FAST_STRINGS          on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	
-THERMAL_CONTROL       on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	
-PERF_MON              on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	
-FERR_MULTIPLEX        off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	
-BRANCH_TRACE_STORAGE  on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	
-XTPR_MESSAGE          off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	
-PEBS                  on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	
-SPEEDSTEP             on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	
-MONITOR               on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	
-SPEEDSTEP_LOCK        off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	
-CPUID_MAX_VAL         off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	
-XD_BIT                on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	
-DYN_ACCEL             off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	
-TURBO_MODE            off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	
-TM2                   off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	
+Feature               CPU 0	CPU 16	CPU 1	CPU 17	CPU 2	CPU 18	CPU 3	CPU 19	CPU 4	CPU 20	CPU 5	CPU 21	CPU 6	CPU 22	CPU 7	CPU 23	CPU 8	CPU 24	CPU 9	CPU 25	CPU 10	CPU 26	CPU 11	CPU 27	CPU 12	CPU 28	CPU 13	CPU 29	CPU 14	CPU 30	CPU 15	CPU 31
+HW_PREFETCHER         on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on
+CL_PREFETCHER         on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on
+DCU_PREFETCHER        on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on
+IP_PREFETCHER         on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on
+FAST_STRINGS          on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on
+THERMAL_CONTROL       on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on
+PERF_MON              on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on
+FERR_MULTIPLEX        off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off
+BRANCH_TRACE_STORAGE  on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on
+XTPR_MESSAGE          off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off
+PEBS                  on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on
+SPEEDSTEP             on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on
+MONITOR               on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on
+SPEEDSTEP_LOCK        off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off
+CPUID_MAX_VAL         off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off
+XD_BIT                on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on
+DYN_ACCEL             off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off
+TURBO_MODE            off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off
+TM2                   off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off
 
 ################################################################################
 # Load
@@ -487,7 +486,7 @@ SMBIOS 2.7 present.
 Handle 0x0000, DMI type 0, 24 bytes
 BIOS Information
 	Vendor: American Megatrends Inc.
-	Version: 2.0 
+	Version: 2.0
 	Release Date: 01/17/2013
 	Address: 0xF0000
 	Runtime Size: 64 kB
@@ -1111,10 +1110,10 @@ Memory Device
 	Type: DDR3
 	Type Detail: Registered (Buffered)
 	Speed: 1600 MT/s
-	Manufacturer: Samsung            
+	Manufacturer: Samsung
 	(Line containing Serial number has been censored)
 	Asset Tag: DimmA1_AssetTag
-	Part Number: M393B1K70DH0-CK0 
+	Part Number: M393B1K70DH0-CK0
 	Rank: 1
 	Configured Clock Speed: 1600 MT/s
 
@@ -1132,10 +1131,10 @@ Memory Device
 	Type: DDR3
 	Type Detail: Registered (Buffered)
 	Speed: 1600 MT/s
-	Manufacturer: Samsung            
+	Manufacturer: Samsung
 	(Line containing Serial number has been censored)
 	Asset Tag: DimmB1_AssetTag
-	Part Number: M393B1K70DH0-CK0 
+	Part Number: M393B1K70DH0-CK0
 	Rank: 1
 	Configured Clock Speed: 1600 MT/s
 
@@ -1153,10 +1152,10 @@ Memory Device
 	Type: DDR3
 	Type Detail: Registered (Buffered)
 	Speed: 1600 MT/s
-	Manufacturer: Samsung            
+	Manufacturer: Samsung
 	(Line containing Serial number has been censored)
 	Asset Tag: DimmC1_AssetTag
-	Part Number: M393B1K70DH0-CK0 
+	Part Number: M393B1K70DH0-CK0
 	Rank: 1
 	Configured Clock Speed: 1600 MT/s
 
@@ -1174,10 +1173,10 @@ Memory Device
 	Type: DDR3
 	Type Detail: Registered (Buffered)
 	Speed: 1600 MT/s
-	Manufacturer: Samsung            
+	Manufacturer: Samsung
 	(Line containing Serial number has been censored)
 	Asset Tag: DimmD1_AssetTag
-	Part Number: M393B1K70DH0-CK0 
+	Part Number: M393B1K70DH0-CK0
 	Rank: 1
 	Configured Clock Speed: 1600 MT/s
 
@@ -1204,10 +1203,10 @@ Memory Device
 	Type: DDR3
 	Type Detail: Registered (Buffered)
 	Speed: 1600 MT/s
-	Manufacturer: Samsung            
+	Manufacturer: Samsung
 	(Line containing Serial number has been censored)
 	Asset Tag: DimmE1_AssetTag
-	Part Number: M393B1K70DH0-CK0 
+	Part Number: M393B1K70DH0-CK0
 	Rank: 1
 	Configured Clock Speed: 1600 MT/s
 
@@ -1225,10 +1224,10 @@ Memory Device
 	Type: DDR3
 	Type Detail: Registered (Buffered)
 	Speed: 1600 MT/s
-	Manufacturer: Samsung            
+	Manufacturer: Samsung
 	(Line containing Serial number has been censored)
 	Asset Tag: DimmF1_AssetTag
-	Part Number: M393B1K70DH0-CK0 
+	Part Number: M393B1K70DH0-CK0
 	Rank: 1
 	Configured Clock Speed: 1600 MT/s
 
@@ -1246,10 +1245,10 @@ Memory Device
 	Type: DDR3
 	Type Detail: Registered (Buffered)
 	Speed: 1600 MT/s
-	Manufacturer: Samsung            
+	Manufacturer: Samsung
 	(Line containing Serial number has been censored)
 	Asset Tag: DimmG1_AssetTag
-	Part Number: M393B1K70DH0-CK0 
+	Part Number: M393B1K70DH0-CK0
 	Rank: 1
 	Configured Clock Speed: 1600 MT/s
 
@@ -1267,10 +1266,10 @@ Memory Device
 	Type: DDR3
 	Type Detail: Registered (Buffered)
 	Speed: 1600 MT/s
-	Manufacturer: Samsung            
+	Manufacturer: Samsung
 	(Line containing Serial number has been censored)
 	Asset Tag: DimmH1_AssetTag
-	Part Number: M393B1K70DH0-CK0 
+	Part Number: M393B1K70DH0-CK0
 	Rank: 1
 	Configured Clock Speed: 1600 MT/s
 
@@ -1292,14 +1291,14 @@ Memory Device
 	Size: 16 MB
 	Form Factor: Other
 	Set: None
-	Locator:  
-	Bank Locator:  
+	Locator:
+	Bank Locator:
 	Type: Flash
 	Type Detail: Non-Volatile
 	Speed: 33 MT/s
 	Manufacturer: Micron/Numonyx
 	(Line containing Serial number has been censored)
-	Asset Tag:  
+	Asset Tag:
 	Part Number: 25Q Series
 	Rank: Unknown
 	Configured Clock Speed: Unknown
