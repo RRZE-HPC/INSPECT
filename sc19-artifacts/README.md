@@ -4,6 +4,7 @@
 1. __Install dependencies__
   - stempel: https://github.com/RRZE-HPC/stempel
   - Kerncraft: https://github.com/RRZE-HPC/kerncraft
+    - in order to be able to generate performance models on AMD Zen at the moment, Kerncrafts feature branch 'feature/osaca' has to be used
   - LIKWID: https://github.com/RRZE-HPC/likwid
 
 2. __Clone the INSPECT repository__
