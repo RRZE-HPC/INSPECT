@@ -9,11 +9,10 @@ kind         : "box"
 coefficients : "variable"
 datatype     : "double"
 machine      : "IvyBridgeEP_E5-2660v2"
-flavor       : "EDIT_ME"
 compile_flags: "icc -O3 -xAVX -fno-alias -qopenmp -qopenmp -DLIKWID_PERFMON -I/apps/likwid/4.3.4/include -L/apps/likwid/4.3.4/lib -I/headers/dummy.c stencil_compilable.c -o stencil -llikwid"
 flop         : "125"
 scaling      : [ "1020" ]
-blocking     : [ "L2-3D", "L3-3D" ]
+blocking     : []
 ---
 
 {%- capture basename -%}
@@ -939,7 +938,15 @@ jb 0xffffffffffffebcb
 {%- endcapture -%}
 
 {%- capture layercondition -%}
-L1: unconditionally fulfilled L2: unconditionally fulfilled L3: unconditionally fulfilled L1: P <= 152 L2: P <= 32776/27 L3: P <= 3276808/27 L1: 56*N*P - 64*P - 64 <= 32768 L2: 56*N*P - 64*P - 64 <= 262144 L3: 56*N*P - 64*P - 64 <= 26214400
+L1: unconditionally fulfilled
+L2: unconditionally fulfilled
+L3: unconditionally fulfilled
+L1: P <= 152
+L2: P <= 32776/27
+L3: P <= 3276808/27
+L1: 56*N*P - 64*P - 64 <= 32768
+L2: 56*N*P - 64*P - 64 <= 262144
+L3: 56*N*P - 64*P - 64 <= 26214400
 {%- endcapture -%}
 {%- capture iaca -%}
 
@@ -1758,7 +1765,7 @@ e0355
 ################################################################################
 # Operating System
 ################################################################################
-CentOS Linux release 7.6.1810 (Core) 
+CentOS Linux release 7.6.1810 (Core)
 Derived from Red Hat Enterprise Linux 7.6 (Source)
 NAME="CentOS Linux"
 VERSION="7 (Core)"
@@ -1776,8 +1783,8 @@ CENTOS_MANTISBT_PROJECT_VERSION="7"
 REDHAT_SUPPORT_PRODUCT="centos"
 REDHAT_SUPPORT_PRODUCT_VERSION="7"
 
-CentOS Linux release 7.6.1810 (Core) 
-CentOS Linux release 7.6.1810 (Core) 
+CentOS Linux release 7.6.1810 (Core)
+CentOS Linux release 7.6.1810 (Core)
 cpe:/o:centos:centos:7
 
 ################################################################################
@@ -1930,9 +1937,9 @@ node 1 cpus: 10 11 12 13 14 15 16 17 18 19 30 31 32 33 34 35 36 37 38 39
 node 1 size: 32768 MB
 node 1 free: 31221 MB
 node distances:
-node   0   1 
-  0:  10  21 
-  1:  21  10 
+node   0   1
+  0:  10  21
+  1:  21  10
 
 ################################################################################
 # Frequencies

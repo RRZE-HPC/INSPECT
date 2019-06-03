@@ -9,10 +9,10 @@ kind         : "box"
 coefficients : "constant"
 datatype     : "double"
 machine      : "SkylakeSP_Gold-6148_SNC"
-flavor       : "EDIT_ME"
+flavor       : "Sub-NUMA Clustering"
 compile_flags: "icc -O3 -fno-alias -xCORE-AVX512 -qopenmp -qopenmp -DLIKWID_PERFMON -Ilikwid-4.3.4/include -Llikwid-4.3.4/lib -I/headers/dummy.c stencil_compilable.c -o stencil -llikwid"
 flop         : "30"
-scaling      : [ "1430" ]
+scaling      : []
 blocking     : [ "L2-3D", "L3-3D" ]
 ---
 
@@ -423,9 +423,9 @@ node 1 cpus: 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 60 61 6
 node 1 size: 48354 MB
 node 1 free: 47430 MB
 node distances:
-node   0   1 
-  0:  10  21 
-  1:  21  10 
+node   0   1
+  0:  10  21
+  1:  21  10
 
 ################################################################################
 # Frequencies
@@ -519,26 +519,26 @@ Socket 1: min/max 2.4/2.4 GHz
 ################################################################################
 # Prefetchers
 ################################################################################
-Feature               CPU 0	CPU 40	CPU 1	CPU 41	CPU 2	CPU 42	CPU 3	CPU 43	CPU 4	CPU 44	CPU 5	CPU 45	CPU 6	CPU 46	CPU 7	CPU 47	CPU 8	CPU 48	CPU 9	CPU 49	CPU 10	CPU 50	CPU 11	CPU 51	CPU 12	CPU 52	CPU 13	CPU 53	CPU 14	CPU 54	CPU 15	CPU 55	CPU 16	CPU 56	CPU 17	CPU 57	CPU 18	CPU 58	CPU 19	CPU 59	CPU 20	CPU 60	CPU 21	CPU 61	CPU 22	CPU 62	CPU 23	CPU 63	CPU 24	CPU 64	CPU 25	CPU 65	CPU 26	CPU 66	CPU 27	CPU 67	CPU 28	CPU 68	CPU 29	CPU 69	CPU 30	CPU 70	CPU 31	CPU 71	CPU 32	CPU 72	CPU 33	CPU 73	CPU 34	CPU 74	CPU 35	CPU 75	CPU 36	CPU 76	CPU 37	CPU 77	CPU 38	CPU 78	CPU 39	CPU 79	
-HW_PREFETCHER         on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	
-CL_PREFETCHER         on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	
-DCU_PREFETCHER        on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	
-IP_PREFETCHER         on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	
-FAST_STRINGS          on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	
-THERMAL_CONTROL       on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	
-PERF_MON              on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	
-FERR_MULTIPLEX        off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	
-BRANCH_TRACE_STORAGE  on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	
-XTPR_MESSAGE          off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	
-PEBS                  on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	
-SPEEDSTEP             on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	
-MONITOR               on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	
-SPEEDSTEP_LOCK        off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	
-CPUID_MAX_VAL         off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	
-XD_BIT                on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	
-DYN_ACCEL             off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	
-TURBO_MODE            off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	
-TM2                   off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	
+Feature               CPU 0	CPU 40	CPU 1	CPU 41	CPU 2	CPU 42	CPU 3	CPU 43	CPU 4	CPU 44	CPU 5	CPU 45	CPU 6	CPU 46	CPU 7	CPU 47	CPU 8	CPU 48	CPU 9	CPU 49	CPU 10	CPU 50	CPU 11	CPU 51	CPU 12	CPU 52	CPU 13	CPU 53	CPU 14	CPU 54	CPU 15	CPU 55	CPU 16	CPU 56	CPU 17	CPU 57	CPU 18	CPU 58	CPU 19	CPU 59	CPU 20	CPU 60	CPU 21	CPU 61	CPU 22	CPU 62	CPU 23	CPU 63	CPU 24	CPU 64	CPU 25	CPU 65	CPU 26	CPU 66	CPU 27	CPU 67	CPU 28	CPU 68	CPU 29	CPU 69	CPU 30	CPU 70	CPU 31	CPU 71	CPU 32	CPU 72	CPU 33	CPU 73	CPU 34	CPU 74	CPU 35	CPU 75	CPU 36	CPU 76	CPU 37	CPU 77	CPU 38	CPU 78	CPU 39	CPU 79
+HW_PREFETCHER         on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on
+CL_PREFETCHER         on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on
+DCU_PREFETCHER        on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on
+IP_PREFETCHER         on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on
+FAST_STRINGS          on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on
+THERMAL_CONTROL       on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on
+PERF_MON              on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on
+FERR_MULTIPLEX        off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off
+BRANCH_TRACE_STORAGE  on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on
+XTPR_MESSAGE          off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off
+PEBS                  on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on
+SPEEDSTEP             on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on
+MONITOR               on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on
+SPEEDSTEP_LOCK        off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off
+CPUID_MAX_VAL         off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off
+XD_BIT                on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on
+DYN_ACCEL             off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off
+TURBO_MODE            off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off
+TM2                   off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off
 
 ################################################################################
 # Load
@@ -898,7 +898,7 @@ Memory Device
 	Manufacturer: Micron Technology
 	(Line containing Serial number has been censored)
 	Asset Tag: P1-DIMMA1_AssetTag (date:17/36)
-	Part Number: 18ASF1G72PDZ-2G6B1  
+	Part Number: 18ASF1G72PDZ-2G6B1
 	Rank: 2
 	Configured Clock Speed: 2666 MT/s
 	Minimum Voltage: 1.2 V
@@ -922,7 +922,7 @@ Memory Device
 	Manufacturer: Micron Technology
 	(Line containing Serial number has been censored)
 	Asset Tag: P1-DIMMB1_AssetTag (date:17/36)
-	Part Number: 18ASF1G72PDZ-2G6B1  
+	Part Number: 18ASF1G72PDZ-2G6B1
 	Rank: 2
 	Configured Clock Speed: 2666 MT/s
 	Minimum Voltage: 1.2 V
@@ -946,7 +946,7 @@ Memory Device
 	Manufacturer: Micron Technology
 	(Line containing Serial number has been censored)
 	Asset Tag: P1-DIMMC1_AssetTag (date:17/36)
-	Part Number: 18ASF1G72PDZ-2G6B1  
+	Part Number: 18ASF1G72PDZ-2G6B1
 	Rank: 2
 	Configured Clock Speed: 2666 MT/s
 	Minimum Voltage: 1.2 V
@@ -979,7 +979,7 @@ Memory Device
 	Manufacturer: Micron Technology
 	(Line containing Serial number has been censored)
 	Asset Tag: P1-DIMMD1_AssetTag (date:17/36)
-	Part Number: 18ASF1G72PDZ-2G6B1  
+	Part Number: 18ASF1G72PDZ-2G6B1
 	Rank: 2
 	Configured Clock Speed: 2666 MT/s
 	Minimum Voltage: 1.2 V
@@ -1003,7 +1003,7 @@ Memory Device
 	Manufacturer: Micron Technology
 	(Line containing Serial number has been censored)
 	Asset Tag: P1-DIMME1_AssetTag (date:17/36)
-	Part Number: 18ASF1G72PDZ-2G6B1  
+	Part Number: 18ASF1G72PDZ-2G6B1
 	Rank: 2
 	Configured Clock Speed: 2666 MT/s
 	Minimum Voltage: 1.2 V
@@ -1027,7 +1027,7 @@ Memory Device
 	Manufacturer: Micron Technology
 	(Line containing Serial number has been censored)
 	Asset Tag: P1-DIMMF1_AssetTag (date:17/36)
-	Part Number: 18ASF1G72PDZ-2G6B1  
+	Part Number: 18ASF1G72PDZ-2G6B1
 	Rank: 2
 	Configured Clock Speed: 2666 MT/s
 	Minimum Voltage: 1.2 V
@@ -1060,7 +1060,7 @@ Memory Device
 	Manufacturer: Micron Technology
 	(Line containing Serial number has been censored)
 	Asset Tag: P2-DIMMA1_AssetTag (date:17/36)
-	Part Number: 18ASF1G72PDZ-2G6B1  
+	Part Number: 18ASF1G72PDZ-2G6B1
 	Rank: 2
 	Configured Clock Speed: 2666 MT/s
 	Minimum Voltage: 1.2 V
@@ -1084,7 +1084,7 @@ Memory Device
 	Manufacturer: Micron Technology
 	(Line containing Serial number has been censored)
 	Asset Tag: P2-DIMMB1_AssetTag (date:17/36)
-	Part Number: 18ASF1G72PDZ-2G6B1  
+	Part Number: 18ASF1G72PDZ-2G6B1
 	Rank: 2
 	Configured Clock Speed: 2666 MT/s
 	Minimum Voltage: 1.2 V
@@ -1108,7 +1108,7 @@ Memory Device
 	Manufacturer: Micron Technology
 	(Line containing Serial number has been censored)
 	Asset Tag: P2-DIMMC1_AssetTag (date:17/36)
-	Part Number: 18ASF1G72PDZ-2G6B1  
+	Part Number: 18ASF1G72PDZ-2G6B1
 	Rank: 2
 	Configured Clock Speed: 2666 MT/s
 	Minimum Voltage: 1.2 V
@@ -1141,7 +1141,7 @@ Memory Device
 	Manufacturer: Micron Technology
 	(Line containing Serial number has been censored)
 	Asset Tag: P2-DIMMD1_AssetTag (date:17/36)
-	Part Number: 18ASF1G72PDZ-2G6B1  
+	Part Number: 18ASF1G72PDZ-2G6B1
 	Rank: 2
 	Configured Clock Speed: 2666 MT/s
 	Minimum Voltage: 1.2 V
@@ -1165,7 +1165,7 @@ Memory Device
 	Manufacturer: Micron Technology
 	(Line containing Serial number has been censored)
 	Asset Tag: P2-DIMME1_AssetTag (date:17/36)
-	Part Number: 18ASF1G72PDZ-2G6B1  
+	Part Number: 18ASF1G72PDZ-2G6B1
 	Rank: 2
 	Configured Clock Speed: 2666 MT/s
 	Minimum Voltage: 1.2 V
@@ -1189,7 +1189,7 @@ Memory Device
 	Manufacturer: Micron Technology
 	(Line containing Serial number has been censored)
 	Asset Tag: P2-DIMMF1_AssetTag (date:17/36)
-	Part Number: 18ASF1G72PDZ-2G6B1  
+	Part Number: 18ASF1G72PDZ-2G6B1
 	Rank: 2
 	Configured Clock Speed: 2666 MT/s
 	Minimum Voltage: 1.2 V

@@ -9,11 +9,10 @@ kind         : "box"
 coefficients : "variable"
 datatype     : "double"
 machine      : "IvyBridgeEP_E5-2660v2"
-flavor       : "EDIT_ME"
 compile_flags: "icc -O3 -xAVX -fno-alias -qopenmp -qopenmp -DLIKWID_PERFMON -I/apps/likwid/4.3.4/include -L/apps/likwid/4.3.4/lib -I/headers/dummy.c stencil_compilable.c -o stencil -llikwid"
 flop         : "53"
 scaling      : [ "480" ]
-blocking     : [ "L2-3D", "L3-3D" ]
+blocking     : []
 ---
 
 {%- capture basename -%}
@@ -123,7 +122,7 @@ mov r15, qword ptr [rsp+0x310]
 vmulpd ymm14, ymm12, ymmword ptr [rsi+rdi*8+0x8]
 vmovupd xmm15, xmmword ptr [r15+rdi*8+0x8]
 vaddpd ymm1, ymm13, ymm14
-nop 
+nop
 vinsertf128 ymm0, ymm15, xmmword ptr [r15+rdi*8+0x18], 0x1
 mov r15, qword ptr [rsp+0x3d8]
 vmulpd ymm2, ymm0, ymmword ptr [rcx+rdi*8+0x8]
@@ -151,7 +150,7 @@ vmulpd ymm2, ymm0, ymmword ptr [r8+rdi*8+0x8]
 vmovupd ymm3, ymmword ptr [r15+rdi*8+0x8]
 vaddpd ymm4, ymm1, ymm2
 vmulpd ymm5, ymm3, ymmword ptr [r10+rdi*8+0x10]
-nop 
+nop
 mov r15, qword ptr [rsp+0x328]
 vaddpd ymm8, ymm4, ymm5
 vmovupd xmm6, xmmword ptr [r15+rdi*8+0x8]
@@ -183,14 +182,14 @@ nop dword ptr [rax], eax
 vmulpd ymm9, ymm7, ymmword ptr [rax+rdi*8+0x10]
 vmovupd xmm14, xmmword ptr [r15+rdi*8+0x8]
 vaddpd ymm12, ymm8, ymm9
-nop 
+nop
 vinsertf128 ymm0, ymm14, xmmword ptr [r15+rdi*8+0x18], 0x1
 mov r15, qword ptr [rsp+0x388]
 vmulpd ymm2, ymm0, ymmword ptr [r12+rdi*8+0x10]
 vmovupd ymm3, ymmword ptr [r15+rdi*8+0x8]
 vmulpd ymm5, ymm3, ymmword ptr [r8+rdi*8+0x10]
 mov r15, qword ptr [rsp+0x350]
-nop 
+nop
 vinsertf128 ymm11, ymm10, xmmword ptr [rbx+rdi*8+0x18], 0x1
 vmulpd ymm13, ymm11, ymmword ptr [r13+rdi*8+0x10]
 vaddpd ymm1, ymm12, ymm13
@@ -204,7 +203,15 @@ jb 0xfffffffffffffc8b
 {%- endcapture -%}
 
 {%- capture layercondition -%}
-L1: unconditionally fulfilled L2: unconditionally fulfilled L3: unconditionally fulfilled L1: P <= 4152/37 L2: P <= 32824/37 L3: P <= 3276856/37 L1: 248*N*P - 448*P - 448 <= 32768 L2: 248*N*P - 448*P - 448 <= 262144 L3: 248*N*P - 448*P - 448 <= 26214400
+L1: unconditionally fulfilled
+L2: unconditionally fulfilled
+L3: unconditionally fulfilled
+L1: P <= 4152/37
+L2: P <= 32824/37
+L3: P <= 3276856/37
+L1: 248*N*P - 448*P - 448 <= 32768
+L2: 248*N*P - 448*P - 448 <= 262144
+L3: 248*N*P - 448*P - 448 <= 26214400
 {%- endcapture -%}
 {%- capture iaca -%}
 
@@ -293,7 +300,7 @@ X - instruction not supported, was not accounted in Analysis
 |   2    | 1.0       |     |           | 1.0   2.0 |     |     | CP | vmulpd ymm14, ymm12, ymmword ptr [rsi+rdi*8+0x8]
 |   1    |           |     | 1.0   1.0 |           |     |     | CP | vmovupd xmm15, xmmword ptr [r15+rdi*8+0x8]
 |   1    |           | 1.0 |           |           |     |     |    | vaddpd ymm1, ymm13, ymm14
-|   1*   |           |     |           |           |     |     |    | nop 
+|   1*   |           |     |           |           |     |     |    | nop
 |   2    |           |     |           | 1.0   1.0 |     | 1.0 | CP | vinsertf128 ymm0, ymm15, xmmword ptr [r15+rdi*8+0x18], 0x1
 |   1    |           |     | 1.0   1.0 |           |     |     | CP | mov r15, qword ptr [rsp+0x3d8]
 |   2    | 1.0       |     |           | 1.0   2.0 |     |     | CP | vmulpd ymm2, ymm0, ymmword ptr [rcx+rdi*8+0x8]
@@ -321,7 +328,7 @@ X - instruction not supported, was not accounted in Analysis
 |   1    |           |     |           | 1.0   2.0 |     |     | CP | vmovupd ymm3, ymmword ptr [r15+rdi*8+0x8]
 |   1    |           | 1.0 |           |           |     |     |    | vaddpd ymm4, ymm1, ymm2
 |   2    | 1.0       |     | 1.0   2.0 |           |     |     | CP | vmulpd ymm5, ymm3, ymmword ptr [r10+rdi*8+0x10]
-|   1*   |           |     |           |           |     |     |    | nop 
+|   1*   |           |     |           |           |     |     |    | nop
 |   1    |           |     |           | 1.0   1.0 |     |     | CP | mov r15, qword ptr [rsp+0x328]
 |   1    |           | 1.0 |           |           |     |     |    | vaddpd ymm8, ymm4, ymm5
 |   1    |           |     | 1.0   1.0 |           |     |     | CP | vmovupd xmm6, xmmword ptr [r15+rdi*8+0x8]
@@ -353,14 +360,14 @@ X - instruction not supported, was not accounted in Analysis
 |   2    | 1.0       |     |           | 1.0   2.0 |     |     | CP | vmulpd ymm9, ymm7, ymmword ptr [rax+rdi*8+0x10]
 |   1    |           |     | 1.0   1.0 |           |     |     | CP | vmovupd xmm14, xmmword ptr [r15+rdi*8+0x8]
 |   1    |           | 1.0 |           |           |     |     |    | vaddpd ymm12, ymm8, ymm9
-|   1*   |           |     |           |           |     |     |    | nop 
+|   1*   |           |     |           |           |     |     |    | nop
 |   2    |           |     |           | 1.0   1.0 |     | 1.0 | CP | vinsertf128 ymm0, ymm14, xmmword ptr [r15+rdi*8+0x18], 0x1
 |   1    |           |     | 1.0   1.0 |           |     |     | CP | mov r15, qword ptr [rsp+0x388]
 |   2    | 1.0       |     |           | 1.0   2.0 |     |     | CP | vmulpd ymm2, ymm0, ymmword ptr [r12+rdi*8+0x10]
 |   1    |           |     | 1.0   2.0 |           |     |     | CP | vmovupd ymm3, ymmword ptr [r15+rdi*8+0x8]
 |   2    | 1.0       |     |           | 1.0   2.0 |     |     | CP | vmulpd ymm5, ymm3, ymmword ptr [r8+rdi*8+0x10]
 |   1    |           |     | 1.0   1.0 |           |     |     | CP | mov r15, qword ptr [rsp+0x350]
-|   1*   |           |     |           |           |     |     |    | nop 
+|   1*   |           |     |           |           |     |     |    | nop
 |   2    |           |     |           | 1.0   1.0 |     | 1.0 | CP | vinsertf128 ymm11, ymm10, xmmword ptr [rbx+rdi*8+0x18], 0x1
 |   2    | 1.0       |     | 1.0   2.0 |           |     |     | CP | vmulpd ymm13, ymm11, ymmword ptr [r13+rdi*8+0x10]
 |   1    |           | 1.0 |           |           |     |     |    | vaddpd ymm1, ymm12, ymm13
@@ -386,7 +393,7 @@ e0451
 ################################################################################
 # Operating System
 ################################################################################
-CentOS Linux release 7.6.1810 (Core) 
+CentOS Linux release 7.6.1810 (Core)
 Derived from Red Hat Enterprise Linux 7.6 (Source)
 NAME="CentOS Linux"
 VERSION="7 (Core)"
@@ -404,8 +411,8 @@ CENTOS_MANTISBT_PROJECT_VERSION="7"
 REDHAT_SUPPORT_PRODUCT="centos"
 REDHAT_SUPPORT_PRODUCT_VERSION="7"
 
-CentOS Linux release 7.6.1810 (Core) 
-CentOS Linux release 7.6.1810 (Core) 
+CentOS Linux release 7.6.1810 (Core)
+CentOS Linux release 7.6.1810 (Core)
 cpe:/o:centos:centos:7
 
 ################################################################################
@@ -558,9 +565,9 @@ node 1 cpus: 10 11 12 13 14 15 16 17 18 19 30 31 32 33 34 35 36 37 38 39
 node 1 size: 32768 MB
 node 1 free: 30438 MB
 node distances:
-node   0   1 
-  0:  10  21 
-  1:  21  10 
+node   0   1
+  0:  10  21
+  1:  21  10
 
 ################################################################################
 # Frequencies
