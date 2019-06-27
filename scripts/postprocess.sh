@@ -164,7 +164,7 @@ for (( size=10; size<=${LC_3D_L3_N}+10; size=size+10)); do
 
 	if [ -f data/singlecore/ECM_SIM_${size}.txt ]; then
 		if [ $(grep -c "} cy/CL" data/singlecore/ECM_SIM_${size}.txt) -gt 0 ]; then
-			ecm_cy=$(grep "} cy/CL" data/singlecore/ECM_SIM_${size}.txt | awk 'NR%2==0' | sed -e 's/}.*//' -e 's/.*\\ //')
+			ecm_cy=$(grep "} cy/CL" data/singlecore/ECM_SIM_${size}.txt | grep -E "[0-9][)]?) cy/CL"| sed -e 's/max(//;s/sum(//;s/.*= //;s/).*//;s/ //g')
 			ecm=$(grep "} cy/CL" data/singlecore/ECM_SIM_${size}.txt | awk 'NR%2==1' | sed -e 's/{ //g' -e 's/ } cy\/CL//g' -e 's/ [|]* /,/g;s/ =.*//g')
 		fi
 
@@ -221,7 +221,7 @@ for (( size=10; size<=${LC_3D_L3_N}+10; size=size+10)); do
 
 	if [ -f data/singlecore/ECM_LC_${size}.txt ]; then
 		if [ $(cat data/singlecore/ECM_LC_${size}.txt | tail | grep -s -c "} cy/CL") -gt 0 ]; then
-			ecm_cy_LC=$(cat data/singlecore/ECM_LC_${size}.txt | tail -n 20 | grep "} cy/CL" | awk 'NR%2==0' | sed -e 's/}.*//' -e 's/.*\\ //')
+			ecm_cy_LC=$(cat data/singlecore/ECM_LC_${size}.txt | grep -E "[0-9][)]?) cy/CL"| sed -e 's/max(//;s/sum(//;s/.*= //;s/).*//;s/ //g')
 			ecm_LC=$(cat data/singlecore/ECM_LC_${size}.txt | tail -n 20 | grep "} cy/CL" | awk 'NR%2==1' | sed -e 's/{ //g' -e 's/ } cy\/CL//g' -e 's/ [|]* /,/g;s/ =.*//g')
 		fi
 
