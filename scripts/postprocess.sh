@@ -100,22 +100,25 @@ END=$(cat data/singlecore/ECM_LC_10.txt | grep -n "Total Num Of Uops:" | sed 's/
 cat data/singlecore/ECM_LC_10.txt | head -n $((${END}-1)) | tail -n $((${END} - ${START} - 5)) | sed 's/|.*| //g' >> ${FILENAME}
 echo "{%- endcapture -%}" >> ${FILENAME}
 echo "" >> ${FILENAME}
-echo "{%- capture layercondition -%}" >> ${FILENAME}
-while read -r line; do
-	if [[ $(echo ${line} | grep -c unconditionally) -eq 1 ]]; then
-		echo ${line} >> ${FILENAME}
-	elif [[ $(echo ${line} | grep -c "*") -eq 0 ]]; then
-		equation=$(echo ${line} | sed s'/.*: //; s/<=/-/; s/[A-Z]/N/g' )
-		APPROX=$(python -c "import sympy;N=sympy.Symbol('N',positive=True);print(sympy.solvers.solve(${equation}, N))" | sed 's/\[//; s/\]//')
-		APPROX=$(bc -l <<< "scale=0;${APPROX}/10*10")
-		echo ${line}";"$(echo ${line}|sed 's/.*: //; s/ .*//')" ~ "${APPROX} >> ${FILENAME}
-	else
-		equation=$(echo ${line} | sed s'/.*: //; s/<=/-/; s/[A-Z]/N/g' )
-		APPROX=$(python -c "import sympy;N=sympy.Symbol('N',positive=True);print(sympy.solvers.solve(${equation}, N))" | sed 's/\[//; s/\]//')
-		APPROX=$(bc -l <<< "scale=0;${APPROX}/10*10")
-		echo ${line}";"$(echo ${line}|sed 's/.*: //; s/ .*//; s/[0-9]*\*//')" ~ "${APPROX}$"²" >> ${FILENAME}
-	fi
-done <<< $(tail -n 12 data/LC.txt | head -n 11 | sed '/layer condition/d')
+# echo "{%- capture layercondition -%}" >> ${FILENAME}
+# while read -r line; do
+# 	if [[ $(echo ${line} | grep -c unconditionally) -eq 1 ]]; then
+# 		echo ${line} >> ${FILENAME}
+# 	elif [[ $(echo ${line} | grep -c "*") -eq 0 ]]; then
+# 		equation=$(echo ${line} | sed s'/.*: //; s/<=/-/; s/[A-Z]/N/g' )
+# 		APPROX=$(python -c "import sympy;N=sympy.Symbol('N',positive=True);print(sympy.solvers.solve(${equation}, N))" | sed 's/\[//; s/\]//')
+# 		APPROX=$(bc -l <<< "scale=0;${APPROX}/10*10")
+# 		echo ${line}";"$(echo ${line}|sed 's/.*: //; s/ .*//')" ~ "${APPROX} >> ${FILENAME}
+# 	else
+# 		equation=$(echo ${line} | sed s'/.*: //; s/<=/-/; s/[A-Z]/N/g' )
+# 		APPROX=$(python -c "import sympy;N=sympy.Symbol('N',positive=True);print(sympy.solvers.solve(${equation}, N))" | sed 's/\[//; s/\]//')
+# 		APPROX=$(bc -l <<< "scale=0;${APPROX}/10*10")
+# 		echo ${line}";"$(echo ${line}|sed 's/.*: //; s/ .*//; s/[0-9]*\*//')" ~ "${APPROX}$"²" >> ${FILENAME}
+# 	fi
+# done <<< $(tail -n 12 data/LC.txt | head -n 11 | sed '/layer condition/d')
+# echo "{%- endcapture -%}" >> ${FILENAME}
+echo "{%- capture layer_condition -%}" >> ${FILENAME}
+tail -n $(( $(cat data/LC.txt | wc -l) - $(grep -m 1 -n "Layer condition" data/LC.txt | sed 's/:.*//') +1 )) data/LC.txt | sed 's/^[ \t]\{2,\}/|/g;s/[[:space:]]\{2,\}/|/g;s/\([a-z0-9]\)$/\1|/g' | sed 's/hits|/hits|\n|---|---:|---:|/;s/Layer/### Layer/' >> ${FILENAME}
 echo "{%- endcapture -%}" >> ${FILENAME}
 echo "{%- capture iaca -%}" >> ${FILENAME}
 START=$(cat data/singlecore/ECM_LC_10.txt | grep -n "IACA Output:" | sed 's/:.*//')
@@ -143,8 +146,14 @@ FILENAME=results.csv
 RESULTS_HEADER="N^3,Roofline CS GFLOPs,Roofline CS MLUPs,Roofline CS Arithmetic Intensity,Roofline LC GFLOPs,Roofline LC MLUPs,Roofline LC Arithmetic Intensity,Roofline ECM MLUPs,Benchmark MLUPs,ECM CS Tol,ECM CS Tnol,ECM CS Tl1l2,ECM CS Tl2l3,ECM CS Tl3mem,ECM CS cycl,ECM LC Tol,ECM LC Tnol,ECM LC Tl1l2,ECM LC Tl2l3,ECM LC Tl3mem,ECM LC cycl,Benchmark cycl,Benchmark Pheno Tol,Benchmark Pheno Tnol,Benchmark Pheno Tl1l2,Benchmark Pheno Tl2l3,Benchmark Pheno Tl3mem,Benchmark Transfer L1L2 load,Benchmark Transfer L1L2 evict,Benchmark Transfer L1L2 total,Benchmark Transfer L2L3 load,Benchmark Transfer L2L3 evict,Benchmark Transfer L2L3 total,Benchmark Transfer L3MEM load,Benchmark Transfer L3MEM evict,Benchmark Transfer L3MEM total,CS Transfer L1L2 load,CS Transfer L1L2 evict,CS Transfer L1L2 total,CS Transfer L2L3 load,CS Transfer L2L3 evict,CS Transfer L2L3 total,CS Transfer L3MEM load,CS Transfer L3MEM evict,CS Transfer L3MEM total,LC Transfer L1L2 load,LC Transfer L1L2 evict,LC Transfer L1L2 total,LC Transfer L2L3 load,LC Transfer L2L3 evict,LC Transfer L2L3 total,LC Transfer L3MEM load,LC Transfer L3MEM evict,LC Transfer L3MEM total"
 echo ${RESULTS_HEADER} > ${FILENAME}
 
-for (( size=10; size<=${LC_3D_L3_N}+10; size=size+10)); do
+if [ -f data/singlecore/ECM_SIM_${size}.txt ]; then
 	flops=$(cat stencil.flop | sed 's/.* //g')
+else
+	# make MLUPs calculations almost zero, to show, that we dont know the correct flops count
+	flops=10^9
+fi
+
+for (( size=10; size<=${LC_3D_L3_N}+10; size=size+10)); do
 
 	ecm=",,,,"
 	ecm_cy=""
@@ -163,9 +172,9 @@ for (( size=10; size<=${LC_3D_L3_N}+10; size=size+10)); do
 	ECM_CS_L3total=""
 
 	if [ -f data/singlecore/ECM_SIM_${size}.txt ]; then
-		if [ $(grep -c "} cy/CL" data/singlecore/ECM_SIM_${size}.txt) -gt 0 ]; then
-			ecm_cy=$(grep "} cy/CL" data/singlecore/ECM_SIM_${size}.txt | grep -E "[0-9][)]?) cy/CL"| sed -e 's/max(//;s/sum(//;s/.*= //;s/).*//;s/ //g')
-			ecm=$(grep "} cy/CL" data/singlecore/ECM_SIM_${size}.txt | awk 'NR%2==1' | sed -e 's/{ //g' -e 's/ } cy\/CL//g' -e 's/ [|]* /,/g;s/ =.*//g')
+		if [ $(grep -c ") cy/CL" data/singlecore/ECM_SIM_${size}.txt) -gt 0 ]; then
+			ecm_cy=$(cat data/singlecore/ECM_SIM_${size}.txt | grep -E "[0-9][)]?) cy/CL"| sed -e 's/max(//;s/sum(//;s/.*= //;s/).*//;s/ //g')
+			ecm=$(grep " cy/CL" data/singlecore/ECM_SIM_${size}.txt | grep = | tail -n 1 | sed -e 's/.*= //;s/ cy\/CL//')
 		fi
 
 		if [ $(grep -c "Data Transfers:" data/singlecore/ECM_SIM_${size}.txt) -gt 0 ]; then
@@ -193,9 +202,10 @@ for (( size=10; size<=${LC_3D_L3_N}+10; size=size+10)); do
 	fi
 
 	if [ -f data/singlecore/Roofline_SIM_${size}.txt ]; then
-		if [ $(grep -c "GFLOP/s d" data/singlecore/Roofline_SIM_${size}.txt) -gt 0 ]; then
-			gflops=$(grep "GFLOP/s d" data/singlecore/Roofline_SIM_${size}.txt | sed -e 's/ GFLOP.*//' -e 's/CPU bound. //')
-			mflops=$(bc -l <<< "scale=2;${gflops} * 1000 / ${flops}")
+		if [ $(grep -c "FLOP/s d" data/singlecore/Roofline_SIM_${size}.txt) -gt 0 ]; then
+			gflops=$(grep "FLOP/s d" data/singlecore/Roofline_SIM_${size}.txt | sed -e 's/FLOP.*//;s/CPU bound. //;s/ M/\/1000/')
+			gflops=$(bc -l <<< "scale=5;${gflops}")
+			mlups=$(bc -l <<< "scale=2;${gflops} * 1000 / ${flops}")
 			intensity=$(grep Arithmetic  data/singlecore/Roofline_SIM_${size}.txt | sed -e 's/Arithmetic Intensity: //' -e 's/ FLOP\/B//')
 			if [ ${#intensity} -lt 2 ]; then
 				intensity=$(tail -n 2 data/singlecore/Roofline_SIM_${size}.txt | sed '/^\s*$/d;s/CPU bound.*/CPU bound/g')
@@ -206,7 +216,7 @@ for (( size=10; size<=${LC_3D_L3_N}+10; size=size+10)); do
 	ecm_LC=",,,,"
 	ecm_cy_LC=""
 	gflops_LC=""
-	mflops_LC=""
+	mlups_LC=""
 	intensity_LC=""
 
 	ECM_LC_L1evict=""
@@ -220,9 +230,9 @@ for (( size=10; size<=${LC_3D_L3_N}+10; size=size+10)); do
 	ECM_LC_L3total=""
 
 	if [ -f data/singlecore/ECM_LC_${size}.txt ]; then
-		if [ $(cat data/singlecore/ECM_LC_${size}.txt | tail | grep -s -c "} cy/CL") -gt 0 ]; then
+		if [ $(grep -c ") cy/CL" data/singlecore/ECM_LC_${size}.txt) -gt 0 ]; then
 			ecm_cy_LC=$(cat data/singlecore/ECM_LC_${size}.txt | grep -E "[0-9][)]?) cy/CL"| sed -e 's/max(//;s/sum(//;s/.*= //;s/).*//;s/ //g')
-			ecm_LC=$(cat data/singlecore/ECM_LC_${size}.txt | tail -n 20 | grep "} cy/CL" | awk 'NR%2==1' | sed -e 's/{ //g' -e 's/ } cy\/CL//g' -e 's/ [|]* /,/g;s/ =.*//g')
+			ecm_LC=$(grep " cy/CL" data/singlecore/ECM_LC_${size}.txt | grep = | tail -n 1 | sed -e 's/.*= //;s/ cy\/CL//')
 		fi
 
 		if [ $(grep -c "Data Transfers:" data/singlecore/ECM_LC_${size}.txt) -gt 0 ]; then
@@ -250,9 +260,10 @@ for (( size=10; size<=${LC_3D_L3_N}+10; size=size+10)); do
 	fi
 
 	if [ -f data/singlecore/Roofline_LC_${size}.txt ]; then
-		if [ $(grep -c "GFLOP/s d" data/singlecore/Roofline_LC_${size}.txt) -gt 0 ]; then
-			gflops_LC=$(grep "GFLOP/s d" data/singlecore/Roofline_LC_${size}.txt | sed -e 's/ GFLOP.*//' -e 's/CPU bound. //')
-			mflops_LC=$(bc -l <<< "scale=2;${gflops_LC} * 1000 / ${flops}")
+		if [ $(grep -c "FLOP/s d" data/singlecore/Roofline_LC_${size}.txt) -gt 0 ]; then
+			gflops_LC=$(grep "FLOP/s d" data/singlecore/Roofline_LC_${size}.txt | sed -e 's/FLOP.*//;s/CPU bound. //;s/ M/\/1000/')
+			gflops_LC=$(bc -l <<< "scale=5;${gflops_LC}")
+			mlups_LC=$(bc -l <<< "scale=2;${gflops_LC} * 1000 / ${flops}")
 			intensity_LC=$(grep Arithmetic  data/singlecore/Roofline_LC_${size}.txt | sed -e 's/Arithmetic Intensity: //' -e 's/ FLOP\/B//')
 			if [ ${#intensity_LC} -lt 2 ]; then
 				intensity=$(tail -n 2 data/singlecore/Roofline_LC_${size}.txt | sed '/^\s*$/d;s/CPU bound.*/CPU bound/g')
@@ -306,7 +317,7 @@ for (( size=10; size<=${LC_3D_L3_N}+10; size=size+10)); do
 		L3total=$(bc -l <<< "scale=2;${L3load} + ${L3evict}")
 	fi
 
-	echo ${size}","${gflops}","${mflops}","${intensity}","${gflops_LC}","${mflops_LC}","${intensity_LC}","${ecm_mlup}","${bench_mlup}","${ecm}","${ecm_cy}","${ecm_LC}","${ecm_cy_LC}","${bench_cy}","${pheno_ecm}","${L1load}","${L1evict}","${L1total}","${L2load}","${L2evict}","${L2total}","${L3load}","${L3evict}","${L3total}","${ECM_CS_L1load}","${ECM_CS_L1evict}","${ECM_CS_L1total}","${ECM_CS_L2load}","${ECM_CS_L2evict}","${ECM_CS_L2total}","${ECM_CS_L3load}","${ECM_CS_L3evict}","${ECM_CS_L3total}","${ECM_LC_L1load}","${ECM_LC_L1evict}","${ECM_LC_L1total}","${ECM_LC_L2load}","${ECM_LC_L2evict}","${ECM_LC_L2total}","${ECM_LC_L3load}","${ECM_LC_L3evict}","${ECM_LC_L3total} >> ${FILENAME}
+	echo ${size}","${gflops}","${mlups}","${intensity}","${gflops_LC}","${mlups_LC}","${intensity_LC}","${ecm_mlup}","${bench_mlup}","${ecm}","${ecm_cy}","${ecm_LC}","${ecm_cy_LC}","${bench_cy}","${pheno_ecm}","${L1load}","${L1evict}","${L1total}","${L2load}","${L2evict}","${L2total}","${L3load}","${L3evict}","${L3total}","${ECM_CS_L1load}","${ECM_CS_L1evict}","${ECM_CS_L1total}","${ECM_CS_L2load}","${ECM_CS_L2evict}","${ECM_CS_L2total}","${ECM_CS_L3load}","${ECM_CS_L3evict}","${ECM_CS_L3total}","${ECM_LC_L1load}","${ECM_LC_L1evict}","${ECM_LC_L1total}","${ECM_LC_L2load}","${ECM_LC_L2evict}","${ECM_LC_L2total}","${ECM_LC_L3load}","${ECM_LC_L3evict}","${ECM_LC_L3total} >> ${FILENAME}
 done
 
 # ************************************************************************************************
@@ -342,7 +353,7 @@ for (( threads = 1; threads <= ${cores}; threads++ )); do
 	lup=$(bc -l <<< "scale=0;${mlups}*${time}*10^6")
 
 	gflopsIACA=$(cat data/scaling/RooflineIACA_${LC_3D_L3_N}_${threads}.txt | grep GFLOP | tail -n 1 | sed 's/ GFLOP.*//; s/CPU bound. //')
-	mlupsIACA=$(bc -l <<< "scale=2;${gflopsIACA} * 10^3 / $(cat ./stencil.flop | sed 's/FLOP: //')")
+	mlupsIACA=$(bc -l <<< "scale=2;${gflopsIACA} * 10^3 / ${flops}")
 
 	cyclECM=$(cat data/scaling/ECM_${LC_3D_L3_N}_${threads}.txt | tail -n 20 | grep "prediction for" | sed -e 's/ cy\/CL (.*//' -e 's/} cy\/CL//' | awk '{print $NF}')
 	mlupsECM=$(bc -l <<< "scale=2;${LUPperCL} * ${ghz} * 10^3 / ${cyclECM}")
