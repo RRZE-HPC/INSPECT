@@ -83,6 +83,11 @@ https://github.com/RRZE-HPC/stempel_data_collection/issues/new?labels[]=Stencil%
 {%- endfor %}
 
 Have a look at the [kernel source code](#kernel-source-code) for dimension naming.
+{% endif %}
+{% if layer_condition %}
+## Layer Conditions
+{{layer_condition}}
+{% endif %}
 
 <!--
 grep "\[[a-z]" stencil.c | sed -r 's/([A-Z])\[([0-9]*)\]/\1\2/g' | sed 's/.* =//;s/ c[0-9]* //;s/[ijk]//g;s/(//g;s/)//g;s/+ /,/g;s/\* /,/g;s/\[\]/\[0\]/g;s/+,/,/;s/[[:space:]]//g;s/[a-Z][0-9]*/\"&\":/g;s/\]\[/,/g' | tr -d '\n'
@@ -96,7 +101,6 @@ return "https://rrze-hpc.github.io/layer-condition/#calculator%23!"+encodeURICom
 </script>
 
 <a href='get_url()'>Layer Condition website</a> -->
-{% endif %}
 </div>
 
 <div markdown="1" class="section-block-half">

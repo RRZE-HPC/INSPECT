@@ -21,13 +21,26 @@
 
 <div id="blocking_{{case}}" {{hide_if_hidden_b}}></div>
 
-{% capture N %}{% for data in csv_file %}{{data.N}},{%endfor%}{% endcapture %}
-{% capture bench_block %}{% for data in csv_file %}{{data["Mlup/s"]}},{%endfor%}{% endcapture %}
-{% capture nticks %}{% for data in csv_file %}{%if forloop.last%}{{data.N}}{%endif%}{%endfor%}{% endcapture %}
+{% assign N = "" %}
+{% assign bench = "" %}
+{% assign bench_block = "" %}
+{% assign ecm = "" %}
+{% assign roofline_LC = "" %}
 
-{% capture bench %}{% for data in csv_results_file %}{{data["Benchmark MLUPs"]}},{%endfor%}{% endcapture %}
-{% capture roofline_LC %}{% for data in csv_results_file %}{{data["Roofline LC MLUPs"]}},{%endfor%}{% endcapture %}
-{% capture ecm %}{% for data in csv_results_file %}{{data["Roofline ECM MLUPs"]}},{%endfor%}{% endcapture %}
+{% for data in csv_file %}
+  {% assign N = data.N | append: ',' | prepend: N %}
+  {% assign bench_block = data["Mlup/s"] | append: ',' | prepend: bench_block %}
+
+  {% if forloop.last %}
+    {% assign nticks = data.N %}
+  {% endif %}
+{% endfor %}
+
+{% for data in csv_results_file %}
+  {% assign bench = data["Benchmark MLUPs"] | append: ',' | prepend: bench %}
+  {% assign roofline_LC = data["Roofline LC MLUPs"] | append: ',' | prepend: roofline_LC %}
+  {% assign ecm = data["Roofline ECM MLUPs"] | append: ',' | prepend: ecm %}
+{% endfor %}
 
 <script>
 var trace_benchmark = {

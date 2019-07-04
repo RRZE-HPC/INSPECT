@@ -1,25 +1,23 @@
 
-[comment]: <> dimensions
-{% capture tmpdim %}{% for page in site.pages %}{% if page.url contains '/stencils/' -%}{{page.dimension}}|{% endif %}{% endfor %}{% endcapture %}
-{% assign dims=tmpdim | split: "|" | uniq | sort %}
-[comment]: <> radii
-{% capture tmprad %}{% for page in site.pages %}{% if page.url contains '/stencils/' -%}{{page.radius}}|{% endif %}{% endfor %}{% endcapture %}
-{% assign rads=tmprad | split: "|" | uniq | sort %}
-[comment]: <> weigths
-{% capture tmpweight %}{% for page in site.pages %}{% if page.url contains '/stencils/' -%}{{page.weighting}}|{% endif %}{% endfor %}{% endcapture %}
-{% assign weights=tmpweight | split: "|" | uniq | sort %}
-[comment]: <> kinds
-{% capture tmpkind %}{% for page in site.pages %}{% if page.url contains '/stencils/' -%}{{page.kind}}|{% endif %}{% endfor %}{% endcapture %}
-{% assign kinds=tmpkind | split: "|" | uniq | sort %}
-[comment]: <> coefficients
-{% capture tmpcoeff %}{% for page in site.pages %}{% if page.url contains '/stencils/' -%}{{page.coefficients}}|{% endif %}{% endfor %}{% endcapture %}
-{% assign coeffs=tmpcoeff | split: "|" | uniq | sort %}
-[comment]: <> datatypes
-{% capture tmpdt %}{% for page in site.pages %}{% if page.url contains '/stencils/' -%}{{page.datatype}}|{% endif %}{% endfor %}{% endcapture %}
-{% assign dts=tmpdt | split: "|" | uniq | sort %}
-[comment]: <> machines
-{% capture tmpmachine %}{% for page in site.pages %}{% if page.url contains '/stencils/' -%}{{page.machine}}|{% endif %}{% endfor %}{% endcapture %}
-{% assign machines=tmpmachine | split: "|" | uniq | sort %}
+{% for page in site.pages %}
+	{% if page.url contains '/stencils/' -%}
+	  {% assign dims = page.dimension | append: '|' | prepend: dims %}
+	  {% assign rads = page.radius | append: '|' | prepend: rads %}
+	  {% assign weights = page.weighting | append: '|' | prepend: weights %}
+	  {% assign kinds = page.kind | append: '|' | prepend: kinds %}
+	  {% assign coeffs = page.coefficients | append: '|' | prepend: coeffs %}
+	  {% assign dts = page.datatype | append: '|' | prepend: dts %}
+	  {% assign machines = page.machine | append: '|' | prepend: machines %}
+	{% endif %}
+{% endfor %}
+
+{% assign dims=dims | split: "|" | uniq | sort %}
+{% assign rads=rads | split: "|" | uniq | sort %}
+{% assign weights=weights | split: "|" | uniq | sort %}
+{% assign kinds=kinds | split: "|" | uniq | sort %}
+{% assign coeffs=coeffs | split: "|" | uniq | sort %}
+{% assign dts=dts | split: "|" | uniq | sort %}
+{% assign machines=machines | split: "|" | uniq | sort %}
 
 <script src="assets/js/navigation_toggle_visibility.js"></script>
 
@@ -27,8 +25,6 @@
 ## Stencil Navigation
 
 Filter available stencil data by categories or by collapsing levels:
-
-
 
 {% include template_navigation_select.md title='Dimension'    type=dims    type_name="dim" %}
 {% include template_navigation_select.md title='Radius'       type=rads    type_name="rad" %}
