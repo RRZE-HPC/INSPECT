@@ -8,12 +8,13 @@
 {% capture csv_filename %}{{page.dimension}}_{{page.radius}}_{{page.weighting}}_{{page.kind}}_{{page.coefficients}}_{{page.datatype}}_{{page.machine}}_results{% endcapture %}
 {% assign csv_file = site.data.stencils[{{csv_filename}}] %}
 
-{% capture name %}Roofline LC MLUPs{% endcapture %}
-{% capture N %}{% for data in csv_file %}{{data["N^3"]}},{%endfor%}{% endcapture %}
-{% capture bench %}{% for data in csv_file %}{{data["Benchmark MLUPs"]}},{%endfor%}{% endcapture %}
-{% capture roofline_LC %}{% for data in csv_file %}{{data["Roofline LC MLUPs"]}},{%endfor%}{% endcapture %}
-{% capture roofline_CS %}{% for data in csv_file %}{{data["Roofline CS MLUPs"]}},{%endfor%}{% endcapture %}
-{% capture ecm %}{% for data in csv_file %}{{data["Roofline ECM MLUPs"]}},{%endfor%}{% endcapture %}
+{% for data in csv_file %}
+  {% assign N = data["N^3"] | append: ',' | prepend: N %}
+  {% assign bench = data["Benchmark MLUPs"] | append: ',' | prepend: bench %}
+  {% assign roofline_LC = data["Roofline LC MLUPs"] | append: ',' | prepend: roofline_LC %}
+  {% assign roofline_CS = data["Roofline CS MLUPs"] | append: ',' | prepend: roofline_CS %}
+  {% assign ecm = data["Roofline ECM MLUPs"] | append: ',' | prepend: ecm %}
+{% endfor %}
 
 <script>
 var trace_benchmark = {

@@ -2,37 +2,49 @@
 {% capture csv_filename %}{{page.dimension}}_{{page.radius}}_{{page.weighting}}_{{page.kind}}_{{page.coefficients}}_{{page.datatype}}_{{page.machine}}_results{% endcapture %}
 {% assign csv_file = site.data.stencils[{{csv_filename}}] %}
 
-{% capture N %}{% for data in csv_file %}{{data["N^3"]}},{%endfor%}{% endcapture %}
-{% capture bench %}{% for data in csv_file %}{{data["Benchmark cycl"]}},{%endfor%}{% endcapture %}
-
-{% capture LC_Tol %}{% for data in csv_file %}{{data["ECM LC Tol"]}},{%endfor%}{% endcapture %}
-{% capture LC_Tnol %}{% for data in csv_file %}{{data["ECM LC Tnol"]}},{%endfor%}{% endcapture %}
-{% capture LC_Tl1l2 %}{% for data in csv_file %}{{data["ECM LC Tl1l2"]}},{%endfor%}{% endcapture %}
-{% capture LC_Tl2l3 %}{% for data in csv_file %}{{data["ECM LC Tl2l3"]}},{%endfor%}{% endcapture %}
-{% capture LC_Tl3mem %}{% for data in csv_file %}{{data["ECM LC Tl3mem"]}},{%endfor%}{% endcapture %}
-{% capture LC_total %}{% for data in csv_file %}{{data["ECM LC cycl"]}},{%endfor%}{% endcapture %}
-
-{% capture CS_Tol %}{% for data in csv_file %}{{data["ECM CS Tol"]}},{%endfor%}{% endcapture %}
-{% capture CS_Tnol %}{% for data in csv_file %}{{data["ECM CS Tnol"]}},{%endfor%}{% endcapture %}
-{% capture CS_Tl1l2 %}{% for data in csv_file %}{{data["ECM CS Tl1l2"]}},{%endfor%}{% endcapture %}
-{% capture CS_Tl2l3 %}{% for data in csv_file %}{{data["ECM CS Tl2l3"]}},{%endfor%}{% endcapture %}
-{% capture CS_Tl3mem %}{% for data in csv_file %}{{data["ECM CS Tl3mem"]}},{%endfor%}{% endcapture %}
-{% capture CS_total %}{% for data in csv_file %}{{data["ECM CS cycl"]}},{%endfor%}{% endcapture %}
-
-{% capture Pheno_Tol %}{% for data in csv_file %}{{data["Benchmark Pheno Tol"]}},{%endfor%}{% endcapture %}
-{% capture Pheno_Tnol %}{% for data in csv_file %}{{data["Benchmark Pheno Tnol"]}},{%endfor%}{% endcapture %}
-{% capture Pheno_Tl1l2 %}{% for data in csv_file %}{{data["Benchmark Pheno Tl1l2"]}},{%endfor%}{% endcapture %}
-{% capture Pheno_Tl2l3 %}{% for data in csv_file %}{{data["Benchmark Pheno Tl2l3"]}},{%endfor%}{% endcapture %}
-{% capture Pheno_Tl3mem %}{% for data in csv_file %}{{data["Benchmark Pheno Tl3mem"]}},{%endfor%}{% endcapture %}
-
 {% assign m_file = site.data.machine_files[{{page.machine}}] %}
 {% capture clock %}{{m_file.clock | replace: " GHz", "" | replace: ".","" | times: 800 }}{% endcapture %}
 
-{% capture roofline_LC %}{% for data in csv_file %}{{clock}}/{{data["Roofline LC MLUPs"]}},{%endfor%}{% endcapture %}
-{% capture roofline_CS %}{% for data in csv_file %}{{clock}}/{{data["Roofline CS MLUPs"]}},{%endfor%}{% endcapture %}
-
 {% capture overlaps %}{% for level in m_file["memory hierarchy"] %}{{level["transfers overlap"]}},{% endfor %}{% endcapture %}
 {% assign overlap=overlaps | split: "," %}
+
+{% for data in csv_file %}
+  {% assign N = data["N^3"] | append: ',' | prepend: N %}
+  {% assign bench = data["Benchmark cycl"] | append: ',' | prepend: bench %}
+
+  {% assign LC_Tol = data["ECM LC Tol"] | append: ',' | prepend: LC_Tol %}
+  {% assign LC_Tnol = data["ECM LC Tnol"] | append: ',' | prepend: LC_Tnol %}
+  {% assign LC_Tl1l2 = data["ECM LC Tl1l2"] | append: ',' | prepend: LC_Tl1l2 %}
+  {% assign LC_Tl2l3 = data["ECM LC Tl2l3"] | append: ',' | prepend: LC_Tl2l3 %}
+  {% assign LC_Tl3mem = data["ECM LC Tl3mem"] | append: ',' | prepend: LC_Tl3mem %}
+  {% assign LC_total = data["ECM LC cycl"] | append: ',' | prepend: LC_total %}
+
+  {% assign CS_Tol = data["ECM CS Tol"] | append: ',' | prepend: CS_Tol %}
+  {% assign CS_Tnol = data["ECM CS Tnol"] | append: ',' | prepend: CS_Tnol %}
+  {% assign CS_Tl1l2 = data["ECM CS Tl1l2"] | append: ',' | prepend: CS_Tl1l2 %}
+  {% assign CS_Tl2l3 = data["ECM CS Tl2l3"] | append: ',' | prepend: CS_Tl2l3 %}
+  {% assign CS_Tl3mem = data["ECM CS Tl3mem"] | append: ',' | prepend: CS_Tl3mem %}
+  {% assign CS_total = data["ECM CS cycl"] | append: ',' | prepend: CS_total %}
+
+  {% assign Pheno_Tol = data["Benchmark Pheno Tol"] | append: ',' | prepend: Pheno_Tol %}
+  {% assign Pheno_Tnol = data["Benchmark Pheno Tnol"] | append: ',' | prepend: Pheno_Tnol %}
+  {% assign Pheno_Tl1l2 = data["Benchmark Pheno Tl1l2"] | append: ',' | prepend: Pheno_Tl1l2 %}
+  {% assign Pheno_Tl2l3 = data["Benchmark Pheno Tl2l3"] | append: ',' | prepend: Pheno_Tl2l3 %}
+  {% assign Pheno_Tl3mem = data["Benchmark Pheno Tl3mem"] | append: ',' | prepend: Pheno_Tl3mem %}
+  {% assign Pheno_total = data["Benchmark Pheno cycl"] | append: ',' | prepend: Pheno_total %}
+
+  {% if data["Roofline LC cycl"] != nil %}
+    {% assign roofline_LC = data["Roofline LC cycl"] | append: ',' | prepend: roofline_LC %}
+  {% else %}
+    {% assign roofline_LC = clock | append: '/' | append: data["Roofline LC MLUPs"] | append: ',' | prepend: roofline_LC %}
+  {%endif%}
+
+  {% if data["Roofline CS cycl"] %}
+    {% assign roofline_CS = data["Roofline CS cycl"] | append: ',' | prepend: roofline_CS %}
+  {% else %}
+    {% assign roofline_CS = clock | append: '/' | append: data["Roofline CS MLUPs"] | append: ',' | prepend: roofline_CS %}
+  {%endif%}
+{% endfor %}
 
 <div  markdown="1" class="ecm" id="ecm_LC" >
 *Comparison of the measured stencil performance (in cycles per cache line), [roofline prediction](https://www2.eecs.berkeley.edu/Pubs/TechRpts/2008/EECS-2008-164.html) and the (stacked) contributions of the [ECM Performance Model](https://hpc.fau.de/research/ecm/) predicted by [kerncraft](https://github.com/RRZE-HPC/kerncraft) using [Layer Conditions](https://rrze-hpc.github.io/layer-condition/) to model the cache behavior. The calculated [layer conditions](#layer-conditions) shown above correspond to the jumps in the ECM prediction in this plot.*

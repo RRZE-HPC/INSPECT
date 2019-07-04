@@ -85,6 +85,7 @@ https://github.com/RRZE-HPC/stempel_data_collection/issues/new?labels[]=Stencil%
 Have a look at the [kernel source code](#kernel-source-code) for dimension naming.
 {% endif %}
 {% if layer_condition %}
+## Layer Conditions
 {{layer_condition}}
 {% endif %}
 

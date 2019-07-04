@@ -8,18 +8,22 @@
 {% capture csv_filename %}{{page.dimension}}_{{page.radius}}_{{page.weighting}}_{{page.kind}}_{{page.coefficients}}_{{page.datatype}}_{{page.machine}}_results{% endcapture %}
 {% assign csv_file = site.data.stencils[{{csv_filename}}] %}
 
-{% capture N %}{% for data in csv_file %}{{data["N^3"]}},{%endfor%}{% endcapture %}
-{% capture bench_L1L2 %}{% for data in csv_file %}{{data["Benchmark Transfer L1L2 total"]}},{%endfor%}{% endcapture %}
-{% capture bench_L2L3 %}{% for data in csv_file %}{{data["Benchmark Transfer L2L3 total"]}},{%endfor%}{% endcapture %}
-{% capture bench_L3MEM %}{% for data in csv_file %}{{data["Benchmark Transfer L3MEM total"]}},{%endfor%}{% endcapture %}
+{% assign N = "" %}
 
-{% capture LC_L1L2 %}{% for data in csv_file %}{{data["LC Transfer L1L2 total"]}},{%endfor%}{% endcapture %}
-{% capture LC_L2L3 %}{% for data in csv_file %}{{data["LC Transfer L2L3 total"]}},{%endfor%}{% endcapture %}
-{% capture LC_L3MEM %}{% for data in csv_file %}{{data["LC Transfer L3MEM total"]}},{%endfor%}{% endcapture %}
+{% for data in csv_file %}
+  {% assign N = data["N^3"] | append: ',' | prepend: N %}
+  {% assign bench_L1L2 = data["Benchmark Transfer L1L2 total"] | append: ',' | prepend: bench_L1L2 %}
+  {% assign bench_L2L3 = data["Benchmark Transfer L2L3 total"] | append: ',' | prepend: bench_L2L3 %}
+  {% assign bench_L3MEM = data["Benchmark Transfer L3MEM total"] | append: ',' | prepend: bench_L3MEM %}
 
-{% capture CS_L1L2 %}{% for data in csv_file %}{{data["CS Transfer L1L2 total"]}},{%endfor%}{% endcapture %}
-{% capture CS_L2L3 %}{% for data in csv_file %}{{data["CS Transfer L2L3 total"]}},{%endfor%}{% endcapture %}
-{% capture CS_L3MEM %}{% for data in csv_file %}{{data["CS Transfer L3MEM total"]}},{%endfor%}{% endcapture %}
+  {% assign LC_L1L2 = data["LC Transfer L1L2 total"] | append: ',' | prepend: LC_L1L2 %}
+  {% assign LC_L2L3 = data["LC Transfer L2L3 total"] | append: ',' | prepend: LC_L2L3 %}
+  {% assign LC_L3MEM = data["LC Transfer L3MEM total"] | append: ',' | prepend: LC_L3MEM %}
+
+  {% assign CS_L1L2 = data["CS Transfer L1L2 total"] | append: ',' | prepend: CS_L1L2 %}
+  {% assign CS_L2L3 = data["CS Transfer L2L3 total"] | append: ',' | prepend: CS_L2L3 %}
+  {% assign CS_L3MEM = data["CS Transfer L3MEM total"] | append: ',' | prepend: CS_L3MEM %}
+{% endfor %}
 
 <script>
 var benchmark_l1l2 = {

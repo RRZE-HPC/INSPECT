@@ -10,11 +10,21 @@
 
 <div id="scaling"></div>
 
-{% capture cores %}{% for data in csv_file %}{{data.threads}},{%endfor%}{% endcapture %}
-{% capture bench %}{% for data in csv_file %}{{data["Mlup/s"]}},{%endfor%}{% endcapture %}
-{% capture ecm %}{% for data in csv_file %}{{data["Mlup/s (Roofline)"]}},{%endfor%}{% endcapture %}
-{% capture roofline %}{% for data in csv_file %}{{data["MLUP/s (ECM)"]}},{%endfor%}{% endcapture %}
-{% capture lasttick %}{% for data in csv_file %}{%if forloop.last%}{{data.threads}}{%endif%}{%endfor%}{% endcapture %}
+{% assign cores = "" %}
+{% assign bench = "" %}
+{% assign ecm = "" %}
+{% assign roofline = "" %}
+
+{% for data in csv_file %}
+  {% assign cores = data.threads | append: ',' | prepend: cores %}
+  {% assign bench = data["Mlup/s"] | append: ',' | prepend: bench %}
+  {% assign roofline = data["Mlup/s (Roofline)"] | append: ',' | prepend: roofline %}
+  {% assign ecm = data["MLUP/s (ECM)"] | append: ',' | prepend: ecm %}
+
+  {%if forloop.last%}
+    {% assign lasttick = data.threads %}
+  {%endif%}
+{% endfor %}
 
 <script>
 var trace_benchmark = {
