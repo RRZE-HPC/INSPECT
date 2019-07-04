@@ -1,6 +1,6 @@
 #! /bin/bash -l
 
-mkdir machines
+mkdir -p machines
 
 for file in ./_data/machine_files/*yml; do
 	if [[ $file != *"comment"* ]]; then
