@@ -1,4 +1,11 @@
-{% if page.url contains "stencil" %}
+{% if page.url contains "named" %}
+
+{% capture link_url %}{{ site.github.repository_url }}/tree/master/stencils/named/{{page.stencil_name}}/{{page.machine}}{% endcapture %}
+
+{% capture link_text %}{{page.stencil_name}} / {{page.machine}}{% assign flavor_size = {{page.flavor | size}} %}{% if flavor_size != 0 %} / {{page.flavor}}{% endif %}{% endcapture %}
+
+
+{% elsif page.url contains "stencil" %}
 
 {% capture link_url %}{{ site.github.repository_url }}/tree/master/stencils/{{page.dimension}}/{{page.radius}}/{{page.weighting}}/{{page.kind}}/{{page.coefficients}}/{{page.datatype}}/{{page.machine}}{% endcapture %}
 

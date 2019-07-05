@@ -9,16 +9,40 @@
 
 {% capture machinefile_link %}[{{page.machine}}]({{site.baseurl}}/machines/{{page.machine}}){% endcapture %}
 
+{%- assign flop_size = {{page.flop | size}} -%}
+{%- assign flavor_size = {{page.flavor | size}} -%}
+
 |--------------|-------------------------------:|
+{%- if page.stencil_name %}
+| name         | {{page.stencil_name}}          |
+{%- endif -%}
+{%- if page.dimension    %}
 | dimension    | {{page.dimension}}             |
+{%- endif -%}
+{%- if page.radius       %}
 | radius       | {{page.radius | remove: 'r' }} |
+{%- endif -%}
+{%- if page.weighting    %}
 | weighting    | {{page.weighting}}             |
+{%- endif -%}
+{%- if page.kind         %}
 | kind         | {{page.kind}}                  |
+{%- endif -%}
+{%- if page.coefficients %}
 | coefficients | {{page.coefficients}}          |
+{%- endif -%}
+{%- if page.datatype     %}
 | datatype     | {{page.datatype}}              |
+{%- endif -%}
+{%- if page.machine      %}
 | machine      | {{machinefile_link}}           |
-{% assign flop_size = {{page.flop | size}} %}{% if flop_size != 0 %}| FLOP per LUP       | {{page.flop}}       |{% endif %}
-{% assign flavor_size = {{page.flavor | size}} %}{% if flavor_size != 0 %}| flavor       | {{page.flavor}}       |{% endif %}
+{%- endif -%}
+{%- if flop_size != 0 %}
+| FLOP per LUP | {{page.flop}}                  |
+{%- endif -%}
+{%- if flavor_size != 0 %}
+| flavor       | {{page.flavor}}                |
+{%- endif -%}
 
 {% assign com = comments["general"] %}
 {% if com %}

@@ -22,6 +22,8 @@ Information on how to perform reproducible performance benchmarks, can be found 
 
 {% include navigation.md %}
 
+{% include navigation_named.md %}
+
 ## Reviews
 
 Overview of all available or missing reviews can be found on [this page](reviews).

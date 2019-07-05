@@ -1,5 +1,10 @@
 
-{% capture csv_filename %}{{page.dimension}}_{{page.radius}}_{{page.weighting}}_{{page.kind}}_{{page.coefficients}}_{{page.datatype}}_{{page.machine}}_results{% endcapture %}
+{% if page.stencil_name %}
+  {% capture csv_filename %}{{page.stencil_name}}_{{page.machine}}_results{% endcapture %}
+{% else %}
+  {% capture csv_filename %}{{page.dimension}}_{{page.radius}}_{{page.weighting}}_{{page.kind}}_{{page.coefficients}}_{{page.datatype}}_{{page.machine}}_results{% endcapture %}
+{% endif %}
+
 {% assign csv_file = site.data.stencils[{{csv_filename}}] %}
 
 {% assign m_file = site.data.machine_files[{{page.machine}}] %}
@@ -35,14 +40,18 @@
 
   {% if data["Roofline LC cycl"] != nil %}
     {% assign roofline_LC = data["Roofline LC cycl"] | append: ',' | prepend: roofline_LC %}
-  {% else %}
+  {% elsif data["Roofline LC MLUPs"] %}
     {% assign roofline_LC = clock | append: '/' | append: data["Roofline LC MLUPs"] | append: ',' | prepend: roofline_LC %}
+  {% else %}
+    {% assign roofline_CS = ',' | prepend: roofline_CS %}
   {%endif%}
 
   {% if data["Roofline CS cycl"] %}
     {% assign roofline_CS = data["Roofline CS cycl"] | append: ',' | prepend: roofline_CS %}
-  {% else %}
+  {% elsif data["Roofline CS MLUPs"] %}
     {% assign roofline_CS = clock | append: '/' | append: data["Roofline CS MLUPs"] | append: ',' | prepend: roofline_CS %}
+  {% else %}
+  {% assign roofline_CS = ',' | prepend: roofline_CS %}
   {%endif%}
 {% endfor %}
 

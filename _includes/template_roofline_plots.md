@@ -5,7 +5,12 @@
 {% endif %}
 <div  markdown="1" class="roofline" id="rfl_{{include.type}}" {{hide_if_hidden}} >
 
-{% capture csv_filename %}{{page.dimension}}_{{page.radius}}_{{page.weighting}}_{{page.kind}}_{{page.coefficients}}_{{page.datatype}}_{{page.machine}}_results{% endcapture %}
+{% if page.stencil_name %}
+  {% capture csv_filename %}{{page.stencil_name}}_{{page.machine}}_results{% endcapture %}
+{% else %}
+  {% capture csv_filename %}{{page.dimension}}_{{page.radius}}_{{page.weighting}}_{{page.kind}}_{{page.coefficients}}_{{page.datatype}}_{{page.machine}}_results{% endcapture %}
+{% endif %}
+
 {% assign csv_file = site.data.stencils[{{csv_filename}}] %}
 
 {% for data in csv_file %}

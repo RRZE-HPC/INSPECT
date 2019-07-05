@@ -7,7 +7,12 @@
 
 {% for case in page.blocking %}
 
-{% capture csv_filename %}{{page.dimension}}_{{page.radius}}_{{page.weighting}}_{{page.kind}}_{{page.coefficients}}_{{page.datatype}}_{{page.machine}}_blocking_{{case}}{% endcapture %}
+{% if page.stencil_name %}
+  {% capture csv_filename %}{{page.stencil_name}}_{{page.machine}}_blocking_{{case}}{% endcapture %}
+{% else %}
+  {% capture csv_filename %}{{page.dimension}}_{{page.radius}}_{{page.weighting}}_{{page.kind}}_{{page.coefficients}}_{{page.datatype}}_{{page.machine}}_blocking_{{case}}{% endcapture %}
+{% endif %}
+
 {% assign csv_file = site.data.stencils[{{csv_filename}}] %}
 
 {% capture csv_results_filename %}{{page.dimension}}_{{page.radius}}_{{page.weighting}}_{{page.kind}}_{{page.coefficients}}_{{page.datatype}}_{{page.machine}}_results{% endcapture %}

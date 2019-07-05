@@ -1,13 +1,16 @@
 
 {% for page in site.pages %}
-	{% if page.url contains '/stencils/' -%}
-	  {% assign dims = page.dimension | append: '|' | prepend: dims %}
-	  {% assign rads = page.radius | append: '|' | prepend: rads %}
-	  {% assign weights = page.weighting | append: '|' | prepend: weights %}
-	  {% assign kinds = page.kind | append: '|' | prepend: kinds %}
-	  {% assign coeffs = page.coefficients | append: '|' | prepend: coeffs %}
-	  {% assign dts = page.datatype | append: '|' | prepend: dts %}
-	  {% assign machines = page.machine | append: '|' | prepend: machines %}
+	{% if page.url contains '/stencils/' %}
+		{% if page.url contains '/stencils/named/' -%}
+		{% else %}
+		  {% assign dims = page.dimension | append: '|' | prepend: dims %}
+		  {% assign rads = page.radius | append: '|' | prepend: rads %}
+		  {% assign weights = page.weighting | append: '|' | prepend: weights %}
+		  {% assign kinds = page.kind | append: '|' | prepend: kinds %}
+		  {% assign coeffs = page.coefficients | append: '|' | prepend: coeffs %}
+		  {% assign dts = page.datatype | append: '|' | prepend: dts %}
+		  {% assign machines = page.machine | append: '|' | prepend: machines %}
+		{% endif %}
 	{% endif %}
 {% endfor %}
 
