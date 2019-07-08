@@ -28,7 +28,7 @@ CONST=$(grep STEMPEL_ARGS args.txt | sed 's/.*-C //; s/ .*//')
 # weighting: 'isotropic', 'heterogeneous', 'homogeneous', 'point-symmetric'
 WEIGHTING=replaceme
 # datatype: 'double' or 'float'
-DATATYPE=$(grep STEMPEL_ARGS args.txt | sed 's/.*-t //; s/ .*//')
+DATATYPE=$(grep STEMPEL_ARGS args.txt | sed 's/.*-t \(.*\)/\1/;s/\"//g')
 
 ghz=$(grep clock ${MACHINE_FILE} | sed 's/clock: //; s/ GHz//')
 MACHINE=$(echo ${MACHINE_FILE} | sed 's/.*\///g; s/.yml//')
@@ -43,10 +43,14 @@ elif [[ $(grep STEMPEL_ARGS args.txt | grep -c '\-p') -eq 1 ]]; then
 	WEIGHTING=point-symmetric
 fi
 
-if [[ ${DATATYPE} == "double" ]]; then
-	LUPperCL=8
-else
+if [[ ${DATATYPE} == "float" ]]; then
 	LUPperCL=16
+elif [[ ${DATATYPE} == "double" ]]; then
+	LUPperCL=8
+elif [[ ${DATATYPE} == "float _Complex" ]]; then
+	LUPperCL=8
+elif [[ ${DATATYPE} == "double _Complex" ]]; then
+	LUPperCL=4
 fi
 
 echo ":: PROCESSING ${DIM}D r${RADIUS} ${KIND} ${CONST} ${WEIGHTING} ${DATATYPE} ${MACHINE}"
@@ -94,32 +98,17 @@ else
 cat stencil.c >> ${FILENAME}
 fi
 echo "{%- endcapture -%}" >> ${FILENAME}
+echo "" >> ${FILENAME}
 echo "{%- capture source_code_asm -%}" >> ${FILENAME}
 START=$(cat data/singlecore/ECM_LC_10.txt | grep -n "X - instruction" | sed 's/:.*//')
 END=$(cat data/singlecore/ECM_LC_10.txt | grep -n "Total Num Of Uops:" | sed 's/:.*//')
 cat data/singlecore/ECM_LC_10.txt | head -n $((${END}-1)) | tail -n $((${END} - ${START} - 5)) | sed 's/|.*| //g' >> ${FILENAME}
 echo "{%- endcapture -%}" >> ${FILENAME}
 echo "" >> ${FILENAME}
-# echo "{%- capture layercondition -%}" >> ${FILENAME}
-# while read -r line; do
-# 	if [[ $(echo ${line} | grep -c unconditionally) -eq 1 ]]; then
-# 		echo ${line} >> ${FILENAME}
-# 	elif [[ $(echo ${line} | grep -c "*") -eq 0 ]]; then
-# 		equation=$(echo ${line} | sed s'/.*: //; s/<=/-/; s/[A-Z]/N/g' )
-# 		APPROX=$(python -c "import sympy;N=sympy.Symbol('N',positive=True);print(sympy.solvers.solve(${equation}, N))" | sed 's/\[//; s/\]//')
-# 		APPROX=$(bc -l <<< "scale=0;${APPROX}/10*10")
-# 		echo ${line}";"$(echo ${line}|sed 's/.*: //; s/ .*//')" ~ "${APPROX} >> ${FILENAME}
-# 	else
-# 		equation=$(echo ${line} | sed s'/.*: //; s/<=/-/; s/[A-Z]/N/g' )
-# 		APPROX=$(python -c "import sympy;N=sympy.Symbol('N',positive=True);print(sympy.solvers.solve(${equation}, N))" | sed 's/\[//; s/\]//')
-# 		APPROX=$(bc -l <<< "scale=0;${APPROX}/10*10")
-# 		echo ${line}";"$(echo ${line}|sed 's/.*: //; s/ .*//; s/[0-9]*\*//')" ~ "${APPROX}$"²" >> ${FILENAME}
-# 	fi
-# done <<< $(tail -n 12 data/LC.txt | head -n 11 | sed '/layer condition/d')
-# echo "{%- endcapture -%}" >> ${FILENAME}
 echo "{%- capture layer_condition -%}" >> ${FILENAME}
 tail -n $(( $(cat data/LC.txt | wc -l) - $(grep -m 1 -n "Layer condition" data/LC.txt | sed 's/:.*//') +1 )) data/LC.txt | sed 's/^[ \t]\{2,\}/|/g;s/[[:space:]]\{2,\}/|/g;s/\([a-z0-9]\)$/\1|/g' | sed 's/hits|/hits|\n|:---:|---:|---:|/;s/Layer/### Layer/;s/|condition/\n|condition/' | sed 's/\([<|<=]\) \([0-9]*\)|/\1 \2```|/;s/|\([0-9A-Z\*\+]*\) </|```\1 </' | sed 's/True/Else/' >> ${FILENAME}
 echo "{%- endcapture -%}" >> ${FILENAME}
+echo "" >> ${FILENAME}
 echo "{%- capture iaca -%}" >> ${FILENAME}
 START=$(cat data/singlecore/ECM_LC_10.txt | grep -n "IACA Output:" | sed 's/:.*//')
 END=$(cat data/singlecore/ECM_LC_10.txt | grep -n "Total Num Of Uops:" | sed 's/:.*//')
@@ -128,6 +117,7 @@ if [ ${#END} -lt 2 ]; then
 fi
 cat data/singlecore/ECM_LC_10.txt | head -n $((${END}+3)) | tail -n $((${END} - ${START}-2)) >> ${FILENAME}
 echo "{%- endcapture -%}" >> ${FILENAME}
+echo "" >> ${FILENAME}
 echo "{%- capture hostinfo -%}" >> ${FILENAME}
 cat data/system_info.txt >> ${FILENAME}
 echo "{%- endcapture -%}" >> ${FILENAME}

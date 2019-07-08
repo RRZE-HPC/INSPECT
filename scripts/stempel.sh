@@ -7,7 +7,6 @@
 # - stempel: https://github.com/RRZE-HPC/stempel
 # - Kerncraft: https://github.com/RRZE-HPC/kerncraft
 # - LIKWID: https://github.com/RRZE-HPC/likwid
-# - numactl
 # - (intel) compiler
 # - python + python-sympy
 # - grep, sed, awk, bc
@@ -23,16 +22,16 @@ CONST="constant variable"
 # weighting: 'isotropic', 'heterogeneous', 'homogeneous', 'point-symmetric'
 WEIGHTING="isotropic heterogeneous"
 # datatype: 'double' or 'float'
-DATATYPE=double
+DATATYPE=("double _Complex" "float")
 
 # load modules (this is an example for the RRZE testcluster)
-module load likwid/4.3.4 intel64/19.0up02 python/3.6-anaconda
+module load likwid/4.3-dev intel64/19.0up02 python/3.6-anaconda
 
 STEMPEL_BINARY=~/.local/bin/stempel
 KERNCRAFT_BINARY=~/.local/bin/kerncraft
 
-INSPECT_DIR=~/INSPECT
-OUTPUT_DIR=${INSPECT_DIR}/stencils
+INSPECT_DIR=~/INSPECT-repo
+OUTPUT_DIR=~/INSPECT/stencils
 
 # turn specific parts on or off
 DO_GRID_SCALING=1
@@ -71,14 +70,14 @@ for fRADIUS in ${RADIUS}; do
 for fKIND in ${KIND}; do
 for fCONST in ${CONST}; do
 for fWEIGHTING in ${WEIGHTING}; do
-for fDATATYPE in ${DATATYPE}; do
+for fDATATYPE in "${DATATYPE[@]}"; do
 
 	DATE=$(date +'%Y%m%d_%H%M%S')
 	FOLDER="${OUTPUT_DIR}/${fDIM}D_r${fRADIUS}_${fWEIGHTING}_${fKIND}_${fCONST}/${MACHINE}_${DATE}"
 	mkdir -p ${FOLDER} && cd ${FOLDER}
 	mkdir data
 
-	echo ":: RUNNING: ${fDIM}D r${fRADIUS} ${fKIND} ${fCONST} ${fWEIGHTING} ${DATE} ${MACHINE}"
+	echo ":: RUNNING: ${fDIM}D r${fRADIUS} ${fKIND} ${fCONST} ${fWEIGHTING} ${fDATATYPE} ${DATE} ${MACHINE}"
 
 	echo ":: GATHERING SYSTEM INFORMATION"
 	sh ${INSPECT_DIR}/scripts/Artifact-description/machine-state.sh >> data/system_info.txt
@@ -94,7 +93,7 @@ for fDATATYPE in ${DATATYPE}; do
 	fi
 
 	COMPILER=$(cat ${MACHINE_FILE} | grep icc | sed 's/.*icc: /icc /')
-	STEMPEL_ARGS="gen -D ${fDIM} -r ${fRADIUS} -k ${fKIND} -C ${fCONST} ${S_WEIGHTING} -t ${fDATATYPE}"
+	STEMPEL_ARGS="gen -D ${fDIM} -r ${fRADIUS} -k ${fKIND} -C ${fCONST} ${S_WEIGHTING} -t \"${fDATATYPE[@]}\""
 	# save all arguments
 	echo ":: SAVING ARGUMENTS"
 	echo {\$,$}STEMPEL_ARGS >> args.txt
@@ -103,10 +102,11 @@ for fDATATYPE in ${DATATYPE}; do
 	echo {\$,$}DATE >> args.txt
 	echo {\$,$}ICC_VERSION >> args.txt
 	echo {\$,$}COMPILER >> args.txt
+	STEMPEL_ARGS=$(echo ${STEMPEL_ARGS} | sed 's/\(.*\)-t.*/\1/')
 
 	# generate stencil
 	echo ":: GENERATING STENCIL"
-	${STEMPEL_BINARY} ${STEMPEL_ARGS} --store stencil.c
+	${STEMPEL_BINARY} ${STEMPEL_ARGS} -t "${fDATATYPE[@]}" --store stencil.c
 
 	# ************************************************************************************************
 	# Grid Scaling
@@ -116,12 +116,12 @@ for fDATATYPE in ${DATATYPE}; do
 	${KERNCRAFT_BINARY} -p LC -m ${MACHINE_FILE} ./stencil.c -D N 100 -D M 100 -D P 100 -vvv --cores 1 --compiler icc --ignore-warnings > data/LC.txt
 
 	# L3 3D Layer Condition
-	LC_3D_L3=$(cat data/LC.txt | grep L3: | tail -n 1 | sed -e 's/.*: //' -e 's/<=/-/')
+	LC_3D_L3=$(tail -n $(( $(cat data/LC.txt | wc -l) - $(grep -m 1 -n "Layer conditions for L3" data/LC.txt | sed 's/:.*//') +1 )) data/LC.txt | sed 's/\([<|<=]\) \([0-9]*\).*/- \2/;' | head -n 3 | tail -n 1 | sed 's/ //g')
 	LC_3D_L3_N=$(python -c "import sympy;N=sympy.Symbol('N',positive=True);print(int(max(sympy.solvers.solve($(echo ${LC_3D_L3} | sed 's/[A-Z]/N/g'), N))*1.5/10)*10)")
 	LC_3D_L3_N_orig=${LC_3D_L3_N}
 
 	# L3 3D Layer Condition
-	LC_3D_L2=$(cat data/LC.txt | grep L2: | tail -n 1 | sed -e 's/.*: //' -e 's/<=/-/')
+	LC_3D_L2=$(tail -n $(( $(cat data/LC.txt | wc -l) - $(grep -m 1 -n "Layer conditions for L2" data/LC.txt | sed 's/:.*//') +1 )) data/LC.txt | sed 's/\([<|<=]\) \([0-9]*\).*/- \2/;' | head -n 3 | tail -n 1 | sed 's/ //g')
 
 	echo ":: L3 3D Layer Condition * 1.5 = ${LC_3D_L3_N} (${LC_3D_L3})"
 
@@ -132,6 +132,10 @@ for fDATATYPE in ${DATATYPE}; do
 		DT_SIZE=4
 	elif [[ ${fDATATYPE} == "double" ]]; then
 		DT_SIZE=8
+	elif [[ ${fDATATYPE} == "float _Complex" ]]; then
+		DT_SIZE=8
+	elif [[ ${fDATATYPE} == "double _Complex" ]]; then
+		DT_SIZE=16
 	fi
 
 	TMP_FACTOR=2
