@@ -1,16 +1,18 @@
 ---
 
-title:  "Stencil SolarSplit_y BroadwellEP_E5-2697_CoD"
+title:  "Stencil 3D r3 star variable homogeneous double _Complex BroadwellEP_E5-2697_CoD"
 
-stencil_name : "SolarSplit_y"
 dimension    : "3D"
-radius       : "r1"
+radius       : "r3"
+weighting    : "homogeneous"
+kind         : "star"
 coefficients : "variable"
 datatype     : "double_Complex"
 machine      : "BroadwellEP_E5-2697_CoD"
+flavor       : "Cluster on Die"
 compile_flags: "icc -O3 -xCORE-AVX2 -fno-alias -qopenmp "
-flop         : "7"
-scaling      : [ "600" ]
+flop         : "19"
+scaling      : [ "110" ]
 blocking     : []
 ---
 
@@ -19,72 +21,65 @@ blocking     : []
 {%- endcapture -%}
 
 {%- capture source_code -%}
-double _Complex Exy[M][N][O];
-double _Complex ExSrc[M][N][O];
-double _Complex tExy[M][N][O];
-double _Complex cExy[M][N][O];
+double _Complex a[M][N][P];
+double _Complex b[M][N][P];
+double _Complex W[1][M][N][P];
 
-double _Complex Hyx[M][N][O];
-double _Complex Hyz[M][N][O];
-
-for (int k = 1; k < M - 1; ++k) {
-  for (int j = 1; j < N - 1; ++j) {
-    for (int i = 1; i < O - 1; ++i) {
-      // ----- Ex_y = Cex_ty * Ex_y + Cex_y * (D(Hy_x + Hy_z) - T(Hy_x
-      // + Hy_z) ) + Ex_old;
-      Exy[k][j][i] =
-          Exy[k][j][i] * tExy[k][j][i] + ExSrc[k][j][i] +
-          cExy[k][j][i] * (Hyx[k][j][i] - Hyx[k + 1][j][i] +
-                           Hyz[k][j][i] - Hyz[k + 1][j][i]);
-    }
-  }
+for(long k=3; k < M-3; ++k){
+for(long j=3; j < N-3; ++j){
+for(long i=3; i < P-3; ++i){
+b[k][j][i] = W[0][k][j][i] * (a[k][j][i]
++ a[k][j][i-1] + a[k][j][i+1]
++ a[k-1][j][i] + a[k+1][j][i]
++ a[k][j-1][i] + a[k][j+1][i]
++ a[k][j][i-2] + a[k][j][i+2]
++ a[k-2][j][i] + a[k+2][j][i]
++ a[k][j-2][i] + a[k][j+2][i]
++ a[k][j][i-3] + a[k][j][i+3]
++ a[k-3][j][i] + a[k+3][j][i]
++ a[k][j-3][i] + a[k][j+3][i]
+);
+}
+}
 }
 {%- endcapture -%}
+
 {%- capture source_code_asm -%}
-vmovupd ymm6, ymmword ptr [r12+r14*1+0x10]
-add rsi, 0x4
-vmovupd ymm3, ymmword ptr [r12+rbx*1+0x10]
-vmovupd ymm0, ymmword ptr [r12+r13*1+0x10]
-vmovupd ymm9, ymmword ptr [r12+r10*1+0x10]
-vsubpd ymm7, ymm6, ymmword ptr [r12+r15*1+0x10]
-vaddpd ymm8, ymm7, ymmword ptr [r12+r9*1+0x10]
-vmovupd ymm7, ymmword ptr [r12+r14*1+0x30]
-vsubpd ymm12, ymm8, ymmword ptr [r12+rdi*1+0x10]
-vsubpd ymm8, ymm7, ymmword ptr [r12+r15*1+0x30]
-vunpckhpd ymm1, ymm0, ymm0
-vshufpd ymm2, ymm3, ymm3, 0x5
-vmulpd ymm4, ymm1, ymm2
-vmovupd ymm1, ymmword ptr [r12+r13*1+0x30]
-vunpckhpd ymm10, ymm9, ymm9
-vshufpd ymm11, ymm12, ymm12, 0x5
-vmovddup ymm5, ymmword ptr [r12+r13*1+0x10]
-vmulpd ymm13, ymm10, ymm11
-vfmaddsub213pd ymm5, ymm3, ymm4
-vmovupd ymm4, ymmword ptr [r12+rbx*1+0x30]
-vmovupd ymm10, ymmword ptr [r12+r10*1+0x30]
-vaddpd ymm9, ymm8, ymmword ptr [r12+r9*1+0x30]
-vaddpd ymm14, ymm5, ymmword ptr [r12+rcx*1+0x10]
-vmovddup ymm15, ymmword ptr [r12+r10*1+0x10]
-vfmaddsub213pd ymm15, ymm12, ymm13
-vsubpd ymm13, ymm9, ymmword ptr [r12+rdi*1+0x30]
-vaddpd ymm0, ymm14, ymm15
-vunpckhpd ymm2, ymm1, ymm1
-vshufpd ymm3, ymm4, ymm4, 0x5
-vmulpd ymm5, ymm2, ymm3
-vmovupd ymmword ptr [r12+rbx*1+0x10], ymm0
-vunpckhpd ymm11, ymm10, ymm10
-vshufpd ymm12, ymm13, ymm13, 0x5
-vmulpd ymm14, ymm11, ymm12
-vmovddup ymm6, ymmword ptr [r12+r13*1+0x30]
-vfmaddsub213pd ymm6, ymm4, ymm5
-vmovddup ymm0, ymmword ptr [r12+r10*1+0x30]
-vfmaddsub213pd ymm0, ymm13, ymm14
-vaddpd ymm15, ymm6, ymmword ptr [r12+rcx*1+0x30]
-vaddpd ymm1, ymm15, ymm0
-vmovupd ymmword ptr [r12+rbx*1+0x30], ymm1
-add r12, 0x40
-cmp rsi, r11
-jb 0xffffffffffffff04
+vmovupd xmm1, xmmword ptr [rax+rbx*1+0x30]
+vaddpd xmm2, xmm1, xmmword ptr [rax+rbx*1+0x20]
+vaddpd xmm3, xmm2, xmmword ptr [rax+rbx*1+0x40]
+vaddpd xmm4, xmm3, xmmword ptr [rax+rcx*1+0x30]
+vaddpd xmm5, xmm4, xmmword ptr [rax+rdx*1+0x30]
+vaddpd xmm6, xmm5, xmmword ptr [rax+r11*1+0x30]
+vaddpd xmm7, xmm6, xmmword ptr [rax+r14*1+0x30]
+vaddpd xmm8, xmm7, xmmword ptr [rax+rbx*1+0x10]
+vaddpd xmm9, xmm8, xmmword ptr [rax+rbx*1+0x50]
+vaddpd xmm10, xmm9, xmmword ptr [rax+rsi*1+0x30]
+vaddpd xmm11, xmm10, xmmword ptr [rax+rdi*1+0x30]
+vaddpd xmm12, xmm11, xmmword ptr [rax+r8*1+0x30]
+mov r15, qword ptr [rsp+0x180]
+inc r12
+mov r13, qword ptr [rsp+0x190]
+vaddpd xmm13, xmm12, xmmword ptr [rax+r15*1+0x30]
+vmovupd xmm0, xmmword ptr [rax+r13*1+0x30]
+vaddpd xmm14, xmm13, xmmword ptr [rax+rbx*1]
+vaddpd xmm15, xmm14, xmmword ptr [rax+rbx*1+0x60]
+mov r15, qword ptr [rsp+0x178]
+vunpckhpd xmm0, xmm0, xmm0
+vmovddup xmm7, qword ptr [rax+r13*1+0x30]
+vaddpd xmm1, xmm15, xmmword ptr [rax+r15*1+0x30]
+vaddpd xmm2, xmm1, xmmword ptr [rax+r9*1+0x30]
+vaddpd xmm3, xmm2, xmmword ptr [rax+r10*1+0x30]
+mov r15, qword ptr [rsp+0x1a0]
+mov r13, qword ptr [rsp+0x188]
+vaddpd xmm5, xmm3, xmmword ptr [rax+r15*1+0x30]
+vshufpd xmm4, xmm5, xmm5, 0x1
+vmulpd xmm6, xmm0, xmm4
+vfmaddsub213pd xmm7, xmm5, xmm6
+vmovupd xmmword ptr [rax+r13*1+0x30], xmm7
+add rax, 0x10
+cmp r12, qword ptr [rsp+0x198]
+jb 0xffffffffffffff29
 {%- endcapture -%}
 
 {%- capture layer_condition -%}
@@ -92,39 +87,49 @@ jb 0xffffffffffffff04
 
 |condition|misses|hits|
 |:---:|---:|---:|
-|```96*M*N*O < 32768```|0|9|
-|```128*N*O <= 32768```|6|3|
-|Else|8|1|
+|```48*M*N*P < 32768```|0|21|
+|```144*N*P - 144*P <= 32768```|3|18|
+|```144*N*P + 96*P <= 32768```|5|16|
+|```240*P - 432 <= 32768```|9|12|
+|```240*P + 96 <= 32768```|11|10|
+|Else|15|6|
 
 ### Layer conditions for L2 cache with 256 KB:
 
 |condition|misses|hits|
 |:---:|---:|---:|
-|```96*M*N*O < 262144```|0|9|
-|```128*N*O <= 262144```|6|3|
-|Else|8|1|
+|```48*M*N*P < 262144```|0|21|
+|```144*N*P - 144*P <= 262144```|3|18|
+|```144*N*P + 96*P <= 262144```|5|16|
+|```240*P - 432 <= 262144```|9|12|
+|```240*P + 96 <= 262144```|11|10|
+|Else|15|6|
 
 ### Layer conditions for L3 cache with 23040 KB:
 
 |condition|misses|hits|
 |:---:|---:|---:|
-|```96*M*N*O < 23592960```|0|9|
-|```128*N*O <= 23592960```|6|3|
-|Else|8|1|
+|```48*M*N*P < 23592960```|0|21|
+|```144*N*P - 144*P <= 23592960```|3|18|
+|```144*N*P + 96*P <= 23592960```|5|16|
+|```240*P - 432 <= 23592960```|9|12|
+|```240*P + 96 <= 23592960```|11|10|
+|Else|15|6|
 
 
 {%- endcapture -%}
+
 {%- capture iaca -%}
 
 Throughput Analysis Report
 --------------------------
-Block Throughput: 13.21 Cycles       Throughput Bottleneck: FrontEnd
+Block Throughput: 18.42 Cycles       Throughput Bottleneck: Backend
 Loop Count:  22
 Port Binding In Cycles Per Iteration:
 --------------------------------------------------------------------------------------------------
 |  Port  |   0   -  DV   |   1   |   2   -  D    |   3   -  D    |   4   |   5   |   6   |   7   |
 --------------------------------------------------------------------------------------------------
-| Cycles |  8.0     0.0  | 10.0  | 11.0    11.0  | 11.0     9.0  |  2.0  |  8.0  |  2.0  |  0.0  |
+| Cycles |  2.3     0.0  | 18.0  | 14.0    13.0  | 14.0    14.0  |  1.0  |  2.3  |  2.4  |  0.0  |
 --------------------------------------------------------------------------------------------------
 
 DV - Divider pipe (on port 0)
@@ -139,55 +144,47 @@ X - instruction not supported, was not accounted in Analysis
 | Num Of   |                    Ports pressure in cycles                         |      |
 |  Uops    |  0  - DV    |  1   |  2  -  D    |  3  -  D    |  4   |  5   |  6   |  7   |
 -----------------------------------------------------------------------------------------
-|   1      |             |      | 1.0     1.0 |             |      |      |      |      | vmovupd ymm6, ymmword ptr [r12+r14*1+0x10]
-|   1      |             |      |             |             |      |      | 1.0  |      | add rsi, 0x4
-|   1      |             |      |             | 1.0     1.0 |      |      |      |      | vmovupd ymm3, ymmword ptr [r12+rbx*1+0x10]
-|   1      |             |      | 1.0     1.0 |             |      |      |      |      | vmovupd ymm0, ymmword ptr [r12+r13*1+0x10]
-|   1      |             |      |             | 1.0     1.0 |      |      |      |      | vmovupd ymm9, ymmword ptr [r12+r10*1+0x10]
-|   2      |             | 1.0  | 1.0     1.0 |             |      |      |      |      | vsubpd ymm7, ymm6, ymmword ptr [r12+r15*1+0x10]
-|   2      |             | 1.0  |             | 1.0     1.0 |      |      |      |      | vaddpd ymm8, ymm7, ymmword ptr [r12+r9*1+0x10]
-|   1      |             |      | 1.0     1.0 |             |      |      |      |      | vmovupd ymm7, ymmword ptr [r12+r14*1+0x30]
-|   2      |             | 1.0  |             | 1.0     1.0 |      |      |      |      | vsubpd ymm12, ymm8, ymmword ptr [r12+rdi*1+0x10]
-|   2      |             | 1.0  | 1.0     1.0 |             |      |      |      |      | vsubpd ymm8, ymm7, ymmword ptr [r12+r15*1+0x30]
-|   1      |             |      |             |             |      | 1.0  |      |      | vunpckhpd ymm1, ymm0, ymm0
-|   1      |             |      |             |             |      | 1.0  |      |      | vshufpd ymm2, ymm3, ymm3, 0x5
-|   1      | 1.0         |      |             |             |      |      |      |      | vmulpd ymm4, ymm1, ymm2
-|   1      |             |      |             | 1.0     1.0 |      |      |      |      | vmovupd ymm1, ymmword ptr [r12+r13*1+0x30]
-|   1      |             |      |             |             |      | 1.0  |      |      | vunpckhpd ymm10, ymm9, ymm9
-|   1      |             |      |             |             |      | 1.0  |      |      | vshufpd ymm11, ymm12, ymm12, 0x5
-|   1      |             |      | 1.0     1.0 |             |      |      |      |      | vmovddup ymm5, ymmword ptr [r12+r13*1+0x10]
-|   1      | 1.0         |      |             |             |      |      |      |      | vmulpd ymm13, ymm10, ymm11
-|   1      | 1.0         |      |             |             |      |      |      |      | vfmaddsub213pd ymm5, ymm3, ymm4
-|   1      |             |      |             | 1.0     1.0 |      |      |      |      | vmovupd ymm4, ymmword ptr [r12+rbx*1+0x30]
-|   1      |             |      | 1.0     1.0 |             |      |      |      |      | vmovupd ymm10, ymmword ptr [r12+r10*1+0x30]
-|   2      |             | 1.0  |             | 1.0     1.0 |      |      |      |      | vaddpd ymm9, ymm8, ymmword ptr [r12+r9*1+0x30]
-|   2      |             | 1.0  | 1.0     1.0 |             |      |      |      |      | vaddpd ymm14, ymm5, ymmword ptr [r12+rcx*1+0x10]
-|   1      |             |      |             | 1.0     1.0 |      |      |      |      | vmovddup ymm15, ymmword ptr [r12+r10*1+0x10]
-|   1      | 1.0         |      |             |             |      |      |      |      | vfmaddsub213pd ymm15, ymm12, ymm13
-|   2      |             | 1.0  | 1.0     1.0 |             |      |      |      |      | vsubpd ymm13, ymm9, ymmword ptr [r12+rdi*1+0x30]
-|   1      |             | 1.0  |             |             |      |      |      |      | vaddpd ymm0, ymm14, ymm15
-|   1      |             |      |             |             |      | 1.0  |      |      | vunpckhpd ymm2, ymm1, ymm1
-|   1      |             |      |             |             |      | 1.0  |      |      | vshufpd ymm3, ymm4, ymm4, 0x5
-|   1      | 1.0         |      |             |             |      |      |      |      | vmulpd ymm5, ymm2, ymm3
-|   2      |             |      |             | 1.0         | 1.0  |      |      |      | vmovupd ymmword ptr [r12+rbx*1+0x10], ymm0
-|   1      |             |      |             |             |      | 1.0  |      |      | vunpckhpd ymm11, ymm10, ymm10
-|   1      |             |      |             |             |      | 1.0  |      |      | vshufpd ymm12, ymm13, ymm13, 0x5
-|   1      | 1.0         |      |             |             |      |      |      |      | vmulpd ymm14, ymm11, ymm12
-|   1      |             |      | 1.0     1.0 |             |      |      |      |      | vmovddup ymm6, ymmword ptr [r12+r13*1+0x30]
-|   1      | 1.0         |      |             |             |      |      |      |      | vfmaddsub213pd ymm6, ymm4, ymm5
-|   1      |             |      |             | 1.0     1.0 |      |      |      |      | vmovddup ymm0, ymmword ptr [r12+r10*1+0x30]
-|   1      | 1.0         |      |             |             |      |      |      |      | vfmaddsub213pd ymm0, ymm13, ymm14
-|   2      |             | 1.0  | 1.0     1.0 |             |      |      |      |      | vaddpd ymm15, ymm6, ymmword ptr [r12+rcx*1+0x30]
-|   1      |             | 1.0  |             |             |      |      |      |      | vaddpd ymm1, ymm15, ymm0
-|   2      |             |      |             | 1.0         | 1.0  |      |      |      | vmovupd ymmword ptr [r12+rbx*1+0x30], ymm1
-|   1      |             |      |             |             |      |      | 1.0  |      | add r12, 0x40
-|   1*     |             |      |             |             |      |      |      |      | cmp rsi, r11
-|   0*F    |             |      |             |             |      |      |      |      | jb 0xffffffffffffff04
-Total Num Of Uops: 53
+|   1      |             |      | 1.0     1.0 |             |      |      |      |      | vmovupd xmm1, xmmword ptr [rax+rbx*1+0x30]
+|   2      |             | 1.0  |             | 1.0     1.0 |      |      |      |      | vaddpd xmm2, xmm1, xmmword ptr [rax+rbx*1+0x20]
+|   2      |             | 1.0  | 1.0     1.0 |             |      |      |      |      | vaddpd xmm3, xmm2, xmmword ptr [rax+rbx*1+0x40]
+|   2      |             | 1.0  |             | 1.0     1.0 |      |      |      |      | vaddpd xmm4, xmm3, xmmword ptr [rax+rcx*1+0x30]
+|   2      |             | 1.0  | 1.0     1.0 |             |      |      |      |      | vaddpd xmm5, xmm4, xmmword ptr [rax+rdx*1+0x30]
+|   2      |             | 1.0  |             | 1.0     1.0 |      |      |      |      | vaddpd xmm6, xmm5, xmmword ptr [rax+r11*1+0x30]
+|   2      |             | 1.0  | 1.0     1.0 |             |      |      |      |      | vaddpd xmm7, xmm6, xmmword ptr [rax+r14*1+0x30]
+|   2      |             | 1.0  |             | 1.0     1.0 |      |      |      |      | vaddpd xmm8, xmm7, xmmword ptr [rax+rbx*1+0x10]
+|   2      |             | 1.0  | 1.0     1.0 |             |      |      |      |      | vaddpd xmm9, xmm8, xmmword ptr [rax+rbx*1+0x50]
+|   2      |             | 1.0  |             | 1.0     1.0 |      |      |      |      | vaddpd xmm10, xmm9, xmmword ptr [rax+rsi*1+0x30]
+|   2      |             | 1.0  | 1.0     1.0 |             |      |      |      |      | vaddpd xmm11, xmm10, xmmword ptr [rax+rdi*1+0x30]
+|   2      |             | 1.0  |             | 1.0     1.0 |      |      |      |      | vaddpd xmm12, xmm11, xmmword ptr [rax+r8*1+0x30]
+|   1      |             |      | 1.0     1.0 |             |      |      |      |      | mov r15, qword ptr [rsp+0x180]
+|   1      | 0.3         |      |             |             |      | 0.3  | 0.4  |      | inc r12
+|   1      |             |      |             | 1.0     1.0 |      |      |      |      | mov r13, qword ptr [rsp+0x190]
+|   2      |             | 1.0  | 1.0     1.0 |             |      |      |      |      | vaddpd xmm13, xmm12, xmmword ptr [rax+r15*1+0x30]
+|   1      |             |      |             | 1.0     1.0 |      |      |      |      | vmovupd xmm0, xmmword ptr [rax+r13*1+0x30]
+|   2      |             | 1.0  | 1.0     1.0 |             |      |      |      |      | vaddpd xmm14, xmm13, xmmword ptr [rax+rbx*1]
+|   2      |             | 1.0  |             | 1.0     1.0 |      |      |      |      | vaddpd xmm15, xmm14, xmmword ptr [rax+rbx*1+0x60]
+|   1      |             |      | 1.0     1.0 |             |      |      |      |      | mov r15, qword ptr [rsp+0x178]
+|   1      |             |      |             |             |      | 1.0  |      |      | vunpckhpd xmm0, xmm0, xmm0
+|   1      |             |      |             | 1.0     1.0 |      |      |      |      | vmovddup xmm7, qword ptr [rax+r13*1+0x30]
+|   2      |             | 1.0  | 1.0     1.0 |             |      |      |      |      | vaddpd xmm1, xmm15, xmmword ptr [rax+r15*1+0x30]
+|   2      |             | 1.0  |             | 1.0     1.0 |      |      |      |      | vaddpd xmm2, xmm1, xmmword ptr [rax+r9*1+0x30]
+|   2      |             | 1.0  | 1.0     1.0 |             |      |      |      |      | vaddpd xmm3, xmm2, xmmword ptr [rax+r10*1+0x30]
+|   1      |             |      |             | 1.0     1.0 |      |      |      |      | mov r15, qword ptr [rsp+0x1a0]
+|   1      |             |      | 1.0     1.0 |             |      |      |      |      | mov r13, qword ptr [rsp+0x188]
+|   2      |             | 1.0  |             | 1.0     1.0 |      |      |      |      | vaddpd xmm5, xmm3, xmmword ptr [rax+r15*1+0x30]
+|   1      |             |      |             |             |      | 1.0  |      |      | vshufpd xmm4, xmm5, xmm5, 0x1
+|   1      | 1.0         |      |             |             |      |      |      |      | vmulpd xmm6, xmm0, xmm4
+|   1      | 1.0         |      |             |             |      |      |      |      | vfmaddsub213pd xmm7, xmm5, xmm6
+|   2      |             |      | 1.0         |             | 1.0  |      |      |      | vmovupd xmmword ptr [rax+r13*1+0x30], xmm7
+|   1      |             |      |             |             |      |      | 1.0  |      | add rax, 0x10
+|   2^     |             |      |             | 1.0     1.0 |      |      | 1.0  |      | cmp r12, qword ptr [rsp+0x198]
+|   0*F    |             |      |             |             |      |      |      |      | jb 0xffffffffffffff29
+Total Num Of Uops: 54
+Analysis Notes:
+Backend allocation was stalled due to unavailable allocation resources.
 
-
-Detected pointer increment: 64
 {%- endcapture -%}
+
 {%- capture hostinfo -%}
 
 ################################################################################
@@ -228,7 +225,7 @@ Linux broadep2 4.15.0-48-generic #51-Ubuntu SMP Wed Apr 3 08:28:49 UTC 2019 x86_
 ################################################################################
 # Logged in users
 ################################################################################
- 18:21:12 up 62 days,  8:35,  0 users,  load average: 4.45, 3.38, 2.04
+ 18:25:48 up 74 days,  8:39,  0 users,  load average: 2.39, 1.91, 1.51
 USER     TTY      FROM             LOGIN@   IDLE   JCPU   PCPU WHAT
 
 ################################################################################
@@ -388,25 +385,25 @@ NUMA domains:		4
 Domain:			0
 Processors:		( 0 36 1 37 2 38 3 39 4 40 5 41 6 42 7 43 8 44 )
 Distances:		10 21 31 31
-Free memory:		31107.3 MB
+Free memory:		30975.2 MB
 Total memory:		32062.8 MB
 --------------------------------------------------------------------------------
 Domain:			1
 Processors:		( 9 45 10 46 11 47 12 48 13 49 14 50 15 51 16 52 17 53 )
 Distances:		21 10 31 31
-Free memory:		31564.6 MB
+Free memory:		31641.8 MB
 Total memory:		32231.5 MB
 --------------------------------------------------------------------------------
 Domain:			2
 Processors:		( 18 54 19 55 20 56 21 57 22 58 23 59 24 60 25 61 26 62 )
 Distances:		31 31 10 21
-Free memory:		32092.5 MB
+Free memory:		32084.9 MB
 Total memory:		32252.6 MB
 --------------------------------------------------------------------------------
 Domain:			3
 Processors:		( 27 63 28 64 29 65 30 66 31 67 32 68 33 69 34 70 35 71 )
 Distances:		31 31 21 10
-Free memory:		32022.9 MB
+Free memory:		32018.5 MB
 Total memory:		32251.1 MB
 --------------------------------------------------------------------------------
 
@@ -416,16 +413,16 @@ Total memory:		32251.1 MB
 available: 4 nodes (0-3)
 node 0 cpus: 0 1 2 3 4 5 6 7 8 36 37 38 39 40 41 42 43 44
 node 0 size: 32062 MB
-node 0 free: 31107 MB
+node 0 free: 30975 MB
 node 1 cpus: 9 10 11 12 13 14 15 16 17 45 46 47 48 49 50 51 52 53
 node 1 size: 32231 MB
-node 1 free: 31574 MB
+node 1 free: 31651 MB
 node 2 cpus: 18 19 20 21 22 23 24 25 26 54 55 56 57 58 59 60 61 62
 node 2 size: 32252 MB
-node 2 free: 32092 MB
+node 2 free: 32084 MB
 node 3 cpus: 27 28 29 30 31 32 33 34 35 63 64 65 66 67 68 69 70 71
 node 3 size: 32251 MB
-node 3 free: 32022 MB
+node 3 free: 32018 MB
 node distances:
 node   0   1   2   3
   0:  10  21  31  31
@@ -437,78 +434,78 @@ node   0   1   2   3
 # Frequencies
 ################################################################################
 Current CPU frequencies:
-CPU 0: governor  performance min/cur/max 2.3/1.980/2.3 GHz Turbo 0
-CPU 1: governor  performance min/cur/max 2.3/2.221/2.3 GHz Turbo 0
-CPU 2: governor  performance min/cur/max 2.3/2.210/2.3 GHz Turbo 0
-CPU 3: governor  performance min/cur/max 2.3/2.208/2.3 GHz Turbo 0
-CPU 4: governor  performance min/cur/max 2.3/2.176/2.3 GHz Turbo 0
-CPU 5: governor  performance min/cur/max 2.3/1.895/2.3 GHz Turbo 0
-CPU 6: governor  performance min/cur/max 2.3/1.329/2.3 GHz Turbo 0
-CPU 7: governor  performance min/cur/max 2.3/2.298/2.3 GHz Turbo 0
-CPU 8: governor  performance min/cur/max 2.3/2.297/2.3 GHz Turbo 0
-CPU 9: governor  performance min/cur/max 2.3/2.298/2.3 GHz Turbo 0
-CPU 10: governor  performance min/cur/max 2.3/2.298/2.3 GHz Turbo 0
-CPU 11: governor  performance min/cur/max 2.3/2.297/2.3 GHz Turbo 0
-CPU 12: governor  performance min/cur/max 2.3/2.298/2.3 GHz Turbo 0
-CPU 13: governor  performance min/cur/max 2.3/2.297/2.3 GHz Turbo 0
-CPU 14: governor  performance min/cur/max 2.3/2.297/2.3 GHz Turbo 0
-CPU 15: governor  performance min/cur/max 2.3/2.297/2.3 GHz Turbo 0
-CPU 16: governor  performance min/cur/max 2.3/2.298/2.3 GHz Turbo 0
-CPU 17: governor  performance min/cur/max 2.3/2.297/2.3 GHz Turbo 0
-CPU 18: governor  performance min/cur/max 2.3/2.297/2.3 GHz Turbo 0
-CPU 19: governor  performance min/cur/max 2.3/2.297/2.3 GHz Turbo 0
-CPU 20: governor  performance min/cur/max 2.3/2.297/2.3 GHz Turbo 0
-CPU 21: governor  performance min/cur/max 2.3/2.297/2.3 GHz Turbo 0
-CPU 22: governor  performance min/cur/max 2.3/2.292/2.3 GHz Turbo 0
-CPU 23: governor  performance min/cur/max 2.3/2.296/2.3 GHz Turbo 0
-CPU 24: governor  performance min/cur/max 2.3/2.278/2.3 GHz Turbo 0
-CPU 25: governor  performance min/cur/max 2.3/2.297/2.3 GHz Turbo 0
-CPU 26: governor  performance min/cur/max 2.3/2.290/2.3 GHz Turbo 0
-CPU 27: governor  performance min/cur/max 2.3/2.297/2.3 GHz Turbo 0
-CPU 28: governor  performance min/cur/max 2.3/2.292/2.3 GHz Turbo 0
-CPU 29: governor  performance min/cur/max 2.3/2.297/2.3 GHz Turbo 0
-CPU 30: governor  performance min/cur/max 2.3/2.297/2.3 GHz Turbo 0
-CPU 31: governor  performance min/cur/max 2.3/2.297/2.3 GHz Turbo 0
-CPU 32: governor  performance min/cur/max 2.3/2.291/2.3 GHz Turbo 0
-CPU 33: governor  performance min/cur/max 2.3/2.260/2.3 GHz Turbo 0
-CPU 34: governor  performance min/cur/max 2.3/2.293/2.3 GHz Turbo 0
-CPU 35: governor  performance min/cur/max 2.3/2.298/2.3 GHz Turbo 0
-CPU 36: governor  performance min/cur/max 2.3/2.147/2.3 GHz Turbo 0
-CPU 37: governor  performance min/cur/max 2.3/1.246/2.3 GHz Turbo 0
-CPU 38: governor  performance min/cur/max 2.3/2.249/2.3 GHz Turbo 0
-CPU 39: governor  performance min/cur/max 2.3/1.469/2.3 GHz Turbo 0
-CPU 40: governor  performance min/cur/max 2.3/1.763/2.3 GHz Turbo 0
-CPU 41: governor  performance min/cur/max 2.3/1.864/2.3 GHz Turbo 0
-CPU 42: governor  performance min/cur/max 2.3/2.231/2.3 GHz Turbo 0
-CPU 43: governor  performance min/cur/max 2.3/1.434/2.3 GHz Turbo 0
-CPU 44: governor  performance min/cur/max 2.3/2.242/2.3 GHz Turbo 0
-CPU 45: governor  performance min/cur/max 2.3/2.038/2.3 GHz Turbo 0
-CPU 46: governor  performance min/cur/max 2.3/1.858/2.3 GHz Turbo 0
-CPU 47: governor  performance min/cur/max 2.3/2.247/2.3 GHz Turbo 0
-CPU 48: governor  performance min/cur/max 2.3/2.218/2.3 GHz Turbo 0
-CPU 49: governor  performance min/cur/max 2.3/2.277/2.3 GHz Turbo 0
-CPU 50: governor  performance min/cur/max 2.3/1.234/2.3 GHz Turbo 0
-CPU 51: governor  performance min/cur/max 2.3/1.504/2.3 GHz Turbo 0
-CPU 52: governor  performance min/cur/max 2.3/2.187/2.3 GHz Turbo 0
-CPU 53: governor  performance min/cur/max 2.3/2.123/2.3 GHz Turbo 0
-CPU 54: governor  performance min/cur/max 2.3/2.297/2.3 GHz Turbo 0
-CPU 55: governor  performance min/cur/max 2.3/2.297/2.3 GHz Turbo 0
-CPU 56: governor  performance min/cur/max 2.3/2.297/2.3 GHz Turbo 0
-CPU 57: governor  performance min/cur/max 2.3/2.300/2.3 GHz Turbo 0
-CPU 58: governor  performance min/cur/max 2.3/2.297/2.3 GHz Turbo 0
-CPU 59: governor  performance min/cur/max 2.3/2.297/2.3 GHz Turbo 0
-CPU 60: governor  performance min/cur/max 2.3/2.297/2.3 GHz Turbo 0
-CPU 61: governor  performance min/cur/max 2.3/2.297/2.3 GHz Turbo 0
-CPU 62: governor  performance min/cur/max 2.3/2.297/2.3 GHz Turbo 0
-CPU 63: governor  performance min/cur/max 2.3/2.297/2.3 GHz Turbo 0
-CPU 64: governor  performance min/cur/max 2.3/2.297/2.3 GHz Turbo 0
-CPU 65: governor  performance min/cur/max 2.3/2.297/2.3 GHz Turbo 0
-CPU 66: governor  performance min/cur/max 2.3/2.244/2.3 GHz Turbo 0
-CPU 67: governor  performance min/cur/max 2.3/2.294/2.3 GHz Turbo 0
-CPU 68: governor  performance min/cur/max 2.3/2.280/2.3 GHz Turbo 0
-CPU 69: governor  performance min/cur/max 2.3/2.290/2.3 GHz Turbo 0
-CPU 70: governor  performance min/cur/max 2.3/2.297/2.3 GHz Turbo 0
-CPU 71: governor  performance min/cur/max 2.3/2.297/2.3 GHz Turbo 0
+CPU 0: governor  performance min/cur/max 2.3/1.239583/2.3 GHz Turbo 0
+CPU 1: governor  performance min/cur/max 2.3/2.171504/2.3 GHz Turbo 0
+CPU 2: governor  performance min/cur/max 2.3/2.198535/2.3 GHz Turbo 0
+CPU 3: governor  performance min/cur/max 2.3/2.197893/2.3 GHz Turbo 0
+CPU 4: governor  performance min/cur/max 2.3/2.163855/2.3 GHz Turbo 0
+CPU 5: governor  performance min/cur/max 2.3/2.113443/2.3 GHz Turbo 0
+CPU 6: governor  performance min/cur/max 2.3/2.010599/2.3 GHz Turbo 0
+CPU 7: governor  performance min/cur/max 2.3/2.163576/2.3 GHz Turbo 0
+CPU 8: governor  performance min/cur/max 2.3/2.170401/2.3 GHz Turbo 0
+CPU 9: governor  performance min/cur/max 2.3/1.835554/2.3 GHz Turbo 0
+CPU 10: governor  performance min/cur/max 2.3/1.805225/2.3 GHz Turbo 0
+CPU 11: governor  performance min/cur/max 2.3/2.141672/2.3 GHz Turbo 0
+CPU 12: governor  performance min/cur/max 2.3/1.954263/2.3 GHz Turbo 0
+CPU 13: governor  performance min/cur/max 2.3/2.151353/2.3 GHz Turbo 0
+CPU 14: governor  performance min/cur/max 2.3/2.166038/2.3 GHz Turbo 0
+CPU 15: governor  performance min/cur/max 2.3/2.064812/2.3 GHz Turbo 0
+CPU 16: governor  performance min/cur/max 2.3/1.916475/2.3 GHz Turbo 0
+CPU 17: governor  performance min/cur/max 2.3/2.156363/2.3 GHz Turbo 0
+CPU 18: governor  performance min/cur/max 2.3/2.296409/2.3 GHz Turbo 0
+CPU 19: governor  performance min/cur/max 2.3/2.293292/2.3 GHz Turbo 0
+CPU 20: governor  performance min/cur/max 2.3/2.27705/2.3 GHz Turbo 0
+CPU 21: governor  performance min/cur/max 2.3/2.293381/2.3 GHz Turbo 0
+CPU 22: governor  performance min/cur/max 2.3/2.296391/2.3 GHz Turbo 0
+CPU 23: governor  performance min/cur/max 2.3/2.295577/2.3 GHz Turbo 0
+CPU 24: governor  performance min/cur/max 2.3/2.294632/2.3 GHz Turbo 0
+CPU 25: governor  performance min/cur/max 2.3/2.281865/2.3 GHz Turbo 0
+CPU 26: governor  performance min/cur/max 2.3/2.296777/2.3 GHz Turbo 0
+CPU 27: governor  performance min/cur/max 2.3/2.297656/2.3 GHz Turbo 0
+CPU 28: governor  performance min/cur/max 2.3/2.238986/2.3 GHz Turbo 0
+CPU 29: governor  performance min/cur/max 2.3/2.297654/2.3 GHz Turbo 0
+CPU 30: governor  performance min/cur/max 2.3/2.286503/2.3 GHz Turbo 0
+CPU 31: governor  performance min/cur/max 2.3/2.280841/2.3 GHz Turbo 0
+CPU 32: governor  performance min/cur/max 2.3/2.128666/2.3 GHz Turbo 0
+CPU 33: governor  performance min/cur/max 2.3/2.110375/2.3 GHz Turbo 0
+CPU 34: governor  performance min/cur/max 2.3/2.297617/2.3 GHz Turbo 0
+CPU 35: governor  performance min/cur/max 2.3/2.297965/2.3 GHz Turbo 0
+CPU 36: governor  performance min/cur/max 2.3/2.100497/2.3 GHz Turbo 0
+CPU 37: governor  performance min/cur/max 2.3/2.236966/2.3 GHz Turbo 0
+CPU 38: governor  performance min/cur/max 2.3/2.201408/2.3 GHz Turbo 0
+CPU 39: governor  performance min/cur/max 2.3/2.210978/2.3 GHz Turbo 0
+CPU 40: governor  performance min/cur/max 2.3/1.844018/2.3 GHz Turbo 0
+CPU 41: governor  performance min/cur/max 2.3/1.852203/2.3 GHz Turbo 0
+CPU 42: governor  performance min/cur/max 2.3/2.137873/2.3 GHz Turbo 0
+CPU 43: governor  performance min/cur/max 2.3/2.187782/2.3 GHz Turbo 0
+CPU 44: governor  performance min/cur/max 2.3/2.209437/2.3 GHz Turbo 0
+CPU 45: governor  performance min/cur/max 2.3/2.120129/2.3 GHz Turbo 0
+CPU 46: governor  performance min/cur/max 2.3/1.911039/2.3 GHz Turbo 0
+CPU 47: governor  performance min/cur/max 2.3/2.193017/2.3 GHz Turbo 0
+CPU 48: governor  performance min/cur/max 2.3/2.123499/2.3 GHz Turbo 0
+CPU 49: governor  performance min/cur/max 2.3/2.188081/2.3 GHz Turbo 0
+CPU 50: governor  performance min/cur/max 2.3/2.191538/2.3 GHz Turbo 0
+CPU 51: governor  performance min/cur/max 2.3/2.158977/2.3 GHz Turbo 0
+CPU 52: governor  performance min/cur/max 2.3/2.033372/2.3 GHz Turbo 0
+CPU 53: governor  performance min/cur/max 2.3/2.188506/2.3 GHz Turbo 0
+CPU 54: governor  performance min/cur/max 2.3/2.293479/2.3 GHz Turbo 0
+CPU 55: governor  performance min/cur/max 2.3/2.291367/2.3 GHz Turbo 0
+CPU 56: governor  performance min/cur/max 2.3/2.293209/2.3 GHz Turbo 0
+CPU 57: governor  performance min/cur/max 2.3/2.293737/2.3 GHz Turbo 0
+CPU 58: governor  performance min/cur/max 2.3/2.291393/2.3 GHz Turbo 0
+CPU 59: governor  performance min/cur/max 2.3/2.277834/2.3 GHz Turbo 0
+CPU 60: governor  performance min/cur/max 2.3/2.292952/2.3 GHz Turbo 0
+CPU 61: governor  performance min/cur/max 2.3/2.295737/2.3 GHz Turbo 0
+CPU 62: governor  performance min/cur/max 2.3/2.295702/2.3 GHz Turbo 0
+CPU 63: governor  performance min/cur/max 2.3/2.297515/2.3 GHz Turbo 0
+CPU 64: governor  performance min/cur/max 2.3/2.180108/2.3 GHz Turbo 0
+CPU 65: governor  performance min/cur/max 2.3/2.297411/2.3 GHz Turbo 0
+CPU 66: governor  performance min/cur/max 2.3/2.134561/2.3 GHz Turbo 0
+CPU 67: governor  performance min/cur/max 2.3/2.288828/2.3 GHz Turbo 0
+CPU 68: governor  performance min/cur/max 2.3/2.287388/2.3 GHz Turbo 0
+CPU 69: governor  performance min/cur/max 2.3/2.294808/2.3 GHz Turbo 0
+CPU 70: governor  performance min/cur/max 2.3/2.29745/2.3 GHz Turbo 0
+CPU 71: governor  performance min/cur/max 2.3/2.297432/2.3 GHz Turbo 0
 
 Current Uncore frequencies:
 Socket 0: min/max 2.3/2.3 GHz
@@ -541,7 +538,7 @@ TM2                   off	off	off	off	off	off	off	off	off	off	off	off	off	off	of
 ################################################################################
 # Load
 ################################################################################
-3.77 3.27 2.01 1/768 72615
+2.39 1.91 1.51 1/766 42830
 
 ################################################################################
 # Performance energy bias
@@ -557,36 +554,36 @@ Enabled: 0
 # General memory info
 ################################################################################
 MemTotal:       131889124 kB
-MemFree:        129836584 kB
-MemAvailable:   129724968 kB
-Buffers:           30464 kB
-Cached:           539132 kB
+MemFree:        129769100 kB
+MemAvailable:   129704500 kB
+Buffers:           28184 kB
+Cached:           580100 kB
 SwapCached:            0 kB
-Active:           448432 kB
-Inactive:         168600 kB
-Active(anon):      47732 kB
+Active:           386132 kB
+Inactive:         271044 kB
+Active(anon):      49176 kB
 Inactive(anon):     1628 kB
-Active(file):     400700 kB
-Inactive(file):   166972 kB
+Active(file):     336956 kB
+Inactive(file):   269416 kB
 Unevictable:           0 kB
 Mlocked:               0 kB
 SwapTotal:      67043324 kB
 SwapFree:       67043324 kB
-Dirty:               404 kB
+Dirty:               160 kB
 Writeback:             0 kB
-AnonPages:         47128 kB
-Mapped:            63712 kB
-Shmem:              1916 kB
-Slab:             627484 kB
-SReclaimable:     246332 kB
-SUnreclaim:       381152 kB
-KernelStack:       13456 kB
-PageTables:         3544 kB
+AnonPages:         48924 kB
+Mapped:            57464 kB
+Shmem:              1920 kB
+Slab:             654932 kB
+SReclaimable:     262964 kB
+SUnreclaim:       391968 kB
+KernelStack:       13408 kB
+PageTables:         3476 kB
 NFS_Unstable:          0 kB
 Bounce:                0 kB
 WritebackTmp:          0 kB
 CommitLimit:    132987884 kB
-Committed_AS:     276944 kB
+Committed_AS:     297876 kB
 VmallocTotal:   34359738367 kB
 VmallocUsed:           0 kB
 VmallocChunk:          0 kB
@@ -601,9 +598,9 @@ HugePages_Free:        0
 HugePages_Rsvd:        0
 HugePages_Surp:        0
 Hugepagesize:       2048 kB
-DirectMap4k:      764672 kB
-DirectMap2M:    31612928 kB
-DirectMap1G:    103809024 kB
+DirectMap4k:      781056 kB
+DirectMap2M:    33693696 kB
+DirectMap1G:    101711872 kB
 
 ################################################################################
 # Transparent huge pages
@@ -1765,26 +1762,26 @@ Onboard Device
 ################################################################################
 PBS_ENVIRONMENT=PBS_BATCH
 LS_COLORS=
-LD_LIBRARY_PATH=/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/compiler/lib/intel64:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/compiler/lib/intel64_lin:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/ipp/lib/intel64:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/tbb/lib/intel64/gcc4.7:/apps/intel/ComposerXE2019/debugger_2019/libipt/intel64/lib:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/daal/lib/intel64_lin:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/tbb/lib/intel64_lin/gcc4.4:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mkl/lib/intel64_lin:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mpi/intel64/libfabric/lib:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mpi/intel64/lib/release:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mpi/intel64/lib:/mnt/opt/likwid-4.3.4/lib
+LD_LIBRARY_PATH=/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/compiler/lib/intel64:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/compiler/lib/intel64_lin:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/ipp/lib/intel64:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/tbb/lib/intel64/gcc4.7:/apps/intel/ComposerXE2019/debugger_2019/libipt/intel64/lib:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/daal/lib/intel64_lin:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/tbb/lib/intel64_lin/gcc4.4:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mkl/lib/intel64_lin:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mpi/intel64/libfabric/lib:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mpi/intel64/lib/release:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mpi/intel64/lib:/mnt/opt/likwid-4.3-dev/lib
 PBS_O_LANG=en_US
 MKL_INC=-I/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mkl/include
 INCLUDE=/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mkl/include
 LESSCLOSE=/bin/lesspipe %s %s
 MKL_SHLIB=-L/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mkl/lib/intel64_lin -lmkl_intel_lp64 -lmkl_sequential -lmkl_core -lpthread -lm
 LESS=-R
-LIKWID_LIBDIR=/mnt/opt/likwid-4.3.4/lib
+LIKWID_LIBDIR=/mnt/opt/likwid-4.3-dev/lib
 I_MPI_JOB_RESPECT_PROCESS_PLACEMENT=off
 IPPROOT=/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/ipp
-OLDPWD=/home/hpc/iwia/iwia84/INSPECT-repo/stencils/5D_r1_isotropic_box_constant/solar_split_y/BroadwellEP_E5-2697_CoD_20190627_170010
+OLDPWD=/home/hpc/iwia/iwia84/INSPECT-repo/stencils/3D_r3_heterogeneous_star_variable/BroadwellEP_E5-2697_CoD_20190709_181335
 PBS_O_HOME=/home/hpc/iwia/iwia84
 MPICHHOME=/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mpi/intel64
 RRZECLUSTER=TESTCLUSTER
 EDITOR=nano
-PBS_JOBID=4398.catstor
+PBS_JOBID=4559.catstor
 ENVIRONMENT=BATCH
-PATH_modshare=/usr/bin/vendor_perl:999999999:/home/julian/.local/.bin:999999999:/opt/android-sdk/tools:999999999:/usr/bin:1:/mnt/opt/likwid-4.3.4/sbin:1:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mpi/intel64/bin:1:/usr/local/bin:999999999:/opt/android-sdk/platform-tools:999999999:/usr/bin/core_perl:999999999:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/bin/intel64:1:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mpi/rrze-bin-intel:1:/mnt/opt/likwid-4.3.4/bin:1:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mpi/intel64/libfabric/bin:1:/home/julian/.bin:999999999:/bin:1:/apps/python/3.6-anaconda/bin:1:/opt/intel/bin:999999999
+PATH_modshare=/usr/bin/vendor_perl:999999999:/home/julian/.local/.bin:999999999:/opt/android-sdk/tools:999999999:/usr/bin:1:/mnt/opt/likwid-4.3-dev/bin:1:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mpi/intel64/bin:1:/usr/local/bin:999999999:/opt/android-sdk/platform-tools:999999999:/usr/bin/core_perl:999999999:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/bin/intel64:1:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mpi/rrze-bin-intel:1:/home/julian/.bin:999999999:/bin:1:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mpi/intel64/libfabric/bin:1:/apps/python/3.6-anaconda/bin:1:/mnt/opt/likwid-4.3-dev/sbin:1:/opt/intel/bin:999999999
 MPIHOME=/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mpi/intel64
-LOADEDMODULES_modshare=intel64/19.0up02:1:intelmpi/2019up02-intel:1:python/3.6-anaconda:1:mkl/2019up02:1:likwid/4.3.4:1:pbspro/default:2
+LOADEDMODULES_modshare=intel64/19.0up02:1:likwid/4.3-dev:1:intelmpi/2019up02-intel:1:python/3.6-anaconda:1:mkl/2019up02:1:pbspro/default:2
 PBS_JOBNAME=BDW_stempel_bench
 FPATH=/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mkl/include
 NCPUS=72
@@ -1792,12 +1789,12 @@ FPATH_modshare=/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/lin
 INTEL_F_HOME=/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/compiler
 CPATH_modshare=/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/ipp/include:1:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/daal/include:1:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/pstl/include:1:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/tbb/include:1:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mkl/include:1
 WOODYHOME=/home/woody/iwia/iwia84
-PBS_O_PATH=/mnt/opt/pbspro/default/bin:/apps/python/3.6-anaconda/bin:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/bin/intel64:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mpi/rrze-bin-intel:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mpi/intel64/bin:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mpi/intel64/libfabric/bin:/mnt/opt/likwid-4.3.4/sbin:/mnt/opt/likwid-4.3.4/bin:/bin:/usr/bin:/usr/local/bin:/opt/android-sdk/platform-tools:/opt/android-sdk/tools:/usr/bin/vendor_perl:/usr/bin/core_perl:/opt/intel/bin:/home/julian/.bin:/home/julian/.local/.bin
+PBS_O_PATH=/mnt/opt/pbspro/default/bin:/apps/python/3.6-anaconda/bin:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/bin/intel64:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mpi/rrze-bin-intel:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mpi/intel64/bin:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mpi/intel64/libfabric/bin:/mnt/opt/likwid-4.3-dev/sbin:/mnt/opt/likwid-4.3-dev/bin:/bin:/usr/bin:/usr/local/bin:/opt/android-sdk/platform-tools:/opt/android-sdk/tools:/usr/bin/vendor_perl:/usr/bin/core_perl:/opt/intel/bin:/home/julian/.bin:/home/julian/.local/.bin
 LIKWID_FORCE=1
 FI_PROVIDER_PATH=/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mpi/intel64/libfabric/lib/prov
 INTEL_PYTHONHOME=/apps/intel/ComposerXE2019/debugger_2019/python/intel64/
 MKL_INCDIR=/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mkl/include
-LD_LIBRARY_PATH_modshare=/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/tbb/lib/intel64/gcc4.7:1:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mpi/intel64/lib:1:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mpi/intel64/lib/release:1:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/ipp/lib/intel64:1:/mnt/opt/likwid-4.3.4/lib:1:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mpi/intel64/libfabric/lib:1:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/compiler/lib/intel64:1:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/daal/lib/intel64_lin:1:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/compiler/lib/intel64_lin:1:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mkl/lib/intel64_lin:1:/apps/intel/ComposerXE2019/debugger_2019/libipt/intel64/lib:1:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/tbb/lib/intel64_lin/gcc4.4:1
+LD_LIBRARY_PATH_modshare=/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/tbb/lib/intel64/gcc4.7:1:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mpi/intel64/lib:1:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mpi/intel64/lib/release:1:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/ipp/lib/intel64:1:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mpi/intel64/libfabric/lib:1:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/compiler/lib/intel64:1:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/daal/lib/intel64_lin:1:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/compiler/lib/intel64_lin:1:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mkl/lib/intel64_lin:1:/apps/intel/ComposerXE2019/debugger_2019/libipt/intel64/lib:1:/mnt/opt/likwid-4.3-dev/lib:1:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/tbb/lib/intel64_lin/gcc4.4:1
 LESS_TERMCAP_so=[1;44;1m
 CLASSPATH=/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/daal/lib/daal.jar:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mpi/intel64/lib/mpi.jar
 PBS_CONF_FILE=/etc/pbspro.conf
@@ -1808,21 +1805,21 @@ USER=iwia84
 MPIINCDIR=/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mpi/intel64/include
 I_MPI_HARD_FINALIZE=1
 NLSPATH_modshare=/apps/intel/ComposerXE2019/debugger_2019/gdb/intel64/share/locale/%l_%t/%N:1:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mkl/lib/intel64_lin/locale/%l_%t/%N:1:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/compiler/lib/intel64/locale/%l_%t/%N:1
-PBS_NODEFILE=/var/spool/pbspro/aux/4398.catstor
+PBS_NODEFILE=/var/spool/pbspro/aux/4559.catstor
 GROUP=iwia
 PBS_TASKNUM=1
 I_MPI_OFA_ADAPTER_NAME=mlx4_0
 LIKWID_DEFINES=-DLIKWID_PERFMON
-PWD=/home/hpc/iwia/iwia84/INSPECT-repo/stencils/5D_r1_isotropic_box_constant/solar_split_z/BroadwellEP_E5-2697_CoD_20190627_182112
+PWD=/home/hpc/iwia/iwia84/INSPECT-repo/stencils/3D_r3_homogeneous_star_variable/BroadwellEP_E5-2697_CoD_20190709_182548
 HOME=/home/hpc/iwia/iwia84
-LIKWID_LIB=-L/mnt/opt/likwid-4.3.4/lib
+LIKWID_LIB=-L/mnt/opt/likwid-4.3-dev/lib
 CLASSPATH_modshare=/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/daal/lib/daal.jar:1:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mpi/intel64/lib/mpi.jar:1
 CPATH=/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/ipp/include:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/pstl/include:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/tbb/include:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/daal/include:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mkl/include
 PBS_MOMPORT=15003
-LIKWID_INCDIR=/mnt/opt/likwid-4.3.4/include
-_LMFILES__modshare=/apps/modules/modulefiles/tools/python/3.6-anaconda:1:/apps/modules/modulefiles/libraries/mkl/2019up02:2:/opt/modules/modulefiles/testcluster/likwid/4.3.4:1:/opt/modules/modulefiles/testcluster/pbspro/default:2:/apps/modules/modulefiles/development/intelmpi/2019up02-intel:1
+LIKWID_INCDIR=/mnt/opt/likwid-4.3-dev/include
+_LMFILES__modshare=/apps/modules/modulefiles/tools/python/3.6-anaconda:1:/apps/modules/modulefiles/libraries/mkl/2019up02:2:/opt/modules/modulefiles/testcluster/pbspro/default:2:/apps/modules/modulefiles/development/intelmpi/2019up02-intel:1:/opt/modules/modulefiles/testcluster/likwid/4.3-dev:1
 NLSPATH=/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/compiler/lib/intel64/locale/%l_%t/%N:/apps/intel/ComposerXE2019/debugger_2019/gdb/intel64/share/locale/%l_%t/%N:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mkl/lib/intel64_lin/locale/%l_%t/%N
-PBS_JOBCOOKIE=51A95A5A5D3FFB120317782C52E32F82
+PBS_JOBCOOKIE=5653251A583D5B782F96545B566D07AE
 MKL_LIBDIR=/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mkl/lib/intel64_lin
 PBS_O_SHELL=/bin/bash
 MPIINC=-I/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mpi/intel64/include
@@ -1830,10 +1827,10 @@ MKL_LIB_THREADED=-Wl,--start-group  /apps/intel/ComposerXE2019/compilers_and_lib
 LESS_TERMCAP_mb=[1;32m
 LESS_TERMCAP_md=[1;34m
 LESS_TERMCAP_me=[0m
-TMPDIR=/scratch/pbs.4398.catstor
+TMPDIR=/scratch/pbs.4559.catstor
 LIBRARY_PATH=/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/ipp/lib/intel64:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/compiler/lib/intel64_lin:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/tbb/lib/intel64/gcc4.7:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/daal/lib/intel64_lin:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/tbb/lib/intel64_lin/gcc4.4:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mkl/lib/intel64_lin
-LIKWID_INC=-I/mnt/opt/likwid-4.3.4/include
-LOADEDMODULES=pbspro/default:likwid/4.3.4:intelmpi/2019up02-intel:mkl/2019up02:intel64/19.0up02:python/3.6-anaconda
+LIKWID_INC=-I/mnt/opt/likwid-4.3-dev/include
+LOADEDMODULES=pbspro/default:likwid/4.3-dev:intelmpi/2019up02-intel:mkl/2019up02:intel64/19.0up02:python/3.6-anaconda
 DAALROOT=/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/daal
 MPILIB=-L/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mpi/intel64/lib
 PBS_CONF=/etc/pbspro.conf
@@ -1843,7 +1840,7 @@ PBS_O_QUEUE=route
 MKL_CDFT=-Wl,--start-group  /apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mkl/lib/intel64_lin/libmkl_cdft_core.a /apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mkl/lib/intel64_lin/libmkl_intel_lp64.a /apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mkl/lib/intel64_lin/libmkl_intel_thread.a /apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mkl/lib/intel64_lin/libmkl_core.a /apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mkl/lib/intel64_lin/libmkl_blacs_intelmpi_lp64.a -Wl,--end-group -lpthread -lm -openmp
 SHELL=/bin/bash
 MKL_BASE=/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mkl
-MANPATH_modshare=:1:/mnt/opt/pbspro/default/man:2:/apps/python/3.6-anaconda/share/man:1:/apps/intel/ComposerXE2019/documentation_2019/en/debugger/gdb-ia/man/:1:/apps/intel/ComposerXE2019/man/common:2:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mpi/man:2:/apps/intel/mpi/man:1:/mnt/opt/likwid-4.3.4/man:1
+MANPATH_modshare=:1:/mnt/opt/likwid-4.3-dev/man:1:/mnt/opt/pbspro/default/man:2:/apps/python/3.6-anaconda/share/man:1:/apps/intel/ComposerXE2019/documentation_2019/en/debugger/gdb-ia/man/:1:/apps/intel/ComposerXE2019/man/common:2:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mpi/man:2:/apps/intel/mpi/man:1
 MKL_SLIB_THREADED=-Wl,--start-group -lmkl_intel_lp64 -lmkl_intel_thread -lmkl_core -Wl,--end-group -lpthread -lm -openmp
 MKLPATH=/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mkl/lib/intel64_lin
 GDK_USE_XFT=1
@@ -1852,7 +1849,7 @@ SHLVL=3
 PBS_O_HOST=testfront1.rrze.uni-erlangen.de
 INTEL_C_HOME=/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/compiler
 PBS_O_SYSTEM=Linux
-MANPATH=/apps/python/3.6-anaconda/share/man:/apps/intel/ComposerXE2019/documentation_2019/en/debugger/gdb-ia/man/:/apps/intel/ComposerXE2019/man/common::/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mpi/man:/apps/intel/mpi/man:/mnt/opt/likwid-4.3.4/man:/mnt/opt/pbspro/default/man
+MANPATH=/apps/python/3.6-anaconda/share/man:/apps/intel/ComposerXE2019/documentation_2019/en/debugger/gdb-ia/man/:/apps/intel/ComposerXE2019/man/common::/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mpi/man:/apps/intel/mpi/man:/mnt/opt/likwid-4.3-dev/man:/mnt/opt/pbspro/default/man
 MKL_LIB=-Wl,--start-group /apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mkl/lib/intel64_lin/libmkl_intel_lp64.a /apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mkl/lib/intel64_lin/libmkl_sequential.a /apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mkl/lib/intel64_lin/libmkl_core.a -Wl,--end-group -lpthread -lm
 PBS_O_LOGNAME=iwia84
 PBS_NODENUM=0
@@ -1865,9 +1862,9 @@ MODULEPATH_modshare=/apps/modules/modulefiles/testing:2:/apps/modules/modulefile
 LESS_TERMCAP_ue=[0m
 PSTLROOT=/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/pstl
 LESS_TERMCAP_us=[1;32m
-PATH=/apps/python/3.6-anaconda/bin:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/bin/intel64:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mpi/rrze-bin-intel:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mpi/intel64/bin:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mpi/intel64/libfabric/bin:/mnt/opt/likwid-4.3.4/sbin:/mnt/opt/likwid-4.3.4/bin:/bin:/usr/bin:/usr/local/bin:/opt/android-sdk/platform-tools:/opt/android-sdk/tools:/usr/bin/vendor_perl:/usr/bin/core_perl:/opt/intel/bin:/home/julian/.bin:/home/julian/.local/.bin
+PATH=/apps/python/3.6-anaconda/bin:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/bin/intel64:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mpi/rrze-bin-intel:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mpi/intel64/bin:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mpi/intel64/libfabric/bin:/mnt/opt/likwid-4.3-dev/sbin:/mnt/opt/likwid-4.3-dev/bin:/bin:/usr/bin:/usr/local/bin:/opt/android-sdk/platform-tools:/opt/android-sdk/tools:/usr/bin/vendor_perl:/usr/bin/core_perl:/opt/intel/bin:/home/julian/.bin:/home/julian/.local/.bin
 TBBROOT=/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/tbb
-_LMFILES_=/opt/modules/modulefiles/testcluster/pbspro/default:/opt/modules/modulefiles/testcluster/likwid/4.3.4:/apps/modules/modulefiles/development/intelmpi/2019up02-intel:/apps/modules/modulefiles/libraries/mkl/2019up02:/apps/modules/modulefiles/tools/python/3.6-anaconda
+_LMFILES_=/opt/modules/modulefiles/testcluster/pbspro/default:/opt/modules/modulefiles/testcluster/likwid/4.3-dev:/apps/modules/modulefiles/development/intelmpi/2019up02-intel:/apps/modules/modulefiles/libraries/mkl/2019up02:/apps/modules/modulefiles/tools/python/3.6-anaconda
 PBS_QUEUE=work
 MODULESHOME=/apps/modules
 INFOPATH=/apps/intel/ComposerXE2019/documentation_2019/en/debugger/gdb-ia/info/
