@@ -42,9 +42,7 @@ Filter available stencil data by categories or by collapsing levels:
 <details class="dim{{dim}}" open>
 <summary>{{dim}}</summary>
 {%- for rad in rads %}
-{%- capture basename_rad -%}
-stencils/{{dim}}
-{%- endcapture -%}
+{%- assign basename_rad = 'stencils/' | append: dim | append: '/' -%}
 {% assign has_rad = false %}
 {%- for page in site.pages %}
 {%- if page.url contains basename_rad -%}
@@ -58,9 +56,7 @@ stencils/{{dim}}
 <details class="rad{{rad}}" open>
 <summary>{{rad}}</summary>
 {%- for weight in weights %}
-{%- capture basename_weight -%}
-stencils/{{dim}}/{{rad}}/{{weight}}
-{%- endcapture -%}
+{%- assign basename_weight = basename_rad | append: rad | append: '/' | append: weight | append: '/' -%}
 {% assign has_weight = false %}
 {%- for page in site.pages %}
 {%- if page.url contains basename_weight -%}
@@ -74,9 +70,7 @@ stencils/{{dim}}/{{rad}}/{{weight}}
 <details class="weight{{weight}}" open>
 <summary>{{weight}}</summary>
 {%- for kind in kinds %}
-{%- capture basename_kind -%}
-stencils/{{dim}}/{{rad}}/{{weight}}/{{kind}}
-{%- endcapture -%}
+{%- assign basename_kind = basename_weight | append: kind | append: '/' -%}
 {% assign has_kind = false %}
 {%- for page in site.pages %}
 {%- if page.url contains basename_kind -%}
@@ -90,9 +84,7 @@ stencils/{{dim}}/{{rad}}/{{weight}}/{{kind}}
 <details class="kind{{kind}}" open>
 <summary>{{kind}}</summary>
 {%- for coeff in coeffs %}
-{%- capture basename_coeff -%}
-stencils/{{dim}}/{{rad}}/{{weight}}/{{kind}}/{{coeff}}
-{%- endcapture -%}
+{%- assign basename_coeff = basename_kind | append: coeff | append: '/' -%}
 {% assign has_coeff = false %}
 {%- for page in site.pages %}
 {%- if page.url contains basename_coeff -%}
@@ -106,9 +98,7 @@ stencils/{{dim}}/{{rad}}/{{weight}}/{{kind}}/{{coeff}}
 <details class="coeff{{coeff}}" open>
 <summary>{{coeff}}</summary>
 {%- for dt in dts %}
-{%- capture basename_dt -%}
-stencils/{{dim}}/{{rad}}/{{weight}}/{{kind}}/{{coeff}}/{{dt}}
-{%- endcapture -%}
+{%- assign basename_dt = basename_coeff | append: dt | append: '/' -%}
 {% assign has_dt = false %}
 {%- for page in site.pages %}
 {%- if page.url contains basename_dt -%}
@@ -123,11 +113,7 @@ stencils/{{dim}}/{{rad}}/{{weight}}/{{kind}}/{{coeff}}/{{dt}}
 <summary>{{dt}}</summary>
 {%- for machine in machines %}
 {%- for page in site.pages %}
-
-{%- capture basename -%}
-stencils/{{dim}}/{{rad}}/{{weight}}/{{kind}}/{{coeff}}/{{dt}}/{{machine}}
-{%- endcapture -%}
-
+{%- assign basename = basename_dt | append: machine | append: '/' -%}
 {%- if page.machine == machine -%}
 {%- if page.url contains basename -%}
   - [{{machine}}{%if page.flavor != "" and page.flavor != nil %} - {{page.flavor}}{% endif %}]({{site.baseurl}}{{page.url}}){: .machine{{machine}}}

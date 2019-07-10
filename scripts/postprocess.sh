@@ -84,7 +84,12 @@ echo "flavor       : \"EDIT_ME\"" >> ${FILENAME}
 echo "compile_flags: \"$(cat args.txt | grep COMPILER | sed 's/\$COMPILER //') $(cat args.txt | grep COMPILE_ARGS | sed 's/\$COMPILE_ARGS //; s/\/home.*stempel\///g; s/\/mnt\/opt\///g')\"" >> ${FILENAME}
 echo "flop         : \"$(grep -A 8 FLOPs data/LC.txt | grep -A 1 == | tail -n 1 | sed 's/ //g')\"" >> ${FILENAME}
 echo "scaling      : [ \"${LC_3D_L3_N}\" ]" >> ${FILENAME}
-echo "blocking     : [ \"L2-3D\", \"L3-3D\" ]" >> ${FILENAME}
+if [[ $(ls *csv | grep blocking) ]]; then
+	blk=$(for file in blocking_*csv; do echo \"$file\", | sed 's/blocking_//;s/\.csv//'; done | tr -d "\n")
+	echo "blocking     : [ ${blk::-1} ]" >> ${FILENAME}
+else
+	echo "blocking     : []" >> ${FILENAME}
+fi
 echo "---" >> ${FILENAME}
 echo "" >> ${FILENAME}
 echo "{%- capture basename -%}" >> ${FILENAME}
@@ -106,7 +111,7 @@ cat data/singlecore/ECM_LC_10.txt | head -n $((${END}-1)) | tail -n $((${END} - 
 echo "{%- endcapture -%}" >> ${FILENAME}
 echo "" >> ${FILENAME}
 echo "{%- capture layer_condition -%}" >> ${FILENAME}
-tail -n $(( $(cat data/LC.txt | wc -l) - $(grep -m 1 -n "Layer condition" data/LC.txt | sed 's/:.*//') +1 )) data/LC.txt | sed 's/^[ \t]\{2,\}/|/g;s/[[:space:]]\{2,\}/|/g;s/\([a-z0-9]\)$/\1|/g' | sed 's/hits|/hits|\n|:---:|---:|---:|/;s/Layer/### Layer/;s/|condition/\n|condition/' | sed 's/\([<|<=]\) \([0-9]*\)|/\1 \2```|/;s/|\([0-9A-Z\*\+]*\) </|```\1 </' | sed 's/True/Else/' >> ${FILENAME}
+tail -n $(( $(cat data/LC.txt | wc -l) - $(grep -m 1 -n "Layer condition" data/LC.txt | sed 's/:.*//') +1 )) data/LC.txt | sed 's/^[ \t]\{2,\}/|/g;s/[[:space:]]\{2,\}/|/g;s/\([a-z0-9]\)$/\1|/g' | sed 's/hits|/hits|\n|:---:|---:|---:|/;s/Layer/### Layer/;s/|condition/\n|condition/' | sed 's/\([<|<=]\) \([0-9]*\)|/\1 \2```|/;s/|\([0-9A-Z\*\+ -]*\) </|```\1 </' | sed 's/True/Else/' >> ${FILENAME}
 echo "{%- endcapture -%}" >> ${FILENAME}
 echo "" >> ${FILENAME}
 echo "{%- capture iaca -%}" >> ${FILENAME}
