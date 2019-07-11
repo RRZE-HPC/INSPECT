@@ -1,8 +1,8 @@
 ---
 
-title:  "Stencil SolarSplit_y BroadwellEP_E5-2697_CoD"
+title:  "Stencil THIIM Splitfield Y BroadwellEP_E5-2697_CoD"
 
-stencil_name : "SolarSplit_y"
+stencil_name : "THIIM_Splitfield_Y"
 dimension    : "3D"
 radius       : "r1"
 coefficients : "variable"
