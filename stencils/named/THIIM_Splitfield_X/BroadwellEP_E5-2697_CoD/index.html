@@ -8,18 +8,18 @@
       href="/INSPECT/assets/img/inspect.png">
 
 <!-- Begin Jekyll SEO tag v2.5.0 -->
-<title>Stencil SolarSplit_y BroadwellEP_E5-2697_CoD | INSPECT</title>
+<title>Stencil THIIM Splitfield X BroadwellEP_E5-2697_CoD | INSPECT</title>
 <meta name="generator" content="Jekyll v3.8.5" />
-<meta property="og:title" content="Stencil SolarSplit_y BroadwellEP_E5-2697_CoD" />
+<meta property="og:title" content="Stencil THIIM Splitfield X BroadwellEP_E5-2697_CoD" />
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="Intra Node Stencil Performance Evaluation Collection" />
 <meta property="og:description" content="Intra Node Stencil Performance Evaluation Collection" />
 <meta property="og:site_name" content="INSPECT" />
 <script type="application/ld+json">
-{"description":"Intra Node Stencil Performance Evaluation Collection","@type":"WebPage","headline":"Stencil SolarSplit_y BroadwellEP_E5-2697_CoD","url":"/INSPECT/stencils/named/SolarSplit_y/BroadwellEP_E5-2697_CoD/","@context":"http://schema.org"}</script>
+{"description":"Intra Node Stencil Performance Evaluation Collection","@type":"WebPage","headline":"Stencil THIIM Splitfield X BroadwellEP_E5-2697_CoD","url":"/INSPECT/stencils/named/THIIM_Splitfield_X/BroadwellEP_E5-2697_CoD/","@context":"http://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
-    <link rel="stylesheet" href="/INSPECT/assets/css/style.css?v=96e959f05c4e21c14aace076bcb10e8d1b85f69e">
+    <link rel="stylesheet" href="/INSPECT/assets/css/style.css?v=53a7ea5562d6edf6960d0b8bfd57d47c092362bf">
     <script src="https://code.jquery.com/jquery-3.3.0.min.js" integrity="sha256-RTQy8VOmNlT6b2PIRur37p6JEBZUE7o8wPgMvu18MC4=" crossorigin="anonymous"></script>
     <script src="/INSPECT/assets/js/main.js"></script>
     <!--[if lt IE 9]>
@@ -38,7 +38,7 @@
         
 
 <div id="navbar">
-<a href="https://github.com/RRZE-HPC/INSPECT/tree/master/stencils/named/SolarSplit_y/BroadwellEP_E5-2697_CoD">SolarSplit_y / BroadwellEP_E5-2697_CoD</a>
+<a href="https://github.com/RRZE-HPC/INSPECT/tree/master/stencils/named/THIIM_Splitfield_X/BroadwellEP_E5-2697_CoD">THIIM_Splitfield_X / BroadwellEP_E5-2697_CoD</a>
 </div>
 
       </div><!-- end banner -->
@@ -67,7 +67,7 @@
       <tbody>
         <tr>
           <td>name</td>
-          <td>SolarSplit_y</td>
+          <td>THIIM_Splitfield_X</td>
         </tr>
         <tr>
           <td>dimension</td>
@@ -120,9 +120,7 @@
 <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">k</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">k</span> <span class="o">&lt;</span> <span class="n">M</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span> <span class="o">++</span><span class="n">k</span><span class="p">)</span> <span class="p">{</span>
   <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">N</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span> <span class="o">++</span><span class="n">j</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">O</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
-      <span class="c1">// ----- Ex_y = Cex_ty * Ex_y + Cex_y * (D(Hy_x + Hy_z) - T(Hy_x
-</span>      <span class="c1">// + Hy_z) ) + Ex_old;
-</span>      <span class="n">Exy</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span>
+      <span class="n">Exy</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span>
           <span class="n">Exy</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">tExy</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">ExSrc</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span>
           <span class="n">cExy</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">Hyx</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">Hyx</span><span class="p">[</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span>
                            <span class="n">Hyz</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">Hyz</span><span class="p">[</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]);</span>
@@ -758,7 +756,7 @@ var trace_benchmark = {
   mode: "markers",
   marker: { symbol: "cross-thin-open" },
   x: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,],
-  y: [85.58,153.41,195.68,219.21,227.99,229.69,229.86,229.82,229.40,254.70,280.00,305.08,331.57,354.65,381.21,404.81,429.99,451.65,],
+  y: [85.58,153.41,195.68,219.21,227.99,229.69,229.86,229.82,229.4,254.7,280,305.08,331.57,354.65,381.21,404.81,429.99,451.65,],
   line: {color: 'black'},
   name: "Benchmark"
 };
@@ -766,7 +764,7 @@ var trace_ecm = {
   type: "scatter",
   mode: "lines",
   x: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,],
-  y: [231.35,407.16,443.05,443.05,443.05,443.05,443.05,443.05,443.05,492.24,541.49,590.69,640.00,689.13,738.36,787.67,836.74,886.31,],
+  y: [115.675,203.58,221.525,221.525,221.525,221.525,221.525,221.525,221.525,246.12,270.745,295.345,320,344.565,369.18,393.835,418.37,443.155,],
   line: {color: '#ff7f0e'},
   name: "ECM LC Prediction"
 };
@@ -774,7 +772,7 @@ var trace_roofline = {
   type: "scatter",
   mode: "lines",
   x: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,],
-  y: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,],
+  y: [76.48625,112,136,149,154,154,155,154,155,173,191,208,226,243,262,277,300,306,],
   line: {color: '#1f77b4'},
   name: "Roofline LC Prediction"
 };
