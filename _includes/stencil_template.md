@@ -32,7 +32,7 @@
 | coefficients | {{page.coefficients}}          |
 {%- endif -%}
 {%- if page.datatype     %}
-| datatype     | {{page.datatype}}              |
+| datatype     | {{ page.datatype | replace: '_', ' _' }}              |
 {%- endif -%}
 {%- if page.machine      %}
 | machine      | {{machinefile_link}}           |
@@ -130,10 +130,14 @@ return "https://rrze-hpc.github.io/layer-condition/#calculator%23!"+encodeURICom
 <div markdown="1" class="section-block-half">
 ## How to test this stencil
 
+{% if page.stencil_name %}
+Save the stencil shown above as ```stencil.c```
+{% else %}
 Generate this stencil with:
 ```bash
-stempel gen -D {{ page.dimension | remove: 'D'}} -r {{ page.radius | remove: 'r'}} -t {{ page.datatype }} -C {{ page.coefficients }} -k {{ page.kind }} {% if page.weighting == 'isotropic' %}-i{% elsif page.weighting == 'heterogeneous' %}-e{% elsif page.weighting == 'homogeneous' %}-o{% elsif page.weighting == 'point-symmetric' %}-p{% endif %} --store stencil.c
+stempel gen -D {{ page.dimension | remove: 'D'}} -r {{ page.radius | remove: 'r'}} -t "{{ page.datatype | replace: '_', ' _' }}" -C {{ page.coefficients }} -k {{ page.kind }} {% if page.weighting == 'isotropic' %}-i{% elsif page.weighting == 'heterogeneous' %}-e{% elsif page.weighting == 'homogeneous' %}-o{% elsif page.weighting == 'point-symmetric' %}-p{% endif %} --store stencil.c
 ```
+{% endif %}
 
 and generate the compilable benchmark code with:
 ```bash
