@@ -19,7 +19,7 @@
 {"description":"Intra Node Stencil Performance Evaluation Collection","@type":"WebPage","headline":"INSPECT","url":"/INSPECT/machines/SkylakeSP_Gold-6148_avx512.html","@context":"http://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
-    <link rel="stylesheet" href="/INSPECT/assets/css/style.css?v=53a7ea5562d6edf6960d0b8bfd57d47c092362bf">
+    <link rel="stylesheet" href="/INSPECT/assets/css/style.css?v=efab701f6cf1f01038ea0da8f956c761bed35ed1">
     <script src="https://code.jquery.com/jquery-3.3.0.min.js" integrity="sha256-RTQy8VOmNlT6b2PIRur37p6JEBZUE7o8wPgMvu18MC4=" crossorigin="anonymous"></script>
     <script src="/INSPECT/assets/js/main.js"></script>
     <!--[if lt IE 9]>
@@ -132,7 +132,7 @@
       </tbody>
     </table>
 
-    <p>This machine file was generated for kerncraft version 0.6.6.</p>
+    <p>This machine file was generated for kerncraft version 0.7.1.</p>
 
   </div>
   <div class="section-block-half">
@@ -143,15 +143,15 @@
       <tbody>
         <tr>
           <td>icc</td>
-          <td><code class="highlighter-rouge">-O3 -fno-alias -xCORE-AVX512  -qopt-zmm-usage=high</code></td>
+          <td><code class="highlighter-rouge">-O3 -fno-alias -xCORE-AVX512 -qopenmp  -qopt-zmm-usage=high</code></td>
         </tr>
         <tr>
           <td>clang</td>
-          <td><code class="highlighter-rouge">-O3 -march=skylake-avx512 -D_POSIX_C_SOURCE=200112L</code></td>
+          <td><code class="highlighter-rouge">-O3 -march=skylake-avx512 -D_POSIX_C_SOURCE=200112L -fopenmp</code></td>
         </tr>
         <tr>
           <td>gcc</td>
-          <td><code class="highlighter-rouge">-O3 -march=skylake-avx512</code></td>
+          <td><code class="highlighter-rouge">-O3 -march=skylake-avx512 -fopenmp</code></td>
         </tr>
       </tbody>
     </table>
