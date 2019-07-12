@@ -3,7 +3,7 @@
 # FIXME performance counters might be wrong. This will only affect the Benchmark model
 # FIXME bandwidth measurements need validataion
 # FIXME
-kerncraft version: 0.7.1  # which version of kerncraft was this file created for
+kerncraft version: 0.8.1.dev0
 
 model name: Intel(R) Xeon(R) Gold 6148 CPU @ 2.40GHz
 model type: Intel Skylake SP processor
@@ -24,15 +24,17 @@ FLOPs per cycle:
     FMA: 32
     ADD: 16
     MUL: 16
-micro-architecture: SKX
+micro-architecture: -mcpu=skylake-avx512
+micro-architecture-modeler: LLVM-MCA
 compiler:
   !!omap
-  - icc: -O3 -fno-alias -xCORE-AVX512 -qopenmp  -qopt-zmm-usage=high
+  - icc: -O3 -fno-alias -xCORE-AVX512 -qopenmp
   - clang: -O3 -march=skylake-avx512 -D_POSIX_C_SOURCE=200112L -fopenmp
-  - gcc: -O3 -march=skylake-avx512 -fopenmp
+  - gcc: -O3 -march=skylake-avx512 -D_POSIX_C_SOURCE=200112L -fopenmp
 cacheline size: 64 B
 overlapping model:
-  ports: ["0", "0DV", "1", "2", "3", "4", "5", "6", "7"]
+  ports: ["SKXDivider", "SKXFPDivider", "SKXPort0", "SKXPort1", "SKXPort2", "SKXPort3", "SKXPort4", "SKXPort5",
+          "SKXPort6", "SKXPort7"]
   performance counter metric:
           Max(UOPS_DISPATCHED_PORT_PORT_0:PMC[0-3],
           UOPS_DISPATCHED_PORT_PORT_1:PMC[0-3],
@@ -41,7 +43,7 @@ overlapping model:
           UOPS_DISPATCHED_PORT_PORT_6:PMC[0-3],
           UOPS_DISPATCHED_PORT_PORT_7:PMC[0-3])
 non-overlapping model:
-  ports: ["2D", "3D"]
+  ports: ["SKXPort2", "SKXPort3"]
   performance counter metric:
     T_OL + T_L2 + T_L3 + T_MEM
 memory hierarchy:
@@ -61,11 +63,14 @@ memory hierarchy:
     load_from: L2
     store_to: L2
   size per group: 32.00 kB
-  groups: 8
+  groups: 20
   cores per group: 1
   threads per group: 2
+  upstream throughput: ['architecture code analyzer', ['2D', '3D']]
+  transfers overlap: False
 - level: L2
-  non-overlap upstream throughput: [64 B/cy, 'half-duplex']
+  upstream throughput: [64 B/cy, 'half-duplex']
+  transfers overlap: False
   performance counter metrics:
     accesses: L1D_REPLACEMENT:PMC[0-3]
     misses: L2_LINES_IN_ALL:PMC[0-3]
@@ -81,11 +86,12 @@ memory hierarchy:
     victims_to: L3  # all victims, modified or not are passed onto L3
     store_to: L3
   size per group: 1.00 MB
-  groups: 8
+  groups: 20
   cores per group: 1
   threads per group: 2
 - level: L3
-  non-overlap upstream throughput: [16 B/cy, 'full-duplex']
+  upstream throughput: [16 B/cy, 'full-duplex']
+  transfers overlap: False
   performance counter metrics:
     accesses: L2_LINES_IN_ALL:PMC[0-3]
     # FIXME not all misses in L2 lead to loads from L3, only the hits do
@@ -96,22 +102,21 @@ memory hierarchy:
              CAS_COUNT_WR:MBOX2C[01] + CAS_COUNT_WR:MBOX3C[01] +
              CAS_COUNT_WR:MBOX4C[01] + CAS_COUNT_WR:MBOX5C[01])
   cache per group:
-    sets: 28672
-    # TODO is actuall something else, but necessary to get to 16.5 MB
-    ways: 16
-    # TODO is actually 11, but pycachesim only supports powers of two
+    sets: 24576
+    ways: 11
     cl_size: 64
     replacement_policy: 'LRU'
     write_allocate: False
     write_back: True
   size per group: 28 MB
-  groups: 2
-  cores per group: 4
-  threads per group: 8
+  groups: 1
+  cores per group: 20
+  threads per group: 40
 - level: MEM
-  non-overlap upstream throughput: ['full socket memory bandwidth', 'half-duplex']
-  cores per group: 4
-  threads per group: 8
+  upstream throughput: ['full socket memory bandwidth', 'half-duplex']
+  transfers overlap: False
+  cores per group: 40
+  threads per group: 80
   penalty cycles per read stream: 0
 benchmarks:
   kernels:
