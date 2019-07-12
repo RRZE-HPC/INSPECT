@@ -88,7 +88,7 @@ This machine file was generated for kerncraft version {{file["kerncraft version"
 
 |------------|-----------:|
 {%- for group in level["cache per group"] %}
-|{{group[0]}}|{{group[1]}}|
+|{{group[0]}}|{%- if group[1] == None -%}None{%- else -%}{{group[1]}}{%- endif -%}|
 {%- endfor %}
 
 #### Performance Counter Metrics
