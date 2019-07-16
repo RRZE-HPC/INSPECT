@@ -7,9 +7,9 @@ radius       : "r3"
 weighting    : "isotropic"
 kind         : "star"
 coefficients : "variable"
-datatype     : "double_Complex"
+datatype     : "double _Complex"
 machine      : "BroadwellEP_E5-2697_CoD"
-flavor       : "Cluster on Die"
+flavor       : "EDIT_ME"
 compile_flags: "icc -O3 -xCORE-AVX2 -fno-alias -qopenmp "
 flop         : "22"
 scaling      : [ "90" ]
@@ -80,7 +80,7 @@ vaddpd xmm9, xmm5, xmmword ptr [rax+r15*1+0x30]
 mov r15, qword ptr [rsp+0x1b0]
 vshufpd xmm8, xmm9, xmm9, 0x1
 vmulpd xmm10, xmm7, xmm8
-nop
+nop 
 vaddpd xmm13, xmm15, xmmword ptr [rax+r15*1+0x30]
 vfmaddsub213pd xmm12, xmm9, xmm10
 vunpckhpd xmm15, xmm0, xmm0
@@ -206,7 +206,7 @@ X - instruction not supported, was not accounted in Analysis
 |   1      |             |      |             | 1.0     1.0 |      |      |      |      | mov r15, qword ptr [rsp+0x1b0]
 |   1      |             |      |             |             |      | 1.0  |      |      | vshufpd xmm8, xmm9, xmm9, 0x1
 |   1      | 1.0         |      |             |             |      |      |      |      | vmulpd xmm10, xmm7, xmm8
-|   1      |             |      |             |             |      |      | 1.0  |      | nop
+|   1      |             |      |             |             |      |      | 1.0  |      | nop 
 |   2      |             | 1.0  | 1.0     1.0 |             |      |      |      |      | vaddpd xmm13, xmm15, xmmword ptr [rax+r15*1+0x30]
 |   1      | 1.0         |      |             |             |      |      |      |      | vfmaddsub213pd xmm12, xmm9, xmm10
 |   1      |             |      |             |             |      | 1.0  |      |      | vunpckhpd xmm15, xmm0, xmm0
@@ -270,7 +270,7 @@ Linux broadep2 4.15.0-48-generic #51-Ubuntu SMP Wed Apr 3 08:28:49 UTC 2019 x86_
 ################################################################################
 # Logged in users
 ################################################################################
- 17:59:05 up 74 days,  8:12,  0 users,  load average: 3.07, 1.98, 1.39
+ 12:02:01 up 80 days,  2:15,  0 users,  load average: 2.31, 1.78, 1.39
 USER     TTY      FROM             LOGIN@   IDLE   JCPU   PCPU WHAT
 
 ################################################################################
@@ -430,25 +430,25 @@ NUMA domains:		4
 Domain:			0
 Processors:		( 0 36 1 37 2 38 3 39 4 40 5 41 6 42 7 43 8 44 )
 Distances:		10 21 31 31
-Free memory:		31074.9 MB
+Free memory:		31022.9 MB
 Total memory:		32062.8 MB
 --------------------------------------------------------------------------------
 Domain:			1
 Processors:		( 9 45 10 46 11 47 12 48 13 49 14 50 15 51 16 52 17 53 )
 Distances:		21 10 31 31
-Free memory:		31593.8 MB
+Free memory:		31640.3 MB
 Total memory:		32231.5 MB
 --------------------------------------------------------------------------------
 Domain:			2
 Processors:		( 18 54 19 55 20 56 21 57 22 58 23 59 24 60 25 61 26 62 )
 Distances:		31 31 10 21
-Free memory:		32085.1 MB
+Free memory:		32067.9 MB
 Total memory:		32252.6 MB
 --------------------------------------------------------------------------------
 Domain:			3
 Processors:		( 27 63 28 64 29 65 30 66 31 67 32 68 33 69 34 70 35 71 )
 Distances:		31 31 21 10
-Free memory:		32018.8 MB
+Free memory:		32018.1 MB
 Total memory:		32251.1 MB
 --------------------------------------------------------------------------------
 
@@ -458,99 +458,99 @@ Total memory:		32251.1 MB
 available: 4 nodes (0-3)
 node 0 cpus: 0 1 2 3 4 5 6 7 8 36 37 38 39 40 41 42 43 44
 node 0 size: 32062 MB
-node 0 free: 31075 MB
+node 0 free: 31023 MB
 node 1 cpus: 9 10 11 12 13 14 15 16 17 45 46 47 48 49 50 51 52 53
 node 1 size: 32231 MB
-node 1 free: 31604 MB
+node 1 free: 31650 MB
 node 2 cpus: 18 19 20 21 22 23 24 25 26 54 55 56 57 58 59 60 61 62
 node 2 size: 32252 MB
-node 2 free: 32085 MB
+node 2 free: 32067 MB
 node 3 cpus: 27 28 29 30 31 32 33 34 35 63 64 65 66 67 68 69 70 71
 node 3 size: 32251 MB
 node 3 free: 32018 MB
 node distances:
-node   0   1   2   3
-  0:  10  21  31  31
-  1:  21  10  31  31
-  2:  31  31  10  21
-  3:  31  31  21  10
+node   0   1   2   3 
+  0:  10  21  31  31 
+  1:  21  10  31  31 
+  2:  31  31  10  21 
+  3:  31  31  21  10 
 
 ################################################################################
 # Frequencies
 ################################################################################
 Current CPU frequencies:
-CPU 0: governor  performance min/cur/max 2.3/1.932421/2.3 GHz Turbo 0
-CPU 1: governor  performance min/cur/max 2.3/1.217121/2.3 GHz Turbo 0
-CPU 2: governor  performance min/cur/max 2.3/1.223491/2.3 GHz Turbo 0
-CPU 3: governor  performance min/cur/max 2.3/1.367641/2.3 GHz Turbo 0
-CPU 4: governor  performance min/cur/max 2.3/1.227088/2.3 GHz Turbo 0
-CPU 5: governor  performance min/cur/max 2.3/1.235457/2.3 GHz Turbo 0
-CPU 6: governor  performance min/cur/max 2.3/1.285309/2.3 GHz Turbo 0
-CPU 7: governor  performance min/cur/max 2.3/1.363012/2.3 GHz Turbo 0
-CPU 8: governor  performance min/cur/max 2.3/1.4197/2.3 GHz Turbo 0
-CPU 9: governor  performance min/cur/max 2.3/1.366912/2.3 GHz Turbo 0
-CPU 10: governor  performance min/cur/max 2.3/1.357878/2.3 GHz Turbo 0
-CPU 11: governor  performance min/cur/max 2.3/1.213995/2.3 GHz Turbo 0
-CPU 12: governor  performance min/cur/max 2.3/1.324159/2.3 GHz Turbo 0
-CPU 13: governor  performance min/cur/max 2.3/1.224064/2.3 GHz Turbo 0
-CPU 14: governor  performance min/cur/max 2.3/1.222429/2.3 GHz Turbo 0
-CPU 15: governor  performance min/cur/max 2.3/1.275993/2.3 GHz Turbo 0
-CPU 16: governor  performance min/cur/max 2.3/1.278284/2.3 GHz Turbo 0
-CPU 17: governor  performance min/cur/max 2.3/1.22481/2.3 GHz Turbo 0
-CPU 18: governor  performance min/cur/max 2.3/2.297682/2.3 GHz Turbo 0
-CPU 19: governor  performance min/cur/max 2.3/2.297001/2.3 GHz Turbo 0
-CPU 20: governor  performance min/cur/max 2.3/2.296951/2.3 GHz Turbo 0
-CPU 21: governor  performance min/cur/max 2.3/2.296922/2.3 GHz Turbo 0
-CPU 22: governor  performance min/cur/max 2.3/2.296598/2.3 GHz Turbo 0
-CPU 23: governor  performance min/cur/max 2.3/2.297162/2.3 GHz Turbo 0
-CPU 24: governor  performance min/cur/max 2.3/2.29718/2.3 GHz Turbo 0
-CPU 25: governor  performance min/cur/max 2.3/2.2975/2.3 GHz Turbo 0
-CPU 26: governor  performance min/cur/max 2.3/2.294865/2.3 GHz Turbo 0
-CPU 27: governor  performance min/cur/max 2.3/2.082618/2.3 GHz Turbo 0
-CPU 28: governor  performance min/cur/max 2.3/2.272517/2.3 GHz Turbo 0
-CPU 29: governor  performance min/cur/max 2.3/2.297528/2.3 GHz Turbo 0
-CPU 30: governor  performance min/cur/max 2.3/2.266677/2.3 GHz Turbo 0
-CPU 31: governor  performance min/cur/max 2.3/2.29501/2.3 GHz Turbo 0
-CPU 32: governor  performance min/cur/max 2.3/2.247029/2.3 GHz Turbo 0
-CPU 33: governor  performance min/cur/max 2.3/2.28825/2.3 GHz Turbo 0
-CPU 34: governor  performance min/cur/max 2.3/2.297523/2.3 GHz Turbo 0
-CPU 35: governor  performance min/cur/max 2.3/2.298005/2.3 GHz Turbo 0
-CPU 36: governor  performance min/cur/max 2.3/1.43981/2.3 GHz Turbo 0
-CPU 37: governor  performance min/cur/max 2.3/1.218397/2.3 GHz Turbo 0
-CPU 38: governor  performance min/cur/max 2.3/1.588843/2.3 GHz Turbo 0
-CPU 39: governor  performance min/cur/max 2.3/1.223234/2.3 GHz Turbo 0
-CPU 40: governor  performance min/cur/max 2.3/1.218138/2.3 GHz Turbo 0
-CPU 41: governor  performance min/cur/max 2.3/1.296484/2.3 GHz Turbo 0
-CPU 42: governor  performance min/cur/max 2.3/1.230493/2.3 GHz Turbo 0
-CPU 43: governor  performance min/cur/max 2.3/1.334038/2.3 GHz Turbo 0
-CPU 44: governor  performance min/cur/max 2.3/1.262183/2.3 GHz Turbo 0
-CPU 45: governor  performance min/cur/max 2.3/1.314875/2.3 GHz Turbo 0
-CPU 46: governor  performance min/cur/max 2.3/1.424879/2.3 GHz Turbo 0
-CPU 47: governor  performance min/cur/max 2.3/1.222233/2.3 GHz Turbo 0
-CPU 48: governor  performance min/cur/max 2.3/1.235204/2.3 GHz Turbo 0
-CPU 49: governor  performance min/cur/max 2.3/1.223947/2.3 GHz Turbo 0
-CPU 50: governor  performance min/cur/max 2.3/1.222862/2.3 GHz Turbo 0
-CPU 51: governor  performance min/cur/max 2.3/1.237357/2.3 GHz Turbo 0
-CPU 52: governor  performance min/cur/max 2.3/1.236376/2.3 GHz Turbo 0
-CPU 53: governor  performance min/cur/max 2.3/1.224111/2.3 GHz Turbo 0
-CPU 54: governor  performance min/cur/max 2.3/2.297411/2.3 GHz Turbo 0
-CPU 55: governor  performance min/cur/max 2.3/2.297023/2.3 GHz Turbo 0
-CPU 56: governor  performance min/cur/max 2.3/2.281644/2.3 GHz Turbo 0
-CPU 57: governor  performance min/cur/max 2.3/2.296474/2.3 GHz Turbo 0
-CPU 58: governor  performance min/cur/max 2.3/2.296665/2.3 GHz Turbo 0
-CPU 59: governor  performance min/cur/max 2.3/2.297123/2.3 GHz Turbo 0
-CPU 60: governor  performance min/cur/max 2.3/2.29606/2.3 GHz Turbo 0
-CPU 61: governor  performance min/cur/max 2.3/2.293583/2.3 GHz Turbo 0
-CPU 62: governor  performance min/cur/max 2.3/2.297377/2.3 GHz Turbo 0
-CPU 63: governor  performance min/cur/max 2.3/2.296549/2.3 GHz Turbo 0
-CPU 64: governor  performance min/cur/max 2.3/2.194384/2.3 GHz Turbo 0
-CPU 65: governor  performance min/cur/max 2.3/2.297408/2.3 GHz Turbo 0
-CPU 66: governor  performance min/cur/max 2.3/2.179749/2.3 GHz Turbo 0
-CPU 67: governor  performance min/cur/max 2.3/2.294675/2.3 GHz Turbo 0
-CPU 68: governor  performance min/cur/max 2.3/2.295542/2.3 GHz Turbo 0
-CPU 69: governor  performance min/cur/max 2.3/2.288731/2.3 GHz Turbo 0
-CPU 70: governor  performance min/cur/max 2.3/2.297361/2.3 GHz Turbo 0
-CPU 71: governor  performance min/cur/max 2.3/2.19716/2.3 GHz Turbo 0
+CPU 0: governor  performance min/cur/max 2.3/1.66133/2.3 GHz Turbo 0
+CPU 1: governor  performance min/cur/max 2.3/2.078538/2.3 GHz Turbo 0
+CPU 2: governor  performance min/cur/max 2.3/2.203982/2.3 GHz Turbo 0
+CPU 3: governor  performance min/cur/max 2.3/2.193248/2.3 GHz Turbo 0
+CPU 4: governor  performance min/cur/max 2.3/2.196626/2.3 GHz Turbo 0
+CPU 5: governor  performance min/cur/max 2.3/2.137399/2.3 GHz Turbo 0
+CPU 6: governor  performance min/cur/max 2.3/1.928044/2.3 GHz Turbo 0
+CPU 7: governor  performance min/cur/max 2.3/2.198026/2.3 GHz Turbo 0
+CPU 8: governor  performance min/cur/max 2.3/2.120807/2.3 GHz Turbo 0
+CPU 9: governor  performance min/cur/max 2.3/1.939499/2.3 GHz Turbo 0
+CPU 10: governor  performance min/cur/max 2.3/1.932597/2.3 GHz Turbo 0
+CPU 11: governor  performance min/cur/max 2.3/2.192499/2.3 GHz Turbo 0
+CPU 12: governor  performance min/cur/max 2.3/1.85346/2.3 GHz Turbo 0
+CPU 13: governor  performance min/cur/max 2.3/2.148415/2.3 GHz Turbo 0
+CPU 14: governor  performance min/cur/max 2.3/2.161096/2.3 GHz Turbo 0
+CPU 15: governor  performance min/cur/max 2.3/2.004453/2.3 GHz Turbo 0
+CPU 16: governor  performance min/cur/max 2.3/1.733931/2.3 GHz Turbo 0
+CPU 17: governor  performance min/cur/max 2.3/1.976706/2.3 GHz Turbo 0
+CPU 18: governor  performance min/cur/max 2.3/2.289314/2.3 GHz Turbo 0
+CPU 19: governor  performance min/cur/max 2.3/2.288623/2.3 GHz Turbo 0
+CPU 20: governor  performance min/cur/max 2.3/2.294202/2.3 GHz Turbo 0
+CPU 21: governor  performance min/cur/max 2.3/2.2922/2.3 GHz Turbo 0
+CPU 22: governor  performance min/cur/max 2.3/2.279145/2.3 GHz Turbo 0
+CPU 23: governor  performance min/cur/max 2.3/2.292946/2.3 GHz Turbo 0
+CPU 24: governor  performance min/cur/max 2.3/2.289159/2.3 GHz Turbo 0
+CPU 25: governor  performance min/cur/max 2.3/2.2661/2.3 GHz Turbo 0
+CPU 26: governor  performance min/cur/max 2.3/2.288106/2.3 GHz Turbo 0
+CPU 27: governor  performance min/cur/max 2.3/2.297945/2.3 GHz Turbo 0
+CPU 28: governor  performance min/cur/max 2.3/2.227775/2.3 GHz Turbo 0
+CPU 29: governor  performance min/cur/max 2.3/2.297557/2.3 GHz Turbo 0
+CPU 30: governor  performance min/cur/max 2.3/2.24697/2.3 GHz Turbo 0
+CPU 31: governor  performance min/cur/max 2.3/2.294232/2.3 GHz Turbo 0
+CPU 32: governor  performance min/cur/max 2.3/2.291219/2.3 GHz Turbo 0
+CPU 33: governor  performance min/cur/max 2.3/2.067175/2.3 GHz Turbo 0
+CPU 34: governor  performance min/cur/max 2.3/2.295711/2.3 GHz Turbo 0
+CPU 35: governor  performance min/cur/max 2.3/2.29817/2.3 GHz Turbo 0
+CPU 36: governor  performance min/cur/max 2.3/2.01657/2.3 GHz Turbo 0
+CPU 37: governor  performance min/cur/max 2.3/2.153057/2.3 GHz Turbo 0
+CPU 38: governor  performance min/cur/max 2.3/2.176233/2.3 GHz Turbo 0
+CPU 39: governor  performance min/cur/max 2.3/2.051958/2.3 GHz Turbo 0
+CPU 40: governor  performance min/cur/max 2.3/2.141128/2.3 GHz Turbo 0
+CPU 41: governor  performance min/cur/max 2.3/1.960725/2.3 GHz Turbo 0
+CPU 42: governor  performance min/cur/max 2.3/2.142436/2.3 GHz Turbo 0
+CPU 43: governor  performance min/cur/max 2.3/2.173689/2.3 GHz Turbo 0
+CPU 44: governor  performance min/cur/max 2.3/2.063199/2.3 GHz Turbo 0
+CPU 45: governor  performance min/cur/max 2.3/2.149025/2.3 GHz Turbo 0
+CPU 46: governor  performance min/cur/max 2.3/1.943347/2.3 GHz Turbo 0
+CPU 47: governor  performance min/cur/max 2.3/2.062546/2.3 GHz Turbo 0
+CPU 48: governor  performance min/cur/max 2.3/2.100264/2.3 GHz Turbo 0
+CPU 49: governor  performance min/cur/max 2.3/2.168999/2.3 GHz Turbo 0
+CPU 50: governor  performance min/cur/max 2.3/2.164993/2.3 GHz Turbo 0
+CPU 51: governor  performance min/cur/max 2.3/2.135583/2.3 GHz Turbo 0
+CPU 52: governor  performance min/cur/max 2.3/2.041807/2.3 GHz Turbo 0
+CPU 53: governor  performance min/cur/max 2.3/1.725138/2.3 GHz Turbo 0
+CPU 54: governor  performance min/cur/max 2.3/2.291427/2.3 GHz Turbo 0
+CPU 55: governor  performance min/cur/max 2.3/2.294103/2.3 GHz Turbo 0
+CPU 56: governor  performance min/cur/max 2.3/2.286337/2.3 GHz Turbo 0
+CPU 57: governor  performance min/cur/max 2.3/2.290657/2.3 GHz Turbo 0
+CPU 58: governor  performance min/cur/max 2.3/2.29044/2.3 GHz Turbo 0
+CPU 59: governor  performance min/cur/max 2.3/2.29258/2.3 GHz Turbo 0
+CPU 60: governor  performance min/cur/max 2.3/2.286348/2.3 GHz Turbo 0
+CPU 61: governor  performance min/cur/max 2.3/2.26672/2.3 GHz Turbo 0
+CPU 62: governor  performance min/cur/max 2.3/2.289084/2.3 GHz Turbo 0
+CPU 63: governor  performance min/cur/max 2.3/2.297461/2.3 GHz Turbo 0
+CPU 64: governor  performance min/cur/max 2.3/2.070934/2.3 GHz Turbo 0
+CPU 65: governor  performance min/cur/max 2.3/2.29741/2.3 GHz Turbo 0
+CPU 66: governor  performance min/cur/max 2.3/2.159508/2.3 GHz Turbo 0
+CPU 67: governor  performance min/cur/max 2.3/2.284667/2.3 GHz Turbo 0
+CPU 68: governor  performance min/cur/max 2.3/2.284984/2.3 GHz Turbo 0
+CPU 69: governor  performance min/cur/max 2.3/2.291454/2.3 GHz Turbo 0
+CPU 70: governor  performance min/cur/max 2.3/2.290933/2.3 GHz Turbo 0
+CPU 71: governor  performance min/cur/max 2.3/2.297358/2.3 GHz Turbo 0
 
 Current Uncore frequencies:
 Socket 0: min/max 2.3/2.3 GHz
@@ -559,31 +559,31 @@ Socket 1: min/max 2.3/2.3 GHz
 ################################################################################
 # Prefetchers
 ################################################################################
-Feature               CPU 0	CPU 36	CPU 1	CPU 37	CPU 2	CPU 38	CPU 3	CPU 39	CPU 4	CPU 40	CPU 5	CPU 41	CPU 6	CPU 42	CPU 7	CPU 43	CPU 8	CPU 44	CPU 9	CPU 45	CPU 10	CPU 46	CPU 11	CPU 47	CPU 12	CPU 48	CPU 13	CPU 49	CPU 14	CPU 50	CPU 15	CPU 51	CPU 16	CPU 52	CPU 17	CPU 53	CPU 18	CPU 54	CPU 19	CPU 55	CPU 20	CPU 56	CPU 21	CPU 57	CPU 22	CPU 58	CPU 23	CPU 59	CPU 24	CPU 60	CPU 25	CPU 61	CPU 26	CPU 62	CPU 27	CPU 63	CPU 28	CPU 64	CPU 29	CPU 65	CPU 30	CPU 66	CPU 31	CPU 67	CPU 32	CPU 68	CPU 33	CPU 69	CPU 34	CPU 70	CPU 35	CPU 71
-HW_PREFETCHER         on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on
-CL_PREFETCHER         on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on
-DCU_PREFETCHER        on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on
-IP_PREFETCHER         on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on
-FAST_STRINGS          on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on
-THERMAL_CONTROL       on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on
-PERF_MON              on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on
-FERR_MULTIPLEX        off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off
-BRANCH_TRACE_STORAGE  on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on
-XTPR_MESSAGE          off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off
-PEBS                  on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on
-SPEEDSTEP             on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on
-MONITOR               on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on
-SPEEDSTEP_LOCK        off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off
-CPUID_MAX_VAL         off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off
-XD_BIT                on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on
-DYN_ACCEL             off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off
-TURBO_MODE            off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off
-TM2                   off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off
+Feature               CPU 0	CPU 36	CPU 1	CPU 37	CPU 2	CPU 38	CPU 3	CPU 39	CPU 4	CPU 40	CPU 5	CPU 41	CPU 6	CPU 42	CPU 7	CPU 43	CPU 8	CPU 44	CPU 9	CPU 45	CPU 10	CPU 46	CPU 11	CPU 47	CPU 12	CPU 48	CPU 13	CPU 49	CPU 14	CPU 50	CPU 15	CPU 51	CPU 16	CPU 52	CPU 17	CPU 53	CPU 18	CPU 54	CPU 19	CPU 55	CPU 20	CPU 56	CPU 21	CPU 57	CPU 22	CPU 58	CPU 23	CPU 59	CPU 24	CPU 60	CPU 25	CPU 61	CPU 26	CPU 62	CPU 27	CPU 63	CPU 28	CPU 64	CPU 29	CPU 65	CPU 30	CPU 66	CPU 31	CPU 67	CPU 32	CPU 68	CPU 33	CPU 69	CPU 34	CPU 70	CPU 35	CPU 71	
+HW_PREFETCHER         on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	
+CL_PREFETCHER         on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	
+DCU_PREFETCHER        on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	
+IP_PREFETCHER         on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	
+FAST_STRINGS          on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	
+THERMAL_CONTROL       on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	
+PERF_MON              on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	
+FERR_MULTIPLEX        off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	
+BRANCH_TRACE_STORAGE  on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	
+XTPR_MESSAGE          off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	
+PEBS                  on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	
+SPEEDSTEP             on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	
+MONITOR               on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	
+SPEEDSTEP_LOCK        off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	
+CPUID_MAX_VAL         off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	
+XD_BIT                on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	on	
+DYN_ACCEL             off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	
+TURBO_MODE            off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	
+TM2                   off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	off	
 
 ################################################################################
 # Load
 ################################################################################
-2.91 1.96 1.39 1/767 41117
+2.31 1.78 1.39 1/767 4097
 
 ################################################################################
 # Performance energy bias
@@ -599,36 +599,36 @@ Enabled: 0
 # General memory info
 ################################################################################
 MemTotal:       131889124 kB
-MemFree:        129823812 kB
-MemAvailable:   129708588 kB
-Buffers:           25592 kB
-Cached:           534668 kB
+MemFree:        129802032 kB
+MemAvailable:   129699604 kB
+Buffers:           24168 kB
+Cached:           546908 kB
 SwapCached:            0 kB
-Active:           454492 kB
-Inactive:         154516 kB
-Active(anon):      49044 kB
+Active:           446636 kB
+Inactive:         176424 kB
+Active(anon):      52276 kB
 Inactive(anon):     1628 kB
-Active(file):     405448 kB
-Inactive(file):   152888 kB
+Active(file):     394360 kB
+Inactive(file):   174796 kB
 Unevictable:           0 kB
 Mlocked:               0 kB
 SwapTotal:      67043324 kB
 SwapFree:       67043324 kB
-Dirty:               164 kB
-Writeback:             8 kB
-AnonPages:         48872 kB
-Mapped:            56528 kB
+Dirty:               172 kB
+Writeback:             0 kB
+AnonPages:         52128 kB
+Mapped:            69664 kB
 Shmem:              1920 kB
-Slab:             647544 kB
-SReclaimable:     257792 kB
-SUnreclaim:       389752 kB
-KernelStack:       13440 kB
-PageTables:         3560 kB
+Slab:             658728 kB
+SReclaimable:     261740 kB
+SUnreclaim:       396988 kB
+KernelStack:       13456 kB
+PageTables:         3644 kB
 NFS_Unstable:          0 kB
 Bounce:                0 kB
 WritebackTmp:          0 kB
 CommitLimit:    132987884 kB
-Committed_AS:     279712 kB
+Committed_AS:     234400 kB
 VmallocTotal:   34359738367 kB
 VmallocUsed:           0 kB
 VmallocChunk:          0 kB
@@ -643,8 +643,8 @@ HugePages_Free:        0
 HugePages_Rsvd:        0
 HugePages_Surp:        0
 Hugepagesize:       2048 kB
-DirectMap4k:      781056 kB
-DirectMap2M:    33693696 kB
+DirectMap4k:      787200 kB
+DirectMap2M:    33687552 kB
 DirectMap1G:    101711872 kB
 
 ################################################################################
@@ -982,7 +982,7 @@ Memory Device
 	Type: DDR4
 	Type Detail: Synchronous Registered (Buffered)
 	Speed: 2400 MT/s
-	Manufacturer: HP
+	Manufacturer: HP     
 	(Line containing Serial number has been censored)
 	Asset Tag: Not Specified
 	Part Number: 809081-081
@@ -1054,7 +1054,7 @@ Memory Device
 	Type: DDR4
 	Type Detail: Synchronous Registered (Buffered)
 	Speed: 2400 MT/s
-	Manufacturer: HP
+	Manufacturer: HP     
 	(Line containing Serial number has been censored)
 	Asset Tag: Not Specified
 	Part Number: 809081-081
@@ -1174,7 +1174,7 @@ Memory Device
 	Type: DDR4
 	Type Detail: Synchronous Registered (Buffered)
 	Speed: 2400 MT/s
-	Manufacturer: HP
+	Manufacturer: HP     
 	(Line containing Serial number has been censored)
 	Asset Tag: Not Specified
 	Part Number: 809081-081
@@ -1246,7 +1246,7 @@ Memory Device
 	Type: DDR4
 	Type Detail: Synchronous Registered (Buffered)
 	Speed: 2400 MT/s
-	Manufacturer: HP
+	Manufacturer: HP     
 	(Line containing Serial number has been censored)
 	Asset Tag: Not Specified
 	Part Number: 809081-081
@@ -1270,7 +1270,7 @@ Memory Device
 	Type: DDR4
 	Type Detail: Synchronous Registered (Buffered)
 	Speed: 2400 MT/s
-	Manufacturer: HP
+	Manufacturer: HP     
 	(Line containing Serial number has been censored)
 	Asset Tag: Not Specified
 	Part Number: 809081-081
@@ -1342,7 +1342,7 @@ Memory Device
 	Type: DDR4
 	Type Detail: Synchronous Registered (Buffered)
 	Speed: 2400 MT/s
-	Manufacturer: HP
+	Manufacturer: HP     
 	(Line containing Serial number has been censored)
 	Asset Tag: Not Specified
 	Part Number: 809081-081
@@ -1462,7 +1462,7 @@ Memory Device
 	Type: DDR4
 	Type Detail: Synchronous Registered (Buffered)
 	Speed: 2400 MT/s
-	Manufacturer: HP
+	Manufacturer: HP     
 	(Line containing Serial number has been censored)
 	Asset Tag: Not Specified
 	Part Number: 809081-081
@@ -1534,7 +1534,7 @@ Memory Device
 	Type: DDR4
 	Type Detail: Synchronous Registered (Buffered)
 	Speed: 2400 MT/s
-	Manufacturer: HP
+	Manufacturer: HP     
 	(Line containing Serial number has been censored)
 	Asset Tag: Not Specified
 	Part Number: 809081-081
@@ -1550,12 +1550,12 @@ Base Board Information
 	Product Name: ProLiant DL380 Gen9
 	Version: Not Specified
 	(Line containing Serial number has been censored)
-	Asset Tag:
+	Asset Tag:                                 
 	Features:
 		Board is a hosting board
 		Board is removable
 		Board is replaceable
-	Location In Chassis:
+	Location In Chassis:                 
 	Chassis Handle: 0x0000
 	Type: Motherboard
 	Contained Object Handles: 0
@@ -1567,7 +1567,7 @@ Chassis Information
 	Lock: Not Present
 	Version: Not Specified
 	(Line containing Serial number has been censored)
-	Asset Tag:
+	Asset Tag:                                 
 	Boot-up State: Safe
 	Power Supply State: Safe
 	Thermal State: Safe
@@ -1817,12 +1817,12 @@ LESS=-R
 LIKWID_LIBDIR=/mnt/opt/likwid-4.3-dev/lib
 I_MPI_JOB_RESPECT_PROCESS_PLACEMENT=off
 IPPROOT=/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/ipp
-OLDPWD=/home/hpc/iwia/iwia84/INSPECT-repo/stencils/3D_r3_point-symmetric_star_constant/BroadwellEP_E5-2697_CoD_20190709_174009
+OLDPWD=/home/hpc/iwia/iwia84/INSPECT-repo/stencils/3D_r3_point-symmetric_star_constant/BroadwellEP_E5-2697_CoD_20190715_114251
 PBS_O_HOME=/home/hpc/iwia/iwia84
 MPICHHOME=/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mpi/intel64
 RRZECLUSTER=TESTCLUSTER
 EDITOR=nano
-PBS_JOBID=4559.catstor
+PBS_JOBID=4616.catstor
 ENVIRONMENT=BATCH
 PATH_modshare=/usr/bin/vendor_perl:999999999:/home/julian/.local/.bin:999999999:/opt/android-sdk/tools:999999999:/usr/bin:1:/mnt/opt/likwid-4.3-dev/bin:1:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mpi/intel64/bin:1:/usr/local/bin:999999999:/opt/android-sdk/platform-tools:999999999:/usr/bin/core_perl:999999999:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/bin/intel64:1:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mpi/rrze-bin-intel:1:/home/julian/.bin:999999999:/bin:1:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mpi/intel64/libfabric/bin:1:/apps/python/3.6-anaconda/bin:1:/mnt/opt/likwid-4.3-dev/sbin:1:/opt/intel/bin:999999999
 MPIHOME=/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mpi/intel64
@@ -1834,7 +1834,7 @@ FPATH_modshare=/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/lin
 INTEL_F_HOME=/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/compiler
 CPATH_modshare=/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/ipp/include:1:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/daal/include:1:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/pstl/include:1:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/tbb/include:1:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mkl/include:1
 WOODYHOME=/home/woody/iwia/iwia84
-PBS_O_PATH=/mnt/opt/pbspro/default/bin:/apps/python/3.6-anaconda/bin:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/bin/intel64:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mpi/rrze-bin-intel:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mpi/intel64/bin:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mpi/intel64/libfabric/bin:/mnt/opt/likwid-4.3-dev/sbin:/mnt/opt/likwid-4.3-dev/bin:/bin:/usr/bin:/usr/local/bin:/opt/android-sdk/platform-tools:/opt/android-sdk/tools:/usr/bin/vendor_perl:/usr/bin/core_perl:/opt/intel/bin:/home/julian/.bin:/home/julian/.local/.bin
+PBS_O_PATH=/mnt/opt/pbspro/default/bin:/bin:/usr/bin:/usr/local/bin:/opt/android-sdk/platform-tools:/opt/android-sdk/tools:/usr/bin/vendor_perl:/usr/bin/core_perl:/opt/intel/bin:/home/julian/.bin:/home/julian/.local/.bin
 LIKWID_FORCE=1
 FI_PROVIDER_PATH=/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mpi/intel64/libfabric/lib/prov
 INTEL_PYTHONHOME=/apps/intel/ComposerXE2019/debugger_2019/python/intel64/
@@ -1850,12 +1850,12 @@ USER=iwia84
 MPIINCDIR=/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mpi/intel64/include
 I_MPI_HARD_FINALIZE=1
 NLSPATH_modshare=/apps/intel/ComposerXE2019/debugger_2019/gdb/intel64/share/locale/%l_%t/%N:1:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mkl/lib/intel64_lin/locale/%l_%t/%N:1:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/compiler/lib/intel64/locale/%l_%t/%N:1
-PBS_NODEFILE=/var/spool/pbspro/aux/4559.catstor
+PBS_NODEFILE=/var/spool/pbspro/aux/4616.catstor
 GROUP=iwia
 PBS_TASKNUM=1
 I_MPI_OFA_ADAPTER_NAME=mlx4_0
 LIKWID_DEFINES=-DLIKWID_PERFMON
-PWD=/home/hpc/iwia/iwia84/INSPECT-repo/stencils/3D_r3_isotropic_star_variable/BroadwellEP_E5-2697_CoD_20190709_175905
+PWD=/home/hpc/iwia/iwia84/INSPECT-repo/stencils/3D_r3_isotropic_star_variable/BroadwellEP_E5-2697_CoD_20190715_120201
 HOME=/home/hpc/iwia/iwia84
 LIKWID_LIB=-L/mnt/opt/likwid-4.3-dev/lib
 CLASSPATH_modshare=/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/daal/lib/daal.jar:1:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mpi/intel64/lib/mpi.jar:1
@@ -1864,7 +1864,7 @@ PBS_MOMPORT=15003
 LIKWID_INCDIR=/mnt/opt/likwid-4.3-dev/include
 _LMFILES__modshare=/apps/modules/modulefiles/tools/python/3.6-anaconda:1:/apps/modules/modulefiles/libraries/mkl/2019up02:2:/opt/modules/modulefiles/testcluster/pbspro/default:2:/apps/modules/modulefiles/development/intelmpi/2019up02-intel:1:/opt/modules/modulefiles/testcluster/likwid/4.3-dev:1
 NLSPATH=/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/compiler/lib/intel64/locale/%l_%t/%N:/apps/intel/ComposerXE2019/debugger_2019/gdb/intel64/share/locale/%l_%t/%N:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mkl/lib/intel64_lin/locale/%l_%t/%N
-PBS_JOBCOOKIE=5653251A583D5B782F96545B566D07AE
+PBS_JOBCOOKIE=1AD84C4A5D9E47CC397A2BCB025092AC
 MKL_LIBDIR=/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mkl/lib/intel64_lin
 PBS_O_SHELL=/bin/bash
 MPIINC=-I/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mpi/intel64/include
@@ -1872,7 +1872,7 @@ MKL_LIB_THREADED=-Wl,--start-group  /apps/intel/ComposerXE2019/compilers_and_lib
 LESS_TERMCAP_mb=[1;32m
 LESS_TERMCAP_md=[1;34m
 LESS_TERMCAP_me=[0m
-TMPDIR=/scratch/pbs.4559.catstor
+TMPDIR=/scratch/pbs.4616.catstor
 LIBRARY_PATH=/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/ipp/lib/intel64:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/compiler/lib/intel64_lin:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/tbb/lib/intel64/gcc4.7:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/daal/lib/intel64_lin:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/tbb/lib/intel64_lin/gcc4.4:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mkl/lib/intel64_lin
 LIKWID_INC=-I/mnt/opt/likwid-4.3-dev/include
 LOADEDMODULES=pbspro/default:likwid/4.3-dev:intelmpi/2019up02-intel:mkl/2019up02:intel64/19.0up02:python/3.6-anaconda
