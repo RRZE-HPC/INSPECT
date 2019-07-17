@@ -434,6 +434,7 @@ fi
 # copy results for stencil data collection
 # ************************************************************************************************
 
+DT=$(echo ${DATATYPE} | sed 's/ //')
 FOLDER="${OUTPUT_FOLDER}/${DIM}D/r${RADIUS}/${WEIGHTING}/${KIND}/${CONST}/${DATATYPE}/${MACHINE}/"
 mkdir -p ${FOLDER}
 cp index.md *csv stencil.c data/system_info.txt ${FOLDER}
