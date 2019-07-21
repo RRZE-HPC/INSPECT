@@ -435,9 +435,9 @@ fi
 # ************************************************************************************************
 
 DT=$(echo ${DATATYPE} | sed 's/ //')
-FOLDER="${OUTPUT_FOLDER}/${DIM}D/r${RADIUS}/${WEIGHTING}/${KIND}/${CONST}/${DATATYPE}/${MACHINE}/"
+FOLDER="${OUTPUT_FOLDER}/${DIM}D/r${RADIUS}/${WEIGHTING}/${KIND}/${CONST}/${DT}/${MACHINE}/"
 mkdir -p ${FOLDER}
-cp index.md *csv stencil.c data/system_info.txt ${FOLDER}
+cp index.md *csv ${FOLDER}
 
 # ************************************************************************************************
 # compress data files
