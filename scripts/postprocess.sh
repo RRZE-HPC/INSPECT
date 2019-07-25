@@ -10,6 +10,145 @@ else
 	OUTPUT_FOLDER=$1
 fi
 
+function get_LUPperCL {
+	LUPperCL=1
+	if [[ $1 == "float" ]]; then
+		LUPperCL=16
+	elif [[ $1 == "double" ]]; then
+		LUPperCL=8
+	elif [[ $1 == "float _Complex" ]]; then
+		LUPperCL=8
+	elif [[ $1 == "double _Complex" ]]; then
+		LUPperCL=4
+	fi
+	echo ${LUPperCL}
+}
+
+function get_Kerncraft_ECM {
+
+	# LC or SIM
+	CASE=$1
+
+	ecm=",,,,"
+	cycl=""
+	mlup=""
+
+	if [ ${CASE} == "Bench" ]; then
+		if [ -f data/singlecore/${CASE}_${size}.txt ]; then
+			ecm=$(grep Pheno data/singlecore/${CASE}_${size}.txt | sed 's/.*: //;s/{ //g;s/ } cy\/CL//g;s/ [|]* /,/g')
+			if [ ${#ecm} -lt 2 ]; then
+				ecm=",,,,"
+			fi
+			cycl=$(cat data/singlecore/${CASE}_${size}.txt | grep 'Runtime (per cacheline update):' | sed -e 's/.*: //' -e 's/ cy\/CL//')
+			mlup=$(cat data/singlecore/${CASE}_${size}.txt | grep " MLUP" | sed -e 's/Performance: //' -e 's/ MLUP\/s//')
+		fi
+	else
+		if [ -f data/singlecore/ECM_${CASE}_${size}.txt ]; then
+			if [ $(grep -c ") cy/CL" data/singlecore/ECM_${CASE}_${size}.txt) -gt 0 ]; then
+				ecm=$(cat data/singlecore/ECM_${CASE}_${size}.txt | grep -E "[0-9][)]?) cy/CL"| sed -e 's/max(//;s/sum(//;s/.*= //;s/).*//;s/ //g')
+				cycl=$(grep " cy/CL" data/singlecore/ECM_${CASE}_${size}.txt | grep = | tail -n 1 | sed -e 's/.*= //;s/ cy\/CL//')
+				mlup=$(bc -l <<< "scale=2;(${LUPperCL} * ${ghz} * 1000 / ${cycl})")
+			fi
+		fi
+	fi
+
+	echo ${ecm}","${cycl}","${mlup}
+}
+
+function get_Kerncraft_DATATRANSFERS {
+
+	# LC or SIM
+	CASE=$1
+
+	L1evict=""
+	L1load=""
+	L1total=""
+	L2evict=""
+	L2load=""
+	L2total=""
+	L3evict=""
+	L3load=""
+	L3total=""
+
+	if [ ${CASE} == "Bench" ]; then
+		if [ -f data/singlecore/${CASE}_${size}.txt ]; then
+			L1=$(cat data/singlecore/Bench_${size}.txt | tail -n 8 | head -n 5 | grep "L1    |" | sed 's/.*L1.*| //')
+			L1evict=$(echo ${L1} | sed -e 's/.*LOAD\/CL[ ]*//' -e  's/ CL\/CL.*//')
+			L1evict=$(bc -l <<< "scale=2;${L1evict} * 64 / 8")
+			L1load=$(echo ${L1} | sed -e 's/.*LOAD\/CL[ ]*//' -e 's/[0-9. ]*CL\/CL[ ]*//' -e 's/[ ]CL\/CL//')
+			L1load=$(bc -l <<< "scale=2;${L1load} * 64 / 8")
+			L1total=$(bc -l <<< "scale=2;${L1load} + ${L1evict}")
+
+			L2=$(cat data/singlecore/Bench_${size}.txt | tail -n 8 | head -n 5 | grep "L2    |" | sed 's/.*L2.*| //')
+			L2evict=$(echo ${L2} | sed -e 's/[0-9. ]*CL\/CL[ ]*//' -e 's/ CL\/CL.*//')
+			L2evict=$(bc -l <<< "scale=2;${L2evict} * 64 / 8")
+			L2load=$(echo ${L2} | sed -e 's/[0-9. ]*CL\/CL[ ]*//' -e 's/[0-9. ]*CL\/CL[ ]*//' -e 's/ CL\/CL//')
+			L2load=$(bc -l <<< "scale=2;${L2load} * 64 / 8")
+			L2total=$(bc -l <<< "scale=2;${L2load} + ${L2evict}")
+
+			L3=$(cat data/singlecore/Bench_${size}.txt | tail -n 8 | head -n 5 | grep "L3    |" | sed 's/.*L3.*| //')
+			L3evict=$(echo ${L3} | sed -e 's/[0-9. ]*CL\/CL[ ]*//' -e 's/ CL\/CL.*//')
+			L3evict=$(bc -l <<< "scale=2;${L3evict} * 64 / 8")
+			L3load=$(echo ${L3} | sed -e 's/[0-9. ]*CL\/CL[ ]*//' -e 's/[0-9. ]*CL\/CL[ ]*//' -e 's/ CL\/CL//')
+			L3load=$(bc -l <<< "scale=2;${L3load} * 64 / 8")
+			L3total=$(bc -l <<< "scale=2;${L3load} + ${L3evict}")
+		fi
+	else
+		if [ -f data/singlecore/ECM_${CASE}_${size}.txt ]; then
+			if [ $(grep -c "Data Transfers:" data/singlecore/ECM_${CASE}_${size}.txt) -gt 0 ]; then
+				L1=$(grep "L1-L2" data/singlecore/ECM_${CASE}_${size}.txt)
+				L1evict=$(echo ${L1} | sed -e 's/.*B\/CL | //' -e 's/ B\/CL |//')
+				L1evict=$(bc -l <<< "scale=2;${L1evict} / 8")
+				L1load=$(echo ${L1} | sed -e 's/.*L2 | //' -e 's/ B.*//')
+				L1load=$(bc -l <<< "scale=2;${L1load} / 8")
+				L1total=$(bc -l <<< "scale=2;${L1load} + ${L1evict}")
+
+				L2=$(grep "L2-L3" data/singlecore/ECM_${CASE}_${size}.txt)
+				L2evict=$(echo ${L2} | sed -e 's/.*B\/CL | //' -e 's/ B\/CL |//')
+				L2evict=$(bc -l <<< "scale=2;${L2evict} / 8")
+				L2load=$(echo ${L2} | sed -e 's/.*L3 | //' -e 's/ B.*//')
+				L2load=$(bc -l <<< "scale=2;${L2load} / 8")
+				L2total=$(bc -l <<< "scale=2;${L2load} + ${L2evict}")
+
+				L3=$(grep "L3-MEM" data/singlecore/ECM_${CASE}_${size}.txt)
+				L3evict=$(echo ${L3} | sed -e 's/.*B\/CL | //' -e 's/ B\/CL |//')
+				L3evict=$(bc -l <<< "scale=2;${L3evict} / 8")
+				L3load=$(echo ${L3} | sed -e 's/.*MEM | //' -e 's/ B.*//')
+				L3load=$(bc -l <<< "scale=2;${L3load} / 8")
+				L3total=$(bc -l <<< "scale=2;${L3load} + ${L3evict}")
+			fi
+		fi
+	fi
+
+	echo ${L1load}","${L1evict}","${L1total}","${L2load}","${L2evict}","${L2total}","${L3load}","${L3evict}","${L3total}
+}
+
+function get_Kerncraft_Roofline {
+
+	# LC or SIM
+	CASE=$1
+
+	gflops=""
+	mlups=""
+	rfl_cycl=""
+	intensity=""
+
+	if [ -f data/singlecore/Roofline_${CASE}_${size}.txt ]; then
+		if [ $(grep -c "FLOP/s d" data/singlecore/Roofline_${CASE}_${size}.txt) -gt 0 ]; then
+			gflops=$(grep "FLOP/s d" data/singlecore/Roofline_${CASE}_${size}.txt | sed -e 's/FLOP.*//;s/CPU bound. //;s/ M/\/1000/;s/ G//')
+			gflops=$(bc -l <<< "scale=5;${gflops}" | sed -r 's/^(-?)\./\10./')
+			mlups=$(bc -l <<< "scale=2;${gflops} * 1000 / ${flops}")
+			rfl_cycl=$(cat data/singlecore/Roofline_${CASE}_${size}.txt | grep "'cy/CL')" | tail -n 2 | head -n 1 | sed 's/.*Unit(//;s/,.*//')
+			intensity=$(grep Arithmetic  data/singlecore/Roofline_${CASE}_${size}.txt | sed -e 's/Arithmetic Intensity: //' -e 's/ FLOP\/B//')
+			if [ ${#intensity} -lt 2 ]; then
+				intensity=$(tail -n 2 data/singlecore/Roofline_${CASE}_${size}.txt | sed '/^\s*$/d;s/CPU bound.*/CPU bound/g')
+			fi
+		fi
+	fi
+
+	echo ${gflops}","${mlups}","${rfl_cycl}","${intensity}
+}
+
 # variables
 MACHINE_FILE=$(grep MACHINE_FILE args.txt | sed 's/.* //')
 
@@ -29,6 +168,12 @@ CONST=$(grep STEMPEL_ARGS args.txt | sed 's/.*-C //; s/ .*//')
 WEIGHTING=replaceme
 # datatype: 'double' or 'float'
 DATATYPE=$(grep STEMPEL_ARGS args.txt | sed 's/.*-t \(.*\)/\1/;s/\"//g')
+# stencil name (if specified)
+if [ $(grep -c "STENCIL" args.txt) -gt 0 ]; then
+	STENCIL_NAME=$(grep STENCIL args.txt | sed 's/\$STENCIL //')
+else
+	STENCIL_NAME="None"
+fi
 
 ghz=$(grep clock ${MACHINE_FILE} | sed 's/clock: //; s/ GHz//')
 MACHINE=$(echo ${MACHINE_FILE} | sed 's/.*\///g; s/.yml//')
@@ -43,15 +188,7 @@ elif [[ $(grep STEMPEL_ARGS args.txt | grep -c '\-p') -eq 1 ]]; then
 	WEIGHTING=point-symmetric
 fi
 
-if [[ ${DATATYPE} == "float" ]]; then
-	LUPperCL=16
-elif [[ ${DATATYPE} == "double" ]]; then
-	LUPperCL=8
-elif [[ ${DATATYPE} == "float _Complex" ]]; then
-	LUPperCL=8
-elif [[ ${DATATYPE} == "double _Complex" ]]; then
-	LUPperCL=4
-fi
+LUPperCL=$(get_LUPperCL ${DATATYPE})
 
 echo ":: PROCESSING ${DIM}D r${RADIUS} ${KIND} ${CONST} ${WEIGHTING} ${DATATYPE} ${MACHINE}"
 
@@ -73,6 +210,9 @@ echo "---" > ${FILENAME}
 echo "" >> ${FILENAME}
 echo "title:  \"Stencil ${DIM}D r${RADIUS} ${KIND} ${CONST} ${WEIGHTING} ${DATATYPE} ${MACHINE}\"" >> ${FILENAME}
 echo "" >> ${FILENAME}
+if [[ ${STENCIL_NAME} != "None" ]]; then
+	echo "stencil_name     : \"${STENCIL_NAME}\"" >> ${FILENAME}
+fi
 echo "dimension    : \"${DIM}D\"" >> ${FILENAME}
 echo "radius       : \"r${RADIUS}\"" >> ${FILENAME}
 echo "weighting    : \"${WEIGHTING}\"" >> ${FILENAME}
@@ -138,7 +278,7 @@ echo ":: GENERATING results.csv"
 FILENAME=results.csv
 
 # write header
-RESULTS_HEADER="N^3,Roofline CS GFLOPs,Roofline CS MLUPs,Roofline CS cycl,Roofline CS Arithmetic Intensity,Roofline LC GFLOPs,Roofline LC MLUPs,Roofline LC cycl,Roofline LC Arithmetic Intensity,Roofline ECM MLUPs,Benchmark MLUPs,ECM CS Tol,ECM CS Tnol,ECM CS Tl1l2,ECM CS Tl2l3,ECM CS Tl3mem,ECM CS cycl,ECM LC Tol,ECM LC Tnol,ECM LC Tl1l2,ECM LC Tl2l3,ECM LC Tl3mem,ECM LC cycl,Benchmark cycl,Benchmark Pheno Tol,Benchmark Pheno Tnol,Benchmark Pheno Tl1l2,Benchmark Pheno Tl2l3,Benchmark Pheno Tl3mem,Benchmark Transfer L1L2 load,Benchmark Transfer L1L2 evict,Benchmark Transfer L1L2 total,Benchmark Transfer L2L3 load,Benchmark Transfer L2L3 evict,Benchmark Transfer L2L3 total,Benchmark Transfer L3MEM load,Benchmark Transfer L3MEM evict,Benchmark Transfer L3MEM total,CS Transfer L1L2 load,CS Transfer L1L2 evict,CS Transfer L1L2 total,CS Transfer L2L3 load,CS Transfer L2L3 evict,CS Transfer L2L3 total,CS Transfer L3MEM load,CS Transfer L3MEM evict,CS Transfer L3MEM total,LC Transfer L1L2 load,LC Transfer L1L2 evict,LC Transfer L1L2 total,LC Transfer L2L3 load,LC Transfer L2L3 evict,LC Transfer L2L3 total,LC Transfer L3MEM load,LC Transfer L3MEM evict,LC Transfer L3MEM total"
+RESULTS_HEADER="N^3,Roofline CS GFLOPs,Roofline CS MLUPs,Roofline CS cycl,Roofline CS Arithmetic Intensity,Roofline LC GFLOPs,Roofline LC MLUPs,Roofline LC cycl,Roofline LC Arithmetic Intensity,Benchmark Pheno Tol,Benchmark Pheno Tnol,Benchmark Pheno Tl1l2,Benchmark Pheno Tl2l3,Benchmark Pheno Tl3mem,Benchmark cycl,Benchmark MLUPs,ECM CS Tol,ECM CS Tnol,ECM CS Tl1l2,ECM CS Tl2l3,ECM CS Tl3mem,ECM CS cycl,ECM CS MLUPs,ECM LC Tol,ECM LC Tnol,ECM LC Tl1l2,ECM LC Tl2l3,ECM LC Tl3mem,ECM LC cycl,ECM LC MLUPs,Benchmark Transfer L1L2 load,Benchmark Transfer L1L2 evict,Benchmark Transfer L1L2 total,Benchmark Transfer L2L3 load,Benchmark Transfer L2L3 evict,Benchmark Transfer L2L3 total,Benchmark Transfer L3MEM load,Benchmark Transfer L3MEM evict,Benchmark Transfer L3MEM total,CS Transfer L1L2 load,CS Transfer L1L2 evict,CS Transfer L1L2 total,CS Transfer L2L3 load,CS Transfer L2L3 evict,CS Transfer L2L3 total,CS Transfer L3MEM load,CS Transfer L3MEM evict,CS Transfer L3MEM total,LC Transfer L1L2 load,LC Transfer L1L2 evict,LC Transfer L1L2 total,LC Transfer L2L3 load,LC Transfer L2L3 evict,LC Transfer L2L3 total,LC Transfer L3MEM load,LC Transfer L3MEM evict,LC Transfer L3MEM total"
 echo ${RESULTS_HEADER} > ${FILENAME}
 
 if [ -f stencil.flop ]; then
@@ -149,174 +289,18 @@ else
 fi
 
 for (( size=10; size<=${LC_3D_L3_N}+10; size=size+10)); do
+	ECM_SIM=$(get_Kerncraft_ECM "SIM")
+	TRANSFERS_SIM=$(get_Kerncraft_DATATRANSFERS "SIM")
+	ROOFLINE_SIM=$(get_Kerncraft_Roofline "SIM")
 
-	ecm=",,,,"
-	ecm_cy=""
-	gflops=""
-	mflops=""
-	rfl_sim_cycl=""
-	intensity=""
+	ECM_LC=$(get_Kerncraft_ECM "LC")
+	TRANSFERS_LC=$(get_Kerncraft_DATATRANSFERS "LC")
+	ROOFLINE_LC=$(get_Kerncraft_Roofline "LC")
 
-	ECM_CS_L1evict=""
-	ECM_CS_L1load=""
-	ECM_CS_L1total=""
-	ECM_CS_L2evict=""
-	ECM_CS_L2load=""
-	ECM_CS_L2total=""
-	ECM_CS_L3evict=""
-	ECM_CS_L3load=""
-	ECM_CS_L3total=""
+	BENCH=$(get_Kerncraft_ECM "Bench")
+	BENCH_TRANSFERS=$(get_Kerncraft_DATATRANSFERS "Bench")
 
-	if [ -f data/singlecore/ECM_SIM_${size}.txt ]; then
-		if [ $(grep -c ") cy/CL" data/singlecore/ECM_SIM_${size}.txt) -gt 0 ]; then
-			ecm=$(cat data/singlecore/ECM_SIM_${size}.txt | grep -E "[0-9][)]?) cy/CL"| sed -e 's/max(//;s/sum(//;s/.*= //;s/).*//;s/ //g')
-			ecm_cy=$(grep " cy/CL" data/singlecore/ECM_SIM_${size}.txt | grep = | tail -n 1 | sed -e 's/.*= //;s/ cy\/CL//')
-		fi
-
-		if [ $(grep -c "Data Transfers:" data/singlecore/ECM_SIM_${size}.txt) -gt 0 ]; then
-			L1=$(grep "L1-L2" data/singlecore/ECM_SIM_${size}.txt)
-			ECM_CS_L1evict=$(echo ${L1} | sed -e 's/.*B\/CL | //' -e 's/ B\/CL |//')
-			ECM_CS_L1evict=$(bc -l <<< "scale=2;${ECM_CS_L1evict} / 8")
-			ECM_CS_L1load=$(echo ${L1} | sed -e 's/.*L2 | //' -e 's/ B.*//')
-			ECM_CS_L1load=$(bc -l <<< "scale=2;${ECM_CS_L1load} / 8")
-			ECM_CS_L1total=$(bc -l <<< "scale=2;${ECM_CS_L1load} + ${ECM_CS_L1evict}")
-
-			L2=$(grep "L2-L3" data/singlecore/ECM_SIM_${size}.txt)
-			ECM_CS_L2evict=$(echo ${L2} | sed -e 's/.*B\/CL | //' -e 's/ B\/CL |//')
-			ECM_CS_L2evict=$(bc -l <<< "scale=2;${ECM_CS_L2evict} / 8")
-			ECM_CS_L2load=$(echo ${L2} | sed -e 's/.*L3 | //' -e 's/ B.*//')
-			ECM_CS_L2load=$(bc -l <<< "scale=2;${ECM_CS_L2load} / 8")
-			ECM_CS_L2total=$(bc -l <<< "scale=2;${ECM_CS_L2load} + ${ECM_CS_L2evict}")
-
-			L3=$(grep "L3-MEM" data/singlecore/ECM_SIM_${size}.txt)
-			ECM_CS_L3evict=$(echo ${L3} | sed -e 's/.*B\/CL | //' -e 's/ B\/CL |//')
-			ECM_CS_L3evict=$(bc -l <<< "scale=2;${ECM_CS_L3evict} / 8")
-			ECM_CS_L3load=$(echo ${L3} | sed -e 's/.*MEM | //' -e 's/ B.*//')
-			ECM_CS_L3load=$(bc -l <<< "scale=2;${ECM_CS_L3load} / 8")
-			ECM_CS_L3total=$(bc -l <<< "scale=2;${ECM_CS_L3load} + ${ECM_CS_L3evict}")
-		fi
-	fi
-
-	if [ -f data/singlecore/Roofline_SIM_${size}.txt ]; then
-		if [ $(grep -c "FLOP/s d" data/singlecore/Roofline_SIM_${size}.txt) -gt 0 ]; then
-			gflops=$(grep "FLOP/s d" data/singlecore/Roofline_SIM_${size}.txt | sed -e 's/FLOP.*//;s/CPU bound. //;s/ M/\/1000/;s/ G//')
-			gflops=$(bc -l <<< "scale=5;${gflops}" | sed -r 's/^(-?)\./\10./')
-			mlups=$(bc -l <<< "scale=2;${gflops} * 1000 / ${flops}")
-			rfl_sim_cycl=$(cat data/singlecore/Roofline_SIM_${size}.txt | grep "'cy/CL')" | tail -n 2 | head -n 1 | sed 's/.*Unit(//;s/,.*//')
-			intensity=$(grep Arithmetic  data/singlecore/Roofline_SIM_${size}.txt | sed -e 's/Arithmetic Intensity: //' -e 's/ FLOP\/B//')
-			if [ ${#intensity} -lt 2 ]; then
-				intensity=$(tail -n 2 data/singlecore/Roofline_SIM_${size}.txt | sed '/^\s*$/d;s/CPU bound.*/CPU bound/g')
-			fi
-		fi
-	fi
-
-	ecm_LC=",,,,"
-	ecm_cy_LC=""
-	gflops_LC=""
-	mlups_LC=""
-	rfl_lc_cycl=""
-	intensity_LC=""
-
-	ECM_LC_L1evict=""
-	ECM_LC_L1load=""
-	ECM_LC_L1total=""
-	ECM_LC_L2evict=""
-	ECM_LC_L2load=""
-	ECM_LC_L2total=""
-	ECM_LC_L3evict=""
-	ECM_LC_L3load=""
-	ECM_LC_L3total=""
-
-	if [ -f data/singlecore/ECM_LC_${size}.txt ]; then
-		if [ $(grep -c ") cy/CL" data/singlecore/ECM_LC_${size}.txt) -gt 0 ]; then
-			ecm_LC=$(cat data/singlecore/ECM_LC_${size}.txt | grep -E "[0-9][)]?) cy/CL"| sed -e 's/max(//;s/sum(//;s/.*= //;s/).*//;s/ //g')
-			ecm_cy_LC=$(grep " cy/CL" data/singlecore/ECM_LC_${size}.txt | grep = | tail -n 1 | sed -e 's/.*= //;s/ cy\/CL//')
-		fi
-
-		if [ $(grep -c "Data Transfers:" data/singlecore/ECM_LC_${size}.txt) -gt 0 ]; then
-			L1=$(grep "L1-L2" data/singlecore/ECM_LC_${size}.txt)
-			ECM_LC_L1evict=$(echo ${L1} | sed -e 's/.*B\/CL | //' -e 's/ B\/CL |//')
-			ECM_LC_L1evict=$(bc -l <<< "scale=2;${ECM_LC_L1evict} / 8")
-			ECM_LC_L1load=$(echo ${L1} | sed -e 's/.*L2 | //' -e 's/ B.*//')
-			ECM_LC_L1load=$(bc -l <<< "scale=2;${ECM_LC_L1load} / 8")
-			ECM_LC_L1total=$(bc -l <<< "scale=2;${ECM_LC_L1load} + ${ECM_LC_L1evict}")
-
-			L2=$(grep "L2-L3" data/singlecore/ECM_LC_${size}.txt)
-			ECM_LC_L2evict=$(echo ${L2} | sed -e 's/.*B\/CL | //' -e 's/ B\/CL |//')
-			ECM_LC_L2evict=$(bc -l <<< "scale=2;${ECM_LC_L2evict} / 8")
-			ECM_LC_L2load=$(echo ${L2} | sed -e 's/.*L3 | //' -e 's/ B.*//')
-			ECM_LC_L2load=$(bc -l <<< "scale=2;${ECM_LC_L2load} / 8")
-			ECM_LC_L2total=$(bc -l <<< "scale=2;${ECM_LC_L2load} + ${ECM_LC_L2evict}")
-
-			L3=$(grep "L3-MEM" data/singlecore/ECM_LC_${size}.txt)
-			ECM_LC_L3evict=$(echo ${L3} | sed -e 's/.*B\/CL | //' -e 's/ B\/CL |//')
-			ECM_LC_L3evict=$(bc -l <<< "scale=2;${ECM_LC_L3evict} / 8")
-			ECM_LC_L3load=$(echo ${L3} | sed -e 's/.*MEM | //' -e 's/ B.*//')
-			ECM_LC_L3load=$(bc -l <<< "scale=2;${ECM_LC_L3load} / 8")
-			ECM_LC_L3total=$(bc -l <<< "scale=2;${ECM_LC_L3load} + ${ECM_LC_L3evict}")
-		fi
-	fi
-
-	if [ -f data/singlecore/Roofline_LC_${size}.txt ]; then
-		if [ $(grep -c "FLOP/s d" data/singlecore/Roofline_LC_${size}.txt) -gt 0 ]; then
-			gflops_LC=$(grep "FLOP/s d" data/singlecore/Roofline_LC_${size}.txt | sed -e 's/FLOP.*//;s/CPU bound. //;s/ M/\/1000/;s/ G//')
-			gflops_LC=$(bc -l <<< "scale=5;${gflops_LC}" | sed -r 's/^(-?)\./\10./')
-			mlups_LC=$(bc -l <<< "scale=2;${gflops_LC} * 1000 / ${flops}")
-			rfl_lc_cycl=$(cat data/singlecore/Roofline_LC_${size}.txt | grep "'cy/CL')" | tail -n 2 | head -n 1 | sed 's/.*Unit(//;s/,.*//')
-			intensity_LC=$(grep Arithmetic  data/singlecore/Roofline_LC_${size}.txt | sed -e 's/Arithmetic Intensity: //' -e 's/ FLOP\/B//')
-			if [ ${#intensity_LC} -lt 2 ]; then
-				intensity=$(tail -n 2 data/singlecore/Roofline_LC_${size}.txt | sed '/^\s*$/d;s/CPU bound.*/CPU bound/g')
-			fi
-		fi
-	fi
-
-	ecm_mlup=""
-	bench_cy=""
-	bench_mlup=""
-	L1evict=""
-	L1load=""
-	L1total=""
-	L2evict=""
-	L2load=""
-	L2total=""
-	L3evict=""
-	L3load=""
-	L3total=""
-	pheno_ecm=",,,,"
-
-	if [ -f data/singlecore/Bench_${size}.txt ]; then
-		bench_cy=$(cat data/singlecore/Bench_${size}.txt | grep 'Runtime (per cacheline update):' | sed -e 's/.*: //' -e 's/ cy\/CL//')
-		bench_mlup=$(cat data/singlecore/Bench_${size}.txt | grep " MLUP" | sed -e 's/Performance: //' -e 's/ MLUP\/s//')
-
-		ecm_mlup=$(grep "Clock" data/singlecore/Bench_${size}.txt | sed -e 's/.*: //g' -e 's/\..*//g')
-		ecm_mlup=$(bc -l <<< "scale=2;(${LUPperCL} * ${ecm_mlup} / ${ecm_cy_LC})")
-
-		pheno_ecm=$(grep Pheno data/singlecore/Bench_${size}.txt | sed 's/.*: //;s/{ //g;s/ } cy\/CL//g;s/ [|]* /,/g')
-		if [ ${#pheno_ecm} -lt 2 ]; then
-			pheno_ecm=",,,,"
-		fi
-
-		L1=$(cat data/singlecore/Bench_${size}.txt | tail -n 8 | head -n 5 | grep "L1    |" | sed 's/.*L1.*| //')
-		L1evict=$(echo ${L1} | sed -e 's/.*LOAD\/CL[ ]*//' -e  's/ CL\/CL.*//')
-		L1evict=$(bc -l <<< "scale=2;${L1evict} * 64 / 8")
-		L1load=$(echo ${L1} | sed -e 's/.*LOAD\/CL[ ]*//' -e 's/[0-9. ]*CL\/CL[ ]*//' -e 's/[ ]CL\/CL//')
-		L1load=$(bc -l <<< "scale=2;${L1load} * 64 / 8")
-		L1total=$(bc -l <<< "scale=2;${L1load} + ${L1evict}")
-		L2=$(cat data/singlecore/Bench_${size}.txt | tail -n 8 | head -n 5 | grep "L2    |" | sed 's/.*L2.*| //')
-		L2evict=$(echo ${L2} | sed -e 's/[0-9. ]*CL\/CL[ ]*//' -e 's/ CL\/CL.*//')
-		L2evict=$(bc -l <<< "scale=2;${L2evict} * 64 / 8")
-		L2load=$(echo ${L2} | sed -e 's/[0-9. ]*CL\/CL[ ]*//' -e 's/[0-9. ]*CL\/CL[ ]*//' -e 's/ CL\/CL//')
-		L2load=$(bc -l <<< "scale=2;${L2load} * 64 / 8")
-		L2total=$(bc -l <<< "scale=2;${L2load} + ${L2evict}")
-		L3=$(cat data/singlecore/Bench_${size}.txt | tail -n 8 | head -n 5 | grep "L3    |" | sed 's/.*L3.*| //')
-		L3evict=$(echo ${L3} | sed -e 's/[0-9. ]*CL\/CL[ ]*//' -e 's/ CL\/CL.*//')
-		L3evict=$(bc -l <<< "scale=2;${L3evict} * 64 / 8")
-		L3load=$(echo ${L3} | sed -e 's/[0-9. ]*CL\/CL[ ]*//' -e 's/[0-9. ]*CL\/CL[ ]*//' -e 's/ CL\/CL//')
-		L3load=$(bc -l <<< "scale=2;${L3load} * 64 / 8")
-		L3total=$(bc -l <<< "scale=2;${L3load} + ${L3evict}")
-	fi
-
-	echo ${size}","${gflops}","${mlups}","${rfl_sim_cycl}","${intensity}","${gflops_LC}","${mlups_LC}","${rfl_lc_cycl}","${intensity_LC}","${ecm_mlup}","${bench_mlup}","${ecm}","${ecm_cy}","${ecm_LC}","${ecm_cy_LC}","${bench_cy}","${pheno_ecm}","${L1load}","${L1evict}","${L1total}","${L2load}","${L2evict}","${L2total}","${L3load}","${L3evict}","${L3total}","${ECM_CS_L1load}","${ECM_CS_L1evict}","${ECM_CS_L1total}","${ECM_CS_L2load}","${ECM_CS_L2evict}","${ECM_CS_L2total}","${ECM_CS_L3load}","${ECM_CS_L3evict}","${ECM_CS_L3total}","${ECM_LC_L1load}","${ECM_LC_L1evict}","${ECM_LC_L1total}","${ECM_LC_L2load}","${ECM_LC_L2evict}","${ECM_LC_L2total}","${ECM_LC_L3load}","${ECM_LC_L3evict}","${ECM_LC_L3total} >> ${FILENAME}
+	echo ${size}","${ROOFLINE_SIM}","${ROOFLINE_LC}","${BENCH}","${ECM_SIM}","${ECM_LC}","${BENCH_TRANSFERS}","${TRANSFERS_SIM}","${TRANSFERS_LC} >> ${FILENAME}
 done
 
 # ************************************************************************************************
@@ -436,6 +420,11 @@ fi
 
 DT=$(echo ${DATATYPE} | sed 's/ //')
 FOLDER="${OUTPUT_FOLDER}/${DIM}D/r${RADIUS}/${WEIGHTING}/${KIND}/${CONST}/${DT}/${MACHINE}/"
+
+if [[ ${STENCIL_NAME} != "None" ]]; then
+	FOLDER="${OUTPUT_FOLDER}/${STENCIL_NAME}/${MACHINE}/"
+fi
+
 mkdir -p ${FOLDER}
 cp index.md *csv ${FOLDER}
 
