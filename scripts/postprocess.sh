@@ -211,14 +211,14 @@ echo "" >> ${FILENAME}
 echo "title:  \"Stencil ${DIM}D r${RADIUS} ${KIND} ${CONST} ${WEIGHTING} ${DATATYPE} ${MACHINE}\"" >> ${FILENAME}
 echo "" >> ${FILENAME}
 if [[ ${STENCIL_NAME} != "None" ]]; then
-	echo "stencil_name : \"${STENCIL_NAME}\"" >> ${FILENAME}
+	echo "stencil_name     : \"${STENCIL_NAME}\"" >> ${FILENAME}
 fi
 echo "dimension    : \"${DIM}D\"" >> ${FILENAME}
 echo "radius       : \"r${RADIUS}\"" >> ${FILENAME}
 echo "weighting    : \"${WEIGHTING}\"" >> ${FILENAME}
 echo "kind         : \"${KIND}\"" >> ${FILENAME}
 echo "coefficients : \"${CONST}\"" >> ${FILENAME}
-echo "datatype     : \"$(echo ${DATATYPE} | sed 's/ //')\"" >> ${FILENAME}
+echo "datatype     : \"${DATATYPE}\"" >> ${FILENAME}
 echo "machine      : \"${MACHINE}\"" >> ${FILENAME}
 echo "flavor       : \"EDIT_ME\"" >> ${FILENAME}
 echo "compile_flags: \"$(cat args.txt | grep COMPILER | sed 's/\$COMPILER //') $(cat args.txt | grep COMPILE_ARGS | sed 's/\$COMPILE_ARGS //; s/\/home.*stempel\///g; s/\/mnt\/opt\///g')\"" >> ${FILENAME}
@@ -422,7 +422,7 @@ DT=$(echo ${DATATYPE} | sed 's/ //')
 FOLDER="${OUTPUT_FOLDER}/${DIM}D/r${RADIUS}/${WEIGHTING}/${KIND}/${CONST}/${DT}/${MACHINE}/"
 
 if [[ ${STENCIL_NAME} != "None" ]]; then
-	FOLDER="${OUTPUT_FOLDER}/named/${STENCIL_NAME}/${MACHINE}/"
+	FOLDER="${OUTPUT_FOLDER}/${STENCIL_NAME}/${MACHINE}/"
 fi
 
 mkdir -p ${FOLDER}
