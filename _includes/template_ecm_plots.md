@@ -3,9 +3,6 @@
   {% capture csv_filename %}{{page.stencil_name}}_{{page.machine}}_results{% endcapture %}
 {% else %}
   {% capture csv_filename %}{{page.dimension}}_{{page.radius}}_{{page.weighting}}_{{page.kind}}_{{page.coefficients}}_{{page.datatype}}_{{page.machine}}_results{% endcapture %}
-  {% if page.flavor %}
-    {% capture csv_filename %}{{page.dimension}}_{{page.radius}}_{{page.weighting}}_{{page.kind}}_{{page.coefficients}}_{{page.datatype}}_{{page.machine}}_{{page.flavor}}_results{% endcapture %}
-  {% endif %}
 {% endif %}
 
 {% assign csv_file = site.data.stencils[{{csv_filename}}] %}
