@@ -132,7 +132,7 @@ var trace_Tol_{{script_name}} = {
   x: [{{N}}],
   y: [{{script_data_Tol}}],
   line: {color: '#d62728'},
-  name: "T<sub>OL</sub>"
+  name: "T<sub>comp</sub>"
 };
 var trace_Tnol_{{script_name}} = {
   {%- if overlap[0] == "true" %}
@@ -148,7 +148,7 @@ var trace_Tnol_{{script_name}} = {
   {% endif %}
   x: [{{N}}],
   y: [{{script_data_Tnol}}],
-  name: "T<sub>nOL</sub>"
+  name: "T<sub>Reg-L1</sub>"
 };
 var trace_Tl1l2_{{script_name}} = {
   {%- if overlap[1] == "true" %}
