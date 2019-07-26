@@ -19,7 +19,7 @@
 {"description":"Intra Node Stencil Performance Evaluation Collection","@type":"WebPage","headline":"Stencil 3D r3 star constant isotropic double _Complex Zen_EPYC-7451","url":"/INSPECT/stencils/3D/r3/isotropic/star/constant/double_Complex/Zen_EPYC-7451/","@context":"http://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
-    <link rel="stylesheet" href="/INSPECT/assets/css/style.css?v=6c76636412c6f81337f8f67787cb1a6252803e53">
+    <link rel="stylesheet" href="/INSPECT/assets/css/style.css?v=a55a90646ebb03d71634b247311e4790b5c91a81">
     <script src="https://code.jquery.com/jquery-3.3.0.min.js" integrity="sha256-RTQy8VOmNlT6b2PIRur37p6JEBZUE7o8wPgMvu18MC4=" crossorigin="anonymous"></script>
     <script src="/INSPECT/assets/js/main.js"></script>
     <!--[if lt IE 9]>
@@ -749,6 +749,64 @@ Plotly.newPlot('mem_CS', data, layout, config);
 </div>
 
 <div class="section-block-full">
+  <div class="section-block-half">
+    <h2 id="multi-core-thread-scaling">Multi Core Thread Scaling</h2>
+
+    <p><input class="plot-button" type="button" onclick="document.getElementById('scaling_700').style.display = 'none';document.getElementById('scaling_700').style.display = 'block';" value="700³" /></p>
+
+    <div class="scaling">
+
+      <div id="scaling"></div>
+
+      <script>
+var trace_benchmark = {
+  type: "scatter",
+  mode: "markers",
+  marker: { symbol: "cross-thin-open" },
+  x: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,],
+  y: [104.86,178.85,194.06,212.71,217.77,221.08,258.66,295.41,332.25,368.89,405.67,439.93,478.89,515.87,552.3,586.92,622.68,660.13,696.32,728.77,773.26,796.25,843.7,876.77,],
+  line: {color: 'black'},
+  name: "Benchmark"
+};
+var trace_ecm = {
+  type: "scatter",
+  mode: "lines",
+  x: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,],
+  y: [150.0075,212.3225,212.3225,212.3225,212.3225,212.3225,247.71,283.075,318.4475,353.845,389.335,424.745,460,495.4225,530.87,566.1525,601.7,637.1175,672.5125,707.69,743.1325,778.34,814.1575,849.49,],
+  line: {color: '#ff7f0e'},
+  name: "ECM LC Prediction"
+};
+var trace_roofline = {
+  type: "scatter",
+  mode: "lines",
+  x: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,],
+  y: [156.36,189.09,186.36,202.72,208.63,212.27,247.72,282.72,317.72,352.72,388.63,424.09,459.09,495,530.9,568.63,605,639.09,675.9,714.09,749.54,798.18,841.81,912.27,],
+  line: {color: '#1f77b4'},
+  name: "Roofline LC Prediction"
+};
+
+var data = [trace_benchmark,trace_ecm,trace_roofline];
+
+var layout = {
+	xaxis: {title: 'Number of Threads',
+          range: [0.5,24.5],
+          nticks: 24},
+	yaxis: {title: 'Performance [MLUP/s]',
+          rangemode: "tozero"},
+  margin: { l: 50, r: 35, t: 10, b: 40},
+  legend: { orientation: "h",
+            y:1.1 },
+  width: 600,
+  height: 450,
+};
+
+var config = {locale: 'en'};
+Plotly.newPlot('scaling', data, layout, config);
+</script>
+
+    </div>
+
+  </div>
 
 </div>
 
