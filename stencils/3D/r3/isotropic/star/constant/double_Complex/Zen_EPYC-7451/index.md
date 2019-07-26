@@ -12,7 +12,7 @@ machine      : "Zen_EPYC-7451"
 compile_flags: "$COMPILER_VERSION icc (ICC) 19.0.2.187 20190117
 icc -O3 -xHost -fno-alias -qopenmp "
 flop         : "22"
-scaling      : []
+scaling      : [ "700" ]
 blocking     : []
 ---
 
