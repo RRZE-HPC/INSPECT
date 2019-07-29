@@ -1,16 +1,19 @@
 ---
 
-title:  "Stencil THIIM Splitfield Y SkylakeSP_Gold-6148_SNC"
+title:  "Stencil THIIM_Splitfield_Y SkylakeSP_Gold-6148_SNC"
 
 stencil_name : "THIIM_Splitfield_Y"
-dimension    : "3D"
+dimension    : "1D"
 radius       : "r1"
-coefficients : "variable"
+weighting    : "homogeneous"
+kind         : "star"
+coefficients : "constant"
 datatype     : "double_Complex"
 machine      : "SkylakeSP_Gold-6148_SNC"
-compile_flags: "icc -O3 -xCORE-AVX2 -fno-alias -qopenmp "
+flavor       : "Sub-NUMA Clustering"
+compile_flags: "icc -O3 -fno-alias -xCORE-AVX512 -qopenmp "
 flop         : "6"
-scaling      : [ "600" ]
+scaling      : []
 blocking     : []
 ---
 
@@ -27,14 +30,17 @@ double _Complex tHzx[M][N][O];
 double _Complex cHzx[M][N][O];
 
 for ( int k = 1; k < M - 1; ++k )
+{
 	for ( int j = 1; j < N - 1; ++j )
+	{
 		for ( int i = 1; i < O - 1; ++i )
 		{
 			// ----- Hz_x = Chz_tx * Hz_x - Chz_x * (S(Ex_y + Ex_z) - N(Ex_y + Ex_z) );
-			Hzx[k][j][i] =
-			  Hzx[k][j][i] * tHzx[k][j][i]
+			Hzx[k][j][i] = Hzx[k][j][i] * tHzx[k][j][i]
 			  - cHzx[k][j][i] * ( Exy[k][j - 1][i] - Exy[k][j][i] + Exz[k][j - 1][i] - Exz[k][j][i] );
 		}
+	}
+}
 {%- endcapture -%}
 
 {%- capture source_code_asm -%}
@@ -223,7 +229,7 @@ Linux skylakesp2 4.15.0-50-generic #54-Ubuntu SMP Mon May 6 18:46:08 UTC 2019 x8
 ################################################################################
 # Logged in users
 ################################################################################
- 14:24:50 up 40 days, 21:11,  0 users,  load average: 3.79, 2.72, 1.70
+ 10:33:13 up 56 days, 17:20,  0 users,  load average: 7.50, 3.65, 1.83
 USER     TTY      FROM             LOGIN@   IDLE   JCPU   PCPU WHAT
 
 ################################################################################
@@ -391,25 +397,25 @@ NUMA domains:		4
 Domain:			0
 Processors:		( 0 40 1 41 2 42 5 45 6 46 10 50 11 51 12 52 15 55 16 56 )
 Distances:		10 11 21 21
-Free memory:		22288 MB
+Free memory:		22123.5 MB
 Total memory:		22758.8 MB
 --------------------------------------------------------------------------------
 Domain:			1
 Processors:		( 3 43 4 44 7 47 8 48 9 49 13 53 14 54 17 57 18 58 19 59 )
 Distances:		11 10 21 21
-Free memory:		23785.9 MB
+Free memory:		23777.9 MB
 Total memory:		24188.2 MB
 --------------------------------------------------------------------------------
 Domain:			2
 Processors:		( 20 60 21 61 22 62 25 65 26 66 30 70 31 71 32 72 35 75 36 76 )
 Distances:		21 21 10 11
-Free memory:		23823.8 MB
+Free memory:		23490.4 MB
 Total memory:		24188.2 MB
 --------------------------------------------------------------------------------
 Domain:			3
 Processors:		( 23 63 24 64 27 67 28 68 29 69 33 73 34 74 37 77 38 78 39 79 )
 Distances:		21 21 11 10
-Free memory:		23674.8 MB
+Free memory:		23724.9 MB
 Total memory:		24186.8 MB
 --------------------------------------------------------------------------------
 
@@ -419,16 +425,16 @@ Total memory:		24186.8 MB
 available: 4 nodes (0-3)
 node 0 cpus: 0 1 2 5 6 10 11 12 15 16 40 41 42 45 46 50 51 52 55 56
 node 0 size: 22758 MB
-node 0 free: 22287 MB
+node 0 free: 22123 MB
 node 1 cpus: 3 4 7 8 9 13 14 17 18 19 43 44 47 48 49 53 54 57 58 59
 node 1 size: 24188 MB
-node 1 free: 23786 MB
+node 1 free: 23778 MB
 node 2 cpus: 20 21 22 25 26 30 31 32 35 36 60 61 62 65 66 70 71 72 75 76
 node 2 size: 24188 MB
-node 2 free: 23823 MB
+node 2 free: 23500 MB
 node 3 cpus: 23 24 27 28 29 33 34 37 38 39 63 64 67 68 69 73 74 77 78 79
 node 3 size: 24186 MB
-node 3 free: 23684 MB
+node 3 free: 23724 MB
 node distances:
 node   0   1   2   3
   0:  10  11  21  21
@@ -440,86 +446,86 @@ node   0   1   2   3
 # Frequencies
 ################################################################################
 Current CPU frequencies:
-CPU 0: governor  performance min/cur/max 2.4/1.038306/2.4 GHz Turbo 0
-CPU 1: governor  performance min/cur/max 2.4/1.619109/2.4 GHz Turbo 0
-CPU 2: governor  performance min/cur/max 2.4/1.781875/2.4 GHz Turbo 0
-CPU 5: governor  performance min/cur/max 2.4/1.860045/2.4 GHz Turbo 0
-CPU 6: governor  performance min/cur/max 2.4/1.87777/2.4 GHz Turbo 0
-CPU 10: governor  performance min/cur/max 2.4/1.397067/2.4 GHz Turbo 0
-CPU 11: governor  performance min/cur/max 2.4/1.201467/2.4 GHz Turbo 0
-CPU 12: governor  performance min/cur/max 2.4/2.400893/2.4 GHz Turbo 0
-CPU 15: governor  performance min/cur/max 2.4/1.194312/2.4 GHz Turbo 0
-CPU 16: governor  performance min/cur/max 2.4/2.024101/2.4 GHz Turbo 0
-CPU 3: governor  performance min/cur/max 2.4/1.291722/2.4 GHz Turbo 0
-CPU 4: governor  performance min/cur/max 2.4/2.05532/2.4 GHz Turbo 0
-CPU 7: governor  performance min/cur/max 2.4/1.18951/2.4 GHz Turbo 0
-CPU 8: governor  performance min/cur/max 2.4/1.791937/2.4 GHz Turbo 0
-CPU 9: governor  performance min/cur/max 2.4/2.037509/2.4 GHz Turbo 0
-CPU 13: governor  performance min/cur/max 2.4/2.090695/2.4 GHz Turbo 0
-CPU 14: governor  performance min/cur/max 2.4/1.929575/2.4 GHz Turbo 0
-CPU 17: governor  performance min/cur/max 2.4/1.874924/2.4 GHz Turbo 0
-CPU 18: governor  performance min/cur/max 2.4/2.04398/2.4 GHz Turbo 0
-CPU 19: governor  performance min/cur/max 2.4/1.725897/2.4 GHz Turbo 0
-CPU 20: governor  performance min/cur/max 2.4/2.069278/2.4 GHz Turbo 0
-CPU 21: governor  performance min/cur/max 2.4/2.400398/2.4 GHz Turbo 0
-CPU 22: governor  performance min/cur/max 2.4/2.258202/2.4 GHz Turbo 0
-CPU 25: governor  performance min/cur/max 2.4/2.1119/2.4 GHz Turbo 0
-CPU 26: governor  performance min/cur/max 2.4/1.906933/2.4 GHz Turbo 0
-CPU 30: governor  performance min/cur/max 2.4/2.068765/2.4 GHz Turbo 0
-CPU 31: governor  performance min/cur/max 2.4/2.094866/2.4 GHz Turbo 0
-CPU 32: governor  performance min/cur/max 2.4/2.260128/2.4 GHz Turbo 0
-CPU 35: governor  performance min/cur/max 2.4/2.358099/2.4 GHz Turbo 0
-CPU 36: governor  performance min/cur/max 2.4/2.32008/2.4 GHz Turbo 0
-CPU 23: governor  performance min/cur/max 2.4/2.234773/2.4 GHz Turbo 0
-CPU 24: governor  performance min/cur/max 2.4/1.558506/2.4 GHz Turbo 0
-CPU 27: governor  performance min/cur/max 2.4/1.731548/2.4 GHz Turbo 0
-CPU 28: governor  performance min/cur/max 2.4/1.654068/2.4 GHz Turbo 0
-CPU 29: governor  performance min/cur/max 2.4/2.400511/2.4 GHz Turbo 0
-CPU 33: governor  performance min/cur/max 2.4/2.401062/2.4 GHz Turbo 0
-CPU 34: governor  performance min/cur/max 2.4/1.6001/2.4 GHz Turbo 0
-CPU 37: governor  performance min/cur/max 2.4/1.873882/2.4 GHz Turbo 0
-CPU 38: governor  performance min/cur/max 2.4/2.129494/2.4 GHz Turbo 0
-CPU 39: governor  performance min/cur/max 2.4/2.093391/2.4 GHz Turbo 0
-CPU 40: governor  performance min/cur/max 2.4/2.134974/2.4 GHz Turbo 0
-CPU 41: governor  performance min/cur/max 2.4/1.219741/2.4 GHz Turbo 0
-CPU 42: governor  performance min/cur/max 2.4/2.097829/2.4 GHz Turbo 0
-CPU 45: governor  performance min/cur/max 2.4/2.113626/2.4 GHz Turbo 0
-CPU 46: governor  performance min/cur/max 2.4/2.195301/2.4 GHz Turbo 0
-CPU 50: governor  performance min/cur/max 2.4/1.891029/2.4 GHz Turbo 0
-CPU 51: governor  performance min/cur/max 2.4/1.794337/2.4 GHz Turbo 0
-CPU 52: governor  performance min/cur/max 2.4/1.798144/2.4 GHz Turbo 0
-CPU 55: governor  performance min/cur/max 2.4/1.560219/2.4 GHz Turbo 0
-CPU 56: governor  performance min/cur/max 2.4/2.232272/2.4 GHz Turbo 0
-CPU 43: governor  performance min/cur/max 2.4/2.011879/2.4 GHz Turbo 0
-CPU 44: governor  performance min/cur/max 2.4/2.224261/2.4 GHz Turbo 0
-CPU 47: governor  performance min/cur/max 2.4/2.353613/2.4 GHz Turbo 0
-CPU 48: governor  performance min/cur/max 2.4/2.114503/2.4 GHz Turbo 0
-CPU 49: governor  performance min/cur/max 2.4/1.896559/2.4 GHz Turbo 0
-CPU 53: governor  performance min/cur/max 2.4/1.349894/2.4 GHz Turbo 0
-CPU 54: governor  performance min/cur/max 2.4/1.294714/2.4 GHz Turbo 0
-CPU 57: governor  performance min/cur/max 2.4/1.941016/2.4 GHz Turbo 0
-CPU 58: governor  performance min/cur/max 2.4/2.298406/2.4 GHz Turbo 0
-CPU 59: governor  performance min/cur/max 2.4/2.365878/2.4 GHz Turbo 0
-CPU 60: governor  performance min/cur/max 2.4/1.386751/2.4 GHz Turbo 0
-CPU 61: governor  performance min/cur/max 2.4/2.401644/2.4 GHz Turbo 0
-CPU 62: governor  performance min/cur/max 2.4/2.152573/2.4 GHz Turbo 0
-CPU 65: governor  performance min/cur/max 2.4/2.295924/2.4 GHz Turbo 0
-CPU 66: governor  performance min/cur/max 2.4/2.35198/2.4 GHz Turbo 0
-CPU 70: governor  performance min/cur/max 2.4/2.338924/2.4 GHz Turbo 0
-CPU 71: governor  performance min/cur/max 2.4/2.212621/2.4 GHz Turbo 0
-CPU 72: governor  performance min/cur/max 2.4/2.189721/2.4 GHz Turbo 0
-CPU 75: governor  performance min/cur/max 2.4/1.918608/2.4 GHz Turbo 0
-CPU 76: governor  performance min/cur/max 2.4/1.690602/2.4 GHz Turbo 0
-CPU 63: governor  performance min/cur/max 2.4/1.89348/2.4 GHz Turbo 0
-CPU 64: governor  performance min/cur/max 2.4/2.108367/2.4 GHz Turbo 0
-CPU 67: governor  performance min/cur/max 2.4/1.752611/2.4 GHz Turbo 0
-CPU 68: governor  performance min/cur/max 2.4/1.694699/2.4 GHz Turbo 0
-CPU 69: governor  performance min/cur/max 2.4/2.402147/2.4 GHz Turbo 0
-CPU 73: governor  performance min/cur/max 2.4/2.401963/2.4 GHz Turbo 0
-CPU 74: governor  performance min/cur/max 2.4/1.896336/2.4 GHz Turbo 0
-CPU 77: governor  performance min/cur/max 2.4/1.597516/2.4 GHz Turbo 0
-CPU 78: governor  performance min/cur/max 2.4/2.339674/2.4 GHz Turbo 0
-CPU 79: governor  performance min/cur/max 2.4/1.71502/2.4 GHz Turbo 0
+CPU 0: governor  performance min/cur/max 2.4/1.133618/2.4 GHz Turbo 0
+CPU 1: governor  performance min/cur/max 2.4/2.018739/2.4 GHz Turbo 0
+CPU 2: governor  performance min/cur/max 2.4/1.958356/2.4 GHz Turbo 0
+CPU 5: governor  performance min/cur/max 2.4/2.264617/2.4 GHz Turbo 0
+CPU 6: governor  performance min/cur/max 2.4/1.535738/2.4 GHz Turbo 0
+CPU 10: governor  performance min/cur/max 2.4/1.583612/2.4 GHz Turbo 0
+CPU 11: governor  performance min/cur/max 2.4/1.415871/2.4 GHz Turbo 0
+CPU 12: governor  performance min/cur/max 2.4/2.178164/2.4 GHz Turbo 0
+CPU 15: governor  performance min/cur/max 2.4/1.639149/2.4 GHz Turbo 0
+CPU 16: governor  performance min/cur/max 2.4/1.808569/2.4 GHz Turbo 0
+CPU 3: governor  performance min/cur/max 2.4/2.364943/2.4 GHz Turbo 0
+CPU 4: governor  performance min/cur/max 2.4/1.545704/2.4 GHz Turbo 0
+CPU 7: governor  performance min/cur/max 2.4/1.81353/2.4 GHz Turbo 0
+CPU 8: governor  performance min/cur/max 2.4/1.619005/2.4 GHz Turbo 0
+CPU 9: governor  performance min/cur/max 2.4/2.235799/2.4 GHz Turbo 0
+CPU 13: governor  performance min/cur/max 2.4/2.179015/2.4 GHz Turbo 0
+CPU 14: governor  performance min/cur/max 2.4/1.823978/2.4 GHz Turbo 0
+CPU 17: governor  performance min/cur/max 2.4/1.877222/2.4 GHz Turbo 0
+CPU 18: governor  performance min/cur/max 2.4/1.996814/2.4 GHz Turbo 0
+CPU 19: governor  performance min/cur/max 2.4/1.984723/2.4 GHz Turbo 0
+CPU 20: governor  performance min/cur/max 2.4/1.966675/2.4 GHz Turbo 0
+CPU 21: governor  performance min/cur/max 2.4/1.974003/2.4 GHz Turbo 0
+CPU 22: governor  performance min/cur/max 2.4/1.585744/2.4 GHz Turbo 0
+CPU 25: governor  performance min/cur/max 2.4/1.898228/2.4 GHz Turbo 0
+CPU 26: governor  performance min/cur/max 2.4/2.030155/2.4 GHz Turbo 0
+CPU 30: governor  performance min/cur/max 2.4/1.370413/2.4 GHz Turbo 0
+CPU 31: governor  performance min/cur/max 2.4/2.277534/2.4 GHz Turbo 0
+CPU 32: governor  performance min/cur/max 2.4/2.321955/2.4 GHz Turbo 0
+CPU 35: governor  performance min/cur/max 2.4/2.196247/2.4 GHz Turbo 0
+CPU 36: governor  performance min/cur/max 2.4/2.329639/2.4 GHz Turbo 0
+CPU 23: governor  performance min/cur/max 2.4/2.231209/2.4 GHz Turbo 0
+CPU 24: governor  performance min/cur/max 2.4/1.987081/2.4 GHz Turbo 0
+CPU 27: governor  performance min/cur/max 2.4/1.923517/2.4 GHz Turbo 0
+CPU 28: governor  performance min/cur/max 2.4/1.670166/2.4 GHz Turbo 0
+CPU 29: governor  performance min/cur/max 2.4/1.585644/2.4 GHz Turbo 0
+CPU 33: governor  performance min/cur/max 2.4/1.750347/2.4 GHz Turbo 0
+CPU 34: governor  performance min/cur/max 2.4/1.659203/2.4 GHz Turbo 0
+CPU 37: governor  performance min/cur/max 2.4/1.946598/2.4 GHz Turbo 0
+CPU 38: governor  performance min/cur/max 2.4/1.250675/2.4 GHz Turbo 0
+CPU 39: governor  performance min/cur/max 2.4/2.175442/2.4 GHz Turbo 0
+CPU 40: governor  performance min/cur/max 2.4/2.017037/2.4 GHz Turbo 0
+CPU 41: governor  performance min/cur/max 2.4/1.663939/2.4 GHz Turbo 0
+CPU 42: governor  performance min/cur/max 2.4/1.384243/2.4 GHz Turbo 0
+CPU 45: governor  performance min/cur/max 2.4/2.080689/2.4 GHz Turbo 0
+CPU 46: governor  performance min/cur/max 2.4/2.137983/2.4 GHz Turbo 0
+CPU 50: governor  performance min/cur/max 2.4/1.674648/2.4 GHz Turbo 0
+CPU 51: governor  performance min/cur/max 2.4/1.718112/2.4 GHz Turbo 0
+CPU 52: governor  performance min/cur/max 2.4/1.671969/2.4 GHz Turbo 0
+CPU 55: governor  performance min/cur/max 2.4/1.245317/2.4 GHz Turbo 0
+CPU 56: governor  performance min/cur/max 2.4/2.210556/2.4 GHz Turbo 0
+CPU 43: governor  performance min/cur/max 2.4/2.298966/2.4 GHz Turbo 0
+CPU 44: governor  performance min/cur/max 2.4/2.238396/2.4 GHz Turbo 0
+CPU 47: governor  performance min/cur/max 2.4/1.863056/2.4 GHz Turbo 0
+CPU 48: governor  performance min/cur/max 2.4/2.136025/2.4 GHz Turbo 0
+CPU 49: governor  performance min/cur/max 2.4/1.413479/2.4 GHz Turbo 0
+CPU 53: governor  performance min/cur/max 2.4/1.953844/2.4 GHz Turbo 0
+CPU 54: governor  performance min/cur/max 2.4/1.941691/2.4 GHz Turbo 0
+CPU 57: governor  performance min/cur/max 2.4/2.176738/2.4 GHz Turbo 0
+CPU 58: governor  performance min/cur/max 2.4/2.079942/2.4 GHz Turbo 0
+CPU 59: governor  performance min/cur/max 2.4/1.912887/2.4 GHz Turbo 0
+CPU 60: governor  performance min/cur/max 2.4/2.330135/2.4 GHz Turbo 0
+CPU 61: governor  performance min/cur/max 2.4/2.197492/2.4 GHz Turbo 0
+CPU 62: governor  performance min/cur/max 2.4/2.327631/2.4 GHz Turbo 0
+CPU 65: governor  performance min/cur/max 2.4/2.176918/2.4 GHz Turbo 0
+CPU 66: governor  performance min/cur/max 2.4/1.898912/2.4 GHz Turbo 0
+CPU 70: governor  performance min/cur/max 2.4/2.005885/2.4 GHz Turbo 0
+CPU 71: governor  performance min/cur/max 2.4/1.961492/2.4 GHz Turbo 0
+CPU 72: governor  performance min/cur/max 2.4/2.144889/2.4 GHz Turbo 0
+CPU 75: governor  performance min/cur/max 2.4/1.702261/2.4 GHz Turbo 0
+CPU 76: governor  performance min/cur/max 2.4/1.601306/2.4 GHz Turbo 0
+CPU 63: governor  performance min/cur/max 2.4/1.111949/2.4 GHz Turbo 0
+CPU 64: governor  performance min/cur/max 2.4/2.147796/2.4 GHz Turbo 0
+CPU 67: governor  performance min/cur/max 2.4/1.798441/2.4 GHz Turbo 0
+CPU 68: governor  performance min/cur/max 2.4/1.987308/2.4 GHz Turbo 0
+CPU 69: governor  performance min/cur/max 2.4/1.15124/2.4 GHz Turbo 0
+CPU 73: governor  performance min/cur/max 2.4/1.302226/2.4 GHz Turbo 0
+CPU 74: governor  performance min/cur/max 2.4/1.461005/2.4 GHz Turbo 0
+CPU 77: governor  performance min/cur/max 2.4/1.7677/2.4 GHz Turbo 0
+CPU 78: governor  performance min/cur/max 2.4/1.945411/2.4 GHz Turbo 0
+CPU 79: governor  performance min/cur/max 2.4/1.715848/2.4 GHz Turbo 0
 
 Current Uncore frequencies:
 Socket 0: min/max 2.4/2.4 GHz
@@ -552,7 +558,7 @@ TM2                   off	off	off	off	off	off	off	off	off	off	off	off	off	off	of
 ################################################################################
 # Load
 ################################################################################
-3.79 2.72 1.70 1/849 36898
+7.50 3.65 1.83 1/848 52695
 
 ################################################################################
 # Performance energy bias
@@ -568,36 +574,36 @@ Enabled: 1
 # General memory info
 ################################################################################
 MemTotal:       97609736 kB
-MemFree:        95834024 kB
-MemAvailable:   95673740 kB
-Buffers:           13660 kB
-Cached:           228804 kB
-SwapCached:            0 kB
-Active:           207500 kB
-Inactive:          72524 kB
-Active(anon):      37580 kB
-Inactive(anon):     2100 kB
-Active(file):     169920 kB
-Inactive(file):    70424 kB
+MemFree:        95365360 kB
+MemAvailable:   95514448 kB
+Buffers:           27620 kB
+Cached:           611924 kB
+SwapCached:         2996 kB
+Active:           448272 kB
+Inactive:         211700 kB
+Active(anon):      16776 kB
+Inactive(anon):     3928 kB
+Active(file):     431496 kB
+Inactive(file):   207772 kB
 Unevictable:           0 kB
 Mlocked:               0 kB
 SwapTotal:      49632252 kB
-SwapFree:       49632252 kB
-Dirty:               148 kB
+SwapFree:       49586684 kB
+Dirty:               172 kB
 Writeback:             0 kB
-AnonPages:         37816 kB
-Mapped:            53360 kB
-Shmem:              2124 kB
-Slab:             780972 kB
-SReclaimable:     300148 kB
-SUnreclaim:       480824 kB
-KernelStack:       14896 kB
-PageTables:         3188 kB
+AnonPages:         18856 kB
+Mapped:            48520 kB
+Shmem:               308 kB
+Slab:             868924 kB
+SReclaimable:     346116 kB
+SUnreclaim:       522808 kB
+KernelStack:       14880 kB
+PageTables:         3300 kB
 NFS_Unstable:          0 kB
 Bounce:                0 kB
 WritebackTmp:          0 kB
 CommitLimit:    98437120 kB
-Committed_AS:     265396 kB
+Committed_AS:     264112 kB
 VmallocTotal:   34359738367 kB
 VmallocUsed:           0 kB
 VmallocChunk:          0 kB
@@ -612,9 +618,9 @@ HugePages_Free:        0
 HugePages_Rsvd:        0
 HugePages_Surp:        0
 Hugepagesize:       2048 kB
-DirectMap4k:     1042640 kB
-DirectMap2M:    38455296 kB
-DirectMap1G:    61865984 kB
+DirectMap4k:     1142992 kB
+DirectMap2M:    56180736 kB
+DirectMap1G:    44040192 kB
 
 ################################################################################
 # Transparent huge pages
@@ -1475,12 +1481,12 @@ LESS=-R
 LIKWID_LIBDIR=/mnt/opt/likwid-4.3-dev/lib
 I_MPI_JOB_RESPECT_PROCESS_PLACEMENT=off
 IPPROOT=/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/ipp
-OLDPWD=/home/hpc/iwia/iwia84/INSPECT-repo/stencils/5D_r1_isotropic_box_constant/solar_split_x/SkylakeSP_Gold-6148_SNC_20190709_131541
+OLDPWD=/home/hpc/iwia/iwia84/INSPECT-repo/stencils/solar_split_z_1D_r1_homogeneous_star_constant/SkylakeSP_Gold-6148_SNC_20190725_095714
 PBS_O_HOME=/home/hpc/iwia/iwia84
 MPICHHOME=/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mpi/intel64
 RRZECLUSTER=TESTCLUSTER
 EDITOR=vi
-PBS_JOBID=4546.catstor
+PBS_JOBID=4759.catstor
 ENVIRONMENT=BATCH
 PATH_modshare=/usr/bin/vendor_perl:999999999:/home/julian/.local/.bin:999999999:/opt/android-sdk/tools:999999999:/usr/bin:1:/mnt/opt/likwid-4.3-dev/bin:1:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mpi/intel64/bin:1:/usr/local/bin:999999999:/opt/android-sdk/platform-tools:999999999:/usr/bin/core_perl:999999999:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/bin/intel64:1:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mpi/rrze-bin-intel:1:/home/julian/.bin:999999999:/bin:1:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mpi/intel64/libfabric/bin:1:/apps/python/3.6-anaconda/bin:1:/mnt/opt/likwid-4.3-dev/sbin:1:/opt/intel/bin:999999999
 MPIHOME=/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mpi/intel64
@@ -1508,11 +1514,11 @@ USER=iwia84
 MPIINCDIR=/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mpi/intel64/include
 I_MPI_HARD_FINALIZE=1
 NLSPATH_modshare=/apps/intel/ComposerXE2019/debugger_2019/gdb/intel64/share/locale/%l_%t/%N:1:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mkl/lib/intel64_lin/locale/%l_%t/%N:1:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/compiler/lib/intel64/locale/%l_%t/%N:1
-PBS_NODEFILE=/var/spool/pbspro/aux/4546.catstor
+PBS_NODEFILE=/var/spool/pbspro/aux/4759.catstor
 GROUP=iwia
 PBS_TASKNUM=1
 LIKWID_DEFINES=-DLIKWID_PERFMON
-PWD=/home/hpc/iwia/iwia84/INSPECT-repo/stencils/5D_r1_isotropic_box_constant/solar_split_y/SkylakeSP_Gold-6148_SNC_20190709_142450
+PWD=/home/hpc/iwia/iwia84/INSPECT-repo/stencils/solar_split_y_1D_r1_homogeneous_star_constant/SkylakeSP_Gold-6148_SNC_20190725_103313
 HOME=/home/hpc/iwia/iwia84
 LIKWID_LIB=-L/mnt/opt/likwid-4.3-dev/lib
 CLASSPATH_modshare=/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/daal/lib/daal.jar:1:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mpi/intel64/lib/mpi.jar:1
@@ -1521,7 +1527,7 @@ PBS_MOMPORT=15003
 LIKWID_INCDIR=/mnt/opt/likwid-4.3-dev/include
 _LMFILES__modshare=/apps/modules/modulefiles/tools/python/3.6-anaconda:1:/apps/modules/modulefiles/libraries/mkl/2019up02:2:/opt/modules/modulefiles/testcluster/pbspro/default:2:/apps/modules/modulefiles/development/intelmpi/2019up02-intel:1:/opt/modules/modulefiles/testcluster/likwid/4.3-dev:1
 NLSPATH=/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/compiler/lib/intel64/locale/%l_%t/%N:/apps/intel/ComposerXE2019/debugger_2019/gdb/intel64/share/locale/%l_%t/%N:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mkl/lib/intel64_lin/locale/%l_%t/%N
-PBS_JOBCOOKIE=4B945BF143BEE2F46123415076DBB655
+PBS_JOBCOOKIE=19C4EB415C2A15E42ECDDF4A17EE3DDF
 MKL_LIBDIR=/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mkl/lib/intel64_lin
 PBS_O_SHELL=/bin/bash
 MPIINC=-I/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mpi/intel64/include
@@ -1529,7 +1535,7 @@ MKL_LIB_THREADED=-Wl,--start-group  /apps/intel/ComposerXE2019/compilers_and_lib
 LESS_TERMCAP_mb=[1;32m
 LESS_TERMCAP_md=[1;34m
 LESS_TERMCAP_me=[0m
-TMPDIR=/scratch/pbs.4546.catstor
+TMPDIR=/scratch/pbs.4759.catstor
 LIBRARY_PATH=/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/ipp/lib/intel64:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/compiler/lib/intel64_lin:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/tbb/lib/intel64/gcc4.7:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/daal/lib/intel64_lin:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/tbb/lib/intel64_lin/gcc4.4:/apps/intel/ComposerXE2019/compilers_and_libraries_2019.2.187/linux/mkl/lib/intel64_lin
 LIKWID_INC=-I/mnt/opt/likwid-4.3-dev/include
 LOADEDMODULES=pbspro/default:likwid/4.3-dev:intelmpi/2019up02-intel:mkl/2019up02:intel64/19.0up02:python/3.6-anaconda
