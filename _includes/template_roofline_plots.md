@@ -51,7 +51,7 @@ var trace_ecm = {
 var data = [trace_roofline,trace_ecm,trace_benchmark];
 
 var layout = {
-	xaxis: {title: "Grid Size (N^{{page.dimension | replace: 'D', ''}})",
+	xaxis: {title: "Grid Size (N^(1/{{page.dimension | replace: 'D', ''}}))",
           rangemode: "tozero"},
 	yaxis: {title: 'Performance [MLUP/s]',
           rangemode: "tozero"},

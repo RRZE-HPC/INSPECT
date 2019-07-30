@@ -87,7 +87,7 @@ var L3MEM = {
 var data = [benchmark_l1l2,benchmark_l2l3,benchmark_l3mem,L1L2,L2L3,L3MEM];
 
 var layout = {
-	xaxis: {title: "Grid Size (N^{{page.dimension | replace: 'D', ''}})",
+	xaxis: {title: "Grid Size (N^(1/{{page.dimension | replace: 'D', ''}}))",
           rangemode: "tozero"},
 	yaxis: {title: 'Data Transfers [Byte/LUP]',
           rangemode: "tozero"},

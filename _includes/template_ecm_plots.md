@@ -218,7 +218,7 @@ var data_Pheno = [trace_roofline_LC,trace_benchmark,trace_Tol_Pheno,trace_Tnol_P
 
 var layout = {
   margin: { l: 40, r: 35, t: 10, b: 40},
-  xaxis: {title: "Grid Size (N^{{page.dimension | replace: 'D', ''}})",
+  xaxis: {title: "Grid Size (N^(1/{{page.dimension | replace: 'D', ''}}))",
           dticks: 50,
           tick0: 0},
   yaxis: {title: 'Cycles / Cacheline',
