@@ -45,7 +45,7 @@ function get_Kerncraft_ECM {
 	else
 		if [ -f data/singlecore/ECM_${CASE}_${size}.txt ]; then
 			if [ $(grep -c ") cy/CL" data/singlecore/ECM_${CASE}_${size}.txt) -gt 0 ]; then
-				ecm=$(cat data/singlecore/ECM_${CASE}_${size}.txt | grep -E "[0-9][)]?) cy/CL"| sed -e 's/max(//;s/sum(//;s/.*= //;s/).*//;s/ //g')
+				ecm=$(cat data/singlecore/ECM_${CASE}_${size}.txt | grep -E "[0-9][)]?[)] cy/CL"| sed -e 's/max(//;s/sum(//;s/.*= //;s/).*//;s/ //g')
 				cycl=$(grep " cy/CL" data/singlecore/ECM_${CASE}_${size}.txt | grep = | tail -n 1 | sed -e 's/.*= //;s/ cy\/CL//')
 				mlup=$(bc -l <<< "scale=2;(${LUPperCL} * ${ghz} * 1000 / ${cycl})")
 			fi
