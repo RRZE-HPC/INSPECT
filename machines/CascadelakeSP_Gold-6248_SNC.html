@@ -1,0 +1,1166 @@
+<!doctype html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <link rel="shortcut icon" type="image/png"
+      href="/INSPECT/assets/img/inspect.png">
+
+<!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>INSPECT | Intra Node Stencil Performance Evaluation Collection</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="INSPECT" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Intra Node Stencil Performance Evaluation Collection" />
+<meta property="og:description" content="Intra Node Stencil Performance Evaluation Collection" />
+<meta property="og:site_name" content="INSPECT" />
+<script type="application/ld+json">
+{"description":"Intra Node Stencil Performance Evaluation Collection","headline":"INSPECT","@type":"WebPage","url":"/INSPECT/machines/CascadelakeSP_Gold-6248_SNC.html","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+    <link rel="stylesheet" href="/INSPECT/assets/css/style.css?v=00c2d4fcf78f1ab2839230b0d851dded5aa49ad0">
+    <script src="https://code.jquery.com/jquery-3.3.0.min.js" integrity="sha256-RTQy8VOmNlT6b2PIRur37p6JEBZUE7o8wPgMvu18MC4=" crossorigin="anonymous"></script>
+    <script src="/INSPECT/assets/js/main.js"></script>
+    <!--[if lt IE 9]>
+      <script src="https://cdn!js.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js" integrity="sha256-3Jy/GbSLrg0o9y5Z5n1uw0qxZECH7C6OQpVBgNFYa0g=" crossorigin="anonymous"></script>
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <script src="/INSPECT/assets/js/headroom.js"></script>
+  </head>
+  <body>
+    <header class="headroom">
+      <h1 class="headroom"><a href="/INSPECT/">INSPECT</a></h1>
+      <p>Intra Node Stencil Performance Evaluation Collection</p>
+      
+      <div id="banner">
+        <a id="logo" class="fork" href="/INSPECT/">⌂</a>
+        
+
+<div id="navbar">
+<a href="https://github.com/RRZE-HPC/INSPECT/blob/master/_data/machine_files/CascadelakeSP_Gold-6248_SNC.yml">Machine: CascadelakeSP Gold-6248 SNC</a>
+</div>
+
+      </div><!-- end banner -->
+      
+    </header>
+
+    <script>
+      var myElement = document.querySelector("header");
+      var headroom  = new Headroom(myElement);
+      headroom.init();
+    </script>
+
+    <div class="wrapper">
+      <nav>
+        <ul></ul>
+      </nav>
+      <section>
+        
+<h1 id="intelr-xeonr-gold-6248-cpu--250ghz">Intel(R) Xeon(R) Gold 6248 CPU @ 2.50GHz</h1>
+
+<div class="section-block-full">
+
+  <div class="section-block-half">
+
+    <h2 id="general">General</h2>
+
+    <table>
+      <tbody>
+        <tr>
+          <td>model type</td>
+          <td>Intel Cascadelake SP processor</td>
+        </tr>
+        <tr>
+          <td>model name</td>
+          <td>Intel(R) Xeon(R) Gold 6248 CPU @ 2.50GHz</td>
+        </tr>
+        <tr>
+          <td>micro-architecture</td>
+          <td> </td>
+        </tr>
+        <tr>
+          <td>micro-architecture modeler</td>
+          <td> </td>
+        </tr>
+        <tr>
+          <td>cores per socket</td>
+          <td>20</td>
+        </tr>
+        <tr>
+          <td>cores per NUMA domain</td>
+          <td>10</td>
+        </tr>
+        <tr>
+          <td>cacheline size</td>
+          <td>64 B</td>
+        </tr>
+        <tr>
+          <td>clock</td>
+          <td>2.5 GHz</td>
+        </tr>
+        <tr>
+          <td>NUMA domains per socket</td>
+          <td>2</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p>This machine file was generated for kerncraft version 0.8.3.dev0.</p>
+
+  </div>
+  <div class="section-block-half">
+
+    <h2 id="compiler-flags">Compiler Flags</h2>
+
+    <table>
+      <tbody>
+        <tr>
+          <td>icc</td>
+          <td><code class="language-plaintext highlighter-rouge">-O3 -fno-alias -xCORE-AVX512 -qopenmp -qopt-zmm-usage=high</code></td>
+        </tr>
+        <tr>
+          <td>clang</td>
+          <td><code class="language-plaintext highlighter-rouge">-O3 -march=skylake-avx512 -D_POSIX_C_SOURCE=200112L -fopenmp</code></td>
+        </tr>
+        <tr>
+          <td>gcc</td>
+          <td><code class="language-plaintext highlighter-rouge">-O3 -march=skylake-avx512 -fopenmp</code></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2 id="flops-per-cycle">Flops per Cycle</h2>
+
+    <table>
+      <tbody>
+        <tr>
+          <td> </td>
+          <td>ADD</td>
+          <td>MUL</td>
+          <td>FMA</td>
+          <td>total</td>
+        </tr>
+        <tr>
+          <td>Single Precission</td>
+          <td>32</td>
+          <td>32</td>
+          <td>64</td>
+          <td>32</td>
+        </tr>
+        <tr>
+          <td>Double Precission</td>
+          <td>16</td>
+          <td>16</td>
+          <td>32</td>
+          <td>32</td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+</div>
+
+<div class="section-block-full">
+
+  <h2 id="memory-hierarchy">Memory Hierarchy</h2>
+
+  <div class="section-block-half">
+    <h3 id="l1">L1</h3>
+
+    <table>
+      <tbody>
+        <tr>
+          <td>groups</td>
+          <td>40</td>
+        </tr>
+        <tr>
+          <td>cores per group</td>
+          <td>1</td>
+        </tr>
+        <tr>
+          <td>threads per group</td>
+          <td>2</td>
+        </tr>
+        <tr>
+          <td>transfers overlap</td>
+          <td> </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h4 id="cache-per-group">Cache Per Group</h4>
+
+    <table>
+      <tbody>
+        <tr>
+          <td>sets</td>
+          <td>64</td>
+        </tr>
+        <tr>
+          <td>ways</td>
+          <td>8</td>
+        </tr>
+        <tr>
+          <td>cl_size</td>
+          <td>64</td>
+        </tr>
+        <tr>
+          <td>replacement_policy</td>
+          <td>LRU</td>
+        </tr>
+        <tr>
+          <td>write_allocate</td>
+          <td>true</td>
+        </tr>
+        <tr>
+          <td>write_back</td>
+          <td>true</td>
+        </tr>
+        <tr>
+          <td>load_from</td>
+          <td>L2</td>
+        </tr>
+        <tr>
+          <td>store_to</td>
+          <td>L2</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h4 id="performance-counter-metrics">Performance Counter Metrics</h4>
+
+    <table>
+      <tbody>
+        <tr>
+          <td>accesses</td>
+          <td><code class="language-plaintext highlighter-rouge">MEM_INST_RETIRED_ALL_LOADS:PMC[0-3]</code></td>
+        </tr>
+        <tr>
+          <td>misses</td>
+          <td><code class="language-plaintext highlighter-rouge">L1D_REPLACEMENT:PMC[0-3]</code></td>
+        </tr>
+        <tr>
+          <td>evicts</td>
+          <td><code class="language-plaintext highlighter-rouge">L2_TRANS_L1D_WB:PMC[0-3]</code></td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+
+  <div class="section-block-half">
+    <h3 id="l2">L2</h3>
+
+    <table>
+      <tbody>
+        <tr>
+          <td>groups</td>
+          <td>40</td>
+        </tr>
+        <tr>
+          <td>cores per group</td>
+          <td>1</td>
+        </tr>
+        <tr>
+          <td>threads per group</td>
+          <td>2</td>
+        </tr>
+        <tr>
+          <td>transfers overlap</td>
+          <td> </td>
+        </tr>
+        <tr>
+          <td>non-overlap upstream throughput</td>
+          <td>64 B/cy, half-duplex</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h4 id="cache-per-group-1">Cache Per Group</h4>
+
+    <table>
+      <tbody>
+        <tr>
+          <td>sets</td>
+          <td>1024</td>
+        </tr>
+        <tr>
+          <td>ways</td>
+          <td>16</td>
+        </tr>
+        <tr>
+          <td>cl_size</td>
+          <td>64</td>
+        </tr>
+        <tr>
+          <td>replacement_policy</td>
+          <td>LRU</td>
+        </tr>
+        <tr>
+          <td>write_allocate</td>
+          <td>true</td>
+        </tr>
+        <tr>
+          <td>write_back</td>
+          <td>true</td>
+        </tr>
+        <tr>
+          <td>load_from</td>
+          <td>None</td>
+        </tr>
+        <tr>
+          <td>victims_to</td>
+          <td>L3</td>
+        </tr>
+        <tr>
+          <td>store_to</td>
+          <td>L3</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h4 id="performance-counter-metrics-1">Performance Counter Metrics</h4>
+
+    <table>
+      <tbody>
+        <tr>
+          <td>accesses</td>
+          <td><code class="language-plaintext highlighter-rouge">L1D_REPLACEMENT:PMC[0-3]</code></td>
+        </tr>
+        <tr>
+          <td>misses</td>
+          <td><code class="language-plaintext highlighter-rouge">L2_LINES_IN_ALL:PMC[0-3]</code></td>
+        </tr>
+        <tr>
+          <td>evicts</td>
+          <td><code class="language-plaintext highlighter-rouge">L2_TRANS_L2_WB:PMC[0-3]</code></td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+
+  <div class="section-block-half">
+    <h3 id="l3">L3</h3>
+
+    <table>
+      <tbody>
+        <tr>
+          <td>groups</td>
+          <td>4</td>
+        </tr>
+        <tr>
+          <td>cores per group</td>
+          <td>10</td>
+        </tr>
+        <tr>
+          <td>threads per group</td>
+          <td>20</td>
+        </tr>
+        <tr>
+          <td>transfers overlap</td>
+          <td> </td>
+        </tr>
+        <tr>
+          <td>non-overlap upstream throughput</td>
+          <td>16 B/cy, full-duplex</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h4 id="cache-per-group-2">Cache Per Group</h4>
+
+    <table>
+      <tbody>
+        <tr>
+          <td>cl_size</td>
+          <td>64</td>
+        </tr>
+        <tr>
+          <td>replacement_policy</td>
+          <td>LRU</td>
+        </tr>
+        <tr>
+          <td>sets</td>
+          <td>14336</td>
+        </tr>
+        <tr>
+          <td>ways</td>
+          <td>16</td>
+        </tr>
+        <tr>
+          <td>write_allocate</td>
+          <td>false</td>
+        </tr>
+        <tr>
+          <td>write_back</td>
+          <td>true</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h4 id="performance-counter-metrics-2">Performance Counter Metrics</h4>
+
+    <table>
+      <tbody>
+        <tr>
+          <td>accesses</td>
+          <td><code class="language-plaintext highlighter-rouge">L2_LINES_IN_ALL:PMC[0-3]</code></td>
+        </tr>
+        <tr>
+          <td>misses</td>
+          <td><code class="language-plaintext highlighter-rouge">(CAS_COUNT_RD:MBOX0C[01] + CAS_COUNT_RD:MBOX1C[01] + CAS_COUNT_RD:MBOX2C[01] + CAS_COUNT_RD:MBOX3C[01] + CAS_COUNT_RD:MBOX4C[01] + CAS_COUNT_RD:MBOX5C[01])</code></td>
+        </tr>
+        <tr>
+          <td>evicts</td>
+          <td><code class="language-plaintext highlighter-rouge">(CAS_COUNT_WR:MBOX0C[01] + CAS_COUNT_WR:MBOX1C[01] + CAS_COUNT_WR:MBOX2C[01] + CAS_COUNT_WR:MBOX3C[01] + CAS_COUNT_WR:MBOX4C[01] + CAS_COUNT_WR:MBOX5C[01])</code></td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+
+  <div class="section-block-half">
+    <h3 id="mem">MEM</h3>
+
+    <table>
+      <tbody>
+        <tr>
+          <td>cores per group</td>
+          <td>20</td>
+        </tr>
+        <tr>
+          <td>threads per group</td>
+          <td>40</td>
+        </tr>
+        <tr>
+          <td>transfers overlap</td>
+          <td> </td>
+        </tr>
+        <tr>
+          <td>non-overlap upstream throughput</td>
+          <td>full socket memory bandwidth, half-duplex</td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+
+</div>
+
+<div class="section-block-full">
+  <div class="section-block-half">
+
+    <h2 id="overlapping-model">Overlapping Model</h2>
+
+    <h3 id="ports">Ports:</h3>
+    <p>0,
+0DV,
+1,
+2,
+3,
+4,
+5,
+6,
+7</p>
+
+    <h3 id="performance-counter-metric">Performance Counter Metric</h3>
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Max(UOPS_DISPATCHED_PORT_PORT_0:PMC[0-3], UOPS_DISPATCHED_PORT_PORT_1:PMC[0-3], UOPS_DISPATCHED_PORT_PORT_4:PMC[0-3], UOPS_DISPATCHED_PORT_PORT_5:PMC[0-3], UOPS_DISPATCHED_PORT_PORT_6:PMC[0-3], UOPS_DISPATCHED_PORT_PORT_7:PMC[0-3])
+</code></pre></div>    </div>
+
+  </div>
+  <div class="section-block-half">
+
+    <h2 id="non-overlapping-model">Non-Overlapping Model</h2>
+
+    <h3 id="ports-1">Ports:</h3>
+    <p>2D,
+3D</p>
+
+    <h3 id="performance-counter-metric-1">Performance Counter Metric</h3>
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>T_OL + T_L2 + T_L3 + T_MEM
+</code></pre></div>    </div>
+
+  </div>
+</div>
+
+<div class="section-block-full">
+  <h2 id="benchmarks">Benchmarks</h2>
+</div>
+
+<script src="/INSPECT/assets/js/plotly-latest.min.js"></script>
+
+<div class="section-block-full">
+  <div class="section-block-half">
+
+    <div id="l1_1" style="width:100%;height:400px;"></div>
+
+    <script>
+var trace_load = {
+  type: "scatter",
+  mode: "lines",
+  x: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,],
+  y: [275.02,549.89,824.85,1099.77,1374.69,1645.35,1912.61,2185.88,2459.05,2732.24,3005.48,3278.68,3455.90,3721.71,3987.55,4253.16,4519.33,4787.74,5050.49,5315.45,],
+  line: {color: 'orange'},
+  name: "load"
+};
+
+var trace_update = {
+  type: "scatter",
+  mode: "lines",
+  x: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,],
+  y: [298.88,586.99,896.29,1194.97,1473.35,1787.52,2038.70,2326.30,2617.92,2909.15,3200.03,3492.75,3781.13,4072.88,4362.92,4653.04,4944.07,5236.55,5524.85,5813.13,],
+  line: {color: 'red'},
+  name: "update"
+};
+
+var trace_daxpy = {
+  type: "scatter",
+  mode: "lines",
+  x: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,],
+  y: [291.92,447.17,660.90,733.38,877.63,1036.98,1175.93,1530.22,1559.77,1839.78,1746.66,1937.67,2018.34,2228.87,2341.02,2663.82,2850.05,2782.87,2933.75,3107.21,],
+  line: {color: 'blue'},
+  name: "daxpy"
+};
+
+var trace_copy = {
+  type: "scatter",
+  mode: "lines",
+  x: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,],
+  y: [279.30,539.09,837.78,1117.00,1396.30,1615.26,1865.96,2133.01,2399.10,2665.88,2933.04,3198.91,3465.61,3731.94,3998.33,4265.53,4531.70,4797.98,5064.70,5329.53,],
+  line: {color: 'green'},
+  name: "copy"
+};
+
+var trace_triad = {
+  type: "scatter",
+  mode: "lines",
+  x: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,],
+  y: [277.04,568.74,834.83,1083.21,1373.98,1670.67,1886.99,2012.55,2329.60,2730.88,2854.52,3068.80,3332.81,3610.09,3889.08,4103.00,4360.24,4783.56,4921.36,5122.58,],
+  line: {color: 'yellow'},
+  name: "triad"
+};
+
+var data = [trace_load,trace_update,trace_daxpy,trace_copy,trace_triad];
+
+var layout = {
+	title: 'L1 Cache (Threads per core: 1)',
+	xaxis: {title: 'Cores',
+          nticks: 20},
+	yaxis: {title: 'Bandwidth [GB/s]'},
+};
+
+var config = {locale: 'en'};
+Plotly.newPlot(l1_1, data, layout, config);
+</script>
+
+  </div>
+  <div class="section-block-half">
+
+    <div id="l1_2" style="width:100%;height:400px;"></div>
+
+    <script>
+var trace_load = {
+  type: "scatter",
+  mode: "lines",
+  x: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,],
+  y: [265.64,528.89,790.30,1053.62,1213.27,1580.42,1843.80,2095.71,2357.68,2619.87,2881.62,3143.62,3405.79,3533.12,3786.05,4191.25,4453.11,4715.21,4977.08,5238.05,],
+  line: {color: 'orange'},
+  name: "load"
+};
+
+var trace_update = {
+  type: "scatter",
+  mode: "lines",
+  x: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,],
+  y: [296.35,594.36,887.68,1182.54,1410.10,1772.68,2068.07,2324.63,2610.96,2898.98,3182.37,3443.58,3750.37,3599.93,3799.54,4424.30,4554.60,5094.56,5160.94,5379.06,],
+  line: {color: 'red'},
+  name: "update"
+};
+
+var trace_daxpy = {
+  type: "scatter",
+  mode: "lines",
+  x: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,],
+  y: [302.00,599.88,896.63,1126.71,1400.22,1602.49,1954.47,2141.41,2447.83,2722.76,3060.65,3325.64,3651.51,3878.04,4138.26,4329.59,4682.41,4763.86,5059.13,5407.30,],
+  line: {color: 'blue'},
+  name: "daxpy"
+};
+
+var trace_copy = {
+  type: "scatter",
+  mode: "lines",
+  x: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,],
+  y: [293.03,577.05,852.69,1095.06,1427.21,1640.60,1997.50,2167.78,2383.30,2710.07,3111.28,3377.97,3665.40,3779.69,4049.77,4511.32,4811.89,4872.58,5183.59,5631.71,],
+  line: {color: 'green'},
+  name: "copy"
+};
+
+var trace_triad = {
+  type: "scatter",
+  mode: "lines",
+  x: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,],
+  y: [283.17,570.28,822.36,1047.12,1329.05,1593.63,1860.80,2126.62,2365.51,2658.75,2882.96,2629.30,3404.48,3718.62,3930.29,4089.80,4516.79,4780.42,4978.82,5313.71,],
+  line: {color: 'yellow'},
+  name: "triad"
+};
+
+var data = [trace_load,trace_update,trace_daxpy,trace_copy,trace_triad];
+
+var layout = {
+	title: 'L1 Cache (Threads per core: 2)',
+	xaxis: {title: 'Cores',
+          nticks: 20},
+	yaxis: {title: 'Bandwidth [GB/s]'},
+};
+
+var config = {locale: 'en'};
+Plotly.newPlot(l1_2, data, layout, config);
+</script>
+
+  </div>
+</div>
+<div class="section-block-full">
+  <div class="section-block-half">
+
+    <div id="l2_1" style="width:100%;height:400px;"></div>
+
+    <script>
+var trace_load = {
+  type: "scatter",
+  mode: "lines",
+  x: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,],
+  y: [111.02,207.28,337.72,477.48,574.61,678.28,780.55,906.76,1011.34,1034.75,1263.46,1338.81,1471.94,1614.06,1703.89,1794.65,2029.73,2034.44,2155.73,2407.35,],
+  line: {color: 'orange'},
+  name: "load"
+};
+
+var trace_update = {
+  type: "scatter",
+  mode: "lines",
+  x: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,],
+  y: [91.93,183.57,264.03,364.59,455.54,546.34,637.40,728.98,819.23,908.67,1000.97,1092.58,1179.57,1272.68,1361.28,1454.81,1545.03,1638.00,1728.39,1817.89,],
+  line: {color: 'red'},
+  name: "update"
+};
+
+var trace_daxpy = {
+  type: "scatter",
+  mode: "lines",
+  x: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,],
+  y: [106.79,209.78,317.70,419.38,521.59,620.17,749.07,843.17,955.22,1060.61,1164.63,1235.30,1360.10,1488.58,1589.77,1678.14,1815.39,1893.19,1939.04,2122.33,],
+  line: {color: 'blue'},
+  name: "daxpy"
+};
+
+var trace_copy = {
+  type: "scatter",
+  mode: "lines",
+  x: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,],
+  y: [68.91,143.90,216.08,285.18,357.40,427.54,488.28,568.06,639.75,712.87,784.26,852.55,932.41,977.63,1070.22,1140.52,1223.41,1276.89,1303.32,1422.56,],
+  line: {color: 'green'},
+  name: "copy"
+};
+
+var trace_triad = {
+  type: "scatter",
+  mode: "lines",
+  x: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,],
+  y: [90.04,176.92,257.70,336.27,437.19,507.97,588.77,682.96,743.28,837.26,903.64,1019.82,1085.23,1213.63,1229.57,1317.22,1431.11,1519.78,1596.24,1689.93,],
+  line: {color: 'yellow'},
+  name: "triad"
+};
+
+var data = [trace_load,trace_update,trace_daxpy,trace_copy,trace_triad];
+
+var layout = {
+	title: 'L2 Cache (Threads per core: 1)',
+	xaxis: {title: 'Cores',
+          nticks: 20},
+	yaxis: {title: 'Bandwidth [GB/s]'},
+};
+
+var config = {locale: 'en'};
+Plotly.newPlot(l2_1, data, layout, config);
+</script>
+
+  </div>
+  <div class="section-block-half">
+
+    <div id="l2_2" style="width:100%;height:400px;"></div>
+
+    <script>
+var trace_load = {
+  type: "scatter",
+  mode: "lines",
+  x: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,],
+  y: [110.79,215.70,331.04,444.51,553.35,649.83,791.43,881.93,991.20,1092.24,1218.81,1318.04,1407.58,1551.88,1598.28,1708.39,1788.89,1930.35,1931.97,2220.59,],
+  line: {color: 'orange'},
+  name: "load"
+};
+
+var trace_update = {
+  type: "scatter",
+  mode: "lines",
+  x: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,],
+  y: [91.98,183.58,272.14,365.99,458.47,549.20,641.76,733.37,820.81,916.18,1007.89,1098.87,1191.04,1283.07,1372.23,1465.48,1557.71,1647.35,1739.03,1831.16,],
+  line: {color: 'red'},
+  name: "update"
+};
+
+var trace_daxpy = {
+  type: "scatter",
+  mode: "lines",
+  x: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,],
+  y: [108.02,211.39,320.12,427.19,534.01,618.49,747.62,849.47,937.65,1070.93,1169.42,1262.53,1385.34,1500.05,1594.54,1667.02,1791.04,1913.02,1972.58,2123.19,],
+  line: {color: 'blue'},
+  name: "daxpy"
+};
+
+var trace_copy = {
+  type: "scatter",
+  mode: "lines",
+  x: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,],
+  y: [71.14,141.55,211.26,283.50,351.75,420.63,475.62,563.79,632.60,701.62,769.43,823.83,914.14,961.88,1056.65,1123.02,1196.35,1262.76,1300.81,1404.10,],
+  line: {color: 'green'},
+  name: "copy"
+};
+
+var trace_triad = {
+  type: "scatter",
+  mode: "lines",
+  x: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,],
+  y: [89.24,176.26,259.89,333.06,422.23,516.06,606.67,633.53,735.98,862.14,893.82,989.89,1067.00,1174.76,1248.30,1325.61,1426.34,1492.72,1567.09,1651.01,],
+  line: {color: 'yellow'},
+  name: "triad"
+};
+
+var data = [trace_load,trace_update,trace_daxpy,trace_copy,trace_triad];
+
+var layout = {
+	title: 'L2 Cache (Threads per core: 2)',
+	xaxis: {title: 'Cores',
+          nticks: 20},
+	yaxis: {title: 'Bandwidth [GB/s]'},
+};
+
+var config = {locale: 'en'};
+Plotly.newPlot(l2_2, data, layout, config);
+</script>
+
+  </div>
+</div>
+<div class="section-block-full">
+  <div class="section-block-half">
+
+    <div id="l3_1" style="width:100%;height:400px;"></div>
+
+    <script>
+var trace_load = {
+  type: "scatter",
+  mode: "lines",
+  x: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,],
+  y: [23.93,47.47,70.76,93.39,115.37,144.69,194.14,304.22,613.41,908.47,944.30,1248.51,1057.40,1544.99,1160.75,1137.97,1406.49,1546.46,2078.29,1514.00,],
+  line: {color: 'orange'},
+  name: "load"
+};
+
+var trace_update = {
+  type: "scatter",
+  mode: "lines",
+  x: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,],
+  y: [47.44,94.47,141.10,182.95,228.12,279.48,367.21,569.80,726.08,846.74,945.92,1064.28,1094.54,1240.57,1314.75,1362.44,1492.76,1557.03,1647.92,1699.85,],
+  line: {color: 'red'},
+  name: "update"
+};
+
+var trace_daxpy = {
+  type: "scatter",
+  mode: "lines",
+  x: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,],
+  y: [35.62,70.75,105.83,137.56,173.48,213.54,281.63,429.77,671.71,870.65,943.50,1066.94,1115.09,1166.03,1316.47,1333.35,1487.49,1547.81,1685.42,1718.25,],
+  line: {color: 'blue'},
+  name: "daxpy"
+};
+
+var trace_copy = {
+  type: "scatter",
+  mode: "lines",
+  x: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,],
+  y: [23.63,47.26,70.63,92.27,115.32,137.41,175.92,275.81,459.79,591.25,619.84,723.00,705.38,828.61,873.35,927.61,927.82,951.40,1118.06,1118.63,],
+  line: {color: 'green'},
+  name: "copy"
+};
+
+var trace_triad = {
+  type: "scatter",
+  mode: "lines",
+  x: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,],
+  y: [23.73,47.04,70.67,92.80,117.41,147.57,193.44,264.84,387.52,596.09,665.77,693.14,825.63,897.82,908.24,1034.45,1001.30,1181.80,1198.52,1255.03,],
+  line: {color: 'yellow'},
+  name: "triad"
+};
+
+var data = [trace_load,trace_update,trace_daxpy,trace_copy,trace_triad];
+
+var layout = {
+	title: 'L3 Cache (Threads per core: 1)',
+	xaxis: {title: 'Cores',
+          nticks: 20},
+	yaxis: {title: 'Bandwidth [GB/s]'},
+};
+
+var config = {locale: 'en'};
+Plotly.newPlot(l3_1, data, layout, config);
+</script>
+
+  </div>
+  <div class="section-block-half">
+
+    <div id="l3_2" style="width:100%;height:400px;"></div>
+
+    <script>
+var trace_load = {
+  type: "scatter",
+  mode: "lines",
+  x: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,],
+  y: [23.95,47.50,70.76,92.49,115.82,143.74,191.95,333.50,607.21,913.54,881.51,866.44,1103.11,1463.57,1124.95,1745.88,1481.04,1416.55,1814.85,1481.70,],
+  line: {color: 'orange'},
+  name: "load"
+};
+
+var trace_update = {
+  type: "scatter",
+  mode: "lines",
+  x: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,],
+  y: [47.20,93.65,139.94,181.62,228.09,275.61,356.92,554.74,724.36,871.08,956.33,1063.40,1138.00,1275.50,1284.69,1409.42,1462.91,1550.48,1670.93,1729.37,],
+  line: {color: 'red'},
+  name: "update"
+};
+
+var trace_daxpy = {
+  type: "scatter",
+  mode: "lines",
+  x: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,],
+  y: [35.82,71.04,106.04,138.21,173.83,214.37,282.54,428.54,681.79,860.70,931.71,1082.79,1156.18,1333.49,1407.22,1439.56,1618.66,1531.97,1705.54,1764.89,],
+  line: {color: 'blue'},
+  name: "daxpy"
+};
+
+var trace_copy = {
+  type: "scatter",
+  mode: "lines",
+  x: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,],
+  y: [23.86,47.29,70.80,93.11,116.68,145.00,186.45,289.41,466.64,590.29,603.57,677.20,668.97,805.38,947.23,958.17,951.12,1003.42,1080.60,1122.15,],
+  line: {color: 'green'},
+  name: "copy"
+};
+
+var trace_triad = {
+  type: "scatter",
+  mode: "lines",
+  x: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,],
+  y: [23.86,47.48,70.89,93.34,121.68,150.56,206.00,281.39,430.10,634.01,663.78,760.74,806.71,887.45,918.59,1042.52,1049.78,1049.42,1173.05,1290.17,],
+  line: {color: 'yellow'},
+  name: "triad"
+};
+
+var data = [trace_load,trace_update,trace_daxpy,trace_copy,trace_triad];
+
+var layout = {
+	title: 'L3 Cache (Threads per core: 2)',
+	xaxis: {title: 'Cores',
+          nticks: 20},
+	yaxis: {title: 'Bandwidth [GB/s]'},
+};
+
+var config = {locale: 'en'};
+Plotly.newPlot(l3_2, data, layout, config);
+</script>
+
+  </div>
+</div>
+<div class="section-block-full">
+  <div class="section-block-half">
+
+    <div id="mem_1" style="width:100%;height:400px;"></div>
+
+    <script>
+var trace_load = {
+  type: "scatter",
+  mode: "lines",
+  x: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,],
+  y: [12.96,25.66,37.66,47.04,54.00,58.37,60.24,60.91,61.07,61.43,67.81,74.18,80.05,86.98,93.45,100.45,107.27,113.75,120.71,125.17,],
+  line: {color: 'orange'},
+  name: "load"
+};
+
+var trace_update = {
+  type: "scatter",
+  mode: "lines",
+  x: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,],
+  y: [24.27,40.74,46.76,50.85,53.05,53.40,53.44,53.39,53.29,53.08,58.99,64.70,70.25,75.87,81.42,87.46,92.83,99.33,104.96,107.63,],
+  line: {color: 'red'},
+  name: "update"
+};
+
+var trace_daxpy = {
+  type: "scatter",
+  mode: "lines",
+  x: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,],
+  y: [21.32,38.26,45.88,50.49,53.15,54.54,54.98,55.02,54.90,54.77,61.61,67.21,73.14,79.07,85.22,91.27,96.85,102.93,107.05,108.63,],
+  line: {color: 'blue'},
+  name: "daxpy"
+};
+
+var trace_copy = {
+  type: "scatter",
+  mode: "lines",
+  x: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,],
+  y: [14.56,26.79,30.55,32.70,34.45,35.60,36.31,36.51,36.54,36.46,40.94,44.85,48.77,52.43,56.48,60.48,64.77,68.68,72.01,73.04,],
+  line: {color: 'green'},
+  name: "copy"
+};
+
+var trace_triad = {
+  type: "scatter",
+  mode: "lines",
+  x: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,],
+  y: [15.21,29.43,36.60,40.30,42.82,43.90,44.13,44.14,44.01,44.10,50.05,54.93,59.79,65.02,70.34,75.55,80.65,84.70,86.18,85.41,],
+  line: {color: 'yellow'},
+  name: "triad"
+};
+
+var data = [trace_load,trace_update,trace_daxpy,trace_copy,trace_triad];
+
+var layout = {
+	title: 'Memory (Threads per core: 1)',
+	xaxis: {title: 'Cores',
+          nticks: 20},
+	yaxis: {title: 'Bandwidth [GB/s]'},
+};
+
+var config = {locale: 'en'};
+Plotly.newPlot(mem_1, data, layout, config);
+</script>
+
+  </div>
+  <div class="section-block-half">
+
+    <div id="mem_2" style="width:100%;height:400px;"></div>
+
+    <script>
+var trace_load = {
+  type: "scatter",
+  mode: "lines",
+  x: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,],
+  y: [14.62,28.71,41.52,50.35,56.02,58.58,59.30,59.17,58.96,58.71,65.41,71.24,77.67,83.82,90.08,96.37,102.62,109.10,115.20,118.74,],
+  line: {color: 'orange'},
+  name: "load"
+};
+
+var trace_update = {
+  type: "scatter",
+  mode: "lines",
+  x: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,],
+  y: [27.67,42.73,49.29,52.60,53.04,53.06,53.02,52.93,52.82,52.66,58.64,64.13,69.51,75.26,80.92,86.38,92.05,98.00,103.57,105.96,],
+  line: {color: 'red'},
+  name: "update"
+};
+
+var trace_daxpy = {
+  type: "scatter",
+  mode: "lines",
+  x: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,],
+  y: [23.13,40.50,48.24,52.20,53.74,54.29,54.31,54.18,54.04,53.88,60.39,66.40,71.69,77.87,83.59,89.16,94.80,101.20,106.20,106.39,],
+  line: {color: 'blue'},
+  name: "daxpy"
+};
+
+var trace_copy = {
+  type: "scatter",
+  mode: "lines",
+  x: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,],
+  y: [15.12,27.28,30.98,33.56,35.26,36.04,36.28,36.26,36.23,36.17,40.50,44.33,48.26,52.19,55.96,59.65,64.01,68.13,71.19,71.93,],
+  line: {color: 'green'},
+  name: "copy"
+};
+
+var trace_triad = {
+  type: "scatter",
+  mode: "lines",
+  x: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,],
+  y: [14.96,28.63,36.62,40.91,43.26,44.02,44.12,44.02,43.89,43.84,50.22,54.69,59.72,64.38,69.32,75.03,79.14,84.60,86.33,86.00,],
+  line: {color: 'yellow'},
+  name: "triad"
+};
+
+var data = [trace_load,trace_update,trace_daxpy,trace_copy,trace_triad];
+
+var layout = {
+	title: 'Memory (Threads per core: 2)',
+	xaxis: {title: 'Cores',
+          nticks: 20},
+	yaxis: {title: 'Bandwidth [GB/s]'},
+};
+
+var config = {locale: 'en'};
+Plotly.newPlot(mem_2, data, layout, config);
+</script>
+
+  </div>
+</div>
+
+<div class="section-block-full">
+  <h3 id="kernels">Kernels</h3>
+
+  <div class="section-block-half">
+
+    <h4 id="copy">copy</h4>
+
+    <table>
+      <tbody>
+        <tr>
+          <td>FLOPs per iteration</td>
+          <td>0</td>
+        </tr>
+        <tr>
+          <td>read streams</td>
+          <td>1 Streams with 8.00 B</td>
+        </tr>
+        <tr>
+          <td>write streams</td>
+          <td>1 Streams with 8.00 B</td>
+        </tr>
+        <tr>
+          <td>read+write streams</td>
+          <td>0 Streams with 0.00 B</td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+
+  <div class="section-block-half">
+
+    <h4 id="daxpy">daxpy</h4>
+
+    <table>
+      <tbody>
+        <tr>
+          <td>FLOPs per iteration</td>
+          <td>2</td>
+        </tr>
+        <tr>
+          <td>read streams</td>
+          <td>2 Streams with 16.00 B</td>
+        </tr>
+        <tr>
+          <td>write streams</td>
+          <td>1 Streams with 8.00 B</td>
+        </tr>
+        <tr>
+          <td>read+write streams</td>
+          <td>1 Streams with 8.00 B</td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+
+  <div class="section-block-half">
+
+    <h4 id="load">load</h4>
+
+    <table>
+      <tbody>
+        <tr>
+          <td>FLOPs per iteration</td>
+          <td>0</td>
+        </tr>
+        <tr>
+          <td>read streams</td>
+          <td>1 Streams with 8.00 B</td>
+        </tr>
+        <tr>
+          <td>write streams</td>
+          <td>0 Streams with 0.00 B</td>
+        </tr>
+        <tr>
+          <td>read+write streams</td>
+          <td>0 Streams with 0.00 B</td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+
+  <div class="section-block-half">
+
+    <h4 id="triad">triad</h4>
+
+    <table>
+      <tbody>
+        <tr>
+          <td>FLOPs per iteration</td>
+          <td>2</td>
+        </tr>
+        <tr>
+          <td>read streams</td>
+          <td>3 Streams with 24.00 B</td>
+        </tr>
+        <tr>
+          <td>write streams</td>
+          <td>1 Streams with 8.00 B</td>
+        </tr>
+        <tr>
+          <td>read+write streams</td>
+          <td>0 Streams with 0.00 B</td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+
+  <div class="section-block-half">
+
+    <h4 id="update">update</h4>
+
+    <table>
+      <tbody>
+        <tr>
+          <td>FLOPs per iteration</td>
+          <td>0</td>
+        </tr>
+        <tr>
+          <td>read streams</td>
+          <td>1 Streams with 8.00 B</td>
+        </tr>
+        <tr>
+          <td>write streams</td>
+          <td>1 Streams with 8.00 B</td>
+        </tr>
+        <tr>
+          <td>read+write streams</td>
+          <td>1 Streams with 8.00 B</td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+
+</div>
+
+
+      </section>
+      <footer>
+        <a href="https://github.com/RRZE-HPC/INSPECT" class="button fork"><strong>INSPECT</strong></a>
+        
+          <a href="https://github.com/RRZE-HPC" class="button fork"><strong>RRZE-HPC</strong></a>
+        
+        <p><small>Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></small></p>
+      </footer>
+    </div>
+  </body>
+</html>

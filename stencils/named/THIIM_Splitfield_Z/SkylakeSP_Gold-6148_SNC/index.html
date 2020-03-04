@@ -7,7 +7,7 @@
     <link rel="shortcut icon" type="image/png"
       href="/INSPECT/assets/img/inspect.png">
 
-<!-- Begin Jekyll SEO tag v2.5.0 -->
+<!-- Begin Jekyll SEO tag v2.6.1 -->
 <title>Stencil THIIM_Splitfield_Z SkylakeSP_Gold-6148_SNC | INSPECT</title>
 <meta name="generator" content="Jekyll v3.8.5" />
 <meta property="og:title" content="Stencil THIIM_Splitfield_Z SkylakeSP_Gold-6148_SNC" />
@@ -16,10 +16,10 @@
 <meta property="og:description" content="Intra Node Stencil Performance Evaluation Collection" />
 <meta property="og:site_name" content="INSPECT" />
 <script type="application/ld+json">
-{"description":"Intra Node Stencil Performance Evaluation Collection","@type":"WebPage","headline":"Stencil THIIM_Splitfield_Z SkylakeSP_Gold-6148_SNC","url":"/INSPECT/stencils/named/THIIM_Splitfield_Z/SkylakeSP_Gold-6148_SNC/","@context":"http://schema.org"}</script>
+{"description":"Intra Node Stencil Performance Evaluation Collection","headline":"Stencil THIIM_Splitfield_Z SkylakeSP_Gold-6148_SNC","@type":"WebPage","url":"/INSPECT/stencils/named/THIIM_Splitfield_Z/SkylakeSP_Gold-6148_SNC/","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
-    <link rel="stylesheet" href="/INSPECT/assets/css/style.css?v=62736077723cbf964bffa095a90866fff66fddc1">
+    <link rel="stylesheet" href="/INSPECT/assets/css/style.css?v=00c2d4fcf78f1ab2839230b0d851dded5aa49ad0">
     <script src="https://code.jquery.com/jquery-3.3.0.min.js" integrity="sha256-RTQy8VOmNlT6b2PIRur37p6JEBZUE7o8wPgMvu18MC4=" crossorigin="anonymous"></script>
     <script src="/INSPECT/assets/js/main.js"></script>
     <!--[if lt IE 9]>
@@ -155,8 +155,8 @@
 	<span class="p">{</span>
 		<span class="k">for</span> <span class="p">(</span> <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">O</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span> <span class="p">)</span>
 		<span class="p">{</span>
-			<span class="c1">// ----- Ex_y = Cex_ty * Ex_y + Cex_y * (D(Hy_x + Hy_z) - T(Hy_x + Hy_z) ) + Ex_old;
-</span>			<span class="n">Exy</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">Exy</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">tExy</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">ExSrc</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span>
+			<span class="c1">// ----- Ex_y = Cex_ty * Ex_y + Cex_y * (D(Hy_x + Hy_z) - T(Hy_x + Hy_z) ) + Ex_old;</span>
+			<span class="n">Exy</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">Exy</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">tExy</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">ExSrc</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span>
 			  <span class="o">+</span> <span class="n">cExy</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span> <span class="n">Hyx</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">Hyx</span><span class="p">[</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">Hyz</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">Hyz</span><span class="p">[</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="p">);</span>
 		<span class="p">}</span>
 	<span class="p">}</span>
@@ -233,12 +233,12 @@
       </thead>
       <tbody>
         <tr>
-          <td style="text-align: center"><code class="highlighter-rouge">96*M*N*O &lt; 32768</code></td>
+          <td style="text-align: center"><code class="language-plaintext highlighter-rouge">96*M*N*O &lt; 32768</code></td>
           <td style="text-align: right">0</td>
           <td style="text-align: right">9</td>
         </tr>
         <tr>
-          <td style="text-align: center"><code class="highlighter-rouge">128*N*O &lt;= 32768</code></td>
+          <td style="text-align: center"><code class="language-plaintext highlighter-rouge">128*N*O &lt;= 32768</code></td>
           <td style="text-align: right">6</td>
           <td style="text-align: right">3</td>
         </tr>
@@ -262,12 +262,12 @@
       </thead>
       <tbody>
         <tr>
-          <td style="text-align: center"><code class="highlighter-rouge">96*M*N*O &lt; 1048576</code></td>
+          <td style="text-align: center"><code class="language-plaintext highlighter-rouge">96*M*N*O &lt; 1048576</code></td>
           <td style="text-align: right">0</td>
           <td style="text-align: right">9</td>
         </tr>
         <tr>
-          <td style="text-align: center"><code class="highlighter-rouge">128*N*O &lt;= 1048576</code></td>
+          <td style="text-align: center"><code class="language-plaintext highlighter-rouge">128*N*O &lt;= 1048576</code></td>
           <td style="text-align: right">6</td>
           <td style="text-align: right">3</td>
         </tr>
@@ -291,12 +291,12 @@
       </thead>
       <tbody>
         <tr>
-          <td style="text-align: center"><code class="highlighter-rouge">96*M*N*O &lt; 8650752</code></td>
+          <td style="text-align: center"><code class="language-plaintext highlighter-rouge">96*M*N*O &lt; 8650752</code></td>
           <td style="text-align: right">0</td>
           <td style="text-align: right">9</td>
         </tr>
         <tr>
-          <td style="text-align: center"><code class="highlighter-rouge">128*N*O &lt;= 8650752</code></td>
+          <td style="text-align: center"><code class="language-plaintext highlighter-rouge">128*N*O &lt;= 8650752</code></td>
           <td style="text-align: right">6</td>
           <td style="text-align: right">3</td>
         </tr>
@@ -325,7 +325,7 @@ return "https://rrze-hpc.github.io/layer-condition/#calculator%23!"+encodeURICom
   <div class="section-block-half">
     <h2 id="how-to-test-this-stencil">How to test this stencil</h2>
 
-    <p>Save the stencil shown above as <code class="highlighter-rouge">stencil.c</code></p>
+    <p>Save the stencil shown above as <code class="language-plaintext highlighter-rouge">stencil.c</code></p>
 
     <p>and generate the compilable benchmark code with:</p>
     <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>stempel bench stencil.c <span class="nt">-m</span> SkylakeSP_Gold-6148_SNC.yml <span class="nt">--store</span>

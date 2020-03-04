@@ -7,7 +7,7 @@
     <link rel="shortcut icon" type="image/png"
       href="/INSPECT/assets/img/inspect.png">
 
-<!-- Begin Jekyll SEO tag v2.5.0 -->
+<!-- Begin Jekyll SEO tag v2.6.1 -->
 <title>INSPECT | Intra Node Stencil Performance Evaluation Collection</title>
 <meta name="generator" content="Jekyll v3.8.5" />
 <meta property="og:title" content="INSPECT" />
@@ -16,10 +16,10 @@
 <meta property="og:description" content="Intra Node Stencil Performance Evaluation Collection" />
 <meta property="og:site_name" content="INSPECT" />
 <script type="application/ld+json">
-{"description":"Intra Node Stencil Performance Evaluation Collection","@type":"WebPage","headline":"INSPECT","url":"/INSPECT/machines/IvyBridgeEP_E5-2660v2.html","@context":"http://schema.org"}</script>
+{"description":"Intra Node Stencil Performance Evaluation Collection","headline":"INSPECT","@type":"WebPage","url":"/INSPECT/machines/IvyBridgeEP_E5-2660v2.html","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
-    <link rel="stylesheet" href="/INSPECT/assets/css/style.css?v=62736077723cbf964bffa095a90866fff66fddc1">
+    <link rel="stylesheet" href="/INSPECT/assets/css/style.css?v=00c2d4fcf78f1ab2839230b0d851dded5aa49ad0">
     <script src="https://code.jquery.com/jquery-3.3.0.min.js" integrity="sha256-RTQy8VOmNlT6b2PIRur37p6JEBZUE7o8wPgMvu18MC4=" crossorigin="anonymous"></script>
     <script src="/INSPECT/assets/js/main.js"></script>
     <!--[if lt IE 9]>
@@ -69,7 +69,7 @@
       <tbody>
         <tr>
           <td>model type</td>
-          <td>Intel Core IvyBridge EP processor</td>
+          <td>Intel Xeon IvyBridge EN/EP/EX processor</td>
         </tr>
         <tr>
           <td>model name</td>
@@ -77,7 +77,7 @@
         </tr>
         <tr>
           <td>micro-architecture</td>
-          <td>IVB</td>
+          <td> </td>
         </tr>
         <tr>
           <td>micro-architecture modeler</td>
@@ -97,7 +97,7 @@
         </tr>
         <tr>
           <td>clock</td>
-          <td>2.2 GHz</td>
+          <td>2.20 GHz</td>
         </tr>
         <tr>
           <td>NUMA domains per socket</td>
@@ -106,7 +106,7 @@
       </tbody>
     </table>
 
-    <p>This machine file was generated for kerncraft version 0.8.1.dev0.</p>
+    <p>This machine file was generated for kerncraft version 0.8.3.dev0.</p>
 
   </div>
   <div class="section-block-half">
@@ -117,15 +117,15 @@
       <tbody>
         <tr>
           <td>icc</td>
-          <td><code class="highlighter-rouge">-O3 -xAVX -fno-alias -qopenmp</code></td>
+          <td><code class="language-plaintext highlighter-rouge">-O3 -xAVX -fno-alias -qopenmp</code></td>
         </tr>
         <tr>
           <td>clang</td>
-          <td><code class="highlighter-rouge">-O3 -mavx -D_POSIX_C_SOURCE=200809L -fopenmp</code></td>
+          <td><code class="language-plaintext highlighter-rouge">-O3 -mavx -D_POSIX_C_SOURCE=200809L -fopenmp</code></td>
         </tr>
         <tr>
           <td>gcc</td>
-          <td><code class="highlighter-rouge">-O3 -march=corei7-avx -D_POSIX_C_SOURCE=200809L -fopenmp -lm</code></td>
+          <td><code class="language-plaintext highlighter-rouge">-O3 -march=corei7-avx -D_POSIX_C_SOURCE=200809L -fopenmp -lm</code></td>
         </tr>
       </tbody>
     </table>
@@ -234,15 +234,15 @@
       <tbody>
         <tr>
           <td>accesses</td>
-          <td><code class="highlighter-rouge">MEM_UOPS_RETIRED_LOADS:PMC[0-3]</code></td>
+          <td><code class="language-plaintext highlighter-rouge">MEM_UOPS_RETIRED_LOADS:PMC[0-3] + MEM_UOPS_RETIRED_STORES:PMC[0-3]</code></td>
         </tr>
         <tr>
           <td>misses</td>
-          <td><code class="highlighter-rouge">L1D_REPLACEMENT:PMC[0-3]</code></td>
+          <td><code class="language-plaintext highlighter-rouge">L1D_REPLACEMENT:PMC[0-3]</code></td>
         </tr>
         <tr>
           <td>evicts</td>
-          <td><code class="highlighter-rouge">L1D_M_EVICT:PMC[0-3]</code></td>
+          <td><code class="language-plaintext highlighter-rouge">L1D_M_EVICT:PMC[0-3]</code></td>
         </tr>
       </tbody>
     </table>
@@ -318,15 +318,15 @@
       <tbody>
         <tr>
           <td>accesses</td>
-          <td><code class="highlighter-rouge">L1D_REPLACEMENT:PMC[0-3]</code></td>
+          <td><code class="language-plaintext highlighter-rouge">L1D_REPLACEMENT:PMC[0-3] + L1D_M_EVICT:PMC[0-3]</code></td>
         </tr>
         <tr>
           <td>misses</td>
-          <td><code class="highlighter-rouge">L2_LINES_IN_ALL:PMC[0-3]</code></td>
+          <td><code class="language-plaintext highlighter-rouge">L2_LINES_IN_ALL:PMC[0-3]</code></td>
         </tr>
         <tr>
           <td>evicts</td>
-          <td><code class="highlighter-rouge">L2_LINES_OUT_DIRTY_ALL:PMC[0-3]</code></td>
+          <td><code class="language-plaintext highlighter-rouge">L2_LINES_OUT_DIRTY_ALL:PMC[0-3]</code></td>
         </tr>
       </tbody>
     </table>
@@ -344,11 +344,11 @@
         </tr>
         <tr>
           <td>cores per group</td>
-          <td>8</td>
+          <td>10</td>
         </tr>
         <tr>
           <td>threads per group</td>
-          <td>16</td>
+          <td>20</td>
         </tr>
         <tr>
           <td>transfers overlap</td>
@@ -394,15 +394,15 @@
       <tbody>
         <tr>
           <td>accesses</td>
-          <td><code class="highlighter-rouge">L2_LINES_IN_ALL:PMC[0-3]</code></td>
+          <td><code class="language-plaintext highlighter-rouge">L2_LINES_IN_ALL:PMC[0-3] + L2_LINES_OUT_DIRTY_ALL:PMC[0-3]</code></td>
         </tr>
         <tr>
           <td>misses</td>
-          <td><code class="highlighter-rouge">(CAS_COUNT_RD:MBOX0C[01] + CAS_COUNT_RD:MBOX1C[01] + CAS_COUNT_RD:MBOX2C[01] + CAS_COUNT_RD:MBOX3C[01] + CAS_COUNT_RD:MBOX4C[01] + CAS_COUNT_RD:MBOX5C[01] + CAS_COUNT_RD:MBOX6C[01] + CAS_COUNT_RD:MBOX7C[01])</code></td>
+          <td><code class="language-plaintext highlighter-rouge">(CAS_COUNT_RD:MBOX0C[01] + CAS_COUNT_RD:MBOX1C[01] + CAS_COUNT_RD:MBOX2C[01] + CAS_COUNT_RD:MBOX3C[01] + CAS_COUNT_RD:MBOX4C[01] + CAS_COUNT_RD:MBOX5C[01] + CAS_COUNT_RD:MBOX6C[01] + CAS_COUNT_RD:MBOX7C[01])</code></td>
         </tr>
         <tr>
           <td>evicts</td>
-          <td><code class="highlighter-rouge">(CAS_COUNT_WR:MBOX0C[01] + CAS_COUNT_WR:MBOX1C[01] + CAS_COUNT_WR:MBOX2C[01] + CAS_COUNT_WR:MBOX3C[01] + CAS_COUNT_WR:MBOX4C[01] + CAS_COUNT_WR:MBOX5C[01] + CAS_COUNT_WR:MBOX6C[01] + CAS_COUNT_WR:MBOX7C[01])</code></td>
+          <td><code class="language-plaintext highlighter-rouge">(CAS_COUNT_WR:MBOX0C[01] + CAS_COUNT_WR:MBOX1C[01] + CAS_COUNT_WR:MBOX2C[01] + CAS_COUNT_WR:MBOX3C[01] + CAS_COUNT_WR:MBOX4C[01] + CAS_COUNT_WR:MBOX5C[01] + CAS_COUNT_WR:MBOX6C[01] + CAS_COUNT_WR:MBOX7C[01])</code></td>
         </tr>
       </tbody>
     </table>
@@ -416,11 +416,11 @@
       <tbody>
         <tr>
           <td>cores per group</td>
-          <td>8</td>
+          <td>10</td>
         </tr>
         <tr>
           <td>threads per group</td>
-          <td>16</td>
+          <td>20</td>
         </tr>
         <tr>
           <td>transfers overlap</td>
@@ -448,7 +448,7 @@
 5</p>
 
     <h3 id="performance-counter-metric">Performance Counter Metric</h3>
-    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Max(UOPS_DISPATCHED_PORT_PORT_0:PMC[0-3], UOPS_DISPATCHED_PORT_PORT_1:PMC[0-3], UOPS_DISPATCHED_PORT_PORT_4:PMC[0-3], UOPS_DISPATCHED_PORT_PORT_5:PMC[0-3])
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Max(UOPS_DISPATCHED_PORT_PORT_0:PMC[0-3], UOPS_DISPATCHED_PORT_PORT_1:PMC[0-3], UOPS_DISPATCHED_PORT_PORT_4:PMC[0-3], UOPS_DISPATCHED_PORT_PORT_5:PMC[0-3])
 </code></pre></div>    </div>
 
   </div>
@@ -461,7 +461,7 @@
 3D</p>
 
     <h3 id="performance-counter-metric-1">Performance Counter Metric</h3>
-    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>T_OL + T_L1L2 + T_L2L3 + T_L3MEM
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>T_nOL + T_L1L2 + T_L2L3 + T_L3MEM
 </code></pre></div>    </div>
 
   </div>
@@ -483,7 +483,7 @@ var trace_load = {
   type: "scatter",
   mode: "lines",
   x: [1,2,3,4,5,6,7,8,9,10,],
-  y: [34.33,68.61,102.94,137.22,171.60,204.88,240.23,274.50,309.16,343.49,],
+  y: [68.16,136.28,204.41,272.54,340.67,408.79,476.89,545.03,613.13,680.89,],
   line: {color: 'orange'},
   name: "load"
 };
@@ -492,7 +492,7 @@ var trace_update = {
   type: "scatter",
   mode: "lines",
   x: [1,2,3,4,5,6,7,8,9,10,],
-  y: [34.74,67.29,100.87,133.43,163.91,190.70,217.53,246.28,271.40,304.33,],
+  y: [68.99,129.12,189.12,253.76,316.98,351.37,385.04,446.09,499.63,565.04,],
   line: {color: 'red'},
   name: "update"
 };
@@ -501,7 +501,7 @@ var trace_daxpy = {
   type: "scatter",
   mode: "lines",
   x: [1,2,3,4,5,6,7,8,9,10,],
-  y: [29.84,58.49,87.67,113.51,140.61,166.43,194.39,222.78,237.22,262.74,],
+  y: [97.09,170.76,251.33,329.97,410.17,426.70,490.28,571.07,656.01,688.46,],
   line: {color: 'blue'},
   name: "daxpy"
 };
@@ -510,7 +510,7 @@ var trace_copy = {
   type: "scatter",
   mode: "lines",
   x: [1,2,3,4,5,6,7,8,9,10,],
-  y: [34.41,68.78,103.15,137.57,171.97,206.32,227.03,275.11,262.77,298.81,],
+  y: [67.67,135.31,202.96,270.57,338.22,400.04,466.71,533.37,600.01,635.21,],
   line: {color: 'green'},
   name: "copy"
 };
@@ -519,7 +519,7 @@ var trace_triad = {
   type: "scatter",
   mode: "lines",
   x: [1,2,3,4,5,6,7,8,9,10,],
-  y: [33.81,68.61,102.38,136.23,169.45,204.28,234.89,272.51,307.10,338.55,],
+  y: [89.83,179.74,252.72,338.11,406.44,481.36,558.01,637.77,714.37,790.28,],
   line: {color: 'yellow'},
   name: "triad"
 };
@@ -547,7 +547,7 @@ var trace_load = {
   type: "scatter",
   mode: "lines",
   x: [1,2,3,4,5,6,7,8,9,10,],
-  y: [33.95,67.89,101.86,135.58,169.59,203.29,237.15,271.25,306.66,340.40,],
+  y: [65.01,130.03,194.63,259.35,324.28,381.87,453.85,518.77,583.65,620.37,],
   line: {color: 'orange'},
   name: "load"
 };
@@ -556,7 +556,7 @@ var trace_update = {
   type: "scatter",
   mode: "lines",
   x: [1,2,3,4,5,6,7,8,9,10,],
-  y: [34.48,68.51,102.10,136.81,171.05,199.16,229.21,267.59,293.19,329.93,],
+  y: [67.26,133.63,197.82,264.78,328.70,394.03,448.99,510.75,573.58,636.25,],
   line: {color: 'red'},
   name: "update"
 };
@@ -565,7 +565,7 @@ var trace_daxpy = {
   type: "scatter",
   mode: "lines",
   x: [1,2,3,4,5,6,7,8,9,10,],
-  y: [29.96,59.83,89.07,116.53,147.58,173.94,194.59,229.95,258.85,290.99,],
+  y: [76.80,147.26,220.22,272.23,331.05,405.16,475.91,536.70,602.63,669.40,],
   line: {color: 'blue'},
   name: "daxpy"
 };
@@ -574,7 +574,7 @@ var trace_copy = {
   type: "scatter",
   mode: "lines",
   x: [1,2,3,4,5,6,7,8,9,10,],
-  y: [33.99,68.00,101.61,135.89,169.93,203.90,229.36,267.70,305.01,336.99,],
+  y: [66.57,131.95,195.02,255.42,328.16,384.79,422.96,500.40,554.33,643.83,],
   line: {color: 'green'},
   name: "copy"
 };
@@ -583,7 +583,7 @@ var trace_triad = {
   type: "scatter",
   mode: "lines",
   x: [1,2,3,4,5,6,7,8,9,10,],
-  y: [33.74,67.60,100.80,132.04,165.88,198.32,232.16,265.30,299.10,332.50,],
+  y: [80.60,136.52,214.91,269.03,323.45,405.08,442.10,510.54,573.52,619.20,],
   line: {color: 'yellow'},
   name: "triad"
 };
@@ -613,7 +613,7 @@ var trace_load = {
   type: "scatter",
   mode: "lines",
   x: [1,2,3,4,5,6,7,8,9,10,],
-  y: [15.36,30.85,46.06,61.61,75.48,93.66,105.55,121.20,135.82,151.27,],
+  y: [25.65,51.00,76.63,99.85,125.09,152.41,176.05,200.37,223.06,241.64,],
   line: {color: 'orange'},
   name: "load"
 };
@@ -622,7 +622,7 @@ var trace_update = {
   type: "scatter",
   mode: "lines",
   x: [1,2,3,4,5,6,7,8,9,10,],
-  y: [30.19,54.69,85.18,114.44,139.15,159.15,192.95,224.20,243.27,272.15,],
+  y: [39.71,78.59,113.89,154.47,192.47,231.74,268.37,298.60,336.15,379.30,],
   line: {color: 'red'},
   name: "update"
 };
@@ -631,7 +631,7 @@ var trace_daxpy = {
   type: "scatter",
   mode: "lines",
   x: [1,2,3,4,5,6,7,8,9,10,],
-  y: [27.50,53.48,78.46,107.33,130.78,156.99,182.29,205.48,236.01,260.62,],
+  y: [36.44,72.09,107.26,142.68,174.14,212.03,247.18,282.81,319.02,351.92,],
   line: {color: 'blue'},
   name: "daxpy"
 };
@@ -640,7 +640,7 @@ var trace_copy = {
   type: "scatter",
   mode: "lines",
   x: [1,2,3,4,5,6,7,8,9,10,],
-  y: [26.28,50.04,76.10,103.40,123.39,141.77,174.39,189.58,215.97,252.53,],
+  y: [29.91,59.36,88.63,118.04,144.14,175.14,205.56,230.57,263.99,284.73,],
   line: {color: 'green'},
   name: "copy"
 };
@@ -649,7 +649,7 @@ var trace_triad = {
   type: "scatter",
   mode: "lines",
   x: [1,2,3,4,5,6,7,8,9,10,],
-  y: [26.41,50.97,78.07,96.25,119.70,149.42,174.97,204.48,227.08,259.91,],
+  y: [30.99,61.53,91.76,121.80,151.61,180.12,210.79,240.87,269.78,295.05,],
   line: {color: 'yellow'},
   name: "triad"
 };
@@ -677,7 +677,7 @@ var trace_load = {
   type: "scatter",
   mode: "lines",
   x: [1,2,3,4,5,6,7,8,9,10,],
-  y: [19.81,38.84,58.37,77.51,97.25,116.20,135.64,154.75,174.52,193.24,],
+  y: [27.32,54.43,80.75,108.12,135.09,159.86,189.72,213.18,243.75,266.83,],
   line: {color: 'orange'},
   name: "load"
 };
@@ -686,7 +686,7 @@ var trace_update = {
   type: "scatter",
   mode: "lines",
   x: [1,2,3,4,5,6,7,8,9,10,],
-  y: [30.10,59.58,86.00,114.49,140.10,167.30,197.44,218.13,262.43,285.91,],
+  y: [39.74,78.72,117.69,156.06,195.36,233.07,273.23,306.97,351.16,383.39,],
   line: {color: 'red'},
   name: "update"
 };
@@ -695,7 +695,7 @@ var trace_daxpy = {
   type: "scatter",
   mode: "lines",
   x: [1,2,3,4,5,6,7,8,9,10,],
-  y: [28.33,57.19,85.20,113.66,138.48,169.70,196.08,224.49,253.58,277.88,],
+  y: [37.45,74.23,111.23,147.47,184.57,220.77,257.87,292.61,331.01,367.54,],
   line: {color: 'blue'},
   name: "daxpy"
 };
@@ -704,7 +704,7 @@ var trace_copy = {
   type: "scatter",
   mode: "lines",
   x: [1,2,3,4,5,6,7,8,9,10,],
-  y: [25.74,50.86,74.94,101.07,122.48,149.74,179.53,203.46,223.45,247.77,],
+  y: [30.10,58.67,87.33,116.23,144.18,174.34,202.59,231.56,263.44,287.03,],
   line: {color: 'green'},
   name: "copy"
 };
@@ -713,7 +713,7 @@ var trace_triad = {
   type: "scatter",
   mode: "lines",
   x: [1,2,3,4,5,6,7,8,9,10,],
-  y: [28.35,55.17,82.07,112.64,136.94,166.66,185.33,211.06,239.41,270.30,],
+  y: [31.59,62.10,92.87,123.32,153.05,183.84,213.44,245.26,276.37,304.35,],
   line: {color: 'yellow'},
   name: "triad"
 };
@@ -743,7 +743,7 @@ var trace_load = {
   type: "scatter",
   mode: "lines",
   x: [1,2,3,4,5,6,7,8,9,10,],
-  y: [14.88,29.82,44.14,59.28,73.86,88.30,102.74,117.17,131.20,145.87,],
+  y: [19.73,39.24,58.63,78.00,97.16,116.40,135.12,154.26,172.20,191.51,],
   line: {color: 'orange'},
   name: "load"
 };
@@ -752,7 +752,7 @@ var trace_update = {
   type: "scatter",
   mode: "lines",
   x: [1,2,3,4,5,6,7,8,9,10,],
-  y: [21.04,42.20,62.99,83.70,104.27,124.58,144.62,164.93,184.33,203.88,],
+  y: [26.29,51.76,77.36,102.28,126.98,151.31,173.65,196.75,216.69,238.88,],
   line: {color: 'red'},
   name: "update"
 };
@@ -761,7 +761,7 @@ var trace_daxpy = {
   type: "scatter",
   mode: "lines",
   x: [1,2,3,4,5,6,7,8,9,10,],
-  y: [20.09,39.99,62.04,82.21,100.62,121.70,138.33,161.99,179.70,200.46,],
+  y: [25.85,51.37,76.55,101.74,126.55,151.36,175.03,199.20,222.19,246.10,],
   line: {color: 'blue'},
   name: "daxpy"
 };
@@ -770,7 +770,7 @@ var trace_copy = {
   type: "scatter",
   mode: "lines",
   x: [1,2,3,4,5,6,7,8,9,10,],
-  y: [16.68,33.39,49.49,66.13,82.61,98.84,114.44,130.98,146.57,160.46,],
+  y: [18.26,35.97,53.49,70.83,87.66,104.54,120.18,136.56,151.19,167.22,],
   line: {color: 'green'},
   name: "copy"
 };
@@ -779,7 +779,7 @@ var trace_triad = {
   type: "scatter",
   mode: "lines",
   x: [1,2,3,4,5,6,7,8,9,10,],
-  y: [18.44,36.73,54.91,73.40,91.98,110.78,127.59,146.20,165.37,182.04,],
+  y: [20.25,40.20,59.74,79.91,99.06,118.75,138.04,157.59,175.86,194.65,],
   line: {color: 'yellow'},
   name: "triad"
 };
@@ -807,7 +807,7 @@ var trace_load = {
   type: "scatter",
   mode: "lines",
   x: [1,2,3,4,5,6,7,8,9,10,],
-  y: [17.22,34.33,51.46,68.62,85.16,102.29,119.52,136.56,153.18,169.46,],
+  y: [21.18,42.17,62.95,83.86,104.43,125.03,145.10,165.69,185.70,206.01,],
   line: {color: 'orange'},
   name: "load"
 };
@@ -816,7 +816,7 @@ var trace_update = {
   type: "scatter",
   mode: "lines",
   x: [1,2,3,4,5,6,7,8,9,10,],
-  y: [22.62,45.12,67.24,89.90,111.86,133.62,155.48,177.58,198.83,219.45,],
+  y: [27.70,54.75,81.75,108.29,134.36,160.13,183.91,208.40,228.07,250.08,],
   line: {color: 'red'},
   name: "update"
 };
@@ -825,7 +825,7 @@ var trace_daxpy = {
   type: "scatter",
   mode: "lines",
   x: [1,2,3,4,5,6,7,8,9,10,],
-  y: [22.81,45.14,67.62,90.48,112.01,133.85,156.14,177.79,198.96,220.23,],
+  y: [26.52,52.67,78.57,104.35,129.65,155.04,179.24,204.10,227.24,251.45,],
   line: {color: 'blue'},
   name: "daxpy"
 };
@@ -834,7 +834,7 @@ var trace_copy = {
   type: "scatter",
   mode: "lines",
   x: [1,2,3,4,5,6,7,8,9,10,],
-  y: [17.66,35.26,52.57,69.82,87.22,104.31,120.03,137.58,152.09,170.04,],
+  y: [18.84,37.15,55.14,73.11,90.28,107.76,123.56,140.35,155.37,171.80,],
   line: {color: 'green'},
   name: "copy"
 };
@@ -843,7 +843,7 @@ var trace_triad = {
   type: "scatter",
   mode: "lines",
   x: [1,2,3,4,5,6,7,8,9,10,],
-  y: [19.86,39.74,59.56,78.59,98.06,117.43,136.88,155.97,174.99,194.11,],
+  y: [20.89,41.60,62.28,83.16,103.29,123.63,141.26,163.06,180.19,202.27,],
   line: {color: 'yellow'},
   name: "triad"
 };
@@ -873,7 +873,7 @@ var trace_load = {
   type: "scatter",
   mode: "lines",
   x: [1,2,3,4,5,6,7,8,9,10,],
-  y: [9.48,18.78,27.19,34.20,40.15,43.99,45.68,46.20,46.33,46.49,],
+  y: [11.87,21.99,31.32,38.41,43.40,46.05,46.84,47.01,46.89,46.67,],
   line: {color: 'orange'},
   name: "load"
 };
@@ -882,7 +882,7 @@ var trace_update = {
   type: "scatter",
   mode: "lines",
   x: [1,2,3,4,5,6,7,8,9,10,],
-  y: [15.26,28.26,33.56,35.44,36.74,37.13,37.75,37.60,37.56,37.22,],
+  y: [15.69,28.98,34.92,37.11,37.48,36.53,35.93,36.50,36.19,35.91,],
   line: {color: 'red'},
   name: "update"
 };
@@ -891,7 +891,7 @@ var trace_daxpy = {
   type: "scatter",
   mode: "lines",
   x: [1,2,3,4,5,6,7,8,9,10,],
-  y: [14.87,28.41,35.32,38.16,39.57,39.95,40.56,40.03,40.74,40.26,],
+  y: [13.88,25.73,34.47,38.44,40.12,40.62,40.75,40.88,40.82,40.60,],
   line: {color: 'blue'},
   name: "daxpy"
 };
@@ -900,7 +900,7 @@ var trace_copy = {
   type: "scatter",
   mode: "lines",
   x: [1,2,3,4,5,6,7,8,9,10,],
-  y: [9.65,18.29,23.82,25.83,26.69,26.82,27.06,27.10,26.96,26.62,],
+  y: [9.58,18.01,23.92,26.17,27.01,27.12,27.42,27.25,27.02,26.88,],
   line: {color: 'green'},
   name: "copy"
 };
@@ -909,7 +909,7 @@ var trace_triad = {
   type: "scatter",
   mode: "lines",
   x: [1,2,3,4,5,6,7,8,9,10,],
-  y: [9.73,18.10,25.07,29.49,31.61,32.93,33.02,33.08,33.13,33.04,],
+  y: [9.61,17.62,24.49,29.27,31.76,33.03,33.31,33.40,33.51,33.31,],
   line: {color: 'yellow'},
   name: "triad"
 };
@@ -937,7 +937,7 @@ var trace_load = {
   type: "scatter",
   mode: "lines",
   x: [1,2,3,4,5,6,7,8,9,10,],
-  y: [12.56,24.17,34.13,41.50,44.75,45.64,45.71,45.80,45.40,45.17,],
+  y: [12.44,23.40,32.88,40.01,43.81,45.11,45.58,45.66,45.52,45.28,],
   line: {color: 'orange'},
   name: "load"
 };
@@ -946,7 +946,7 @@ var trace_update = {
   type: "scatter",
   mode: "lines",
   x: [1,2,3,4,5,6,7,8,9,10,],
-  y: [18.04,32.27,36.13,37.49,37.68,37.18,36.25,34.93,35.47,35.78,],
+  y: [15.71,29.12,34.33,36.42,36.35,36.84,36.28,35.14,35.03,35.14,],
   line: {color: 'red'},
   name: "update"
 };
@@ -955,7 +955,7 @@ var trace_daxpy = {
   type: "scatter",
   mode: "lines",
   x: [1,2,3,4,5,6,7,8,9,10,],
-  y: [14.10,26.34,34.68,38.15,39.37,39.44,40.06,39.88,39.34,39.82,],
+  y: [13.03,23.94,32.50,36.78,38.72,39.84,40.05,40.17,39.78,40.18,],
   line: {color: 'blue'},
   name: "daxpy"
 };
@@ -964,7 +964,7 @@ var trace_copy = {
   type: "scatter",
   mode: "lines",
   x: [1,2,3,4,5,6,7,8,9,10,],
-  y: [8.74,16.27,21.91,24.68,26.08,26.55,26.60,26.50,26.61,26.63,],
+  y: [8.74,16.20,21.93,24.94,26.39,26.97,27.03,27.05,26.64,26.89,],
   line: {color: 'green'},
   name: "copy"
 };
@@ -973,7 +973,7 @@ var trace_triad = {
   type: "scatter",
   mode: "lines",
   x: [1,2,3,4,5,6,7,8,9,10,],
-  y: [9.36,17.31,23.96,28.37,30.74,32.16,32.51,32.66,32.42,32.48,],
+  y: [9.24,17.17,23.85,28.43,31.05,32.44,33.05,33.20,33.17,32.90,],
   line: {color: 'yellow'},
   name: "triad"
 };
