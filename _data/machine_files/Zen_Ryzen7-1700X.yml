@@ -1,13 +1,13 @@
 kerncraft version: 0.8.3.dev0
-model name: AMD EPYC 7451 24-Core Processor
+model name: AMD Ryzen 7 1700X Eight-Core Processor
 model type: AMD K17 (Zen) architecture
-clock: 2.3 GHz
+clock: 2.90 GHz
 
-sockets: 2
-cores per socket: 24
+sockets: 1
+cores per socket: 8
 threads per core: 2
-NUMA domains per socket: 4
-cores per NUMA domain: 6
+NUMA domains per socket: 1
+cores per NUMA domain: 8
 
 in-core model: !!omap
   - OSACA: ZEN
@@ -45,7 +45,7 @@ memory hierarchy:
     load_from: L2
     store_to: L2
   cores per group: 1
-  groups: 48
+  groups: 8
   performance counter metrics:
     accesses: DATA_CACHE_ACCESSES__PMC[0-3]
     evicts: DATA_CACHE_WRITEBACKS__PMC[0-3]
@@ -66,7 +66,7 @@ memory hierarchy:
     victims_to: L3
     store_to: L3
   cores per group: 1
-  groups: 48
+  groups: 8
   upstream throughput: [32 B/cy, full-duplex]        # https://en.wikichip.org/wiki/amd/microarchitectures/zen
   transfers overlap: true
   performance counter metrics:
@@ -83,8 +83,8 @@ memory hierarchy:
     replacement_policy: LRU
     write_allocate: false
     write_back: true
-  cores per group: 3
-  groups: 16
+  cores per group: 4
+  groups: 2
   upstream throughput: [32 B/cy, half-duplex]        # J. Hofmann SC19 paper (not published)
   transfers overlap: false
   performance counter metrics:
@@ -92,14 +92,14 @@ memory hierarchy:
     evicts: INFORMATION_REQUIRED (e.g., L2_LINES_OUT_DIRTY_ALL__PMC2)
     misses: EVENT_L3_MISS__CMPC[0-5]
   size per group: 8.00 MB
-  threads per group: 6
-- cores per group: 24
+  threads per group: 8
+- cores per group: 8
   level: MEM
   upstream throughput: [full socket memory bandwidth, half-duplex]
   transfers overlap: false
   penalty cycles per read stream: 0
   size per group:
-  threads per group: 48
+  threads per group: 16
 
 benchmarks:
   kernels:
