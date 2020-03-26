@@ -10,6 +10,10 @@ else
 	OUTPUT_FOLDER=$1
 fi
 
+if [[ ! -d  data ]]; then
+	tar xzf data.tar.gz
+fi
+
 function get_LUPperCL {
 	LUPperCL=1
 	if [[ $1 == "float" ]]; then
@@ -190,13 +194,16 @@ fi
 
 LUPperCL=$(get_LUPperCL ${DATATYPE})
 
-echo ":: PROCESSING ${DIM}D r${RADIUS} ${KIND} ${CONST} ${WEIGHTING} ${DATATYPE} ${MACHINE}"
+if [[ ${STENCIL_NAME} != "None" ]]; then
+	echo ":: PROCESSING ${STENCIL_NAME}"
+else
+	echo ":: PROCESSING ${DIM}D r${RADIUS} ${KIND} ${CONST} ${WEIGHTING} ${DATATYPE} ${MACHINE}"
+fi
 
 mkdir -p ${OUTPUT_FOLDER}
 
 # L3 3D Layer Condition
-LC_3D_L3=$(cat args.txt | grep "LC_3D_L3 " | sed 's/\$LC_3D_L3 //')
-LC_3D_L3_N=$(cat args.txt | grep LC_3D_L3_N | sed 's/.* //')
+LC_1D_L3_N=$(cat args.txt | grep LC_1D_L3_N | sed 's/.* //')
 
 # ************************************************************************************************
 # Generate index.md
@@ -208,22 +215,27 @@ FILENAME=index.md
 
 echo "---" > ${FILENAME}
 echo "" >> ${FILENAME}
-echo "title:  \"Stencil ${DIM}D r${RADIUS} ${KIND} ${CONST} ${WEIGHTING} ${DATATYPE} ${MACHINE}\"" >> ${FILENAME}
+if [[ ${STENCIL_NAME} != "None" ]]; then
+	echo "title:  \"Stencil ${STENCIL_NAME}\"" >> ${FILENAME}
+else
+	echo "title:  \"Stencil ${DIM}D r${RADIUS} ${KIND} ${CONST} ${WEIGHTING} ${DATATYPE} ${MACHINE}\"" >> ${FILENAME}
+fi
 echo "" >> ${FILENAME}
 if [[ ${STENCIL_NAME} != "None" ]]; then
 	echo "stencil_name     : \"${STENCIL_NAME}\"" >> ${FILENAME}
+else
+	echo "dimension    : \"${DIM}D\"" >> ${FILENAME}
+	echo "radius       : \"r${RADIUS}\"" >> ${FILENAME}
+	echo "weighting    : \"${WEIGHTING}\"" >> ${FILENAME}
+	echo "kind         : \"${KIND}\"" >> ${FILENAME}
+	echo "coefficients : \"${CONST}\"" >> ${FILENAME}
+	echo "datatype     : \"${DATATYPE}\"" >> ${FILENAME}
 fi
-echo "dimension    : \"${DIM}D\"" >> ${FILENAME}
-echo "radius       : \"r${RADIUS}\"" >> ${FILENAME}
-echo "weighting    : \"${WEIGHTING}\"" >> ${FILENAME}
-echo "kind         : \"${KIND}\"" >> ${FILENAME}
-echo "coefficients : \"${CONST}\"" >> ${FILENAME}
-echo "datatype     : \"${DATATYPE}\"" >> ${FILENAME}
 echo "machine      : \"${MACHINE}\"" >> ${FILENAME}
 echo "flavor       : \"EDIT_ME\"" >> ${FILENAME}
 echo "compile_flags: \"$(cat args.txt | grep COMPILER | sed 's/\$COMPILER //') $(cat args.txt | grep COMPILE_ARGS | sed 's/\$COMPILE_ARGS //; s/\/home.*stempel\///g; s/\/mnt\/opt\///g')\"" >> ${FILENAME}
 echo "flop         : \"$(grep -A 8 FLOPs data/LC.txt | grep -A 1 == | tail -n 1 | sed 's/ //g')\"" >> ${FILENAME}
-echo "scaling      : [ \"${LC_3D_L3_N}\" ]" >> ${FILENAME}
+echo "scaling      : [ \"${LC_1D_L3_N}\" ]" >> ${FILENAME}
 if [[ $(ls *csv | grep blocking) ]]; then
 	blk=$(for file in blocking_*csv; do echo \"$file\", | sed 's/blocking_//;s/\.csv//'; done | tr -d "\n")
 	echo "blocking     : [ ${blk::-1} ]" >> ${FILENAME}
@@ -288,7 +300,7 @@ else
 	flops=10^9
 fi
 
-for (( size=10; size<=${LC_3D_L3_N}+10; size=size+10)); do
+for (( size=10; size<=${LC_1D_L3_N}+10; size=size+10)); do
 	ECM_SIM=$(get_Kerncraft_ECM "SIM")
 	TRANSFERS_SIM=$(get_Kerncraft_DATATRANSFERS "SIM")
 	ROOFLINE_SIM=$(get_Kerncraft_Roofline "SIM")
@@ -326,25 +338,25 @@ if [ -d "data/scaling" ]; then
 		mem_read=0
 		mem_write=0
 
-		iterations=$(grep perfctr data/scaling/Benchmark_${LC_3D_L3_N}_${threads}.txt | tail -n 1 | sed 's/.*[a-zA-Z] \([0-9]\)/\1/;s/\..*//')
-		time=$(grep "Runtime (RDTSC) \[s\]'" data/scaling/Benchmark_${LC_3D_L3_N}_${threads}.txt | sed 's/.*Runtime.*: //; s/,//')
+		iterations=$(grep perfctr data/scaling/Benchmark_${LC_1D_L3_N}_${threads}.txt | tail -n 1 | sed 's/.*[a-zA-Z] \([0-9]\)/\1/;s/\..*//')
+		time=$(grep "Runtime (RDTSC) \[s\]'" data/scaling/Benchmark_${LC_1D_L3_N}_${threads}.txt | sed 's/.*Runtime.*: //; s/,//')
 
-		gflops=$(bc -l <<< "scale=2;$(grep " [MG]FLOP" data/scaling/Benchmark_${LC_3D_L3_N}_${threads}.txt | sed 's/Performance.*: //; s/FLOP.*//; s/ M/*10^6/; s/ G/*10^9/')/10^9")
-		mlups=$(grep " MLUP" data/scaling/Benchmark_${LC_3D_L3_N}_${threads}.txt | sed -e 's/Performance: //; s/ MLUP\/s//')
-		cyCL=$(grep "Runtime.* cy/CL" data/scaling/Benchmark_${LC_3D_L3_N}_${threads}.txt | sed 's/Runtime.*: //; s/ cy.*//')
+		gflops=$(bc -l <<< "scale=2;$(grep " [MG]FLOP" data/scaling/Benchmark_${LC_1D_L3_N}_${threads}.txt | sed 's/Performance.*: //; s/FLOP.*//; s/ M/*10^6/; s/ G/*10^9/')/10^9")
+		mlups=$(grep " MLUP" data/scaling/Benchmark_${LC_1D_L3_N}_${threads}.txt | sed -e 's/Performance: //; s/ MLUP\/s//')
+		cyCL=$(grep "Runtime.* cy/CL" data/scaling/Benchmark_${LC_1D_L3_N}_${threads}.txt | sed 's/Runtime.*: //; s/ cy.*//')
 
 		flop=$(bc -l <<< "scale=0;${gflops}*${time}*10^9")
 		lup=$(bc -l <<< "scale=0;${mlups}*${time}*10^6")
 
-		gflopsIACA=$(cat data/scaling/RooflineIACA_${LC_3D_L3_N}_${threads}.txt | grep FLOP/s | tail -n 1 | sed 's/ [M|G]FLOP.*//; s/CPU bound. //')
-		gflopsIACA=$(grep "FLOP/s d" data/scaling/RooflineIACA_${LC_3D_L3_N}_${threads}.txt | sed -e 's/FLOP.*//;s/CPU bound. //;s/ M/\/1000/;s/ G//')
+		gflopsIACA=$(cat data/scaling/RooflineIACA_${LC_1D_L3_N}_${threads}.txt | grep FLOP/s | tail -n 1 | sed 's/ [M|G]FLOP.*//; s/CPU bound. //')
+		gflopsIACA=$(grep "FLOP/s d" data/scaling/RooflineIACA_${LC_1D_L3_N}_${threads}.txt | sed -e 's/FLOP.*//;s/CPU bound. //;s/ M/\/1000/;s/ G//')
 		gflopsIACA=$(bc -l <<< "scale=5;${gflopsIACA}" | sed -r 's/^(-?)\./\10./')
 		mlupsIACA=$(bc -l <<< "scale=2;${gflopsIACA} * 10^3 / ${flops}")
 
-		cyclECM=$(cat data/scaling/ECM_${LC_3D_L3_N}_${threads}.txt | tail -n 20 | grep "prediction for" | sed -e 's/ cy\/CL (.*//' -e 's/} cy\/CL//' | awk '{print $NF}')
+		cyclECM=$(cat data/scaling/ECM_${LC_1D_L3_N}_${threads}.txt | tail -n 20 | grep "prediction for" | sed -e 's/ cy\/CL (.*//' -e 's/} cy\/CL//' | awk '{print $NF}')
 		mlupsECM=$(bc -l <<< "scale=2;${LUPperCL} * ${ghz} * 10^3 / ${cyclECM}")
 
-		echo "${LC_3D_L3_N},${threads},${iterations},${time},,${flop},${lup},${gflops},${gflopsIACA},${mlups},${mlupsIACA},${cyCL},${cyclECM},${mlupsECM},${l2_load},${l2_evict},${l3_load},${l3_evict},${mem_read},${mem_write}" >> ${FILENAME}
+		echo "${LC_1D_L3_N},${threads},${iterations},${time},,${flop},${lup},${gflops},${gflopsIACA},${mlups},${mlupsIACA},${cyCL},${cyclECM},${mlupsECM},${l2_load},${l2_evict},${l3_load},${l3_evict},${mem_read},${mem_write}" >> ${FILENAME}
 	done
 fi
 
@@ -362,7 +374,7 @@ echo ":: GENERATING blocking.csv"
 		# write results file header
 		echo "N,iterations,time,blocking options,flop,lup,Gflop/s,Mlup/s,cy/CL,l1-l2 miss,l1-l2 evict,l2-l3 miss,l2-l3 evict,l3-mem miss,l3-mem evict,l1-l2 total,l2-l3 total,l3-mem total" > ${FILENAME}
 
-		for (( size=10; size<=${LC_3D_L3_N}+10; size=size+10)); do
+		for (( size=10; size<=${LC_1D_L3_N}+10; size=size+10)); do
 			args=$(grep "${blocking_case} ${size} ${size} ${size}" args.txt)
 
 			#save results/metrics
@@ -419,10 +431,11 @@ fi
 # ************************************************************************************************
 
 DT=$(echo ${DATATYPE} | sed 's/ //')
-FOLDER="${OUTPUT_FOLDER}/${DIM}D/r${RADIUS}/${WEIGHTING}/${KIND}/${CONST}/${DT}/${MACHINE}/"
 
 if [[ ${STENCIL_NAME} != "None" ]]; then
 	FOLDER="${OUTPUT_FOLDER}/${STENCIL_NAME}/${MACHINE}/"
+else
+	FOLDER="${OUTPUT_FOLDER}/${DIM}D/r${RADIUS}/${WEIGHTING}/${KIND}/${CONST}/${DT}/${MACHINE}/"
 fi
 
 mkdir -p ${FOLDER}
@@ -432,4 +445,8 @@ cp index.md *csv ${FOLDER}
 # compress data files
 # ************************************************************************************************
 
-tar czf data.tar.gz data && rm -rf data
+if [[ -f  data.tar.gz ]]; then
+	rm -rf data
+else
+	tar czf data.tar.gz data && rm -rf data
+fi
