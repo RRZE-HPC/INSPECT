@@ -11,8 +11,12 @@ import io
 import contextlib
 import shutil
 import traceback
-import pickle
+from distutils.spawn import find_executable
+import gc
+import subprocess
 
+import compress_pickle as cpickle
+import pandas
 from ruamel import yaml
 from kerncraft import prefixedunit
 from kerncraft import kerncraft
@@ -26,12 +30,12 @@ config = {
 }
 
 # TODO:
-# * Kernel code generation
-# * Job(s) execution
+# * remove failed job dirs
+# * Workload processing / report generation
+# * Extract suggested scaling upperbound from LC output
 # * Job submission
-# * Job queue status gathering
-# * Workload processing
-# * Job requeuing
+# * Job enqueuing
+# * Report upload
 
 class Kernel:
     """Describes a kernel including sizes to model and execute for."""
@@ -55,27 +59,45 @@ class Kernel:
             self.steps = generate_steps(**scaling)
         else:
             self.steps = []
-    
+
     def get_code(self):
         if self.type == "named":
             with config['base_dirpath'].joinpath('kernels', self.parameter).open() as f:
                 code = f.read()
         elif self.type == "stempel":
-            codeio = io.StringIO()
             parser = stempel.create_parser()
-            args= parser.parse_args(["foo", "bar", "TODO"])  # TODO
-            stempel.run_gen(args, parser, output_file=codeio)
+            # 2D/r1/star/constant/isotropic/float
+            dimensions, radius, kind, coefficient, classification, datatype = \
+                self.parameter.split('/')
+            dimensions = dimensions.strip('D')
+            radius = radius.strip('r')
+            args= parser.parse_args(["gen",
+                                     "-D", dimensions,
+                                     "-r", radius,
+                                     "-C", coefficient,
+                                     "-k", kind,
+                                     "-c", classification,
+                                     "-t", datatype])
+            codeio = io.StringIO()
+            args.store = codeio
+            output = io.StringIO()
+            stempel.run_gen(args, parser, output_file=output)
             code = codeio.getvalue()
             codeio.close()
+        elif self.type == "likwid-bench":
+            code = None
         else:
             raise ValueError("Unsupported kernel type: {}".format(self.type))
         return code
-    
+
     def save_to(self, path):
         """Save kernel code to path."""
-        with path.open('w') as f:
-            f.write(self.get_code())
-    
+        if self.type == "likwid-bench":
+            return
+        else:
+            with path.open('w') as f:
+                f.write(self.get_code())
+
     def __repr__(self):
         steps = self.steps
         if self.scaling:
@@ -95,7 +117,7 @@ class Host:
                 yield cls(name=name, **hd)
             except TypeError:
                 traceback.print_exc()
-    
+
     def __init__(self, name, nodelist=[], submission_host=None, slurm_arguments='',
                  runtime_setup=[], machine_filename=None):
         self.name = name
@@ -108,16 +130,16 @@ class Host:
         if machine_filename is not None:
             with self.get_machine_filepath().open() as f:
                 self.machine_file = yaml.load(f, Loader=yaml.Loader)
-    
+
     def get_machine_filepath(self):
         return config['base_dirpath'].joinpath('machine_files', self.machine_filename)
-    
+
     def enqueue_execution(self, cli_args):
         print("TODO enqueue on", self.name, ':', ' '.join(cli_args))
         # TODO eunqueue
         # * build job file string
         # * pass to slurm
-    
+
     def get_queued_executions(self):
         """Return list of queued cli_args and status"""
         raise NotImplementedError
@@ -125,7 +147,7 @@ class Host:
     def get_compilers(self):
         """Return list of compilers from host description."""
         return list(self.machine_file['compiler'].keys())
-    
+
     def is_current_host(self):
         """Return True if executing host is mentioned in nodelist"""
         return socket.gethostname().split('.')[0] in self.nodelist
@@ -142,73 +164,95 @@ class Workload:
     def __init__(self, kernel, host):
         self.kernel = kernel
         self.host = host
-    
+
     def get_wldir(self):
-        """Initialize and return path to workload directory"""
+        """Return path to workload directory"""
         wldir = config['base_dirpath'].joinpath(
             'jobs', self.host.name, self.kernel.type, self.kernel.parameter)
+        return wldir
+
+    def initialize_wldir(self):
+        """Initialize and return path to workload directory"""
+        wldir = self.get_wldir()
         if not wldir.exists():
             wldir.mkdir(parents=True)
-        
-        # Save kernel file
-        kernel_filename = wldir.joinpath('kernel.c')
-        if not kernel_filename.exists():
-            self.kernel.save_to(kernel_filename)
-        
-        # Copy machine file
-        machine_filename = wldir.joinpath('machine.yml')
-        if not machine_filename.exists():
-            shutil.copy(str(self.host.get_machine_filepath()), str(machine_filename))
+
+        # TODO make this into the job's responsibility?
+        if self.kernel.type in ['stempel', 'named']:
+            # Save kernel file
+            kernel_filename = wldir.joinpath('kernel.c')
+            if not kernel_filename.exists():
+                self.kernel.save_to(kernel_filename)
+
+            # Copy machine file
+            machine_filename = wldir.joinpath('machine.yml')
+            if not machine_filename.exists():
+                shutil.copy(str(self.host.get_machine_filepath()), str(machine_filename))
         return wldir
 
     def get_jobs(self, compiler=None, steps=None, incore_model=None, cores=None):
         if hasattr(self, '_jobs'):
             return self._jobs
-        
-        kc_base_args = [
-            '-vvv',
-            '-m', 'machine.yml',
-            'kernel.c']
-        # Layer Conditions
-        jobs = [Job(self,
-                    kc_base_args + ['-D', '.', '100', '-p', 'LC'],        
-                    exec_on_host=False)]
-        for s in self.kernel.steps:
-            if steps is not None and s not in steps:
-                continue
-            kc_step_args = kc_base_args + ['-D', '.', str(s)]
-            for cc in self.host.get_compilers():
-                if compiler is not None and cc not in compiler:
+
+        jobs = []
+        if self.kernel.type in ['stempel', 'named']:
+            # Layer Conditions
+            jobs += [KerncraftJob(self, pmodel='LC', define=100, exec_on_host=False)]
+            for s in self.kernel.steps:
+                if steps is not None and s not in steps:
                     continue
-                kc_step_cc_args = kc_step_args + ['-C', cc]
-                # Benchmark
-                cores_per_socket = (self.host.machine_file['NUMA domains per socket'] 
-                                    * self.host.machine_file['cores per NUMA domain'])
-                for c in range(1, cores_per_socket + 1):
-                    if cores is not None and c not in cores:
+                for cc in self.host.get_compilers():
+                    if compiler is not None and cc not in compiler:
                         continue
-                    # TODO Run 2-N cores at the same time?
-                    jobs.append(Job(self,
-                                    kc_step_cc_args + ['-p', 'Benchmark', '-c', str(c)],
-                                    exec_on_host=True))
-                for icm in self.host.machine_file['in-core model'].keys():
-                    if incore_model is not None and icm not in incore_model:
-                        continue
-                    kc_step_cc_icm_args = kc_step_cc_args + ['-i', icm]
-                    # ECM
-                    # TODO split into ECMData and ECMCPU?
-                    # TODO run ECMCPU only once
-                    jobs.append(Job(self,
-                                    kc_step_cc_icm_args + ['-p', 'ECM'],        
-                                    exec_on_host=False))
-                    # RooflineIACA
-                    # TODO join with ECMCPU+ECMData?
-                    jobs.append(Job(self,
-                                    kc_step_cc_icm_args + ['-p', 'RooflineIACA'],        
-                                    exec_on_host=False))
+                    # Benchmark
+                    cores_per_socket = (self.host.machine_file['NUMA domains per socket']
+                                        * self.host.machine_file['cores per NUMA domain'])
+                    for c in range(1, cores_per_socket + 1):
+                        if cores is not None and c not in cores:
+                            continue
+                        # TODO Run 2-N cores at the same time?
+                        jobs.append(KerncraftJob(self, pmodel='Benchmark', define=s, cores=c, 
+                                                 compiler=cc, exec_on_host=True))
+                    for icm in self.host.machine_file['in-core model'].keys():
+                        if incore_model is not None and icm not in incore_model:
+                            continue
+                        # ECM
+                        # TODO split into ECMData and ECMCPU?
+                        # TODO run ECMCPU only once
+                        jobs.append(KerncraftJob(self, pmodel='ECM', define=s, cores=c, 
+                                                 compiler=cc, incore_model=icm, exec_on_host=True))
+                        # RooflineIACA
+                        # TODO join with ECMCPU+ECMData?
+                        jobs.append(KerncraftJob(self, pmodel='RooflineIACA', define=s, cores=c, 
+                                                 compiler=cc, incore_model=icm, exec_on_host=True))
+        elif self.kernel.type == "likwid-bench":
+            base_args = ['likwid-bench', '-t', self.kernel.parameter]
+            for s in self.kernel.steps:
+                jobs.append(Job(self, base_args + ['-w', 'S0:{}B'.format(s)], exec_on_host=True))
+        else:
+            raise NotImplementedError("Unknown kernel type")
         self._jobs = jobs
         return jobs
 
+    def process_outputs(self):
+        """Gather and process outputs into a single report."""
+        # 1. gather output of finished jobs
+        outputs = []
+        for j in self.get_jobs():
+            if j.get_state() != 'finished':
+                # Skipping unfinished jobs
+                continue
+            outputs.append((j,)+j.get_outputs())
+        from IPython import embed
+        embed()
+        # 2. combine all outputs
+        # panda dataframes?
+        # Columns:
+        # T_ [cy/X It] reciprocal Throughput
+        # D_ [ B/X It] code balance
+        # Reg-L1, L1-L2, L2-L3, L2-Mem, L3-Mem
+        # außerdem: T_comp.
+        # 3. generate plots and report (how?)
 
     # TODO jobs status tracking functionality
     # TODO report generation function
@@ -217,42 +261,45 @@ class Workload:
 class Job:
     """
     A single job to be executed on a host by a single Kerncraft run.
-    
+
     Can be used to execute a new or unfished job or to collect resulting data
     and detect state (i.e., new, executing, finished or failed).
     """
-    def __init__(self, workload, kerncraft_args, exec_on_host):
+    __slots__ = [
+        'workload', 'arguments', 'exec_on_host', '_have_lock', '_lockfile_path', '_lock_fd',
+        '_state']
+    def __init__(self, workload, arguments, exec_on_host):
         """
         Construct Job object.
-        
+
         :param kernel: kernel to analyze
         :param host: host this job is running for
-        :param kerncraft_args: list of cli arguments to pass to kerncraft (including machine file)
+        :param arguments: list of arguments to execute and to identify job
         :param exec_on_host: if True, execute this job only on specified host, otherwise use any
         """
         self.workload = workload
-        self.kernel = workload.kernel
-        self.host = workload.host
-        self.kerncraft_args = kerncraft_args
+        self.arguments = arguments
         self.exec_on_host = exec_on_host
 
         self._have_lock = False
-        self._lockfile_path = self.get_jobdir().with_suffix('.lock')
+        jdir = self.get_jobdir()
+        self._lockfile_path = jdir.with_name(jdir.name+'.lock')
         self._lock_fd = None
 
         self._state = self.get_state()
-    
+
     def __repr__(self):
         return "<Job {} {!r} {} {}>".format(
-            self.host.name, self.kernel, self.kerncraft_args, self.exec_on_host)
-    
+            self.workload.host.name, self.workload.kernel, self.arguments, self.exec_on_host)
+
     def check_hostname(self):
-        return socket.gethostname().split('.')[0] in self.host.nodelist
-    
+        return socket.gethostname().split('.')[0] in self.workload.host.nodelist
+
     def _aquire_lock(self, non_blocking=False):
         """Lock job directory"""
         if self._have_lock:
             return True
+        self.get_jobdir().mkdir(parents=True, exist_ok=True)
         self._lock_fd = self._lockfile_path.open('w')
         operation = fcntl.LOCK_EX
         if non_blocking:
@@ -263,11 +310,11 @@ class Job:
             return False
         self._have_lock = True
         return True
-    
+
     def is_locked(self):
         # May be locked, but good enough
         return self._lockfile_path.exists()
-    
+
     def _release_lock(self):
         if not self._have_lock:
             return
@@ -275,44 +322,48 @@ class Job:
         self._lockfile_path.unlink()
         self._lock_fd.close()
         self._lock_fd = None
-    
+
     def get_jobdir(self):
         """Return job directory path."""
-        return self.workload.get_wldir() / ' '.join(self.kerncraft_args).replace('/', '$')
+        return self.workload.get_wldir() / ' '.join(self.arguments).replace('/', '$')
 
-    def execute(self, non_blocking=False):
+    def _run(self):
+        """Work to be executed"""
+        try:
+            with self.get_jobdir().joinpath('out.txt').open('w') as f:
+                subprocess.run(self.arguments, check=True,
+                    stdout=f, stderr=subprocess.STDOUT)
+        except KeyboardInterrupt:
+            raise
+        except:
+            traceback.print_exc(file=sys.stderr)
+            raise
+
+    def execute(self, non_blocking=False, rerun_failed=False):
         """Change state from new or enqueud to executing."""
-        if self._state in ['finished', 'failed']:
+        if self._state == 'finished':
+            return
+        elif self._state == 'failed' and not rerun_failed:
             return
         assert not self.exec_on_host or self.check_hostname(), \
-            "Needs to run on specified host: "+repr(self.host)
-        self.get_jobdir().mkdir(parents=True, exist_ok=True)
+            "Needs to run on specified host: "+repr(self.workload.host)
         self._aquire_lock(non_blocking=non_blocking)
+        if self._state == 'failed':
+            shutil.rmtree(str(self.get_jobdir()))
+            self.get_jobdir().mkdir()
         self._state = "executing"
 
-        #import pdb; pdb.set_trace()
-
-        # Execute kerncraft workload
-        # TODO place Kerncraft specific code in seperate function make subclass
+        # Execute work
+        failed = True
         try:
-            parser = kerncraft.create_parser()
-            with chdir(str(self.workload.get_wldir())):
-                args = parser.parse_args(self.kerncraft_args)
-                kerncraft.check_arguments(args, parser)
-                with open(self.get_jobdir().joinpath('out.txt'), 'w') as f:
-                    with utils.stdout_redirected(to=sys.stdout, stdout=sys.stderr):
-                        with utils.stdout_redirected(f):
-                            result_storage = kerncraft.run(parser, args)
-                with open(self.get_jobdir().joinpath('out.pickle'), 'wb') as f:
-                    pickle.dump(result_storage, f, protocol=4)
-            failed = False
+            failed = self._run()
         except KeyboardInterrupt:
             failed = True
             # Rollback by removing jobdir
             shutil.rmtree(str(self.get_jobdir()))
             print("Manual abort. Cleared currently running job data.")
             sys.exit(1)
-        except:
+        except Exception as e:
             failed = True
             traceback.print_exc(file=sys.stderr)
             print("Kerncraft run failed.", file=sys.stderr)
@@ -329,7 +380,8 @@ class Job:
                 # Nothing needs to be stored
                 # directory exists && no lock && no FINISHED file in combination mean failed
             self._release_lock()
-    
+        gc.collect()
+
     def get_state(self):
         """Indicate if this job is new, executing, finished or failed."""
         self._state = "new"
@@ -344,9 +396,85 @@ class Job:
         return self._state
 
     def get_outputs(self):
+        """Return tuple of output (combined stdin and stderr) of run"""
         assert self._state == 'finished', "Can only be run on sucessfully finished jobs."
-        # TODO
-        raise NotImplementedError
+        return (self.get_jobdir().joinpath('out.txt').read_text(),)
+    
+    def get_dict(self):
+        """Return dict to be inserted into Workload's DataFrame"""
+        return {
+            'job': self,
+            'raw output': self.get_outputs()[0]}
+
+
+class KerncraftJob(Job):
+    """
+    kerncraft Job
+    arguments are a list of cli arguments to pass to kerncraft (including machine file and leading
+    kerncraft)
+    """
+    def __init__(self, workload, pmodel, define, cores=None, compiler=None, incore_model=None,
+                 exec_on_host=True):
+        """
+        Construct Job object.
+
+        :param kernel: kernel to analyze
+        :param host: host this job is running for
+        :param arguments: list of arguments to execute and to identify job
+        :param exec_on_host: if True, execute this job only on specified host, otherwise use any
+        """
+        self.pmodel = pmodel
+        self.define = define
+        self.cores = cores
+        self.compiler = compiler
+        self.incore_model = incore_model
+        arguments = ['kerncraft', '-p', pmodel, '-D', '.', str(define)]
+        if cores is not None:
+            arguments += ['-c', str(cores)]
+        if compiler is not None:
+            arguments += ['-C', compiler]
+        if incore_model is not None:
+            arguments += ['-i', incore_model]
+        arguments += ['-m', 'machine.yml', 'kernel.c', '-vvv']
+        Job.__init__(self, workload, arguments, exec_on_host)
+    
+    def _get_kerncraft_argparser(self):
+        parser = kerncraft.create_parser()
+        with chdir(str(self.workload.initialize_wldir())):
+            args = parser.parse_args(self.arguments[1:])  # ignore first, is always 'kerncraft'
+            kerncraft.check_arguments(args, parser)
+        return parser, args
+
+    def _run(self):
+        parser, args = self._get_kerncraft_argparser()
+        with chdir(str(self.workload.initialize_wldir())):
+            with self.get_jobdir().joinpath('out.txt').open('w') as f:
+                with utils.stdout_redirected(f, stdout=sys.stderr):
+                    with utils.stdout_redirected(f):
+                        try:
+                            result_storage = kerncraft.run(parser, args)
+                        except KeyboardInterrupt:
+                            raise
+                        except:
+                            traceback.print_exc(file=sys.stderr)
+                            raise
+                        finally:
+                            del parser
+                            del args
+            cpickle.dump(result_storage, self.get_jobdir().joinpath('out.pickle.lzma'),
+                         protocol=4)
+            del result_storage
+
+    def get_outputs(self):
+        """Return tuple of execution output (combined stdin and stderr) and loaded pickle"""
+        return Job.get_outputs(self) + (
+                cpickle.load(self.get_jobdir().joinpath('out.pickle.lzma')),
+            )
+    
+    def get_dict(self):
+        """Return dict to be inserted into Workload dataframe"""
+        d = Job.get_dict(self)
+        return d
 
 
 class VersionAction(argparse.Action):
@@ -366,8 +494,7 @@ class VersionAction(argparse.Action):
         print(parser.prog, self.version)
         parser.exit()
 
-
-def enqueue(type=None, parameter=None, machine=None, compiler=None, steps=None, 
+def enqueue(type=None, parameter=None, machine=None, compiler=None, steps=None,
             incore_model=None, cores=None, **kwargs):
     hosts = list(Host.get_all(filter_names=machine))
     kernels = list(Kernel.get_all(filter_type=type, filter_parameter=parameter))
@@ -382,7 +509,7 @@ def enqueue(type=None, parameter=None, machine=None, compiler=None, steps=None,
                 ) for w in wls]):
             # Queue this filterset for execution on host
             h.enqueue_execution(make_cli_args(
-                type=type, parameter=parameter, machine=machine, compiler=compiler, steps=steps, 
+                type=type, parameter=parameter, machine=machine, compiler=compiler, steps=steps,
                 incore_model=incore_model, cores=incore_model))
 
     # Just FYI
@@ -391,26 +518,53 @@ def enqueue(type=None, parameter=None, machine=None, compiler=None, steps=None,
     print(len(workloads), "workloads")
 
 
-def status(type=None, parameter=None, machine=None, compiler=None, steps=None, 
-           incore_model=None, cores=None, **kwargs):
-    raise NotImplementedError
-
-
-def execute(type=None, parameter=None, machine=None, compiler=None, steps=None, 
-            incore_model=None, cores=None, **kwargs):
+def status(type=None, parameter=None, machine=None, compiler=None, steps=None,
+           incore_model=None, cores=None, verbose=0, **kwargs):
     hosts = list(Host.get_all(filter_names=machine))
     kernels = list(Kernel.get_all(filter_type=type, filter_parameter=parameter))
     workloads = []
     jobs = []
-    wls = list(Workload.get_all(kernels, hosts))
-    workloads.extend(wls)
+    workloads = list(Workload.get_all(kernels, hosts))
     # Build list of jobs by chaining workload job lists
     jobs = list(itertools.chain(*[w.get_jobs(
                 compiler=compiler, steps=steps, incore_model=incore_model, cores=cores
-            ) for w in wls]))
+            ) for w in workloads]))
+
+    job_states = list([j.get_state() for j in jobs])
+
+    i = 0
+    for s, j in zip(job_states, jobs):
+        i += 1
+        if verbose >= 2:
+            print(s, j.get_jobdir())
+        elif verbose >= 1:
+            print(s[0], end='')
+            if i % 80 == 0:
+                print()
+
+    print("   State  Count Percent")
+    for state in ['new', 'failed', 'finished']:
+        count = job_states.count(state)
+        print("{:>8} {:>6} {:>7.1%}".format(state, count, count/len(jobs)))
+    print('Total:', len(jobs))
+
+
+def execute(type=None, parameter=None, machine=None, compiler=None, steps=None,
+            incore_model=None, cores=None, rerun_failed=False, **kwargs):
+    hosts = list(Host.get_all(filter_names=machine))
+    kernels = list(Kernel.get_all(filter_type=type, filter_parameter=parameter))
+    workloads = list(Workload.get_all(kernels, hosts))
+    jobs = []
+    # Build list of jobs by chaining workload job lists
+    jobs = list(itertools.chain(*[w.get_jobs(
+                compiler=compiler, steps=steps, incore_model=incore_model, cores=cores
+            ) for w in workloads]))
     # Filter jobs which do not match current host but require this
     jobs = [j for j in jobs if not j.exec_on_host or j.check_hostname()]
-    
+
+    # Place jobs which require the current host at front
+    jobs.sort(key=lambda j: j.exec_on_host, reverse=True)
+
     # Just FYI
     print(len(hosts), "hosts")
     print(len(kernels), "kernels")
@@ -419,12 +573,16 @@ def execute(type=None, parameter=None, machine=None, compiler=None, steps=None,
 
 
     for j in jobs:
-        print(j.get_state(), j)
-        j.execute()
+        print(j.get_state(), j.get_jobdir())
+        j.execute(rerun_failed=rerun_failed)
 
 
 def process(type=None, parameter=None, machine=None, **kwargs):
-    raise NotImplementedError
+    hosts = list(Host.get_all(filter_names=machine))
+    kernels = list(Kernel.get_all(filter_type=type, filter_parameter=parameter))
+    workloads = list(Workload.get_all(kernels, hosts))
+    for wl in workloads:
+        wl.process_outputs()
 
 
 def upload(type=None, parameter=None, machine=None, **kwargs):
@@ -438,6 +596,8 @@ def get_args(args=None):
 
     parser = argparse.ArgumentParser(description='INSPECT Command Line Utility')
     parser.add_argument('--version', action=VersionAction, version='{}'.format(__version__))
+    parser.add_argument('--verbose', '-v', action='count', default=0,
+                        help='Increases verbosity level.')
     parser.add_argument('--base-dir', '-b', type=Path, default=Path('.'),
                         help='Base directory to use for config and intermediate files.')
 
@@ -458,11 +618,13 @@ def get_args(args=None):
                         help='In-core model(s) to consider')
     parser.add_argument('--cores', '-c', type=int, action='append',
                         help='Core count(s) to consider')
+    parser.add_argument('--rerun-failed', action='store_true',
+                        help='Delete incomplete output and rerun failed jobs.')
 
     subparsers = parser.add_subparsers(
         title='command', dest='command', description='action to take', help='Valid commands:')
     subparsers.required = True
-    
+
     # enqueue: workload + jobs
     enqueue_parser = subparsers.add_parser('enqueue', help='Generate and enqueue jobs')
     enqueue_parser.set_defaults(action_function=enqueue)
@@ -489,7 +651,7 @@ def get_args(args=None):
 def make_cli_args(ignore_list=['command', 'action_function'], **kwargs):
     """
     Turn Namespace into args list passable to get_args.
-    
+
     Quite dumb, will only work with default naming scheme.
     """
     args = []
@@ -548,7 +710,7 @@ def generate_steps(
                 # Do not insert same element twice
                 intermediate += 1
                 continue
-                
+
             results.append(intermediate)
             break
     if results[-1] < last:
@@ -568,7 +730,6 @@ def chdir(pathstr):
 
 def main():
     args = get_args()
-    global base_dirpth
     config['base_dirpath'] = args.base_dir
     args.action_function(**vars(args))
 
