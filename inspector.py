@@ -16,6 +16,7 @@ import gc
 import subprocess
 
 import compress_pickle as cpickle
+import pandas
 from ruamel import yaml
 from kerncraft import prefixedunit
 from kerncraft import kerncraft
@@ -195,23 +196,14 @@ class Workload:
 
         jobs = []
         if self.kernel.type in ['stempel', 'named']:
-            kc_base_args = [
-                'kerncraft',
-                '-vvv',
-                '-m', 'machine.yml',
-                'kernel.c']
             # Layer Conditions
-            jobs += [KerncraftJob(self,
-                        kc_base_args + ['-D', '.', '100', '-p', 'LC'],
-                        exec_on_host=False)]
+            jobs += [KerncraftJob(self, pmodel='LC', define=100, exec_on_host=False)]
             for s in self.kernel.steps:
                 if steps is not None and s not in steps:
                     continue
-                kc_step_args = kc_base_args + ['-D', '.', str(s)]
                 for cc in self.host.get_compilers():
                     if compiler is not None and cc not in compiler:
                         continue
-                    kc_step_cc_args = kc_step_args + ['-C', cc]
                     # Benchmark
                     cores_per_socket = (self.host.machine_file['NUMA domains per socket']
                                         * self.host.machine_file['cores per NUMA domain'])
@@ -219,24 +211,20 @@ class Workload:
                         if cores is not None and c not in cores:
                             continue
                         # TODO Run 2-N cores at the same time?
-                        jobs.append(KerncraftJob(self,
-                                        kc_step_cc_args + ['-p', 'Benchmark', '-c', str(c)],
-                                        exec_on_host=True))
+                        jobs.append(KerncraftJob(self, pmodel='Benchmark', define=s, cores=c, 
+                                                 compiler=cc, exec_on_host=True))
                     for icm in self.host.machine_file['in-core model'].keys():
                         if incore_model is not None and icm not in incore_model:
                             continue
-                        kc_step_cc_icm_args = kc_step_cc_args + ['-i', icm]
                         # ECM
                         # TODO split into ECMData and ECMCPU?
                         # TODO run ECMCPU only once
-                        jobs.append(KerncraftJob(self,
-                                        kc_step_cc_icm_args + ['-p', 'ECM'],
-                                        exec_on_host=False))
+                        jobs.append(KerncraftJob(self, pmodel='ECM', define=s, cores=c, 
+                                                 compiler=cc, incore_model=icm, exec_on_host=True))
                         # RooflineIACA
                         # TODO join with ECMCPU+ECMData?
-                        jobs.append(KerncraftJob(self,
-                                        kc_step_cc_icm_args + ['-p', 'RooflineIACA'],
-                                        exec_on_host=False))
+                        jobs.append(KerncraftJob(self, pmodel='RooflineIACA', define=s, cores=c, 
+                                                 compiler=cc, incore_model=icm, exec_on_host=True))
         elif self.kernel.type == "likwid-bench":
             base_args = ['likwid-bench', '-t', self.kernel.parameter]
             for s in self.kernel.steps:
@@ -277,7 +265,9 @@ class Job:
     Can be used to execute a new or unfished job or to collect resulting data
     and detect state (i.e., new, executing, finished or failed).
     """
-    __slots__ = ['workload', 'arguments', 'exec_on_host', '_have_lock', '_lockfile_path', '_lock_fd', '_state']
+    __slots__ = [
+        'workload', 'arguments', 'exec_on_host', '_have_lock', '_lockfile_path', '_lock_fd',
+        '_state']
     def __init__(self, workload, arguments, exec_on_host):
         """
         Construct Job object.
@@ -338,6 +328,7 @@ class Job:
         return self.workload.get_wldir() / ' '.join(self.arguments).replace('/', '$')
 
     def _run(self):
+        """Work to be executed"""
         try:
             with self.get_jobdir().joinpath('out.txt').open('w') as f:
                 subprocess.run(self.arguments, check=True,
@@ -362,8 +353,8 @@ class Job:
             self.get_jobdir().mkdir()
         self._state = "executing"
 
-        # Execute kerncraft workload
-        # TODO place Kerncraft specific code in seperate function make subclass
+        # Execute work
+        failed = True
         try:
             failed = self._run()
         except KeyboardInterrupt:
@@ -405,9 +396,15 @@ class Job:
         return self._state
 
     def get_outputs(self):
-        """Return output (stdin and stderr) of likwid-bench run"""
+        """Return tuple of output (combined stdin and stderr) of run"""
         assert self._state == 'finished', "Can only be run on sucessfully finished jobs."
-        return self.get_jobdir().joinpath('out.txt').read_text()
+        return (self.get_jobdir().joinpath('out.txt').read_text(),)
+    
+    def get_dict(self):
+        """Return dict to be inserted into Workload's DataFrame"""
+        return {
+            'job': self,
+            'raw output': self.get_outputs()[0]}
 
 
 class KerncraftJob(Job):
@@ -416,11 +413,41 @@ class KerncraftJob(Job):
     arguments are a list of cli arguments to pass to kerncraft (including machine file and leading
     kerncraft)
     """
-    def _run(self):
+    def __init__(self, workload, pmodel, define, cores=None, compiler=None, incore_model=None,
+                 exec_on_host=True):
+        """
+        Construct Job object.
+
+        :param kernel: kernel to analyze
+        :param host: host this job is running for
+        :param arguments: list of arguments to execute and to identify job
+        :param exec_on_host: if True, execute this job only on specified host, otherwise use any
+        """
+        self.pmodel = pmodel
+        self.define = define
+        self.cores = cores
+        self.compiler = compiler
+        self.incore_model = incore_model
+        arguments = ['kerncraft', '-p', pmodel, '-D', '.', str(define)]
+        if cores is not None:
+            arguments += ['-c', str(cores)]
+        if compiler is not None:
+            arguments += ['-C', compiler]
+        if incore_model is not None:
+            arguments += ['-i', incore_model]
+        arguments += ['-m', 'machine.yml', 'kernel.c', '-vvv']
+        Job.__init__(self, workload, arguments, exec_on_host)
+    
+    def _get_kerncraft_argparser(self):
         parser = kerncraft.create_parser()
         with chdir(str(self.workload.initialize_wldir())):
-            args = parser.parse_args(self.arguments[1:])  # ignore first, should be 'kerncraft'
+            args = parser.parse_args(self.arguments[1:])  # ignore first, is always 'kerncraft'
             kerncraft.check_arguments(args, parser)
+        return parser, args
+
+    def _run(self):
+        parser, args = self._get_kerncraft_argparser()
+        with chdir(str(self.workload.initialize_wldir())):
             with self.get_jobdir().joinpath('out.txt').open('w') as f:
                 with utils.stdout_redirected(f, stdout=sys.stderr):
                     with utils.stdout_redirected(f):
@@ -439,10 +466,15 @@ class KerncraftJob(Job):
             del result_storage
 
     def get_outputs(self):
-        """Return tuple of execution output (stdin and stderr) and loaded pickle"""
-        assert self._state == 'finished', "Can only be run on sucessfully finished jobs."
-        return (self.get_jobdir().joinpath('out.txt').read_text(),
-                cpickle.load(self.get_jobdir().joinpath('out.pickle.lzma')))
+        """Return tuple of execution output (combined stdin and stderr) and loaded pickle"""
+        return Job.get_outputs(self) + (
+                cpickle.load(self.get_jobdir().joinpath('out.pickle.lzma')),
+            )
+    
+    def get_dict(self):
+        """Return dict to be inserted into Workload dataframe"""
+        d = Job.get_dict(self)
+        return d
 
 
 class VersionAction(argparse.Action):
