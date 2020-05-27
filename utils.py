@@ -90,4 +90,11 @@ class LayerConditionResults(Results):
                 raise ValueError("Could not find any LC condition evaluating to True.")
         return result
 
-#class 
+
+def flatten_tuple(T):
+    if not isinstance(T, tuple):
+        return (T,)
+    elif len(T) == 0:
+        return ()
+    else:
+        return flatten_tuple(T[0]) + flatten_tuple(T[1:])
