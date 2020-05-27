@@ -14,6 +14,8 @@ import traceback
 from distutils.spawn import find_executable
 import gc
 import subprocess
+from collections import OrderedDict
+from copy import copy
 
 import compress_pickle as cpickle
 import pandas
@@ -216,15 +218,17 @@ class Workload:
                     for icm in self.host.machine_file['in-core model'].keys():
                         if incore_model is not None and icm not in incore_model:
                             continue
-                        # ECM
-                        # TODO split into ECMData and ECMCPU?
-                        # TODO run ECMCPU only once
-                        jobs.append(KerncraftJob(self, pmodel='ECM', define=s, cores=c, 
-                                                 compiler=cc, incore_model=icm, exec_on_host=True))
-                        # RooflineIACA
-                        # TODO join with ECMCPU+ECMData?
-                        jobs.append(KerncraftJob(self, pmodel='RooflineIACA', define=s, cores=c, 
-                                                 compiler=cc, incore_model=icm, exec_on_host=True))
+                        for cp in ['LC', 'SIM']:
+                            # ECM
+                            # TODO implement incore-model caching in kerncraft
+                            jobs.append(KerncraftJob(self, pmodel='ECM', define=s,
+                                                 compiler=cc, incore_model=icm,
+                                                 cache_predictor=cp, exec_on_host=False))
+                            # RooflineIACA
+                            # TODO implement incore-model caching in kerncraft
+                            jobs.append(KerncraftJob(self, pmodel='RooflineIACA', define=s,
+                                                 compiler=cc, incore_model=icm,
+                                                 cache_predictor=cp, exec_on_host=False))
         elif self.kernel.type == "likwid-bench":
             base_args = ['likwid-bench', '-t', self.kernel.parameter]
             for s in self.kernel.steps:
@@ -242,16 +246,11 @@ class Workload:
             if j.get_state() != 'finished':
                 # Skipping unfinished jobs
                 continue
-            outputs.append((j,)+j.get_outputs())
+            outputs += j.get_dicts()
+        df = pandas.DataFrame(outputs)
         from IPython import embed
         embed()
         # 2. combine all outputs
-        # panda dataframes?
-        # Columns:
-        # T_ [cy/X It] reciprocal Throughput
-        # D_ [ B/X It] code balance
-        # Reg-L1, L1-L2, L2-L3, L2-Mem, L3-Mem
-        # außerdem: T_comp.
         # 3. generate plots and report (how?)
 
     # TODO jobs status tracking functionality
@@ -265,9 +264,6 @@ class Job:
     Can be used to execute a new or unfished job or to collect resulting data
     and detect state (i.e., new, executing, finished or failed).
     """
-    __slots__ = [
-        'workload', 'arguments', 'exec_on_host', '_have_lock', '_lockfile_path', '_lock_fd',
-        '_state']
     def __init__(self, workload, arguments, exec_on_host):
         """
         Construct Job object.
@@ -363,10 +359,10 @@ class Job:
             shutil.rmtree(str(self.get_jobdir()))
             print("Manual abort. Cleared currently running job data.")
             sys.exit(1)
-        except Exception as e:
+        except:  # Also catching SystemExit, which inherits from BaseException
             failed = True
             traceback.print_exc(file=sys.stderr)
-            print("Kerncraft run failed.", file=sys.stderr)
+            print("Job run failed.", file=sys.stderr)
         finally:
             if not failed:
                 self._state = "finished"
@@ -400,11 +396,11 @@ class Job:
         assert self._state == 'finished', "Can only be run on sucessfully finished jobs."
         return (self.get_jobdir().joinpath('out.txt').read_text(),)
     
-    def get_dict(self):
-        """Return dict to be inserted into Workload's DataFrame"""
-        return {
-            'job': self,
-            'raw output': self.get_outputs()[0]}
+    def get_dicts(self):
+        """Return dicts to be inserted into Workload's DataFrame"""
+        return [OrderedDict([
+            ('job', self),
+            ('raw output', self.get_outputs()[0])])]
 
 
 class KerncraftJob(Job):
@@ -414,7 +410,7 @@ class KerncraftJob(Job):
     kerncraft)
     """
     def __init__(self, workload, pmodel, define, cores=None, compiler=None, incore_model=None,
-                 exec_on_host=True):
+                 cache_predictor=None, exec_on_host=True):
         """
         Construct Job object.
 
@@ -428,6 +424,7 @@ class KerncraftJob(Job):
         self.cores = cores
         self.compiler = compiler
         self.incore_model = incore_model
+        self.cache_predictor = cache_predictor
         arguments = ['kerncraft', '-p', pmodel, '-D', '.', str(define)]
         if cores is not None:
             arguments += ['-c', str(cores)]
@@ -435,6 +432,8 @@ class KerncraftJob(Job):
             arguments += ['-C', compiler]
         if incore_model is not None:
             arguments += ['-i', incore_model]
+        if cache_predictor is not None:
+            arguments += ['-P', cache_predictor]
         arguments += ['-m', 'machine.yml', 'kernel.c', '-vvv']
         Job.__init__(self, workload, arguments, exec_on_host)
     
@@ -471,10 +470,71 @@ class KerncraftJob(Job):
                 cpickle.load(self.get_jobdir().joinpath('out.pickle.lzma')),
             )
     
-    def get_dict(self):
-        """Return dict to be inserted into Workload dataframe"""
-        d = Job.get_dict(self)
-        return d
+    def get_dicts(self):
+        """Return dicts to be inserted into Workload dataframe"""
+        base_dict = Job.get_dicts(self)[0]
+        base_dict['pmodel'] = self.pmodel
+        base_dict['define'] = self.define
+        base_dict['cores'] = self.cores
+        base_dict['compiler'] = self.compiler
+        base_dict['incore_model'] = self.incore_model
+        kc_args, kc_results = next(iter(self.get_outputs()[-1].items()))
+        dicts = []
+        if self.pmodel == 'LC':
+            del base_dict['define']
+            # LC conditions (e.g. 'L1 LCs': [...])
+            for i, lc_info in enumerate(kc_results['cache'], start=1):
+                cache_level = 'L{}'.format(i)
+                base_dict[cache_level+' LCs'] = lc_info
+            dicts.append(base_dict)
+        elif self.pmodel == 'ECM':
+            # extracts (keys):
+            # T_comp
+            # T_RegL1
+            # T_L1L2
+            # T_L2L3
+            # T_L3Mem
+            # T unit, e.g. 'cy/8 It'
+            # iterations per cacheline
+            # memory bandwidth [GB/s]
+            # preformance [It/s]
+            # performance [cy/CL]
+            # performance [cy/It]
+            # performance [FLOP/s]
+            # 
+            # TODO get code balance (B_) for inter-cache transfers
+            base_dict['iterations per cacheline'] = kc_results['iterations per cacheline']
+            base_dict['T unit'] = 'cy/{} It'.format(kc_results['iterations per cacheline'])
+            for ecm_name, ecm_rectp in zip(
+                    utils.flatten_tuple(kc_results['ECM Model Construction']),
+                    utils.flatten_tuple(kc_results['ECM'])):
+                base_dict[ecm_name] = ecm_rectp
+            base_dict['memory bandwidth [GB/s]'] = float(kc_results['memory bandwidth'])/1e9
+            base_dict['B unit'] = 'B/{} It'.format(kc_results['iterations per cacheline'])
+            for p in kc_results['scaling prediction']:
+                d = copy(base_dict)
+                d['cores'] = p['cores']
+                for unit, value in p['performance'].items():
+                    d['performance [{}]'.format(unit)] = float(value)
+                dicts.append(d)
+        elif self.pmodel == 'RooflineIACA':
+            # extracts:
+            # preformance [It/s]
+            # performance [cy/CL]
+            # performance [cy/It]
+            # performance [FLOP/s]
+            for unit, value in p['performance throughput'].items():
+                base_dict['performance [{}]'.format(unit)] = float(value)
+            dicts.append(base_dict)
+        elif self.pmodel == 'Bechmark':
+            from IPython import embed
+            embed()
+            raise NotImplementedError("Processing of benchmark results needs implementation")
+        else:
+            raise NotImplementedError("Unsupported performance model type {!r}".format(self.pmodel))
+        for d in dicts:
+            d.move_to_end('raw output')
+        return dicts
 
 
 class VersionAction(argparse.Action):
@@ -570,7 +630,6 @@ def execute(type=None, parameter=None, machine=None, compiler=None, steps=None,
     print(len(kernels), "kernels")
     print(len(workloads), "workloads")
     print(len(jobs), "jobs")
-
 
     for j in jobs:
         print(j.get_state(), j.get_jobdir())
