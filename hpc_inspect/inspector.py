@@ -204,35 +204,52 @@ class Workload:
         if self.kernel.type in ['stempel', 'named']:
             # Layer Conditions
             jobs += [KerncraftJob(self, pmodel='LC', define=100, exec_on_host=False)]
-            for s in self.kernel.steps:
-                if steps is not None and s not in steps:
-                    continue
-                for cc in self.host.get_compilers():
-                    if compiler is not None and cc not in compiler:
-                        continue
+            do_steps = [s for s in self.kernel.steps
+                        if steps is None or s in steps]
+            do_compilers = [cc for cc in self.host.get_compilers()
+                            if compiler is None or cc in compiler]
+            cores_per_socket = (self.host.machine_file['NUMA domains per socket']
+                                * self.host.machine_file['cores per NUMA domain'])
+            do_cores = [c for c in range(1, cores_per_socket + 1)
+                        if cores is None or c in cores]
+            do_incore_models = [icm for icm in self.host.machine_file['in-core model'].keys()
+                                if incore_model is None or icm in incore_model]
+            for s in do_steps:
+                for cc in do_compilers:
                     # Benchmark
-                    cores_per_socket = (self.host.machine_file['NUMA domains per socket']
-                                        * self.host.machine_file['cores per NUMA domain'])
-                    for c in range(1, cores_per_socket + 1):
-                        if cores is not None and c not in cores:
-                            continue
-                        # TODO Run 2-N cores at the same time?
-                        jobs.append(KerncraftJob(self, pmodel='Benchmark', define=s, cores=c, 
-                                                 compiler=cc, exec_on_host=True))
-                    for icm in self.host.machine_file['in-core model'].keys():
-                        if incore_model is not None and icm not in incore_model:
-                            continue
+                    jobs.append(KerncraftJob(self, pmodel='Benchmark', define=s, cores=1, 
+                                             compiler=cc, exec_on_host=True))
+            for s in do_steps:
+                for cc in do_compilers:
+                    for icm in do_incore_models:
                         for cp in ['LC', 'SIM']:
                             # ECM
-                            # TODO implement incore-model caching in kerncraft
                             jobs.append(KerncraftJob(self, pmodel='ECM', define=s,
                                                  compiler=cc, incore_model=icm,
                                                  cache_predictor=cp, exec_on_host=False))
                             # RooflineIACA
-                            # TODO implement incore-model caching in kerncraft
                             jobs.append(KerncraftJob(self, pmodel='RooflineIACA', define=s,
                                                  compiler=cc, incore_model=icm,
                                                  cache_predictor=cp, exec_on_host=False))
+            
+            # core scaling
+            s = max(self.kernel.steps)
+            for c in do_cores:
+                for cc in do_compilers:
+                    jobs.append(KerncraftJob(self, pmodel='Benchmark', define=s, cores=c, 
+                                             compiler=cc, exec_on_host=True))
+                    for icm in do_incore_models:
+                        for cp in ['LC', 'SIM']:
+                            # ECM
+                            jobs.append(KerncraftJob(self, pmodel='ECM', define=s,
+                                                     compiler=cc, incore_model=icm,
+                                                     cache_predictor=cp, exec_on_host=False,
+                                                     cores=c))
+                            # RooflineIACA
+                            jobs.append(KerncraftJob(self, pmodel='RooflineIACA', define=s,
+                                                     compiler=cc, incore_model=icm,
+                                                     cache_predictor=cp, exec_on_host=False,
+                                                     cores=c))
         elif self.kernel.type == "likwid-bench":
             base_args = ['likwid-bench', '-t', self.kernel.parameter]
             for s in self.kernel.steps:
@@ -266,8 +283,6 @@ class Workload:
             nbformat.write(nb, f)
         print(self.get_wldir() / 'report.ipynb', 'written')
 
-        from IPython import embed
-        embed()
         # 2. combine all outputs
         # 3. generate plots and report (how?)
 
@@ -496,6 +511,7 @@ class KerncraftJob(Job):
         base_dict['cores'] = self.cores
         base_dict['compiler'] = self.compiler
         base_dict['incore_model'] = self.incore_model
+        base_dict['cache_predictor'] = self.cache_predictor
         kc_args, kc_results = next(iter(self.get_outputs()[-1].items()))
         dicts = []
         if self.pmodel == 'LC':
@@ -552,12 +568,8 @@ class KerncraftJob(Job):
                     kc_results['mem bottlenecks'][kc_results['bottleneck level']]['performance']
             for unit, value in performance.items():
                 base_dict['performance [{}]'.format(unit)] = float(value)
-            try:
-                base_dict['in-core model output'] = \
-                    kc_results['cpu bottleneck']['in-core model output']
-            except:
-                from IPython import embed
-                embed()
+            base_dict['in-core model output'] = \
+                kc_results['cpu bottleneck']['in-core model output']
             dicts.append(base_dict)
         elif self.pmodel == 'Benchmark':
             base_dict['iterations per cacheline'] = int(kc_results['Iterations per cacheline'])
