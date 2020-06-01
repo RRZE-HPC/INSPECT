@@ -99,7 +99,7 @@ setup(
         'kerncraft',
         'pandas',
         'compress_pickle',
-        'jupyter',
+        'papermill',
         'matplotlib',
     ],
     python_requires='>=3.5',
