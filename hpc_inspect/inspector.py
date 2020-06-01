@@ -16,15 +16,17 @@ import gc
 import subprocess
 from collections import OrderedDict
 from copy import copy
+from textwrap import dedent
 
-import compress_pickle as cpickle
+import compress_pickle as compress_pickle
 import pandas
+import nbformat
 from ruamel import yaml
 from kerncraft import prefixedunit
 from kerncraft import kerncraft
 from stempel import stempel
 
-import utils
+from hpc_inspect import utils
 
 __version__ = '2.0.dev0'
 config = {
@@ -146,9 +148,11 @@ class Host:
         """Return list of queued cli_args and status"""
         raise NotImplementedError
 
-    def get_compilers(self):
+    def get_compilers(self, skip_unavailable=True):
         """Return list of compilers from host description."""
-        return list(self.machine_file['compiler'].keys())
+        for c in self.machine_file['compiler'].keys():
+            if not skip_unavailable or find_executable(c):
+                yield c
 
     def is_current_host(self):
         """Return True if executing host is mentioned in nodelist"""
@@ -248,6 +252,20 @@ class Workload:
                 continue
             outputs += j.get_dicts()
         df = pandas.DataFrame(outputs)
+        df_pickle_filename = 'dataframe.pickle.lzma'
+        compress_pickle.dump(df, self.get_wldir() / df_pickle_filename)
+
+        nb = nbformat.v4.new_notebook()
+        nb['cells'].append(nbformat.v4.new_code_cell(dedent('''
+            import compresse_pickle
+            import pandas as pd
+
+            df = compresse_pickle.load('{}')
+        '''.format(df_pickle_filename))))
+        with open(self.get_wldir() / 'report.ipynb', 'w') as f:
+            nbformat.write(nb, f)
+        print(self.get_wldir() / 'report.ipynb', 'written')
+
         from IPython import embed
         embed()
         # 2. combine all outputs
@@ -460,21 +478,21 @@ class KerncraftJob(Job):
                         finally:
                             del parser
                             del args
-            cpickle.dump(result_storage, self.get_jobdir().joinpath('out.pickle.lzma'),
+            compress_pickle.dump(result_storage, self.get_jobdir() / 'out.pickle.lzma',
                          protocol=4)
             del result_storage
 
     def get_outputs(self):
         """Return tuple of execution output (combined stdin and stderr) and loaded pickle"""
         return Job.get_outputs(self) + (
-                cpickle.load(self.get_jobdir().joinpath('out.pickle.lzma')),
+                compress_pickle.load(self.get_jobdir() / 'out.pickle.lzma'),
             )
     
     def get_dicts(self):
         """Return dicts to be inserted into Workload dataframe"""
         base_dict = Job.get_dicts(self)[0]
         base_dict['pmodel'] = self.pmodel
-        base_dict['define'] = self.define
+        base_dict['define'] = int(self.define)
         base_dict['cores'] = self.cores
         base_dict['compiler'] = self.compiler
         base_dict['incore_model'] = self.incore_model
@@ -501,9 +519,10 @@ class KerncraftJob(Job):
             # performance [cy/CL]
             # performance [cy/It]
             # performance [FLOP/s]
+            # in-core model output
             # 
-            # TODO get code balance (B_) for inter-cache transfers
-            base_dict['iterations per cacheline'] = kc_results['iterations per cacheline']
+            # TODO get code balance (B_ [B/It]) for inter-cache transfers
+            base_dict['iterations per cacheline'] = int(kc_results['iterations per cacheline'])
             base_dict['T unit'] = 'cy/{} It'.format(kc_results['iterations per cacheline'])
             for ecm_name, ecm_rectp in zip(
                     utils.flatten_tuple(kc_results['ECM Model Construction']),
@@ -511,6 +530,7 @@ class KerncraftJob(Job):
                 base_dict[ecm_name] = ecm_rectp
             base_dict['memory bandwidth [GB/s]'] = float(kc_results['memory bandwidth'])/1e9
             base_dict['B unit'] = 'B/{} It'.format(kc_results['iterations per cacheline'])
+            base_dict['in-core model output'] = kc_results['in-core model output']
             for p in kc_results['scaling prediction']:
                 d = copy(base_dict)
                 d['cores'] = p['cores']
@@ -523,13 +543,35 @@ class KerncraftJob(Job):
             # performance [cy/CL]
             # performance [cy/It]
             # performance [FLOP/s]
-            for unit, value in p['performance throughput'].items():
+            # in-core model output
+            cpu_perf = kc_results['cpu bottleneck']['performance throughput']
+            if kc_results['min performance']['FLOP/s'] > cpu_perf['FLOP/s']:
+                performance = cpu_perf
+            else:
+                performance = \
+                    kc_results['mem bottlenecks'][kc_results['bottleneck level']]['performance']
+            for unit, value in performance.items():
                 base_dict['performance [{}]'.format(unit)] = float(value)
+            try:
+                base_dict['in-core model output'] = \
+                    kc_results['cpu bottleneck']['in-core model output']
+            except:
+                from IPython import embed
+                embed()
             dicts.append(base_dict)
-        elif self.pmodel == 'Bechmark':
-            from IPython import embed
-            embed()
-            raise NotImplementedError("Processing of benchmark results needs implementation")
+        elif self.pmodel == 'Benchmark':
+            base_dict['iterations per cacheline'] = int(kc_results['Iterations per cacheline'])
+            base_dict['performance [cy/CL]'] = float(
+                kc_results['Runtime (per cacheline update) [cy/CL]'])
+            base_dict['performance [cy/It]'] = \
+                float(kc_results['Runtime (per cacheline update) [cy/CL]'] * \
+                    kc_results['Iterations per cacheline'])
+            base_dict['performance [FLOP/s]'] = float(kc_results['Performance [MFLOP/s]']*1e6)
+            base_dict['performance [LUP/s]'] = float(kc_results['Performance [MLUP/s]']*1e6)
+            base_dict['performance [It/s]'] = float(kc_results['Performance [MIt/s]']*1e6)
+            # TODO get code balance (B_ [B/It]) for inter-cache transfers
+            dicts.append(base_dict)
+            # TODO PhenoECM
         else:
             raise NotImplementedError("Unsupported performance model type {!r}".format(self.pmodel))
         for d in dicts:
