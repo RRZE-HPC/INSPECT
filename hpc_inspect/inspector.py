@@ -20,7 +20,7 @@ from textwrap import dedent
 
 import compress_pickle as compress_pickle
 import pandas
-import nbformat
+import papermill
 from ruamel import yaml
 from kerncraft import prefixedunit
 from kerncraft import kerncraft
@@ -272,15 +272,11 @@ class Workload:
         df_pickle_filename = 'dataframe.pickle.lzma'
         compress_pickle.dump(df, self.get_wldir() / df_pickle_filename)
 
-        nb = nbformat.v4.new_notebook()
-        nb['cells'].append(nbformat.v4.new_code_cell(dedent('''
-            import compresse_pickle
-            import pandas as pd
-
-            df = compresse_pickle.load('{}')
-        '''.format(df_pickle_filename))))
-        with open(self.get_wldir() / 'report.ipynb', 'w') as f:
-            nbformat.write(nb, f)
+        papermill.execute_notebook(
+            str(config['base_dirpath'] / 'config/report-template.ipynb'),
+            str(self.get_wldir() / 'report.ipynb'),
+            parameters={}
+        )
         print(self.get_wldir() / 'report.ipynb', 'written')
 
         # 2. combine all outputs
