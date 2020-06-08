@@ -20,7 +20,10 @@ from textwrap import dedent
 
 import compress_pickle as compress_pickle
 import pandas
-import papermill
+from nbconvert import HTMLExporter
+from nbconvert.preprocessors import ExecutePreprocessor
+from nbconvert.nbconvertapp import NbConvertApp
+import nbformat
 from ruamel import yaml
 from kerncraft import prefixedunit
 from kerncraft import kerncraft
@@ -30,7 +33,7 @@ from hpc_inspect import utils
 
 __version__ = '2.0.dev0'
 config = {
-    'base_dirpath': Path('.')
+    'base_dirpath': Path(__file__).parent.parent
 }
 
 # TODO:
@@ -272,12 +275,28 @@ class Workload:
         df_pickle_filename = 'dataframe.pickle.lzma'
         compress_pickle.dump(df, self.get_wldir() / df_pickle_filename)
 
-        papermill.execute_notebook(
-            str(config['base_dirpath'] / 'config/report-template.ipynb'),
-            str(self.get_wldir() / 'report.ipynb'),
-            parameters={}
-        )
-        print(self.get_wldir() / 'report.ipynb', 'written')
+        report_filename = self.get_wldir() / 'report.ipynb'
+        template_filename = config['base_dirpath'] / 'config/report-template.ipynb'
+        with open(template_filename) as f:
+            nb = nbformat.read(f, as_version=nbformat.NO_CONVERT)
+        # Execute cells in notebook
+        pp = ExecutePreprocessor()
+        pp.preprocess(nb, {'metadata': {'path': self.get_wldir()}})
+        # Prep. conversion to HTML
+        resources = {}
+        if hasattr(NbConvertApp, 'jupyter_widgets_base_url'):
+            resources['jupyter_widgets_base_url'] = NbConvertApp().jupyter_widgets_base_url
+        elif hasattr(NbConvertApp, 'ipywidgets_base_url'):
+            resources['ipywidgets_base_url'] = NbConvertApp().ipywidgets_base_url
+        html_exporter = HTMLExporter()
+        (body, resources) = html_exporter.from_notebook_node(nb, resources=resources)
+        with open(report_filename.with_suffix('.html'), 'w') as f:
+            f.write(body)
+        print(report_filename.with_suffix('.html'), 'written')
+        with open(report_filename, 'w') as f:
+            nbformat.write(nb, f)
+        print(report_filename, 'written')
+
 
         # 2. combine all outputs
         # 3. generate plots and report (how?)
