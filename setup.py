@@ -101,6 +101,7 @@ setup(
         'compress_pickle',
         'papermill',
         'matplotlib',
+        'tabulate',
     ],
     python_requires='>=3.5',
 

@@ -17,6 +17,7 @@ import subprocess
 from collections import OrderedDict
 from copy import copy
 from textwrap import dedent
+import json
 
 import compress_pickle as compress_pickle
 import pandas
@@ -151,7 +152,7 @@ class Host:
         """Return list of queued cli_args and status"""
         raise NotImplementedError
 
-    def get_compilers(self, skip_unavailable=True):
+    def get_compilers(self, skip_unavailable=False):
         """Return list of compilers from host description."""
         for c in self.machine_file['compiler'].keys():
             if not skip_unavailable or find_executable(c):
@@ -203,7 +204,7 @@ class Workload:
         if hasattr(self, '_jobs'):
             return self._jobs
 
-        jobs = []
+        jobs = [MachineStateJob(self, exec_on_host=True)]
         if self.kernel.type in ['stempel', 'named']:
             # Layer Conditions
             jobs += [KerncraftJob(self, pmodel='LC', define=100, exec_on_host=False)]
@@ -270,19 +271,25 @@ class Workload:
             if j.get_state() != 'finished':
                 # Skipping unfinished jobs
                 continue
-            outputs += j.get_dicts()
+            d = j.get_dicts()
+            if d:
+                outputs += d
         df = pandas.DataFrame(outputs)
         df_pickle_filename = 'dataframe.pickle.lzma'
         compress_pickle.dump(df, self.get_wldir() / df_pickle_filename)
 
+        # 2. Run template in workload dir and save to report notebook
         report_filename = self.get_wldir() / 'report.ipynb'
         template_filename = config['base_dirpath'] / 'config/report-template.ipynb'
         with open(template_filename) as f:
             nb = nbformat.read(f, as_version=nbformat.NO_CONVERT)
         # Execute cells in notebook
-        pp = ExecutePreprocessor()
+        pp = ExecutePreprocessor(timeout=500)
         pp.preprocess(nb, {'metadata': {'path': self.get_wldir()}})
-        # Prep. conversion to HTML
+        with open(report_filename, 'w') as f:
+            nbformat.write(nb, f)
+        print(report_filename, 'written')
+        # 3. Render to static HTML file
         resources = {}
         if hasattr(NbConvertApp, 'jupyter_widgets_base_url'):
             resources['jupyter_widgets_base_url'] = NbConvertApp().jupyter_widgets_base_url
@@ -293,13 +300,6 @@ class Workload:
         with open(report_filename.with_suffix('.html'), 'w') as f:
             f.write(body)
         print(report_filename.with_suffix('.html'), 'written')
-        with open(report_filename, 'w') as f:
-            nbformat.write(nb, f)
-        print(report_filename, 'written')
-
-
-        # 2. combine all outputs
-        # 3. generate plots and report (how?)
 
     # TODO jobs status tracking functionality
     # TODO report generation function
@@ -374,9 +374,10 @@ class Job:
     def _run(self):
         """Work to be executed"""
         try:
-            with self.get_jobdir().joinpath('out.txt').open('w') as f:
-                subprocess.run(self.arguments, check=True,
-                    stdout=f, stderr=subprocess.STDOUT)
+            with chdir(str(self.get_jobdir())):
+                with open('out.txt', 'w') as f:
+                    subprocess.run(self.arguments, check=True,
+                        stdout=f, stderr=subprocess.STDOUT)
         except KeyboardInterrupt:
             raise
         except:
@@ -605,6 +606,27 @@ class KerncraftJob(Job):
             d.move_to_end('raw output')
         return dicts
 
+
+class MachineStateJob(Job):
+    """
+    MachineState Job
+    """
+    def __init__(self, workload, exec_on_host=True):
+        """
+        Construct Job object.
+
+        :param exec_on_host: if True, execute this job only on specified host, otherwise use any
+        """
+        arguments = ["machinestate", "-o", "../machinestate.json"]
+        Job.__init__(self, workload, arguments, exec_on_host)
+
+    def get_outputs(self):
+        """Return tuple of execution output (combined stdin and stderr) and loaded pickle"""
+        with open(self.workload.get_wldir()/'machinestate.json') as f:
+            return Job.get_outputs(self) + (json.load(self.get_wldir() / 'machinestate.json'),)
+    
+    def get_dicts(self):
+        return None
 
 class VersionAction(argparse.Action):
     """Reimplementation of the version action, because argparse's version outputs to stderr."""
