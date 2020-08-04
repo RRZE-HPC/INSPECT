@@ -18,6 +18,9 @@ from collections import OrderedDict
 from copy import copy
 from textwrap import dedent
 import json
+from tempfile import NamedTemporaryFile
+import atexit
+import multiprocessing
 
 import compress_pickle as compress_pickle
 import pandas
@@ -161,6 +164,40 @@ class Host:
     def is_current_host(self):
         """Return True if executing host is mentioned in nodelist"""
         return socket.gethostname().split('.')[0] in self.nodelist
+    
+    def get_slurm_jobscript(self, base_cmd, cwd=None):
+        runtime_setup = '\n'.join(self.runtime_setup)
+        if cwd:
+            runtime_setup += '\ncd ' + cwd
+        jobscript = dedent('''
+            #!/bin/bash
+            #SBATCH -J INSPECT-{host}
+            #SBATCH {slurm_arguments}
+            #SBATCH -w {node}
+            #SBATCH --time=24:00:00
+            # Runtime Setup:
+            {runtime_setup}
+            module load slurm
+            echo base_cmd={base_cmd}
+            STATUS=`{base_cmd} status`;
+            # If there is work left (as job may terminate before completion), terminate.
+            if (echo "{base_cmd}" | grep -q -- '--rerun-failed' && echo "$STATUS" | grep -E '(new|failed)' | grep -vEq '(new|failed)\s+0') || echo "$STATUS" | grep new |grep -vEq 'new\s+0'; then
+                # Reschedule
+                {base_cmd} enqueue --same-host
+            fi
+            # Execution:
+            {base_cmd} execute
+        ''').strip().format(
+            slurm_arguments=self.slurm_arguments,
+            base_cmd=base_cmd,
+            runtime_setup=runtime_setup,
+            node=','.join(self.nodelist),
+            host=self.name)
+        tf = NamedTemporaryFile(mode='w+', delete=False)
+        tf.write(jobscript)
+        tf.close()
+        atexit.register(os.remove, tf.name)
+        return tf.name
 
 
 class Workload:
@@ -237,23 +274,24 @@ class Workload:
                                                  cache_predictor=cp, exec_on_host=False))
             
             # core scaling
-            s = max(self.kernel.steps)
-            for c in do_cores:
-                for cc in do_compilers:
-                    jobs.append(KerncraftJob(self, pmodel='Benchmark', define=s, cores=c, 
-                                             compiler=cc, exec_on_host=True))
-                    for icm in do_incore_models:
-                        for cp in ['LC', 'SIM']:
-                            # ECM
-                            jobs.append(KerncraftJob(self, pmodel='ECM', define=s,
-                                                     compiler=cc, incore_model=icm,
-                                                     cache_predictor=cp, exec_on_host=False,
-                                                     cores=c))
-                            # RooflineIACA
-                            jobs.append(KerncraftJob(self, pmodel='RooflineIACA', define=s,
-                                                     compiler=cc, incore_model=icm,
-                                                     cache_predictor=cp, exec_on_host=False,
-                                                     cores=c))
+            if self.kernel.steps and max(self.kernel.steps) in do_steps:
+                s = max(self.kernel.steps)
+                for c in do_cores:
+                    for cc in do_compilers:
+                        jobs.append(KerncraftJob(self, pmodel='Benchmark', define=s, cores=c, 
+                                                 compiler=cc, exec_on_host=True))
+                        for icm in do_incore_models:
+                            for cp in ['LC', 'SIM']:
+                                # ECM
+                                jobs.append(KerncraftJob(self, pmodel='ECM', define=s,
+                                                         compiler=cc, incore_model=icm,
+                                                         cache_predictor=cp, exec_on_host=False,
+                                                         cores=c))
+                                # RooflineIACA
+                                jobs.append(KerncraftJob(self, pmodel='RooflineIACA', define=s,
+                                                         compiler=cc, incore_model=icm,
+                                                         cache_predictor=cp, exec_on_host=False,
+                                                         cores=c))
         elif self.kernel.type == "likwid-bench":
             base_args = ['likwid-bench', '-t', self.kernel.parameter]
             for s in self.kernel.steps:
@@ -263,43 +301,61 @@ class Workload:
         self._jobs = jobs
         return jobs
 
-    def process_outputs(self):
+    def process_outputs(self, overwrite=False):
         """Gather and process outputs into a single report."""
+        if not self.get_wldir().exists():
+            return
         # 1. gather output of finished jobs
-        outputs = []
-        for j in self.get_jobs():
-            if j.get_state() != 'finished':
-                # Skipping unfinished jobs
-                continue
-            d = j.get_dicts()
-            if d:
-                outputs += d
-        df = pandas.DataFrame(outputs)
-        df_pickle_filename = 'dataframe.pickle.lzma'
-        compress_pickle.dump(df, self.get_wldir() / df_pickle_filename)
+        df_pickle_filename = self.get_wldir() / 'dataframe.pickle.lzma'
+        if not df_pickle_filename.exists() or overwrite:
+            outputs = []
+            for j in self.get_jobs():
+                if j.get_state() != 'finished':
+                    # Skipping unfinished jobs
+                    continue
+                d = j.get_dicts()
+                if d:
+                    outputs += d
+            df = pandas.DataFrame(outputs)
+            df_pickle_file = self.get_wldir() / 'dataframe.pickle.lzma'
+            compress_pickle.dump(df, df_pickle_filename)
+            print(df_pickle_filename, 'written')
+        else:
+            print(df_pickle_filename, 'already exists')
 
         # 2. Run template in workload dir and save to report notebook
         report_filename = self.get_wldir() / 'report.ipynb'
-        template_filename = config['base_dirpath'] / 'config/report-template.ipynb'
-        with open(template_filename) as f:
-            nb = nbformat.read(f, as_version=nbformat.NO_CONVERT)
-        # Execute cells in notebook
-        pp = ExecutePreprocessor(timeout=500)
-        pp.preprocess(nb, {'metadata': {'path': self.get_wldir()}})
-        with open(report_filename, 'w') as f:
-            nbformat.write(nb, f)
-        print(report_filename, 'written')
+        html_report_filename = report_filename.with_suffix('.html')
+        if not report_filename.exists() or not html_report_filename.exists() or overwrite:
+            template_filename = config['base_dirpath'] / 'config/report-template.ipynb'
+            with template_filename.open() as f:
+                nb = nbformat.read(f, as_version=nbformat.NO_CONVERT)
+            # Execute cells in notebook
+            try:
+                pp = ExecutePreprocessor(timeout=500)
+                pp.preprocess(nb, {'metadata': {'path': str(self.get_wldir())}})
+                with open(report_filename, 'w') as f:
+                    nbformat.write(nb, f)
+                print(report_filename, 'written')
+            except Exception as e:
+                print(report_filename, 'execution failed: '+str(e))
+                return  # abort
+        else:
+            print(report_filename, 'already exists')
         # 3. Render to static HTML file
-        resources = {}
-        if hasattr(NbConvertApp, 'jupyter_widgets_base_url'):
-            resources['jupyter_widgets_base_url'] = NbConvertApp().jupyter_widgets_base_url
-        elif hasattr(NbConvertApp, 'ipywidgets_base_url'):
-            resources['ipywidgets_base_url'] = NbConvertApp().ipywidgets_base_url
-        html_exporter = HTMLExporter()
-        (body, resources) = html_exporter.from_notebook_node(nb, resources=resources)
-        with open(report_filename.with_suffix('.html'), 'w') as f:
-            f.write(body)
-        print(report_filename.with_suffix('.html'), 'written')
+        if not html_report_filename.exists() or overwrite:
+            resources = {}
+            if hasattr(NbConvertApp, 'jupyter_widgets_base_url'):
+                resources['jupyter_widgets_base_url'] = NbConvertApp().jupyter_widgets_base_url
+            elif hasattr(NbConvertApp, 'ipywidgets_base_url'):
+                resources['ipywidgets_base_url'] = NbConvertApp().ipywidgets_base_url
+            html_exporter = HTMLExporter()
+            (body, resources) = html_exporter.from_notebook_node(nb, resources=resources)
+            with open(html_report_filename, 'w') as f:
+                f.write(body)
+            print(html_report_filename, 'written')
+        else:
+            print(html_report_filename, 'already exists')
 
     # TODO jobs status tracking functionality
     # TODO report generation function
@@ -363,7 +419,11 @@ class Job:
         if not self._have_lock:
             return
         fcntl.flock(self._lock_fd, fcntl.LOCK_UN)
-        self._lockfile_path.unlink()
+        try:
+            self._lockfile_path.unlink()
+        except FileNotFoundError:
+            # Missing lockfile is okay
+            pass
         self._lock_fd.close()
         self._lock_fd = None
 
@@ -504,6 +564,7 @@ class KerncraftJob(Job):
                         except KeyboardInterrupt:
                             raise
                         except:
+                            print(self.get_jobdir())
                             traceback.print_exc(file=sys.stderr)
                             raise
                         finally:
@@ -524,7 +585,7 @@ class KerncraftJob(Job):
         base_dict = Job.get_dicts(self)[0]
         base_dict['pmodel'] = self.pmodel
         base_dict['define'] = int(self.define)
-        base_dict['cores'] = self.cores
+        base_dict['cores'] = self.cores or 1
         base_dict['compiler'] = self.compiler
         base_dict['incore_model'] = self.incore_model
         base_dict['cache_predictor'] = self.cache_predictor
@@ -568,6 +629,9 @@ class KerncraftJob(Job):
                 d['cores'] = p['cores']
                 for unit, value in p['performance'].items():
                     d['performance [{}]'.format(unit)] = float(value)
+                if(d['cores'] == 1 and d['job'].cores and d['job'].cores > 1):
+                    print(d['cores'], d['job'].cores, d['job'])
+                    print(kc_results['scaling prediction'])
                 dicts.append(d)
         elif self.pmodel == 'RooflineIACA':
             # extracts:
@@ -577,7 +641,7 @@ class KerncraftJob(Job):
             # performance [FLOP/s]
             # in-core model output
             cpu_perf = kc_results['cpu bottleneck']['performance throughput']
-            if kc_results['min performance']['FLOP/s'] > cpu_perf['FLOP/s']:
+            if kc_results['min performance']['It/s'] > cpu_perf['It/s']:
                 performance = cpu_perf
             else:
                 performance = \
@@ -646,27 +710,17 @@ class VersionAction(argparse.Action):
         parser.exit()
 
 def enqueue(type=None, parameter=None, machine=None, compiler=None, steps=None,
-            incore_model=None, cores=None, **kwargs):
+            incore_model=None, cores=None, same_host=False, **kwargs):
     hosts = list(Host.get_all(filter_names=machine))
-    kernels = list(Kernel.get_all(filter_type=type, filter_parameter=parameter))
-    workloads = []
-    jobs = []
+    if same_host:
+        local_hostname = socket.gethostname().split('.')[0]
+        hosts = [h for h in hosts if local_hostname in h.nodelist]
+    base_cmd = ' '.join(sys.argv[:sys.argv.index('enqueue')])
+    cwd = os.getcwd()
+    # enque one slurm_job for each host
     for h in hosts:
-        wls = list(Workload.get_all(kernels, [h]))
-        workloads.extend(wls)
-        # Build list of jobs by chaining workload job lists
-        if any([w.get_jobs(
-                    compiler=compiler, steps=steps, incore_model=incore_model, cores=cores
-                ) for w in wls]):
-            # Queue this filterset for execution on host
-            h.enqueue_execution(make_cli_args(
-                type=type, parameter=parameter, machine=machine, compiler=compiler, steps=steps,
-                incore_model=incore_model, cores=incore_model))
-
-    # Just FYI
-    print(len(hosts), "hosts")
-    print(len(kernels), "kernels")
-    print(len(workloads), "workloads")
+        subprocess.check_output(['sbatch', h.get_slurm_jobscript(base_cmd, cwd)])
+    # TODO restart upon termination due to walltime constraint (as part of execute command)
 
 
 def status(type=None, parameter=None, machine=None, compiler=None, steps=None,
@@ -722,17 +776,33 @@ def execute(type=None, parameter=None, machine=None, compiler=None, steps=None,
     print(len(workloads), "workloads")
     print(len(jobs), "jobs")
 
-    for j in jobs:
-        print(j.get_state(), j.get_jobdir())
-        j.execute(rerun_failed=rerun_failed)
+    running_jobs = 0
+    while jobs and jobs[0].exec_on_host:
+        j = jobs.pop(0)
+        jec = JobExecutionCaller(rerun_failed=rerun_failed)
+        jec(j)
+    with multiprocessing.Pool() as p:
+        jec = JobExecutionCaller(rerun_failed=rerun_failed)
+        p.map(jec, jobs)
 
 
-def process(type=None, parameter=None, machine=None, **kwargs):
+class JobExecutionCaller:
+    def __init__(self, *args, **kwargs):
+        self.args = args
+        self.kwargs = kwargs
+    
+    def __call__(self, job):
+        print(job.get_state(), job.get_jobdir())
+        job.execute(*self.args, **self.kwargs)
+
+
+def process(type=None, parameter=None, machine=None, overwrite=False, **kwargs):
     hosts = list(Host.get_all(filter_names=machine))
     kernels = list(Kernel.get_all(filter_type=type, filter_parameter=parameter))
     workloads = list(Workload.get_all(kernels, hosts))
     for wl in workloads:
-        wl.process_outputs()
+        print(wl.get_wldir())
+        wl.process_outputs(overwrite=overwrite)
 
 
 def upload(type=None, parameter=None, machine=None, **kwargs):
@@ -778,6 +848,8 @@ def get_args(args=None):
     # enqueue: workload + jobs
     enqueue_parser = subparsers.add_parser('enqueue', help='Generate and enqueue jobs')
     enqueue_parser.set_defaults(action_function=enqueue)
+    enqueue_parser.add_argument('--same-host', action='store_true',
+                                help="Only enqueue on same host")
     # status: workload + jobs
     status_parser = subparsers.add_parser('status', help='Check status of jobs')
     status_parser.set_defaults(action_function=status)
@@ -789,6 +861,8 @@ def get_args(args=None):
     process_parser = subparsers.add_parser(
         'process', help='Process workload reports from raw job outputs')
     process_parser.set_defaults(action_function=process)
+    process_parser.add_argument('--overwrite', action='store_true',
+                                help='Overwrite already existing dataframes and reports.')
     # uload: workload
     upload_parser = subparsers.add_parser(
         'upload', help='Upload and combine workload reports into website')
