@@ -12,7 +12,7 @@ clock: 2.5 GHz  # depends on SKU, may be 2.0, 2.1, 2.2, 2.3, 2.4 or 2.5 GHz
 
 sockets: 2
 cores per socket: 32
-threads per core: 4
+threads per core: 1
 NUMA domains per socket: 1
 cores per NUMA domain: 32
 
@@ -29,7 +29,7 @@ cacheline size: 64 B
 compiler: !!omap
   - armclang: -O3 -target aarch64--linux-gnu -target-feature +neon -target-abi aapcs -fallow-half-arguments-and-returns -D_POSIX_C_SOURCE=200112L
   - clang: -O3 -target aarch64-unknown-linux-gnu -D_POSIX_C_SOURCE=200112L
-  - gcc: -O3 -armv8.1-a+crypto+nordma
+  - gcc: -O3 -march=armv8.1-a
 
 non-overlapping model: {performance counter metric: 'INFORMATION_REQUIRED Example:max(UOPS_DISPATCHED_PORT_PORT_0__PMC2,
     UOPS_DISPATCHED_PORT_PORT_1__PMC3,    UOPS_DISPATCHED_PORT_PORT_4__PMC0, UOPS_DISPATCHED_PORT_PORT_5__PMC1)',

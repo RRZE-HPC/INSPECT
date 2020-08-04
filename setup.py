@@ -102,6 +102,8 @@ setup(
         'papermill',
         'matplotlib',
         'tabulate',
+        'MachineState',
+        'stempel',
     ],
     python_requires='>=3.5',
 
