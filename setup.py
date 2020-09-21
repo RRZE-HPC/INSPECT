@@ -99,7 +99,6 @@ setup(
         'kerncraft',
         'pandas',
         'compress_pickle',
-        'papermill',
         'matplotlib',
         'tabulate',
         'MachineState',
