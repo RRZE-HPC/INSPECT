@@ -130,7 +130,7 @@ class Host:
                 traceback.print_exc()
 
     def __init__(self, name, nodelist=[], submission_host=None, slurm_arguments='',
-                 runtime_setup=[], machine_filename=None):
+                 runtime_setup=[], machine_filename=None, ignore_kerncraft_warnings=False):
         self.name = name
         self.nodelist = nodelist
         self.submission_host = submission_host
@@ -141,6 +141,7 @@ class Host:
         if machine_filename is not None:
             with self.get_machine_filepath().open() as f:
                 self.machine_file = yaml.load(f, Loader=yaml.Loader)
+        self.ignore_kerncraft_warnings = ignore_kerncraft_warnings
 
     def get_machine_filepath(self):
         return config['base_dirpath'].joinpath('machine_files', self.machine_filename)
@@ -535,6 +536,8 @@ class KerncraftJob(Job):
         self.incore_model = incore_model
         self.cache_predictor = cache_predictor
         arguments = ['kerncraft', '-p', pmodel, '-D', '.', str(define)]
+        if workload.host.ignore_kerncraft_warnings:
+            arguments.append('--ignore-warnings')
         if cores is not None:
             arguments += ['-c', str(cores)]
         if compiler is not None:
@@ -629,9 +632,9 @@ class KerncraftJob(Job):
                 d['cores'] = p['cores']
                 for unit, value in p['performance'].items():
                     d['performance [{}]'.format(unit)] = float(value)
-                if(d['cores'] == 1 and d['job'].cores and d['job'].cores > 1):
-                    print(d['cores'], d['job'].cores, d['job'])
-                    print(kc_results['scaling prediction'])
+                # if(d['cores'] == 1 and d['job'].cores and d['job'].cores > 1):
+                #     print(d['cores'], d['job'].cores, d['job'])
+                #     print(kc_results['scaling prediction'])
                 dicts.append(d)
         elif self.pmodel == 'RooflineIACA':
             # extracts:
