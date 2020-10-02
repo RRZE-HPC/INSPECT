@@ -180,6 +180,9 @@ class Host:
             {runtime_setup}
             module load slurm
             echo base_cmd={base_cmd}
+            if ! likwid_bench_auto --compare-host -m {machine_filename} -; then
+                exit 1;
+            fi
             STATUS=`{base_cmd} status`;
             # If there is work left (as job may terminate before completion), terminate.
             if (echo "{base_cmd}" | grep -q -- '--rerun-failed' && echo "$STATUS" | grep -E '(new|failed)' | grep -vEq '(new|failed)\s+0') || echo "$STATUS" | grep new |grep -vEq 'new\s+0'; then
@@ -193,7 +196,8 @@ class Host:
             base_cmd=base_cmd,
             runtime_setup=runtime_setup,
             node=','.join(self.nodelist),
-            host=self.name)
+            host=self.name,
+            machine_filename=str(self.get_machine_filepath()))
         tf = NamedTemporaryFile(mode='w+', delete=False)
         tf.write(jobscript)
         tf.close()
@@ -232,9 +236,10 @@ class Workload:
             if not kernel_filename.exists():
                 self.kernel.save_to(kernel_filename)
 
-            # Copy machine file
+            # Copy machine file if it does not exist or is older
             machine_filename = wldir.joinpath('machine.yml')
-            if not machine_filename.exists():
+            if not machine_filename.exists() or machine_filename.lstat().st_mtime < \
+                    self.host.get_machine_filepath().lstat().st_mtime:
                 shutil.copy(str(self.host.get_machine_filepath()), str(machine_filename))
         return wldir
 
@@ -304,8 +309,11 @@ class Workload:
 
     def process_outputs(self, overwrite=False):
         """Gather and process outputs into a single report."""
-        if not self.get_wldir().exists():
+        if not self.get_wldir().exists() or \
+                not (self.get_wldir() / 'machine.yml').exists() or \
+                not (self.get_wldir() / 'kernel.c').exists():
             return
+
         # 1. gather output of finished jobs
         df_pickle_filename = self.get_wldir() / 'dataframe.pickle.lzma'
         if not df_pickle_filename.exists() or overwrite:
@@ -713,16 +721,21 @@ class VersionAction(argparse.Action):
         parser.exit()
 
 def enqueue(type=None, parameter=None, machine=None, compiler=None, steps=None,
-            incore_model=None, cores=None, same_host=False, **kwargs):
+            incore_model=None, cores=None, same_host=False, verbose=0, **kwargs):
     hosts = list(Host.get_all(filter_names=machine))
     if same_host:
         local_hostname = socket.gethostname().split('.')[0]
         hosts = [h for h in hosts if local_hostname in h.nodelist]
-    base_cmd = ' '.join(sys.argv[:sys.argv.index('enqueue')])
+    base_cmd = 'inspector ' + ' '.join(sys.argv[1:sys.argv.index('enqueue')])
     cwd = os.getcwd()
     # enque one slurm_job for each host
     for h in hosts:
-        subprocess.check_output(['sbatch', h.get_slurm_jobscript(base_cmd, cwd)])
+        jobscript_path = h.get_slurm_jobscript(base_cmd, cwd)
+        if verbose:
+            print("### Jobscript for {} ({}):".format(h.name, jobscript_path))
+            with open(jobscript_path) as f:
+                print(f.read())
+        subprocess.check_output(['sbatch', jobscript_path])
     # TODO restart upon termination due to walltime constraint (as part of execute command)
 
 
@@ -895,7 +908,8 @@ def make_cli_args(ignore_list=['command', 'action_function'], **kwargs):
 
 
 def generate_steps(
-    first, last, steps=100, stepping='log', multiple_of=8, no_powers_of_two=True):
+    first, last, steps=100, stepping='log', multiple_of=8, no_powers_of_two=True,
+    extend=[]):
     """
     Generate a list of sizes, based on scaling dictionary description.
 
@@ -905,6 +919,7 @@ def generate_steps(
     :param stepping: use linear ('lin') or logarithmic ('log') stepping
     :param multiple_of: force all sizes to be a multiple of this
     :param no_powers_of_two: check for powers of two and avoid those
+    :param extend: will use this list of sizes to include (will lead to more sizes)
 
     Length of returned list is not guaranteed.
     """
@@ -942,6 +957,32 @@ def generate_steps(
             break
     if results[-1] < last:
         results.append(last)
+    
+    if extend:
+        i = j = 0
+        extend = sorted(extend)
+        while i < len(results):
+            while j < len(extend):
+                d = extend[j] - results[i]
+                if abs(d) < 0.05 * results[i]:
+                    # Very close to new size: replace
+                    results[i] = extend[j]
+                    i += 1
+                    j += 1
+                    break
+                elif d < 0:
+                    # Less: insert before
+                    results.insert(i, extend[j])
+                    i += 1
+                    j += 1
+                    break
+                else:  # d > 0
+                    # Greater: go to next
+                    i += 1
+                    break
+            else:
+                break
+
     return results
 
 
