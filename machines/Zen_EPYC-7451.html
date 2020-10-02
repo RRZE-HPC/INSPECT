@@ -19,7 +19,7 @@
 {"headline":"INSPECT","description":"Intra Node Stencil Performance Evaluation Collection","@type":"WebPage","url":"/INSPECT/machines/Zen_EPYC-7451.html","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
-    <link rel="stylesheet" href="/INSPECT/assets/css/style.css?v=3ba0edcd89fc16a8a78ed407269f7c31a3303a2f">
+    <link rel="stylesheet" href="/INSPECT/assets/css/style.css?v=ab833c77f00105245c940e78d095f8707ce74cf0">
     <script src="https://code.jquery.com/jquery-3.3.0.min.js" integrity="sha256-RTQy8VOmNlT6b2PIRur37p6JEBZUE7o8wPgMvu18MC4=" crossorigin="anonymous"></script>
     <script src="/INSPECT/assets/js/main.js"></script>
     <!--[if lt IE 9]>
@@ -117,15 +117,15 @@
       <tbody>
         <tr>
           <td>clang</td>
-          <td><code class="language-plaintext highlighter-rouge">-O3 -march=znver1 -D_POSIX_C_SOURCE=200112L -fopenmp</code></td>
+          <td><code class="language-plaintext highlighter-rouge">-O3 -march=znver1 -D_POSIX_C_SOURCE=200112L -fopenmp -ffreestanding</code></td>
         </tr>
         <tr>
           <td>gcc</td>
-          <td><code class="language-plaintext highlighter-rouge">-O3 -march=znver1 -fopenmp</code></td>
+          <td><code class="language-plaintext highlighter-rouge">-O3 -march=znver1 -fopenmp -ffreestanding</code></td>
         </tr>
         <tr>
           <td>icc</td>
-          <td><code class="language-plaintext highlighter-rouge">-O3 -xHost -fno-alias -qopenmp</code></td>
+          <td><code class="language-plaintext highlighter-rouge">-O3 -xHost -fno-alias -qopenmp -ffreestanding -nolib-inline</code></td>
         </tr>
       </tbody>
     </table>
