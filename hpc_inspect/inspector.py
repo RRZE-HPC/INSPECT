@@ -187,6 +187,8 @@ class Host:
             # If there is work left (as job may terminate before completion), terminate.
             if (echo "{base_cmd}" | grep -q -- '--rerun-failed' && echo "$STATUS" | grep -E '(new|failed)' | grep -vEq '(new|failed)\s+0') || echo "$STATUS" | grep new |grep -vEq 'new\s+0'; then
                 # Reschedule
+                echo rescheduling due to status output:
+                echo $STATUS
                 {base_cmd} enqueue --same-host
             fi
             # Execution:
@@ -957,7 +959,7 @@ def generate_steps(
             break
     if results[-1] < last:
         results.append(last)
-    
+
     if extend:
         i = j = 0
         extend = sorted(extend)
