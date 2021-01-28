@@ -773,7 +773,10 @@ def status(type=None, parameter=None, machine=None, compiler=None, steps=None,
     print("   State  Count Percent")
     for state in ['new', 'failed', 'finished']:
         count = job_states.count(state)
-        print("{:>8} {:>6} {:>7.1%}".format(state, count, count/len(jobs)))
+        part_of_total = 0
+        if len(jobs):
+            part_of_total = count/len(jobs)
+        print("{:>8} {:>6} {:>7.1%}".format(state, count, part_of_total))
     print('Total:', len(jobs))
 
 
