@@ -103,6 +103,7 @@ setup(
         'tabulate',
         'MachineState',
         'stempel',
+        'nbconvert',
     ],
     python_requires='>=3.5',
 
