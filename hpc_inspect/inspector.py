@@ -346,7 +346,8 @@ class Workload:
         report_filename = self.get_wldir() / 'report.ipynb'
         html_report_filename = report_filename.with_suffix('.html')
         if not report_filename.exists() or not html_report_filename.exists() or overwrite:
-            template_filename = config['base_dirpath'] / 'config/report-template.ipynb'
+            template_filename = (
+                config['base_dirpath'] / 'config/report-' + self.kernel.type + '.ipynb')
             with template_filename.open() as f:
                 nb = nbformat.read(f, as_version=nbformat.NO_CONVERT)
             # Execute cells in notebook
