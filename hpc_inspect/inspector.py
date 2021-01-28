@@ -302,8 +302,16 @@ class Workload:
                                                          cores=c))
         elif self.kernel.type == "likwid-bench":
             base_args = ['likwid-bench', '-t', self.kernel.parameter]
+            cores_per_socket = (self.host.machine_file['NUMA domains per socket']
+                                * self.host.machine_file['cores per NUMA domain'])
+            do_cores = [c for c in range(1, cores_per_socket + 1)
+                        if cores is None or c in cores]
+            threads_per_core = self.host.machine_file['threads per core']
             for s in self.kernel.steps:
-                jobs.append(Job(self, base_args + ['-w', 'S0:{}B'.format(s)], exec_on_host=True))
+                for c in do_cores:
+                    jobs.append(Job(self, base_args + ['-w', 'S0:{}B:{}:1:{}'.format(
+                                                       s, c, threads_per_core)],
+                                    exec_on_host=True))
         else:
             raise NotImplementedError("Unknown kernel type")
         self._jobs = jobs
