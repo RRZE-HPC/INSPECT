@@ -514,7 +514,12 @@ class Job:
     def get_outputs(self):
         """Return tuple of output (combined stdin and stderr) of run"""
         assert self._state == 'finished', "Can only be run on sucessfully finished jobs."
-        return (self.get_jobdir().joinpath('out.txt').read_text(),)
+        raw_file = self.get_jobdir().joinpath('out.txt')
+        if not raw_file.exists():
+            raw_output = None
+        else:
+            raw_output = raw_file.read_text()
+        return (raw_output,)
     
     def get_dicts(self):
         """Return dicts to be inserted into Workload's DataFrame"""
