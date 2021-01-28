@@ -22,7 +22,8 @@ from machinestate.html_export import to_html as ms_to_html
 
 def load_pickled_dataframe(fname='dataframe.pickle.lzma'):
     data = compress_pickle.load(fname)
-    if data.empty or any([c not in data.columns for c in ['compiler', 'incore_model', 'cache_predictor']]):
+    if data.empty or any([c not in data.columns
+                          for c in ['compiler', 'incore_model', 'cache_predictor']]):
         raise SystemExit("No data avilable")
     return data
 
