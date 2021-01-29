@@ -322,8 +322,11 @@ class Workload:
     def process_outputs(self, overwrite=False):
         """Gather and process outputs into a single report."""
         if not self.get_wldir().exists() or \
+                not (self.get_wldir() / 'machinestate.json').exists():
+            return
+        if self.kernel.type in ['stempel', 'named'] and (\
                 not (self.get_wldir() / 'machine.yml').exists() or \
-                not (self.get_wldir() / 'kernel.c').exists():
+                not (self.get_wldir() / 'kernel.c').exists()):
             return
 
         # 1. gather output of finished jobs
