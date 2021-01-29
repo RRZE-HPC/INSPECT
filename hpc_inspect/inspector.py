@@ -21,6 +21,8 @@ import json
 from tempfile import NamedTemporaryFile
 import atexit
 import multiprocessing
+from glob import glob
+from functools import lru_cache
 
 import compress_pickle as compress_pickle
 import pandas
@@ -218,12 +220,12 @@ class Workload:
     def __init__(self, kernel, host):
         self.kernel = kernel
         self.host = host
+        self._wldir = config['base_dirpath'].joinpath(
+                'jobs', self.host.name, self.kernel.type, self.kernel.parameter)
 
     def get_wldir(self):
         """Return path to workload directory"""
-        wldir = config['base_dirpath'].joinpath(
-            'jobs', self.host.name, self.kernel.type, self.kernel.parameter)
-        return wldir
+        return self._wldir
 
     def initialize_wldir(self):
         """Initialize and return path to workload directory"""
@@ -402,11 +404,11 @@ class Job:
         self.exec_on_host = exec_on_host
 
         self._have_lock = False
-        jdir = self.get_jobdir()
-        self._lockfile_path = jdir.with_name(jdir.name+'.lock')
+        self._jobdir = self.workload.get_wldir() / ' '.join(self.arguments).replace('/', '$')
+        self._lockfile_path = self._jobdir.with_name(self._jobdir.name+'.lock')
         self._lock_fd = None
 
-        self._state = self.get_state()
+        self._state = None
 
     def __repr__(self):
         return "<Job {} {!r} {} {}>".format(
@@ -449,7 +451,7 @@ class Job:
 
     def get_jobdir(self):
         """Return job directory path."""
-        return self.workload.get_wldir() / ' '.join(self.arguments).replace('/', '$')
+        return self._jobdir
 
     def _run(self):
         """Work to be executed"""
@@ -466,6 +468,7 @@ class Job:
 
     def execute(self, non_blocking=False, rerun_failed=False):
         """Change state from new or enqueud to executing."""
+        self.get_state()  # Necessary to ensure self._state is updated
         if self._state == 'finished':
             return
         elif self._state == 'failed' and not rerun_failed:
@@ -507,22 +510,25 @@ class Job:
             self._release_lock()
         gc.collect()
 
-    def get_state(self):
+    def get_state(self, update=False):
         """Indicate if this job is new, executing, finished or failed."""
-        self._state = "new"
-        if self.get_jobdir().is_dir():
-            if self.is_locked():
-                self._state = "executing"
-            else:
-                if self.get_jobdir().joinpath('FINISHED').exists():
-                    self._state = 'finished'
+        if self._state is None:
+            update = True
+        if update:
+            self._state = "new"
+            if self.get_jobdir().is_dir():
+                if self.is_locked():
+                    self._state = "executing"
                 else:
-                    self._state = 'failed'
+                    if self.get_jobdir().joinpath('FINISHED').exists():
+                        self._state = 'finished'
+                    else:
+                        self._state = 'failed'
         return self._state
 
     def get_outputs(self):
         """Return tuple of output (combined stdin and stderr) of run"""
-        assert self._state == 'finished', "Can only be run on sucessfully finished jobs."
+        assert self.get_state() == 'finished', "Can only be run on sucessfully finished jobs."
         raw_file = self.get_jobdir().joinpath('out.txt')
         if not raw_file.exists():
             raw_output = None
@@ -709,7 +715,7 @@ class MachineStateJob(Job):
         :param exec_on_host: if True, execute this job only on specified host, otherwise use any
         """
         arguments = ["machinestate", "-o", "../machinestate.json"]
-        Job.__init__(self, workload, arguments, exec_on_host)
+        super(MachineStateJob, self).__init__(workload, arguments, exec_on_host)
 
     def get_outputs(self):
         """Return tuple of execution output (combined stdin and stderr) and loaded pickle"""
