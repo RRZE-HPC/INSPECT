@@ -39,8 +39,33 @@ from hpc_inspect import utils
 
 __version__ = '2.0.dev0'
 config = {
-    'base_dirpath': Path(__file__).parent.parent
+    'config_abspath': None,  # to be set at runtime
+
+    # All paths are either absolute or relative in regard to config_abspath's parent directory.
+    'jobs_dir': '../jobs',
+    'hosts_file': 'hosts.yml',
+    'machinefiles_dir': '../machine_files',
+    'kernels_file': 'kernels.yml',
+    'namedkernels_dir': '../kernels',
+
+    # Notebooks to use for workloads, selected by kernel type:
+    'report_templates': {
+        # kerneltype: ipython-notebook.ipynb
+        'likwid-bench': 'report-likwid-bench.ipynb',
+        'named': 'report-named-stempel.ipynb',
+        'stempel': 'report-named-stempel.ipynb'
+    }
 }
+
+
+def parse_configpath(path_str):
+    '''
+    Translates string paths as found in config file, into resolved absolute path in relation.
+
+    Relative paths are taken relative in relation to config file's location.
+    '''
+    return (config['config_abspath'].parent / path_str).resolve()
+
 
 # TODO:
 # * remove failed job dirs
@@ -54,7 +79,7 @@ class Kernel:
     """Describes a kernel including sizes to model and execute for."""
     @classmethod
     def get_all(cls, filter_type, filter_parameter):
-        with config['base_dirpath'].joinpath('config', 'kernels.yml').open() as f:
+        with parse_configpath(config['kernels_file']).open() as f:
             kernel_dicts = yaml.load(f, Loader=yaml.Loader)
         for kd in kernel_dicts:
             if filter_type is not None and kd['type'] not in filter_type:
@@ -75,7 +100,7 @@ class Kernel:
 
     def get_code(self):
         if self.type == "named":
-            with config['base_dirpath'].joinpath('kernels', self.parameter).open() as f:
+            with (parse_configpath(config['namedkernels_dir']) / self.parameter).open() as f:
                 code = f.read()
         elif self.type == "stempel":
             parser = stempel.create_parser()
@@ -121,7 +146,7 @@ class Host:
     """Describes a host on which kernels may be executed and modelled."""
     @classmethod
     def get_all(cls, filter_names=None):
-        with config['base_dirpath'].joinpath('config', 'hosts.yml').open() as f:
+        with parse_configpath(config['hosts_file']).open() as f:
             hosts_dict = yaml.load(f, Loader=yaml.Loader)
         for name, hd in hosts_dict.items():
             if filter_names is not None and name not in filter_names:
@@ -146,7 +171,7 @@ class Host:
         self.ignore_kerncraft_warnings = ignore_kerncraft_warnings
 
     def get_machine_filepath(self):
-        return config['base_dirpath'].joinpath('machine_files', self.machine_filename)
+        return parse_configpath(config['machinefiles_dir']) / self.machine_filename
 
     def enqueue_execution(self, cli_args):
         print("TODO enqueue on", self.name, ':', ' '.join(cli_args))
@@ -220,8 +245,8 @@ class Workload:
     def __init__(self, kernel, host):
         self.kernel = kernel
         self.host = host
-        self._wldir = config['base_dirpath'].joinpath(
-                'jobs', self.host.name, self.kernel.type, self.kernel.parameter)
+        self._wldir = parse_configpath(config['jobs_dir']).joinpath(
+                self.host.name, self.kernel.type, self.kernel.parameter)
 
     def get_wldir(self):
         """Return path to workload directory"""
@@ -351,8 +376,7 @@ class Workload:
         report_filename = self.get_wldir() / 'report.ipynb'
         html_report_filename = report_filename.with_suffix('.html')
         if not report_filename.exists() or not html_report_filename.exists() or overwrite:
-            template_filename = (
-                config['base_dirpath'] / 'config/report-' + self.kernel.type + '.ipynb')
+            template_filename = parse_configpath(config['report_templates'][self.kernel.type])
             with template_filename.open() as f:
                 nb = nbformat.read(f, as_version=nbformat.NO_CONVERT)
             # Execute cells in notebook
@@ -862,8 +886,8 @@ def get_args(args=None):
     parser.add_argument('--version', action=VersionAction, version='{}'.format(__version__))
     parser.add_argument('--verbose', '-v', action='count', default=0,
                         help='Increases verbosity level.')
-    parser.add_argument('--base-dir', '-b', type=Path, default=Path('.'),
-                        help='Base directory to use for config and intermediate files.')
+    parser.add_argument('--config', type=argparse.FileType('r'), default='./config/config.yml',
+                        help='Configuration file.')
 
     # Workload filter:
     parser.add_argument('--type', '-t', action='append',
@@ -912,7 +936,6 @@ def get_args(args=None):
         'upload', help='Upload and combine workload reports into website')
     upload_parser.set_defaults(action_function=upload)
     get_args._parsed_args = parser.parse_args(args=args)
-    get_args._parsed_args.base_dir = get_args._parsed_args.base_dir.absolute()
     return get_args._parsed_args
 
 
@@ -1026,7 +1049,8 @@ def chdir(pathstr):
 
 def main():
     args = get_args()
-    config['base_dirpath'] = args.base_dir
+    config.update(yaml.load(args.config, Loader=yaml.Loader))
+    config['config_abspath'] = Path(args.config.name).resolve()
     args.action_function(**vars(args))
 
 
