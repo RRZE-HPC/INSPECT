@@ -104,6 +104,7 @@ setup(
         'MachineState',
         'stempel',
         'nbconvert',
+        'Jinja2',
     ],
     python_requires='>=3.5',
 

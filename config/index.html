@@ -1,0 +1,101 @@
+<html>
+    <head>
+        <title>INSPECT</title>
+        <script src="https://code.jquery.com/jquery-3.3.0.min.js" integrity="sha256-RTQy8VOmNlT6b2PIRur37p6JEBZUE7o8wPgMvu18MC4=" crossorigin="anonymous"></script>
+        <style type="text/css">
+div#listing {
+    z-index: 1;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: calc(100% - 0.5em);
+    width: 14.5em;
+    margin: 0.5em;
+    padding: 0;
+    overflow-y: scroll;
+}
+#listing ul {
+    list-style-type: none;
+    padding-inline-start: 1em;
+}
+
+div#content {
+    z-index: 0;
+    position: absolute;
+    left: 15em;
+    top: 0;
+    width: calc(100% - 15em);
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+#content iframe {
+    border: 0;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    min-width: 100%;
+    height: 100%;
+}
+        </style> 
+    </head>
+    <body>
+        <script>
+window.onload = function () {
+
+$.getJSON("workload/list.json", function(json) {
+    var ul = $('<ul>').appendTo('#listing');
+    for (const [key, value] of Object.entries(json)) {
+        li = $('<li><a target="content-iframe"></a></li>') // li 
+            .find("a") // a 
+            .attr("href", "workload/" + key + "/report.html") // a 
+            .attr("onclick", "setHash(show='workload/" + key + "')")
+            .html(key) // a 
+            .end(); // li 
+        ul.append(li);
+    }
+});
+
+var hash = new URL(document.URL).hash;
+if(hash.startsWith('#')) {
+    var show = hash.slice(1).split(';')[0];
+    $('#content iframe')[0].src = show + '/report.html';
+}
+
+};
+
+function setHash(show=null, filter=null) {
+    // hash = #show;filter
+    var url = new URL(document.URL);
+    var orig_show = url.hash.slice(1).split(';', 1)[0]
+    var orig_filter = "";
+    if(url.hash.includes(';')) {
+        orig_filter = url.hash.slice(url.hash.indexOf(';'))
+    }
+
+    if(show === null) {
+        show = orig_show;
+    }
+    if(filter === null) {
+        filter = orig_filter;
+    }
+
+    if(filter) {
+        filter += ';'
+    }
+
+    url.hash = '#' + show + filter;
+    document.location.href = url;
+    return true;
+};
+        </script>
+        <div id="listing">
+            Workloads:
+            <ul>
+            </ul>
+        </div>
+        <div id="content">
+            <iframe name="content-iframe" frameborder="0"></iframe>
+        </div>
+    </body>
+</html>
