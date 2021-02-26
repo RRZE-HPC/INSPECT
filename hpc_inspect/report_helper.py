@@ -16,8 +16,7 @@ import matplotlib.pyplot as plt
 import compress_pickle
 from tabulate import tabulate
 import numpy as np
-
-from machinestate.html_export import to_html as ms_to_html
+import machinestate
 
 
 def load_pickled_dataframe(fname='dataframe.pickle.lzma'):
@@ -255,9 +254,161 @@ def get_scaling_tabs(data,
 
 def get_machinestate_html(fname):
     with open(fname) as f:
-        machinestate = json.load(f)
+        ms_data = json.load(f)
+    
+    html_wrapper = """
+<html>
+<head>
+<meta name "viewport" content="width=device-width, initial-scale=1">
+<style>
+.accordion {
+  background-color: #eee;
+  color: #444;
+  cursor: pointer;
+  padding: 18px;
+  width: 98vw;
+  border: none;
+  text-align: left;
+  outline: none;
+  font-size: 15px;
+  transition: 0.4s;
+}
+
+.active, .accordion:hover {
+  background-color: #ccc;
+}
+
+.accordion:after {
+  content: '\\002B';
+  color: #777;
+  font-weight: bold;
+  float: right;
+  margin-left: 5px;
+}
+
+.active:after {
+  content: "\\2212";
+}
+
+.panel {
+  padding: 0 18px;
+  background-color: white;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.2s ease-out;
+  width: 97vw;
+}
+
+.option {
+  float: left;
+  background-color: #555555;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 15px;
+}
+
+.expandable {
+  background-color: #4CAF50;
+  width: 49vw;
+}
+
+.collapsible {
+  background-color: #f44336;
+  width: 49vw;
+}
+</style>
+</head>
+
+<body>
+<button class="option expandable">Expand all</button>
+<button class="option collapsible">Collapse all</button>
+{table}
+<script>
+var acc = document.getElementsByClassName("accordion");
+var i;
+
+for (i = 0; i < acc.length; i++) {
+  acc[i].addEventListener("click", function() {
+    this.classList.toggle("active");
+    var children = this.parentNode.childNodes;
+    children.forEach(child => {
+        if(child.style) {
+    		if (child.style.maxHeight) {
+        		child.style.maxHeight = null;
+       		} else {
+	        	child.style.maxHeight = child.scrollHeight + "px";
+    	    }
+        }
+    });
+    adjust(this.parentNode);
+  });
+}
+
+var bExpand = document.getElementsByClassName("option expandable")[0];
+var bCollaps = document.getElementsByClassName("option collapsible")[0];
+
+bExpand.addEventListener("click", function() {
+	var accNonActive = Array.prototype.filter.call(acc, function(elem, i, acc) {
+		return !elem.className.includes("active");
+	});
+	for (i = 0; i < accNonActive.length; i++) {
+		accNonActive[i].click();
+	}
+});
+
+bCollaps.addEventListener("click", function() {
+	var accActive = Array.prototype.filter.call(acc, function(elem, i, acc) {
+		return elem.className.includes("active");
+	});
+	for (i = accActive.length - 1; i >= 0; i--) {
+		accActive[i].click();
+	}
+});
+
+function adjust(node) {
+	if(node.style) {
+        node.style.maxHeight = 10 * window.innerHeight + "px";
+    }
+    if(node.parentNode){
+    	adjust(node.parentNode);
+	}
+}
+</script>
+</body>
+</html>
+    """
+
+    def get_infogroup_html(name, d):
+        instances = []
+        s = ""
+        s += "<button class=\"accordion\">{}</button>\n".format(name)
+        s += "<div class=\"panel\">\n<table style=\"width:100vw\">\n"
+        for k,v in d.items():
+            if isinstance(v, dict):
+                instances.append((k,v))
+            if isinstance(v, list):
+                s += "<tr>\n\t<td style=\"width: 20%\"><b>{}:</b></td>\n\t<td>{}</td>\n</tr>\n".format(k, ", ".join([str(x) for x in v]))
+            else:
+                s += "<tr>\n\t<td style=\"width: 20%\"><b>{}:</b></td>\n\t<td>{}</td>\n</tr>\n".format(k, v)
+        for inst in instances:
+            s += "<tr>\n\t<td colspan=\"2\">{}</td>\n</tr>".format(get_infogroup_html(*inst))
+        s += "</table>\n</div>\n\n"
+        return s
+
+    table = '<table style="width:100vw">'
+    for k,v in ms_data.items():
+        table += '<tr>\n\t<td colspan=\"2\">'
+        table += get_infogroup_html(k, v)
+        table += '</td>\n</tr>'
+    table += '</table>\n\n'
+
     return HTML('''
-        <iframe class="machinestatewrapper" width="100%" height="1000" data-content="'''+html.escape(ms_to_html(machinestate))+'''"></iframe>
+        <iframe class="machinestatewrapper" width="100%" height="1000" data-content="''' + \
+            html.escape(html_wrapper.replace('{table}', table)) + '''"></iframe>
         <script>
             var msw = $(".machinestatewrapper")[0];
             var html = msw.getAttribute('data-content');
