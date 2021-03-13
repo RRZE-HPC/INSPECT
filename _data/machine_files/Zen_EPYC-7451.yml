@@ -20,20 +20,21 @@ FLOPs per cycle:
   SP: {ADD: 8, FMA: 8, MUL: 8, total: 16}
 
 compiler: !!omap
-- clang: -O3 -march=znver1 -D_POSIX_C_SOURCE=200112L -fopenmp -ffreestanding
-- gcc: -O3 -march=znver1 -fopenmp -ffreestanding
-- icc: -O3 -xHost -fno-alias -qopenmp -ffreestanding -nolib-inline
+  - clang: -O3 -march=znver1 -D_POSIX_C_SOURCE=200112L -fopenmp -ffreestanding
+  - gcc: -O3 -march=znver1 -fopenmp -ffreestanding
+  - icc: -O3 -xAVX2 -fno-alias -qopenmp -ffreestanding -nolib-inline
 
 non-overlapping model:
   performance counter metric: INFORAMTION_REQUIRED T_L3 + T_MEM, TODO
   ports:
-    OSACA: ['8', '9']    # Not actually overlapping, but this is described in the memory hierarchy description. https://hpc.fau.de/files/2018/09/SC18-Poster-ECM_DRAFT.pdf
+    OSACA: ['8D', '9D']    # Not actually overlapping, but this is described in the memory hierarchy description. https://hpc.fau.de/files/2018/09/SC18-Poster-ECM_DRAFT.pdf
     LLVM-MCA: [ZnAGU0, ZnAGU1]
 overlapping model:
   performance counter metric: INFORAMTION_REQUIRED Example:max(UOPS_DISPATCHED_PORT_PORT_0__PMC2,
     UOPS_DISPATCHED_PORT_PORT_1__PMC3, UOPS_DISPATCHED_PORT_PORT_4__PMC0, UOPS_DISPATCHED_PORT_PORT_5__PMC1)
   ports:
-    OSACA: ['0', '1', '2', '3', 3DV, '4', '5', '6', '7']      # https://arxiv.org/pdf/1809.00912.pdf
+    # https://arxiv.org/pdf/1809.00912.pdf
+    OSACA: ['0', '1', '2', '3', 3DV, '4', '5', '6', '7', '8', '9']
     LLVM-MCA: [ZnAGU0, ZnAGU1, ZnALU0, ZnALU1, ZnALU2, ZnALU3, ZnDivider, ZnFPU0, ZnFPU1, ZnFPU2, ZnFPU3, ZnMultiplier]
 
 cacheline size: 64 B
@@ -52,9 +53,9 @@ memory hierarchy:
   cores per group: 1
   groups: 48
   performance counter metrics:
-    accesses: DATA_CACHE_ACCESSES__PMC[0-3]
-    evicts: DATA_CACHE_WRITEBACKS__PMC[0-3]
-    misses: DATA_CACHE_MISSES__PMC[0-3]
+    accesses: LS_DISPATCH_LOADS:PMC[0-3]
+    evicts: ~
+    misses: REQUESTS_TO_L2_GRP1_ALL_NO_PF:PMC[0-3]
   size per group: 32.00 kB
   threads per group: 2
   upstream throughput: [architecture code analyzer, ['8', '9']]
@@ -67,7 +68,7 @@ memory hierarchy:
     replacement_policy: LRU
     write_allocate: true
     write_back: true
-    load_from:             # L3 is a victim cache. Unless a hit in L3, misses get forwarded to MEM
+    load_from: L3
     victims_to: L3
     store_to: L3
   cores per group: 1
@@ -75,9 +76,9 @@ memory hierarchy:
   upstream throughput: [32 B/cy, full-duplex]        # https://en.wikichip.org/wiki/amd/microarchitectures/zen
   transfers overlap: true
   performance counter metrics:
-    accesses: INFORMATION_REQUIRED (e.g., L1D_REPLACEMENT__PMC0)
-    evicts: INFORMATION_REQUIRED (e.g., L2_LINES_OUT_DIRTY_ALL__PMC2)
-    misses: INFORMATION_REQUIRED (e.g., L2_LINES_IN_ALL__PMC1)
+    accesses: REQUESTS_TO_L2_GRP1_ALL_NO_PF:PMC[0-3]
+    evicts: ~
+    misses: L3_ACCESS:CPMC[0-5]
   size per group: 512.00 kB
   threads per group: 2
 - level: L3
@@ -93,9 +94,9 @@ memory hierarchy:
   upstream throughput: [32 B/cy, half-duplex]        # J. Hofmann SC19 paper (not published)
   transfers overlap: false
   performance counter metrics:
-    accesses: EVENT_L3_ACCESS__CMPC[0-5]
-    evicts: INFORMATION_REQUIRED (e.g., L2_LINES_OUT_DIRTY_ALL__PMC2)
-    misses: EVENT_L3_MISS__CMPC[0-5]
+    accesses: L3_ACCESS:CPMC[0-5]
+    evicts: ~
+    misses: L3_MISS:CPMC[0-5]
   size per group: 8.00 MB
   threads per group: 6
 - cores per group: 24
