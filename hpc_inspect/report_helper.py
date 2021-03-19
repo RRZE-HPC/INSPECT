@@ -8,15 +8,23 @@ from tempfile import NamedTemporaryFile
 import sys
 from unittest.mock import patch
 import io
+from math import copysign
 
 from IPython.display import display, HTML, Code
 from ipywidgets import widgets
 import pandas as pd
 import matplotlib.pyplot as plt
+import matplotlib.ticker as mticker
 import compress_pickle
 from tabulate import tabulate
 import numpy as np
 import machinestate
+
+
+def divide(numerator, denominator):
+    if denominator == 0.0:
+        return copysign(float('inf'), denominator)
+    return numerator / denominator
 
 
 def load_pickled_dataframe(fname='dataframe.pickle.lzma'):
@@ -92,6 +100,18 @@ def get_model_analysis_tabs(data,
     if cache_predictors is None:
         cache_predictors = get_unique(data, 'cache_predictor')
     iterations_per_cacheline = get_iterations_per_cacheline(data)
+    # Etract overlapping and non-overlapping data-transfer components from
+    # machine mokdel definition
+    overlapping_ecm_transfers = [
+        label
+        for label, level in zip(['T_RegL1', 'T_L1L2', 'T_L2L3', 'T_L3MEM'],
+                                machine['memory hierarchy'])
+        if level['transfers overlap']]
+    nonoverlapping_ecm_transfers = [
+        label
+        for label, level in zip(['T_RegL1', 'T_L1L2', 'T_L2L3', 'T_L3MEM'],
+                                machine['memory hierarchy'])
+        if not level['transfers overlap']]
     plt.ioff()
     cp_tab = widgets.Tab()
     cp_tab_children = []
@@ -127,9 +147,11 @@ def get_model_analysis_tabs(data,
                                               'compiler == @cc and cache_predictor == @cp and cores==1')
                 ax.stackplot(
                     ecm_data['define'],
-                    ecm_data['T_RegL1'], ecm_data['T_L1L2'], ecm_data['T_L2L3'], ecm_data['T_L3MEM'],
-                    labels=('T_RegL1', 'T_L1L2', 'T_L2L3', 'T_L3MEM'))
+                    *[ecm_data[t] for t in nonoverlapping_ecm_transfers],
+                    labels=[t for t in nonoverlapping_ecm_transfers])
                 ax.plot(ecm_data['define'], ecm_data.T_comp, label='T_comp')
+                for t in overlapping_ecm_transfers:
+                    ax.plot(ecm_data['define'], ecm_data[t], label=t)
 
                 # Benchmark
                 bench_data = data_defines.query('pmodel=="Benchmark" and cores==1 and compiler == @cc and cores==1')
@@ -142,12 +164,15 @@ def get_model_analysis_tabs(data,
 
                 ax.set_ylim(0)
                 if i_icm == len(incore_models) - 1:
-                    T_to_P = lambda T: float(machine['clock']) / T * iterations_per_cacheline
+                    T_to_P = lambda T: divide(float(machine['clock']), T) * iterations_per_cacheline
                     ax_right = ax.twinx()
                     ymin, ymax = ax.get_ylim()
+                    yticks = ax.get_yticks().tolist()
                     ax_right.set_ylim(ax.get_ylim())
+                    ax_right.yaxis.set_major_locator(mticker.FixedLocator(yticks))
+                    ax.yaxis.set_major_locator(mticker.FixedLocator(yticks))
                     with np.errstate(divide='ignore'):
-                        ax_right.set_yticklabels(["{:.2f}".format(T_to_P(t)/1e9) for t in ax.get_yticks()])
+                        ax_right.set_yticklabels(["{:.2f}".format(T_to_P(t)/1e9) for t in yticks])
                     ax_right.set_ylabel("giga iterations per second")
                 if i_icm == 0 and i_cc == 0:
                     ax.legend(bbox_to_anchor=(0.5, 0.0), ncol=len(incore_models)*3,
@@ -219,12 +244,16 @@ def get_scaling_tabs(data,
                 if i_icm != 0:
                     ax.yaxis.set_tick_params(labelleft=False)
                 if i_icm == len(incore_models) - 1:
-                    P_to_T = lambda P: iterations_per_cacheline*float(machine['clock'])/P
+                    P_to_T = lambda P: iterations_per_cacheline*divide(float(machine['clock']), P)
                     ax_right = ax.twinx()
                     ymin, ymax = ax.get_ylim()
                     ax_right.set_ylim(ax.get_ylim())
+                    yticks = ax.get_yticks().tolist()
+                    ax.yaxis.set_major_locator(mticker.FixedLocator(yticks))
+                    ax_right.yaxis.set_major_locator(mticker.FixedLocator(yticks))
                     with np.errstate(divide='ignore'):
-                        ax_right.set_yticklabels(["{:.2f}".format(P_to_T(t*1e9)) for t in ax.get_yticks()])
+                        ax_right.set_yticklabels(["{:.2f}".format(P_to_T(t*1e9))
+                                                  for t in yticks])
                     ax_right.set_ylabel("cycle per {} iterations".format(iterations_per_cacheline))
                 # use default ticks, but always start at min_cores and end at max_cores
                 min_cores, max_cores = int(data.cores.min()), int(data.cores.max())

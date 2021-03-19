@@ -659,6 +659,7 @@ class KerncraftJob(Job):
         base_dict['incore_model'] = self.incore_model
         base_dict['cache_predictor'] = self.cache_predictor
         kc_args, kc_results = next(iter(self.get_outputs()[-1].items()))
+        base_dict['kc_results'] = kc_results
         dicts = []
         if self.pmodel == 'LC':
             del base_dict['define']
@@ -704,7 +705,7 @@ class KerncraftJob(Job):
                 dicts.append(d)
         elif self.pmodel == 'RooflineIACA':
             # extracts:
-            # preformance [It/s]
+            # performance [It/s]
             # performance [cy/CL]
             # performance [cy/It]
             # performance [FLOP/s]
@@ -721,6 +722,16 @@ class KerncraftJob(Job):
                 kc_results['cpu bottleneck']['in-core model output']
             dicts.append(base_dict)
         elif self.pmodel == 'Benchmark':
+            # extracts:
+            # iterations per cacheline
+            # performance [cy/CL]
+            # performance [FLOP/s]
+            # performance [LUP/s]
+            # performance [It/s]
+            # data transfers
+            # misses L<i>[CL/CL]
+            # evicts L<i> [CL/CL]
+            # 
             base_dict['iterations per cacheline'] = int(kc_results['Iterations per cacheline'])
             base_dict['performance [cy/CL]'] = float(
                 kc_results['Runtime (per cacheline update) [cy/CL]'])
@@ -730,6 +741,14 @@ class KerncraftJob(Job):
             base_dict['performance [FLOP/s]'] = float(kc_results['Performance [MFLOP/s]']*1e6)
             base_dict['performance [LUP/s]'] = float(kc_results['Performance [MLUP/s]']*1e6)
             base_dict['performance [It/s]'] = float(kc_results['Performance [MIt/s]']*1e6)
+            if 'data transfers' in kc_results and kc_results['data transfers'] is not None:
+                # data transfers are / phenoECM is only gathered with single core runs
+                base_dict['data transfers'] = kc_results['data transfers']
+                for level in kc_results['data transfers']:
+                    base_dict['misses '+level+' [CL/CL]'] = \
+                        float(kc_results['data transfers'][level]['misses'])
+                    base_dict['evicts '+level+' [CL/CL]'] = \
+                        float(kc_results['data transfers'][level]['evicts'])
             # TODO get code balance (B_ [B/It]) for inter-cache transfers
             dicts.append(base_dict)
             # TODO PhenoECM

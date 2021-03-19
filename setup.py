@@ -96,7 +96,7 @@ setup(
 
     # https://packaging.python.org/en/latest/requirements.html
     install_requires=[
-        'kerncraft',
+        'kerncraft>=0.8.11.dev0',
         'pandas',
         'compress_pickle',
         'matplotlib',
