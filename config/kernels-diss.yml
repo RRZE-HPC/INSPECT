@@ -1,0 +1,63 @@
+- type: named
+  parameter: add.c
+  scaling:
+    first: 104
+    last: 134217728  # 1 GB
+- type: named
+  parameter: triad.c
+  scaling:
+    first: 104
+    last: 134217728  # 1 GB
+- type: named
+  parameter: scalar_product.c
+  scaling:
+    first: 104
+    last: 134217728  # 1 GB
+- type: named
+  parameter: himeno.c
+  scaling:
+    first: 48
+    last: 672  # ~16 GB (14 arrays x 672^3 x 4 byte)
+    multiple_of: 16
+- type: named
+  parameter: uxx-stencil.c
+  scaling:
+    first: 48
+    last: 756  # ~16 GB (5 arrays x 756^3 x 8 byte)
+    multiple_of: 16
+- type: named
+  parameter: solar_split_10_c.c
+  scaling:
+    first: 48
+    last: 600  # ~16 GB (5 arrays x 600^3 x 16 byte)
+    multiple_of: 16
+- type: stempel
+  parameter: 2D/r1/star/constant/homogeneous/double
+  scaling:
+    steps: 25
+    first: 96
+    last: 32800  # ~16GB
+- type: stempel
+  parameter: 3D/r1/star/constant/homogeneous/double
+  scaling:
+    steps: 25
+    first: 96
+    last: 1040  # ~16GB
+- type: stempel
+  parameter: 3D/r1/box/constant/homogeneous/double
+  scaling:
+    steps: 25
+    first: 96
+    last: 1040  # ~16GB
+- type: stempel
+  parameter: 3D/r3/star/constant/homogeneous/double
+  scaling:
+    steps: 25
+    first: 96
+    last: 1040  # ~16GB
+- type: stempel
+  parameter: 3D/r3/box/constant/homogeneous/double
+  scaling:
+    steps: 25
+    first: 96
+    last: 1040  # ~16GB
