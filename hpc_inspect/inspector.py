@@ -640,7 +640,7 @@ class KerncraftJob(Job):
                             del parser
                             del args
             compress_pickle.dump(result_storage, self.get_jobdir() / 'out.pickle.lzma',
-                         protocol=4)
+                                 pickler_kwargs={'protocol': 4})
             del result_storage
 
     def get_outputs(self):
