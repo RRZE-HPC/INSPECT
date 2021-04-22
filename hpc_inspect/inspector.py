@@ -509,6 +509,8 @@ class Job:
             return
         elif self._state == 'failed' and not rerun_failed:
             return
+        elif self._state == "executing":
+            return
         assert not self.exec_on_host or self.check_hostname(), \
             "Needs to run on specified host: "+repr(self.workload.host)
         self._aquire_lock(non_blocking=non_blocking)
@@ -745,6 +747,7 @@ class KerncraftJob(Job):
                 # data transfers are / phenoECM is only gathered with single core runs
                 base_dict['data transfers'] = kc_results['data transfers']
                 for level in kc_results['data transfers']:
+                    if level == 'MEM': continue  # MEM has no misses and evicts
                     base_dict['misses '+level+' [CL/CL]'] = \
                         float(kc_results['data transfers'][level]['misses'])
                     base_dict['evicts '+level+' [CL/CL]'] = \
@@ -851,7 +854,8 @@ def status(type=None, parameter=None, machine=None, compiler=None, steps=None,
 
 
 def execute(type=None, parameter=None, machine=None, compiler=None, steps=None,
-            incore_model=None, cores=None, rerun_failed=False, **kwargs):
+            incore_model=None, cores=None, rerun_failed=False, serial=False,
+            **kwargs):
     hosts = list(Host.get_all(filter_names=machine))
     kernels = list(Kernel.get_all(filter_type=type, filter_parameter=parameter))
     workloads = list(Workload.get_all(kernels, hosts))
@@ -873,13 +877,14 @@ def execute(type=None, parameter=None, machine=None, compiler=None, steps=None,
     print(len(jobs), "jobs")
 
     running_jobs = 0
-    while jobs and jobs[0].exec_on_host:
+    while jobs and (jobs[0].exec_on_host or serial):
         j = jobs.pop(0)
         jec = JobExecutionCaller(rerun_failed=rerun_failed)
         jec(j)
-    with multiprocessing.Pool() as p:
-        jec = JobExecutionCaller(rerun_failed=rerun_failed)
-        p.map(jec, jobs)
+    if not serial:
+        with multiprocessing.Pool() as p:
+            jec = JobExecutionCaller(rerun_failed=rerun_failed)
+            p.map(jec, jobs)
 
 
 class JobExecutionCaller:
@@ -1010,6 +1015,8 @@ def get_args(args=None):
     execute_parser = subparsers.add_parser(
         'execute', help='Execute suitable jobs and collect raw outputs')
     execute_parser.set_defaults(action_function=execute)
+    execute_parser.add_argument('--serial', action='store_true',
+                                help='Execute everything serially.')
     # process: workload
     process_parser = subparsers.add_parser(
         'process', help='Process workload reports from raw job outputs')
