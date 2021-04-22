@@ -101,7 +101,7 @@ setup(
         'compress_pickle',
         'matplotlib',
         'tabulate',
-        'MachineState',
+        'MachineState>=0.5.0',
         'stempel',
         'nbconvert',
         'Jinja2',
