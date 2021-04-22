@@ -22,7 +22,7 @@ NUMA domains per socket: 1
 memory hierarchy:
 - level: L1
   upstream throughput: [architecture code analyzer, ['5D', '6D']]
-  transfers overlap: false
+  transfers overlap: true
   performance counter metrics:
     loads: 'LD_SPEC:PMC[0-4]'
     stores: 'ST_SPEC:PMC[0-4]'
@@ -43,7 +43,7 @@ memory hierarchy:
   threads per group: 1
 - level: L2
   upstream throughput: [64 B/cy, half-duplex]  # https://arxiv.org/pdf/2103.03013.pdf
-  transfers overlap: false
+  transfers overlap: true
   performance counter metrics:
     loads: 'L1D_CACHE_REFILL:PMC[0-4]'
     stores: 'L1D_CACHE_WB:PMC[0-4]'
