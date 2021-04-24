@@ -355,9 +355,9 @@ class Workload:
 
     def process_outputs(self, overwrite=False):
         """Gather and process outputs into a single report."""
-        if not self.get_wldir().exists() or \
-                not (self.get_wldir() / 'machinestate.json').exists():
-            return
+        #if not self.get_wldir().exists() or \
+        #        not (self.get_wldir() / 'machinestate.json').exists():
+        #    return
         if self.kernel.type in ['stempel', 'named'] and (\
                 not (self.get_wldir() / 'machine.yml').exists() or \
                 not (self.get_wldir() / 'kernel.c').exists()):
@@ -869,6 +869,8 @@ def execute(type=None, parameter=None, machine=None, compiler=None, steps=None,
 
     # Place jobs which require the current host at front
     jobs.sort(key=lambda j: j.exec_on_host, reverse=True)
+    # Remove all jobs that need to be run locally
+    #jobs = list(filter(lambda j: not j.exec_on_host, jobs))
 
     # Just FYI
     print(len(hosts), "hosts")
