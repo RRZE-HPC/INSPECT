@@ -103,7 +103,7 @@ setup(
         'tabulate',
         'MachineState>=0.5.0',
         'stempel',
-        'nbconvert',
+        'nbconvert>=6.0.7',
         'Jinja2',
     ],
     python_requires='>=3.5',

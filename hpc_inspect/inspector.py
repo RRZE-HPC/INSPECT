@@ -30,6 +30,7 @@ from nbconvert import HTMLExporter
 from nbconvert.preprocessors import ExecutePreprocessor
 from nbconvert.nbconvertapp import NbConvertApp
 import nbformat
+from nbclient import NotebookClient
 from ruamel import yaml
 from kerncraft import prefixedunit
 from kerncraft import kerncraft
@@ -381,6 +382,15 @@ class Workload:
         else:
             print(df_pickle_filename, 'already exists')
 
+        # Setup resoources dictionary
+        nbcapp = NbConvertApp()
+        resources = {
+            'jupyter_widgets_base_url': nbcapp.jupyter_widgets_base_url,
+            'html_manager_semver_range': nbcapp.html_manager_semver_range,
+            'unique_key': "report: " + '/'.join([self.host.name, self.kernel.type, self.kernel.parameter]),
+            'metadata': {'path': str(self.get_wldir())}
+        }
+
         # 2. Run template in workload dir and save to report notebook
         report_filename = self.get_wldir() / 'report.ipynb'
         html_report_filename = report_filename.with_suffix('.html')
@@ -390,8 +400,14 @@ class Workload:
                 nb = nbformat.read(f, as_version=nbformat.NO_CONVERT)
             # Execute cells in notebook
             try:
-                pp = ExecutePreprocessor(timeout=500)
-                pp.preprocess(nb, {'metadata': {'path': str(self.get_wldir())}})
+                pp = ExecutePreprocessor(timeout=500, store_widget_state=True, allow_errors=True)
+                nb, resources = pp.preprocess(nb, resources)
+                #c = NotebookClient(nb,
+                #                   timeout=500,
+                #                   resources={'metadata': {'path': str(self.get_wldir())}},
+                #                   store_widget_state=True,
+                #                   allow_errors=True)
+                #c.execute()
                 with open(report_filename, 'w') as f:
                     nbformat.write(nb, f)
                 print(report_filename, 'written')
@@ -400,15 +416,11 @@ class Workload:
                 return  # abort
         else:
             print(report_filename, 'already exists')
+
         # 3. Render to static HTML file
         if not html_report_filename.exists() or overwrite:
-            resources = {}
-            if hasattr(NbConvertApp, 'jupyter_widgets_base_url'):
-                resources['jupyter_widgets_base_url'] = NbConvertApp().jupyter_widgets_base_url
-            elif hasattr(NbConvertApp, 'ipywidgets_base_url'):
-                resources['ipywidgets_base_url'] = NbConvertApp().ipywidgets_base_url
             html_exporter = HTMLExporter()
-            (body, resources) = html_exporter.from_notebook_node(nb, resources=resources)
+            body, resources = html_exporter.from_notebook_node(nb, resources=resources)
             with open(html_report_filename, 'w') as f:
                 f.write(body)
             print(html_report_filename, 'written')
