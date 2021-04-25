@@ -385,6 +385,7 @@ class Workload:
         # Setup resoources dictionary
         nbcapp = NbConvertApp()
         resources = {
+            'template_name': 'classic',
             'jupyter_widgets_base_url': nbcapp.jupyter_widgets_base_url,
             'html_manager_semver_range': nbcapp.html_manager_semver_range,
             'unique_key': "report: " + '/'.join([self.host.name, self.kernel.type, self.kernel.parameter]),
@@ -419,7 +420,7 @@ class Workload:
 
         # 3. Render to static HTML file
         if not html_report_filename.exists() or overwrite:
-            html_exporter = HTMLExporter()
+            html_exporter = HTMLExporter(template_name=resources['template_name'])
             body, resources = html_exporter.from_notebook_node(nb, resources=resources)
             with open(html_report_filename, 'w') as f:
                 f.write(body)
